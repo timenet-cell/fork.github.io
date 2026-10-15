@@ -117,13 +117,22 @@ $('toggle').onclick = () => {
 $('f-pass').onsubmit = async e => {
   e.preventDefault();
   const email = $('email').value.trim(); if (!email) return;
-  if (!email.includes('@')) { say('Signing in with a username arrives shortly. For now, use the email of your Fork account.', true); return; }
   $('go').disabled = true; say('');
   try {
-    if (!codeMode) {
+    if (!codeMode && !email.includes('@')) {
+      const r = await fetch(SUPABASE_URL + '/functions/v1/sign-in', { method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+        body: JSON.stringify({ login: email, password: $('password').value }) });
+      const out = await r.json().catch(() => ({}));
+      if (r.status === 429 || out.error === 'rate_limited') throw new Error('Too many attempts. Try again in a few minutes.');
+      if (!r.ok) throw new Error('Username or password is incorrect.');
+      const { data, error } = await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token });
+      if (error) throw error; show(data.user);
+    } else if (!codeMode) {
       const { data, error } = await sb.auth.signInWithPassword({ email, password: $('password').value });
       if (error) throw error; show(data.user);
     } else if (!codeSent) {
+      if (!email.includes('@')) throw new Error('Sign-in codes go to your email: type your email address.');
       const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
       if (error) throw error;
       codeSent = true; $('code-box').classList.remove('hidden'); $('go').textContent = 'Sign in'; $('code').focus();
@@ -133,7 +142,7 @@ $('f-pass').onsubmit = async e => {
       if (error) throw error; show(data.user);
     }
   } catch (err) {
-    say(err.message === 'Invalid login credentials' ? 'Wrong email or password.' : (err.message || 'Could not sign in.'), true);
+    say(err.message === 'Invalid login credentials' ? 'Username or password is incorrect.' : (err.message || 'Could not sign in.'), true);
   } finally { $('go').disabled = false; }
 };
 $('out').onclick = async () => { await sb.auth.signOut(); show(null); say(''); };
