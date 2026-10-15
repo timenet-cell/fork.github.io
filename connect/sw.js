@@ -1,5 +1,5 @@
 // Fork P2P (PWA): guarda a casca para abrir sem rede. Nunca guarda nada de Supabase nem da API (so GET da casca).
-const V = 'fork-p2p-shell-v1';
+const V = 'fork-p2p-shell-v2';
 const CASCA = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
                'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => Promise.all(CASCA.map(u => c.add(u).catch(() => {})))).then(() => self.skipWaiting())); });

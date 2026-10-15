@@ -45,7 +45,7 @@ details{margin-top:18px;color:var(--muted);font-size:12px}pre{white-space:pre-wr
   <div class="msg" id="st"></div>
   <button class="sec hidden" id="retry">Try again</button>
   <div class="hint hidden" id="hint"></div>
-  <details><summary>Details</summary><pre id="log"></pre></details>
+  <details id="det"><summary>Details</summary><pre id="dbg"></pre><pre id="log"></pre></details>
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -58,7 +58,7 @@ const SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";  // publishable key: public by design (same as the landing page); access is enforced by Supabase row-level security
 const STUN = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'] }];
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
-let channel, uid, hosts = {}, conn = null, auto = true, esperaMacs = null;
+let canalEstado = '-', ultimoErro = '-', channel, uid, hosts = {}, conn = null, auto = true, esperaMacs = null;
 const msg = (t, erro) => { $('st').className = 'msg' + (erro ? ' err' : ''); $('st').textContent = t || ''; };
 const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $('app').classList.toggle('hidden', quem !== 'app'); };
 
@@ -109,10 +109,10 @@ async function arranca() {
   uid = data.session.user.id; mostra('app'); auto = true; hosts = {};
   sb.realtime.setAuth(data.session.access_token);
   if (channel) await sb.removeChannel(channel);
-  channel = sb.channel('rtc:' + uid, { config: { private: true, broadcast: { self: false }, presence: { key: deviceId } } });
+  channel = sb.channel('rtc:' + uid, { config: { private: true, broadcast: { self: false }, presence: { key: deviceId, enabled: true } } });
   channel.on('presence', { event: 'sync' }, sync);
   for (const ev of ['answer', 'ice', 'bye']) channel.on('broadcast', { event: ev }, ({ payload }) => onSignal(payload));
-  channel.subscribe(s => { log('channel: ' + s); if (s === 'CHANNEL_ERROR' || s === 'TIMED_OUT') msg('Can\u2019t reach Fork right now. Retrying\u2026', true); });
+  channel.subscribe((s, err) => { canalEstado = s; if (err) ultimoErro = String(err.message || err); log('channel: ' + s + (err ? ' ' + (err.message || err) : '')); if (s === 'CHANNEL_ERROR' || s === 'TIMED_OUT') msg('Can\u2019t reach Fork right now. Retrying\u2026', true); });
   if (!navigator.onLine) return msg('You\u2019re offline. Your Mac is unreachable.', true);
   msg('Looking for your Mac\u2026');
   clearTimeout(esperaMacs);
@@ -120,6 +120,7 @@ async function arranca() {
 }
 function sync() {
   hosts = {};
+  log('presence sync: ' + JSON.stringify(Object.keys(channel.presenceState())));
   for (const [k, metas] of Object.entries(channel.presenceState())) { const m = metas[metas.length - 1]; if (m && m.role === 'host') hosts[k] = m; }
   const ids = Object.keys(hosts), ultimo = ls.get('fork-p2p-last');
   // Entra direto no ultimo Mac usado; sem ultimo, so se houver um unico. A lista so aparece com 2+ (ou se o ultimo esta desligado).
@@ -204,4 +205,16 @@ addEventListener('offline', () => msg('You\u2019re offline. Your Mac is unreacha
   }
   await arranca();
 })();
-</script></body></html>
+</script>
+
+<script>
+// Painel de diagnostico (em "Details"): estado do canal, presenca tal como chega, ultimo erro.
+setInterval(() => {
+  if (!$('det').open) return;
+  let pres = '-'; try { pres = channel ? JSON.stringify(channel.presenceState(), null, 1) : '-'; } catch (e) { pres = String(e); }
+  $('dbg').textContent = ['user: ' + (uid || '-'), 'device: ' + deviceId, 'topic: ' + (channel ? channel.topic : '-'),
+    'channel: ' + canalEstado, 'socket: ' + (sb.realtime.isConnected ? sb.realtime.isConnected() : '?'),
+    'online: ' + navigator.onLine, 'hosts: ' + Object.keys(hosts).length, 'last error: ' + ultimoErro, 'presence state: ' + pres].join('\n');
+}, 1000);
+</script>
+</body></html>
