@@ -1,6 +1,13 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fork P2P</title>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fork</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<meta name="theme-color" content="#f6f1e7">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fork"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
 :root{--bg:#f6f1e7;--card:#fffdf8;--text:#1d1b18;--muted:#6f6a62;--line:#e6dfd2;--red:#e0312a;--red-ink:#fff;--field:#fff;--err:#b3261e}
 *{box-sizing:border-box}
@@ -20,96 +27,181 @@ button[disabled]{opacity:.6;cursor:default}
 .hidden{display:none}
 .mac{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:var(--field)}
 .mac span{font-weight:600;overflow:hidden;text-overflow:ellipsis}.mac button{width:auto;margin:0;padding:8px 14px}
+button.sec{background:none;color:var(--red);font-weight:500;margin-top:8px;padding:8px}
+.hint{margin-top:16px;padding:12px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted)}
+.hint button{margin-top:8px}
 details{margin-top:18px;color:var(--muted);font-size:12px}pre{white-space:pre-wrap;word-break:break-all;margin:6px 0 0}
 </style></head><body>
 <main><div class="card">
   <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="var(--red)" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
-  <h1>Fork P2P</h1>
-  <p class="sub">Reach your Mac from anywhere.</p>
-  <div id="cfg">
+  <h1>Fork</h1>
+  <p class="sub" id="sub">Reach your Mac from anywhere.</p>
+  <div id="cfg" class="hidden">
     <label for="email">Username or email</label><input id="email" type="text" autocomplete="username" autocapitalize="off" spellcheck="false">
     <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
     <button id="in">Sign in</button>
   </div>
-  <div id="app" class="hidden"><label>Your Macs</label><div id="macs"></div></div>
+  <div id="app" class="hidden"><label>Your Macs</label><div id="macs"></div><button class="sec" id="out">Sign out</button></div>
   <div class="msg" id="st"></div>
+  <button class="sec hidden" id="retry">Try again</button>
+  <div class="hint hidden" id="hint"></div>
   <details><summary>Details</summary><pre id="log"></pre></details>
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-const $ = id => document.getElementById(id), log = m => { $('log').textContent += m + '\n'; };
+const $ = id => document.getElementById(id), log = m => { $('log').textContent += new Date().toLocaleTimeString() + ' ' + m + '\n'; };
 const uuid = () => crypto.randomUUID();
-const ls = { get: k => { try { return localStorage.getItem(k) } catch { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch {} } };
+const ls = { get: k => { try { return localStorage.getItem(k) } catch { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch {} }, del: k => { try { localStorage.removeItem(k) } catch {} } };
 const deviceId = ls.get('fork-p2p-device') || (ls.set('fork-p2p-device', uuid()), ls.get('fork-p2p-device')) || uuid();
 $('email').value = ls.get('fork-p2p-email') || '';
 const SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";  // publishable key: public by design (same as the landing page); access is enforced by Supabase row-level security
 const STUN = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'] }];
-let sb, channel, uid, hosts = {}, conn = null;
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
+let channel, uid, hosts = {}, conn = null, auto = true, esperaMacs = null;
+const msg = (t, erro) => { $('st').className = 'msg' + (erro ? ' err' : ''); $('st').textContent = t || ''; };
+const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $('app').classList.toggle('hidden', quem !== 'app'); };
 
+// ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(e => log('sw: ' + e));
+const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+let instalar = null;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); instalar = e; dica(); });
+function dica() {
+  if (standalone || ls.get('fork-p2p-hint')) return;
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent), h = $('hint');
+  if (ios) h.innerHTML = 'Add Fork to your Home Screen: tap <b>Share</b>, then <b>Add to Home Screen</b>.<br><button class="sec" id="hint-ok">Got it</button>';
+  else if (instalar) h.innerHTML = 'Install Fork on this phone for one-tap access.<br><button id="hint-in">Install</button><button class="sec" id="hint-ok">Not now</button>';
+  else return;
+  h.classList.remove('hidden');
+  $('hint-ok').onclick = () => { ls.set('fork-p2p-hint', '1'); h.classList.add('hidden'); };
+  if ($('hint-in')) $('hint-in').onclick = async () => { instalar.prompt(); await instalar.userChoice; ls.set('fork-p2p-hint', '1'); h.classList.add('hidden'); };
+}
+dica();
+
+// ── entrar ─────────────────────────────────────────────────────────────────────────────────────────────────
 $('in').onclick = async () => {
   ls.set('fork-p2p-email', $('email').value.trim());
-  sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
   const login = $('email').value.trim(), password = $('pw').value;
-  let data, error;
+  let error;
+  $('in').disabled = true; msg('Signing in\u2026');
   if (login.includes('@')) {
-    ({ data, error } = await sb.auth.signInWithPassword({ email: login, password }));
+    ({ error } = await sb.auth.signInWithPassword({ email: login, password }));
   } else {
     // A username: a funcao `sign-in` procura o email do lado do servidor (nunca o devolve) e devolve a sessao.
     const r = await fetch(SUPABASE_URL + '/functions/v1/sign-in', { method: 'POST',
-      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY }, body: JSON.stringify({ login, password }) });
-    const out = await r.json().catch(() => ({}));
-    if (!r.ok) error = { message: out.error === 'rate_limited' ? 'Too many attempts. Try again in a few minutes.' : 'Username or password is incorrect.' };
-    else ({ data, error } = await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token }));
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY }, body: JSON.stringify({ login, password }) }).catch(() => null);
+    const out = r ? await r.json().catch(() => ({})) : {};
+    if (!r) error = { message: 'Can\u2019t reach Fork. Check your connection.' };
+    else if (!r.ok) error = { message: out.error === 'rate_limited' ? 'Too many attempts. Try again in a few minutes.' : 'Username or password is incorrect.' };
+    else ({ error } = await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token }));
   }
-  $('pw').value = '';
-  if (error) { $('st').className = 'msg err'; $('st').textContent = error.message; return log('sign-in: ' + error.message); }
-  uid = data.user.id; sb.realtime.setAuth(data.session.access_token);
-  $('cfg').classList.add('hidden'); $('app').classList.remove('hidden'); $('st').textContent = '';
+  $('pw').value = ''; $('in').disabled = false;
+  if (error) { msg(error.message, true); return log('sign-in: ' + error.message); }
+  msg(''); arranca();
+};
+$('out').onclick = async () => { ls.del('fork-p2p-last'); if (conn) conn.pc.close(); conn = null; if (channel) await sb.removeChannel(channel); channel = null; await sb.auth.signOut(); mostra('cfg'); msg(''); };
+
+// ── os Macs e a ligacao ─────────────────────────────────────────────────────────────────────────────────────
+async function arranca() {
+  const { data } = await sb.auth.getSession();
+  if (!data.session) { mostra('cfg'); return; }
+  uid = data.session.user.id; mostra('app'); auto = true; hosts = {};
+  sb.realtime.setAuth(data.session.access_token);
+  if (channel) await sb.removeChannel(channel);
   channel = sb.channel('rtc:' + uid, { config: { private: true, broadcast: { self: false }, presence: { key: deviceId } } });
-  const sync = () => {
-    hosts = {};
-    for (const [k, metas] of Object.entries(channel.presenceState())) { const m = metas[metas.length - 1]; if (m && m.role === 'host') hosts[k] = m; }
-    $('macs').innerHTML = '';
-    for (const [id, m] of Object.entries(hosts)) {
-      const d = document.createElement('div'); d.className = 'mac'; d.innerHTML = '<span></span><button>Connect</button>';
-      d.firstChild.textContent = m.name || id.slice(0, 8); d.lastChild.onclick = () => connect(id); $('macs').appendChild(d);
-    }
-    if (!Object.keys(hosts).length) $('macs').textContent = 'None online. Turn on "Use Fork P2P Network" in the Mac app (Settings → Advanced → Network).';
-  };
   channel.on('presence', { event: 'sync' }, sync);
   for (const ev of ['answer', 'ice', 'bye']) channel.on('broadcast', { event: ev }, ({ payload }) => onSignal(payload));
-  channel.subscribe(s => log('channel: ' + s));
-};
+  channel.subscribe(s => { log('channel: ' + s); if (s === 'CHANNEL_ERROR' || s === 'TIMED_OUT') msg('Can\u2019t reach Fork right now. Retrying\u2026', true); });
+  if (!navigator.onLine) return msg('You\u2019re offline. Your Mac is unreachable.', true);
+  msg('Looking for your Mac\u2026');
+  clearTimeout(esperaMacs);
+  esperaMacs = setTimeout(() => { if (!Object.keys(hosts).length && !conn) msg('Your Mac is unreachable. Make sure it\u2019s awake, online, and \u201cUse Fork P2P Network\u201d is on in its Settings.', true); }, 8000);
+}
+function sync() {
+  hosts = {};
+  for (const [k, metas] of Object.entries(channel.presenceState())) { const m = metas[metas.length - 1]; if (m && m.role === 'host') hosts[k] = m; }
+  const ids = Object.keys(hosts), ultimo = ls.get('fork-p2p-last');
+  // Entra direto no ultimo Mac usado; sem ultimo, so se houver um unico. A lista so aparece com 2+ (ou se o ultimo esta desligado).
+  if (auto && !conn) {
+    const alvo = ultimo && hosts[ultimo] ? ultimo : (!ultimo && ids.length === 1 ? ids[0] : null);
+    if (alvo) { auto = false; connect(alvo); return; }
+  }
+  $('macs').innerHTML = '';
+  for (const id of ids) {
+    const d = document.createElement('div'); d.className = 'mac'; d.innerHTML = '<span></span><button>Connect</button>';
+    d.firstChild.textContent = hosts[id].name || id.slice(0, 8); d.lastChild.onclick = () => connect(id); $('macs').appendChild(d);
+  }
+  if (!ids.length) $('macs').textContent = ultimo ? 'Your Mac is offline.' : 'No Mac online. Turn on \u201cUse Fork P2P Network\u201d in the Mac app (Settings \u2192 Advanced \u2192 Network).';
+  else if (!conn) msg(ids.length > 1 || ultimo ? 'Choose a Mac.' : '');
+}
 
 const sig = (kind, to, extra = {}) => channel.send({ type: 'broadcast', event: kind, payload: { v: 1, kind, conn: conn.id, from: deviceId, to, ts: Math.floor(Date.now() / 1000), ...extra } });
 
 async function connect(hostId) {
+  $('retry').classList.add('hidden');
   if (conn) conn.pc.close();
+  const nome = hosts[hostId]?.name || hostId.slice(0, 8);
   const pc = new RTCPeerConnection({ iceServers: STUN });
-  conn = { id: uuid(), host: hostId, pc, res: {}, t0: performance.now() };
-  const dc = pc.createDataChannel('api'); conn.dc = dc;
-  pc.onicecandidate = e => { if (e.candidate) sig('ice', hostId, { candidate: { candidate: e.candidate.candidate, sdp_mid: e.candidate.sdpMid, sdp_mline_index: e.candidate.sdpMLineIndex } }); };
-  pc.onconnectionstatechange = () => { $('st').className = 'msg'; $('st').textContent = pc.connectionState === 'connected' ? 'Connected' : 'Connecting\u2026'; log('pc: ' + pc.connectionState + ' (' + Math.round(performance.now() - conn.t0) + ' ms)'); };
-  dc.onopen = () => { log('data channel open'); dc.send(JSON.stringify({ t: 'req', id: '1', method: 'GET', path: '/api/v1/health' })); };
+  conn = { id: uuid(), host: hostId, pc, res: {}, t0: performance.now(), nome, aberto: false };
+  const c = conn, dc = pc.createDataChannel('api'); c.dc = dc;
+  pc.onicecandidate = e => { if (e.candidate && conn === c) sig('ice', hostId, { candidate: { candidate: e.candidate.candidate, sdp_mid: e.candidate.sdpMid, sdp_mline_index: e.candidate.sdpMLineIndex } }); };
+  pc.onconnectionstatechange = () => {
+    log('pc: ' + pc.connectionState + ' (' + Math.round(performance.now() - c.t0) + ' ms)');
+    if (conn !== c) return;
+    if (pc.connectionState === 'connected') msg('Connected to ' + nome);
+    else if (pc.connectionState === 'connecting') msg('Connecting to ' + nome + '\u2026');
+    else if (['failed', 'disconnected', 'closed'].includes(pc.connectionState)) falhou(c.aberto ? 'The connection to ' + nome + ' dropped.' : 'Couldn\u2019t connect to ' + nome + '. Your network may block direct connections.');
+  };
+  dc.onopen = () => { c.aberto = true; ls.set('fork-p2p-last', hostId); log('data channel open'); dc.send(JSON.stringify({ t: 'req', id: '1', method: 'GET', path: '/api/v1/health' })); };
   dc.onmessage = e => {
     const m = JSON.parse(e.data); if (m.t !== 'res') return;
-    (conn.res[m.id] ||= []).push(m);
+    (c.res[m.id] ||= []).push(m);
     if (m.last) {
-      const parts = conn.res[m.id].sort((a, b) => a.seq - b.seq);
-      const bytes = Uint8Array.from(parts.flatMap(p => [...atob(p.body)].map(c => c.charCodeAt(0))));
-      const txt = new TextDecoder().decode(bytes); log('response ' + m.id + ' status ' + m.status + ': ' + txt); $('st').className = 'msg'; $('st').textContent = m.status === 200 ? 'Connected \u00b7 ' + txt.slice(0, 120) : 'Error ' + m.status;
+      const parts = c.res[m.id].sort((a, b) => a.seq - b.seq);
+      const bytes = Uint8Array.from(parts.flatMap(p => [...atob(p.body)].map(ch => ch.charCodeAt(0))));
+      const txt = new TextDecoder().decode(bytes); log('response ' + m.id + ' status ' + m.status + ': ' + txt);
+      if (m.status === 200) msg('Connected to ' + nome + ' \u00b7 ' + txt.slice(0, 120)); else msg('Error ' + m.status, true);
     }
   };
+  msg('Connecting to ' + nome + '\u2026');
   const offer = await pc.createOffer(); await pc.setLocalDescription(offer);
   await sig('offer', hostId, { sdp: offer.sdp });
-  log('offer sent to ' + (hosts[hostId]?.name || hostId.slice(0, 8)));
+  log('offer sent to ' + nome);
+  // Sem resposta: diz-se (o Mac pode ter adormecido entre a presenca e a oferta).
+  setTimeout(() => { if (conn === c && pc.connectionState !== 'connected' && !c.recebeuResposta) falhou('No answer from ' + nome + '. Is the Mac awake and online?'); }, 12000);
 }
+function falhou(texto) { msg(texto, true); $('retry').classList.remove('hidden'); }
+$('retry').onclick = () => { const h = conn && conn.host; auto = true; conn = null; $('retry').classList.add('hidden'); if (h && hosts[h]) connect(h); else arranca(); };
 
 async function onSignal(s) {
   if (!conn || s.v !== 1 || s.to !== deviceId || s.conn !== conn.id) return;
+  conn.recebeuResposta = true;
   if (s.kind === 'answer') await conn.pc.setRemoteDescription({ type: 'answer', sdp: s.sdp });
   else if (s.kind === 'ice' && s.candidate && s.candidate.candidate) await conn.pc.addIceCandidate({ candidate: s.candidate.candidate, sdpMid: s.candidate.sdp_mid, sdpMLineIndex: s.candidate.sdp_mline_index });
   else if (s.kind === 'bye') { log('host said bye'); conn.pc.close(); }
 }
+
+// De volta ao primeiro plano (o iOS corta as ligacoes em segundo plano): volta a ligar ao ultimo Mac.
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && uid && (!conn || ['failed', 'disconnected', 'closed'].includes(conn.pc.connectionState))) { conn = null; arranca(); } });
+addEventListener('online', () => { if (uid && !conn) arranca(); });
+addEventListener('offline', () => msg('You\u2019re offline. Your Mac is unreachable.', true));
+
+// ── arranque: ligacao rapida por QR (#q=codigo) ou a sessao que ja la esta ─────────────────────────────────
+(async () => {
+  const q = new URLSearchParams(location.hash.slice(1)).get('q');
+  if (q) {
+    history.replaceState(null, '', location.pathname + location.search);
+    msg('Signing in\u2026');
+    const r = await fetch(SUPABASE_URL + '/functions/v1/qr-login', { method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+      body: JSON.stringify({ action: 'redeem', code: q, device: deviceId, name: (navigator.userAgent.match(/iPhone|iPad|Android|Mac|Windows/) || ['phone'])[0] }) }).catch(() => null);
+    const out = r ? await r.json().catch(() => ({})) : {};
+    if (r && r.ok && out.access_token) {
+      await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token });
+      if (out.mac) ls.set('fork-p2p-last', out.mac);
+    } else msg(r && r.status === 429 ? 'Too many attempts. Try again in a few minutes.' : 'That QR code has expired. Show a new one on your Mac.', true);
+  }
+  await arranca();
+})();
 </script></body></html>
