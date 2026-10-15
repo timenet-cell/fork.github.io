@@ -150,7 +150,7 @@ $('f-pass').onsubmit = async e => {
         body: JSON.stringify({ login: email, password: $('password').value }) });
       const out = await r.json().catch(() => ({}));
       if (r.status === 429 || out.error === 'rate_limited') throw new Error('Too many attempts. Try again in a few minutes.');
-      if (!r.ok) throw new Error('Username or password is incorrect.');
+      if (!r.ok) throw new Error('Username or password is incorrect. Usernames work once you set one: the first time, sign in with your email.');
       const { data, error } = await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token });
       if (error) throw error; show(data.user);
     } else if (!codeMode) {
