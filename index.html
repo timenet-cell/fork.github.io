@@ -65,8 +65,8 @@ button[disabled]{opacity:.6;cursor:default}
       <h1>Sign in to Fork</h1>
       <p class="sub">Use your Fork account.</p>
       <form id="f-pass" autocomplete="on">
-        <label for="email">Email</label>
-        <input id="email" type="email" inputmode="email" autocomplete="username" required>
+        <label for="email">Username or email</label>
+        <input id="email" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="username" required>
         <div id="pass-box">
           <label for="password">Password</label>
           <input id="password" type="password" autocomplete="current-password">
@@ -117,6 +117,7 @@ $('toggle').onclick = () => {
 $('f-pass').onsubmit = async e => {
   e.preventDefault();
   const email = $('email').value.trim(); if (!email) return;
+  if (!email.includes('@')) { say('Signing in with a username arrives shortly. For now, use the email of your Fork account.', true); return; }
   $('go').disabled = true; say('');
   try {
     if (!codeMode) {
