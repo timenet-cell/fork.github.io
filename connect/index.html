@@ -57,13 +57,30 @@ $('email').value = ls.get('fork-p2p-email') || '';
 const SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";  // publishable key: public by design (same as the landing page); access is enforced by Supabase row-level security
 const STUN = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'] }];
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
-let canalEstado = '-', ultimoErro = '-', channel, uid, hosts = {}, conn = null, auto = true, esperaMacs = null;
+const rtLog = [];
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true },
+  // O que o cliente do Realtime diz (fecho do socket com codigo, erros, heartbeats): e o que explica o CLOSED/CHANNEL_ERROR.
+  realtime: { logger: (kind, msg, data) => { if (/close|error|timeout|heartbeat|connect|leave|reconnect/i.test(kind + ' ' + msg)) { const l = kind + ' ' + msg + ' ' + (() => { try { return JSON.stringify(data, (k, v) => (k === 'event' || v instanceof Event) ? { type: v.type, code: v.code, reason: v.reason, wasClean: v.wasClean } : v).slice(0, 160); } catch { return ''; } })(); rtLog.push(new Date().toLocaleTimeString() + ' ' + l); if (rtLog.length > 25) rtLog.shift(); } } } });
+sb.auth.onAuthStateChange((ev, ses) => { authEv = ev + (ses ? ' (token exp in ' + (ses.expires_at - Math.floor(Date.now() / 1000)) + ' s)' : ''); log('auth: ' + authEv); });
+let authEv = '-', canalEstado = '-', ultimoErro = '-', channel, uid, hosts = {}, conn = null, auto = true, esperaMacs = null;
 const msg = (t, erro) => { $('st').className = 'msg' + (erro ? ' err' : ''); $('st').textContent = t || ''; };
 const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $('app').classList.toggle('hidden', quem !== 'app'); };
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(e => log('sw: ' + e));
+const BUILD = '2026-10-15c';
+function toastAtualizado() {
+  if ($('toast')) return;
+  const t = document.createElement('div'); t.id = 'toast';
+  t.style.cssText = 'position:fixed;left:16px;right:16px;bottom:16px;max-width:380px;margin:auto;background:var(--text);color:var(--bg);padding:12px 14px;border-radius:12px;font-size:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;z-index:9';
+  t.innerHTML = '<span>Updated.</span><button style="width:auto;margin:0;padding:6px 12px" id="toast-r">Reload</button>';
+  document.body.appendChild(t); $('toast-r').onclick = () => location.reload();
+}
+if ('serviceWorker' in navigator) {
+  const tinhaControlo = !!navigator.serviceWorker.controller;
+  // Uma versao nova do sw.js assume o controlo: avisa-se (nao se recarrega a meio de uma ligacao).
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (tinhaControlo) toastAtualizado(); });
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(r => r.update()).catch(e => log('sw: ' + e));
+}
 const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 let instalar = null;
 addEventListener('beforeinstallprompt', e => { e.preventDefault(); instalar = e; dica(); });
@@ -184,8 +201,14 @@ async function onSignal(s) {
 }
 
 // De volta ao primeiro plano (o iOS corta as ligacoes em segundo plano): volta a ligar ao ultimo Mac.
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && uid && (!conn || ['failed', 'disconnected', 'closed'].includes(conn.pc.connectionState))) { conn = null; arranca(); } });
-addEventListener('online', () => { if (uid && !conn) arranca(); });
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible' || !uid) return;
+  const morta = conn && ['failed', 'disconnected', 'closed'].includes(conn.pc.connectionState);
+  const canalMau = !channel || channel.state !== 'joined';
+  // So refaz o canal se ele nao esta dentro (antes refazia-o a cada regresso ao primeiro plano, sem ligacao).
+  if (morta || (!conn && canalMau)) { conn = null; arranca(); }
+});
+addEventListener('online', () => { if (uid && !conn && (!channel || channel.state !== 'joined')) arranca(); });
 addEventListener('offline', () => msg('You\u2019re offline. Your Mac is unreachable.', true));
 
 // ── arranque: ligacao rapida por QR (#q=codigo) ou a sessao que ja la esta ─────────────────────────────────
@@ -212,9 +235,9 @@ addEventListener('offline', () => msg('You\u2019re offline. Your Mac is unreacha
 setInterval(() => {
   if (!$('det').open) return;
   let pres = '-'; try { pres = channel ? JSON.stringify(channel.presenceState(), null, 1) : '-'; } catch (e) { pres = String(e); }
-  $('dbg').textContent = ['user: ' + (uid || '-'), 'device: ' + deviceId, 'topic: ' + (channel ? channel.topic : '-'),
+  $('dbg').textContent = ['build: ' + BUILD + '  sw: ' + (navigator.serviceWorker && navigator.serviceWorker.controller ? 'controlled' : 'none'), 'auth: ' + authEv, 'channel.state: ' + (channel ? channel.state : '-'), 'user: ' + (uid || '-'), 'device: ' + deviceId, 'topic: ' + (channel ? channel.topic : '-'),
     'channel: ' + canalEstado, 'socket: ' + (sb.realtime.isConnected ? sb.realtime.isConnected() : '?'),
-    'online: ' + navigator.onLine, 'hosts: ' + Object.keys(hosts).length, 'last error: ' + ultimoErro, 'presence state: ' + pres].join('\n');
+    'online: ' + navigator.onLine, 'hosts: ' + Object.keys(hosts).length, 'last error: ' + ultimoErro, 'realtime log:', ...rtLog.slice(-12), 'presence state: ' + pres].join('\n');
 }, 1000);
 </script>
 </body></html>
