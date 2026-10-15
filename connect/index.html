@@ -31,7 +31,14 @@ button.sec{background:none;color:var(--red);font-weight:500;margin-top:8px;paddi
 .hint{margin-top:16px;padding:12px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted)}
 .hint button{margin-top:8px}
 details{margin-top:18px;color:var(--muted);font-size:12px}pre{white-space:pre-wrap;word-break:break-all;margin:6px 0 0}
+body.mac main{display:none}
+#macbar,#macframe{display:none}
+body.mac #macbar{display:flex;position:fixed;top:0;left:0;right:0;height:34px;padding:0 12px;padding-top:env(safe-area-inset-top);align-items:center;justify-content:space-between;background:var(--card);border-bottom:1px solid var(--line);font-size:13px;z-index:5}
+body.mac #macbar button{width:auto;margin:0;padding:4px 10px;font-size:12px;background:none;color:var(--red)}
+body.mac #macframe{display:block;position:fixed;top:calc(34px + env(safe-area-inset-top));left:0;right:0;bottom:0;width:100%;height:calc(100% - 34px - env(safe-area-inset-top));border:0;background:#fff}
 </style></head><body>
+<div id="macbar"><span id="macbar-nome"></span><button id="macbar-sair">Disconnect</button></div>
+<iframe id="macframe" title="Your Mac" allow="autoplay; fullscreen"></iframe>
 <main><div class="card">
   <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="var(--red)" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
   <h1>Fork</h1>
@@ -61,13 +68,13 @@ const rtLog = [];
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true },
   // O que o cliente do Realtime diz (fecho do socket com codigo, erros, heartbeats): e o que explica o CLOSED/CHANNEL_ERROR.
   realtime: { logger: (kind, msg, data) => { if (/close|error|timeout|heartbeat|connect|leave|reconnect/i.test(kind + ' ' + msg)) { const l = kind + ' ' + msg + ' ' + (() => { try { return JSON.stringify(data, (k, v) => (k === 'event' || v instanceof Event) ? { type: v.type, code: v.code, reason: v.reason, wasClean: v.wasClean } : v).slice(0, 160); } catch { return ''; } })(); rtLog.push(new Date().toLocaleTimeString() + ' ' + l); if (rtLog.length > 25) rtLog.shift(); } } } });
-sb.auth.onAuthStateChange((ev, ses) => { authEv = ev + (ses ? ' (token exp in ' + (ses.expires_at - Math.floor(Date.now() / 1000)) + ' s)' : ''); log('auth: ' + authEv); });
 let authEv = '-', canalEstado = '-', ultimoErro = '-', channel, uid, hosts = {}, conn = null, auto = true, esperaMacs = null;
+sb.auth.onAuthStateChange((ev, ses) => { authEv = ev + (ses ? ' (token exp in ' + (ses.expires_at - Math.floor(Date.now() / 1000)) + ' s)' : ''); log('auth: ' + authEv); });
 const msg = (t, erro) => { $('st').className = 'msg' + (erro ? ' err' : ''); $('st').textContent = t || ''; };
 const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $('app').classList.toggle('hidden', quem !== 'app'); };
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
-const BUILD = '2026-10-15c';
+const BUILD = '2026-10-15d-tunnel';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -169,19 +176,13 @@ async function connect(hostId) {
     if (conn !== c) return;
     if (pc.connectionState === 'connected') msg('Connected to ' + nome);
     else if (pc.connectionState === 'connecting') msg('Connecting to ' + nome + '\u2026');
-    else if (['failed', 'disconnected', 'closed'].includes(pc.connectionState)) falhou(c.aberto ? 'The connection to ' + nome + ' dropped.' : 'Couldn\u2019t connect to ' + nome + '. Your network may block direct connections.');
-  };
-  dc.onopen = () => { c.aberto = true; ls.set('fork-p2p-last', hostId); log('data channel open'); dc.send(JSON.stringify({ t: 'req', id: '1', method: 'GET', path: '/api/v1/health' })); };
-  dc.onmessage = e => {
-    const m = JSON.parse(e.data); if (m.t !== 'res') return;
-    (c.res[m.id] ||= []).push(m);
-    if (m.last) {
-      const parts = c.res[m.id].sort((a, b) => a.seq - b.seq);
-      const bytes = Uint8Array.from(parts.flatMap(p => [...atob(p.body)].map(ch => ch.charCodeAt(0))));
-      const txt = new TextDecoder().decode(bytes); log('response ' + m.id + ' status ' + m.status + ': ' + txt);
-      if (m.status === 200) msg('Connected to ' + nome + ' \u00b7 ' + txt.slice(0, 120)); else msg('Error ' + m.status, true);
+    else if (['failed', 'disconnected', 'closed'].includes(pc.connectionState)) {
+      tunelFecha(c, 'The connection to your Mac dropped.'); document.body.classList.remove('mac');
+      falhou(c.aberto ? 'The connection to ' + nome + ' dropped.' : 'Couldn\u2019t connect to ' + nome + '. Your network may block direct connections.');
     }
   };
+  dc.onopen = () => { c.aberto = true; ls.set('fork-p2p-last', hostId); log('data channel open'); sondaEAbre(c, nome); };
+  dc.onmessage = e => tunelResposta(c, e.data);
   msg('Connecting to ' + nome + '\u2026');
   const offer = await pc.createOffer(); await pc.setLocalDescription(offer);
   await sig('offer', hostId, { sdp: offer.sdp });
@@ -189,6 +190,60 @@ async function connect(hostId) {
   // Sem resposta: diz-se (o Mac pode ter adormecido entre a presenca e a oferta).
   setTimeout(() => { if (conn === c && pc.connectionState !== 'connected' && !c.recebeuResposta) falhou('No answer from ' + nome + '. Is the Mac awake and online?'); }, 12000);
 }
+// ── o tunel: o Studio do Mac num iframe; os pedidos dele passam pelo service worker e por este canal ─────────
+let tid = 0;
+function tunelPede(c, m, port) {
+  if (!c.dc || c.dc.readyState !== 'open') { port.postMessage({ t: 'err', msg: 'Not connected to your Mac.' }); return; }
+  const id = 't' + (++tid);
+  (c.pend ||= {})[id] = port;
+  port.onmessage = ev => { if (ev.data && ev.data.t === 'cancel' && c.pend[id]) { delete c.pend[id]; try { c.dc.send(JSON.stringify({ t: 'cancel', id })); } catch {} } };
+  c.dc.send(JSON.stringify({ t: 'req', id, method: m.method, path: m.path, headers: m.headers || {}, body: m.body || null }));
+}
+function tunelResposta(c, texto) {
+  let m; try { m = JSON.parse(texto); } catch { return; }
+  if (m.t !== 'res') return;
+  const port = c.pend && c.pend[m.id];
+  if (!port) { if (c.sonda && m.id === c.sonda.id) sondaResposta(c, m); return; }
+  if (m.seq === 0) port.postMessage({ t: 'head', status: m.status, headers: m.headers || {} });
+  if (m.body) { const bin = atob(m.body), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); port.postMessage({ t: 'chunk', buf: u.buffer }, [u.buffer]); }
+  if (m.last) { port.postMessage({ t: 'done' }); delete c.pend[m.id]; }
+}
+function tunelFecha(c, msg) { for (const p of Object.values(c.pend || {})) { try { p.postMessage({ t: 'err', msg }); } catch {} } c.pend = {}; }
+if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', ev => {
+  if (ev.data && ev.data.t === 'fetch' && conn && ev.ports[0]) tunelPede(conn, ev.data, ev.ports[0]);
+});
+// Primeiro um pedido simples ao Studio do Mac (prova que o tunel anda) e so depois se abre o iframe.
+function sondaEAbre(c, nome) {
+  c.sonda = { id: 'probe' }; c.res = {};
+  c.dc.send(JSON.stringify({ t: 'req', id: 'probe', method: 'GET', path: '/api/quem' }));
+  c.sondaT = setTimeout(() => { if (conn === c && !c.aberto2) falhou('Connected, but ' + nome + ' did not answer. Is Fork Studio running on the Mac?'); }, 10000);
+}
+function sondaResposta(c, m) {
+  (c.res[m.id] ||= []).push(m);
+  if (!m.last) return;
+  clearTimeout(c.sondaT);
+  if (m.status !== 200) return falhou('Your Mac answered with an error (' + m.status + '). Is Fork Studio running?');
+  abreMac(c);
+}
+async function abreMac(c) {
+  if (!navigator.serviceWorker) return falhou('This browser can’t open your Mac (no service worker).');
+  // O service worker tem de controlar esta pagina antes de o iframe pedir seja o que for.
+  await navigator.serviceWorker.ready;
+  if (!navigator.serviceWorker.controller) {
+    if (!sessionStorage.getItem('fork-p2p-reload')) { sessionStorage.setItem('fork-p2p-reload', '1'); return location.reload(); }
+    return falhou('Couldn’t start the secure tunnel in this browser. Reload the page.');
+  }
+  sessionStorage.removeItem('fork-p2p-reload');
+  c.aberto2 = true;
+  document.body.classList.add('mac');
+  $('macbar-nome').textContent = c.nome;
+  $('macframe').src = 'mac/' + c.host + '/';
+  msg('');
+}
+$('macbar-sair').onclick = () => {
+  if (conn) { tunelFecha(conn, 'Disconnected.'); conn.pc.close(); }
+  conn = null; document.body.classList.remove('mac'); $('macframe').src = 'about:blank'; auto = false; msg('Disconnected.'); sync();
+};
 function falhou(texto) { msg(texto, true); $('retry').classList.remove('hidden'); }
 $('retry').onclick = () => { const h = conn && conn.host; auto = true; conn = null; $('retry').classList.add('hidden'); if (h && hosts[h]) connect(h); else arranca(); };
 
