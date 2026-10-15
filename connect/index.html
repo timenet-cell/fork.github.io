@@ -75,7 +75,8 @@ const msg = (t, erro) => { $('st').className = 'msg' + (erro ? ' err' : ''); $('
 const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $('app').classList.toggle('hidden', quem !== 'app'); };
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
-const BUILD = '2026-10-15e-tunnel';
+let swErro = '';
+const BUILD = '2026-10-15f-tunnel';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -87,7 +88,7 @@ if ('serviceWorker' in navigator) {
   const tinhaControlo = !!navigator.serviceWorker.controller;
   // Uma versao nova do sw.js assume o controlo: avisa-se (nao se recarrega a meio de uma ligacao).
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (tinhaControlo) toastAtualizado(); });
-  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(r => r.update()).catch(e => log('sw: ' + e));
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(r => r.update()).catch(e => { swErro = String(e.message || e); log('sw: ' + e); });
 }
 const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 let instalar = null;
@@ -201,6 +202,8 @@ function tunelPede(c, m, port) {
   if (!c.dc || c.dc.readyState !== 'open') { port.postMessage({ t: 'err', msg: 'Not connected to your Mac.' }); return; }
   const id = 't' + (++tid);
   (c.pend ||= {})[id] = port;
+  (c.info ||= {})[id] = { path: m.path, t: performance.now(), bytes: 0 };
+  if (tid <= 40 || tid % 25 === 0) log('tunnel → ' + id + ' ' + m.method + ' ' + m.path.slice(0, 70));
   port.onmessage = ev => { if (ev.data && ev.data.t === 'cancel' && c.pend[id]) { delete c.pend[id]; try { c.dc.send(JSON.stringify({ t: 'cancel', id })); } catch {} } };
   c.dc.send(JSON.stringify({ t: 'req', id, method: m.method, path: m.path, headers: m.headers || {}, body: m.body || null }));
 }
@@ -211,10 +214,15 @@ function tunelResposta(c, texto) {
   if (!port) { if (c.sonda && m.id === c.sonda.id) sondaResposta(c, m); return; }
   if (m.seq === 0) port.postMessage({ t: 'head', status: m.status, headers: m.headers || {} });
   if (m.body) { const bin = atob(m.body), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); port.postMessage({ t: 'chunk', buf: u.buffer }, [u.buffer]); }
-  if (m.last) { port.postMessage({ t: 'done' }); delete c.pend[m.id]; }
+  const inf = c.info && c.info[m.id]; if (inf) inf.bytes += (m.body || '').length * 0.75;
+  if (m.last) {
+    port.postMessage({ t: 'done' }); delete c.pend[m.id];
+    if (inf) { if (tid <= 40 || performance.now() - inf.t > 2000) log('tunnel ← ' + m.id + ' ' + inf.path.slice(0, 50) + ' ' + Math.round(inf.bytes / 1024) + ' KB in ' + Math.round(performance.now() - inf.t) + ' ms'); delete c.info[m.id]; }
+  }
 }
 function tunelFecha(c, msg) { for (const p of Object.values(c.pend || {})) { try { p.postMessage({ t: 'err', msg }); } catch {} } c.pend = {}; }
 if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', ev => {
+  if (ev.data && ev.data.t === 'log') { log('sw: ' + ev.data.msg); return; }
   if (ev.data && ev.data.t === 'fetch' && conn && ev.ports[0]) tunelPede(conn, ev.data, ev.ports[0]);
 });
 // Primeiro um pedido simples ao Studio do Mac (prova que o tunel anda) e so depois se abre o iframe.
@@ -227,18 +235,27 @@ function sondaResposta(c, m) {
   (c.res[m.id] ||= []).push(m);
   if (!m.last) return;
   clearTimeout(c.sondaT);
-  const st = (c.res[m.id].find(x => x.status != null) || {}).status;   // o estado vem na 1.a moldura
-  if (st !== 200) return falhou('Your Mac answered with an error (' + st + '). Is Fork Studio running?');
+  // O status vem so na moldura seq 0 (a das respostas aos bocados), nao na ultima.
+  const status = (c.res[m.id].find(x => x.status != null) || {}).status;
+  if (status !== 200) return falhou('Your Mac answered with an error (' + status + '). Is Fork Studio running?');
   abreMac(c);
 }
 async function abreMac(c) {
   if (!navigator.serviceWorker) return falhou('This browser can’t open your Mac (no service worker).');
-  // O service worker tem de controlar esta pagina antes de o iframe pedir seja o que for.
-  await navigator.serviceWorker.ready;
+  // O service worker tem de controlar esta pagina antes de o iframe pedir seja o que for. Sem o tomar conta ja
+  // (primeira visita), espera-se o `controllerchange` (o sw faz clients.claim) em vez de recarregar a pagina — recarregar
+  // mata a ligacao WebRTC. `ready` tem prazo: se o registo falhou nunca resolve.
+  const pronto = await Promise.race([navigator.serviceWorker.ready.then(() => true), new Promise(r => setTimeout(() => r(false), 8000))]);
+  if (!pronto) return falhou('The secure tunnel couldn’t start in this browser (service worker not ready). ' + (swErro || ''));
+  try { navigator.serviceWorker.startMessages && navigator.serviceWorker.startMessages(); } catch {}
   if (!navigator.serviceWorker.controller) {
-    if (!sessionStorage.getItem('fork-p2p-reload')) { sessionStorage.setItem('fork-p2p-reload', '1'); return location.reload(); }
+    await new Promise(r => { navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }); setTimeout(r, 4000); });
+  }
+  if (!navigator.serviceWorker.controller) {
+    if (!sessionStorage.getItem('fork-p2p-reload')) { log('no SW controller yet — reloading once'); sessionStorage.setItem('fork-p2p-reload', '1'); return location.reload(); }
     return falhou('Couldn’t start the secure tunnel in this browser. Reload the page.');
   }
+  log('tunnel: SW controls the page, opening mac/' + c.host.slice(0, 8) + '/');
   sessionStorage.removeItem('fork-p2p-reload');
   c.aberto2 = true;
   document.body.classList.add('mac');
@@ -308,3 +325,11 @@ setInterval(() => {
 }, 1000);
 </script>
 </body></html>
+<script>
+// Pedidos do tunel parados ha mais de 10 s: dizem-se (e a que Mac/caminho).
+setInterval(() => {
+  if (!conn || !conn.info) return;
+  const agora = performance.now();
+  for (const [id, i] of Object.entries(conn.info)) if (agora - i.t > 10000 && !i.avisado) { i.avisado = true; log('tunnel STUCK ' + id + ' ' + i.path.slice(0, 60) + ' (' + Math.round(i.bytes / 1024) + ' KB so far, dc=' + (conn.dc && conn.dc.readyState) + ', buffered=' + (conn.dc && conn.dc.bufferedAmount) + ')'); }
+}, 3000);
+</script>
