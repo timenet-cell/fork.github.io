@@ -84,6 +84,13 @@ button[disabled]{opacity:.6;cursor:default}
     <section id="v-in" class="hidden">
       <h1>You're signed in</h1>
       <p class="sub">as <span id="who" class="who"></span></p>
+      <form id="f-user" class="hidden">
+        <label for="uname">Choose your username</label>
+        <input id="uname" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="30" placeholder="e.g. yourname">
+        <p class="sub" style="margin:8px 0 0;font-size:13px;text-align:left">3–30 characters: letters, numbers, dot, dash or underscore. You can then sign in with it.</p>
+        <button type="submit">Save username</button>
+        <div id="umsg" class="msg" role="status" aria-live="polite"></div>
+      </form>
       <p class="sub">Your Macs will appear here when the Fork P2P Network is on.</p>
       <button id="out" class="link" type="button">Sign out</button>
     </section>
@@ -104,8 +111,26 @@ function say(t, err){ const m = $('msg'); m.textContent = t || ''; m.classList.t
 function show(user){
   $('v-login').classList.toggle('hidden', !!user);
   $('v-in').classList.toggle('hidden', !user);
-  if (user) $('who').textContent = user.email || '';
+  if (user) { $('who').textContent = user.email || ''; checkUsername(user); }
 }
+async function checkUsername(user){
+  const { data } = await sb.from('profiles').select('username').eq('id', user.id).maybeSingle();
+  const u = data && data.username;
+  if (u) { $('who').textContent = u; $('f-user').classList.add('hidden'); }
+  else { $('f-user').classList.remove('hidden'); }
+}
+$('f-user').onsubmit = async e => {
+  e.preventDefault();
+  const m = $('umsg'); m.classList.remove('err'); m.textContent = '';
+  const { data, error } = await sb.rpc('set_username', { p_username: $('uname').value });
+  if (error) {
+    const t = /taken/.test(error.message) ? 'That username is taken.' : /reserved/.test(error.message) ? 'That username is reserved.'
+            : /invalid/.test(error.message) ? 'Use 3–30 letters, numbers, dot, dash or underscore.' : error.message;
+    m.textContent = t; m.classList.add('err'); return;
+  }
+  $('who').textContent = data; $('f-user').classList.add('hidden');
+  m.textContent = '';
+};
 $('toggle').onclick = () => {
   codeMode = !codeMode; codeSent = false;
   $('pass-box').classList.toggle('hidden', codeMode);
