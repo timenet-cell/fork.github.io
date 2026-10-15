@@ -227,7 +227,8 @@ function sondaResposta(c, m) {
   (c.res[m.id] ||= []).push(m);
   if (!m.last) return;
   clearTimeout(c.sondaT);
-  if (m.status !== 200) return falhou('Your Mac answered with an error (' + m.status + '). Is Fork Studio running?');
+  const st = (c.res[m.id].find(x => x.status != null) || {}).status;   // o estado vem na 1.a moldura
+  if (st !== 200) return falhou('Your Mac answered with an error (' + st + '). Is Fork Studio running?');
   abreMac(c);
 }
 async function abreMac(c) {
