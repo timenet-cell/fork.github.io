@@ -67,14 +67,15 @@ const STUN = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com
 const rtLog = [];
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true },
   // O que o cliente do Realtime diz (fecho do socket com codigo, erros, heartbeats): e o que explica o CLOSED/CHANNEL_ERROR.
-  realtime: { logger: (kind, msg, data) => { if (/close|error|timeout|heartbeat|connect|leave|reconnect/i.test(kind + ' ' + msg)) { const l = kind + ' ' + msg + ' ' + (() => { try { return JSON.stringify(data, (k, v) => (k === 'event' || v instanceof Event) ? { type: v.type, code: v.code, reason: v.reason, wasClean: v.wasClean } : v).slice(0, 160); } catch { return ''; } })(); rtLog.push(new Date().toLocaleTimeString() + ' ' + l); if (rtLog.length > 25) rtLog.shift(); } } } });
+  // Safari mata o socket parado (heartbeat timeout, 1006): batida de 15 s e tempo de espera maior.
+  realtime: { heartbeatIntervalMs: 15000, timeout: 20000, logger: (kind, msg, data) => { if (/close|error|timeout|heartbeat|connect|leave|reconnect/i.test(kind + ' ' + msg)) { const l = kind + ' ' + msg + ' ' + (() => { try { return JSON.stringify(data, (k, v) => (k === 'event' || v instanceof Event) ? { type: v.type, code: v.code, reason: v.reason, wasClean: v.wasClean } : v).slice(0, 160); } catch { return ''; } })(); rtLog.push(new Date().toLocaleTimeString() + ' ' + l); if (rtLog.length > 25) rtLog.shift(); } } } });
 let authEv = '-', canalEstado = '-', ultimoErro = '-', channel, uid, hosts = {}, conn = null, auto = true, esperaMacs = null;
 sb.auth.onAuthStateChange((ev, ses) => { authEv = ev + (ses ? ' (token exp in ' + (ses.expires_at - Math.floor(Date.now() / 1000)) + ' s)' : ''); log('auth: ' + authEv); });
 const msg = (t, erro) => { $('st').className = 'msg' + (erro ? ' err' : ''); $('st').textContent = t || ''; };
 const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $('app').classList.toggle('hidden', quem !== 'app'); };
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
-const BUILD = '2026-10-15d-tunnel';
+const BUILD = '2026-10-15e-tunnel';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -136,7 +137,7 @@ async function arranca() {
   channel = sb.channel('rtc:' + uid, { config: { private: true, broadcast: { self: false }, presence: { key: deviceId, enabled: true } } });
   channel.on('presence', { event: 'sync' }, sync);
   for (const ev of ['answer', 'ice', 'bye']) channel.on('broadcast', { event: ev }, ({ payload }) => onSignal(payload));
-  channel.subscribe((s, err) => { canalEstado = s; if (err) ultimoErro = String(err.message || err); log('channel: ' + s + (err ? ' ' + (err.message || err) : '')); if (s === 'CHANNEL_ERROR' || s === 'TIMED_OUT') msg('Can\u2019t reach Fork right now. Retrying\u2026', true); });
+  channel.subscribe((s, err) => { canalEstado = s; if (err) ultimoErro = String(err.message || err); log('channel: ' + s + (err ? ' ' + (err.message || err) : '')); if ((s === 'CHANNEL_ERROR' || s === 'TIMED_OUT') && !(conn && conn.pc.connectionState === 'connected')) msg('Can\u2019t reach Fork right now. Retrying\u2026', true); });
   if (!navigator.onLine) return msg('You\u2019re offline. Your Mac is unreachable.', true);
   msg('Looking for your Mac\u2026');
   clearTimeout(esperaMacs);
@@ -163,12 +164,12 @@ function sync() {
 
 const sig = (kind, to, extra = {}) => channel.send({ type: 'broadcast', event: kind, payload: { v: 1, kind, conn: conn.id, from: deviceId, to, ts: Math.floor(Date.now() / 1000), ...extra } });
 
-async function connect(hostId) {
+async function connect(hostId, reintento) {
   $('retry').classList.add('hidden');
   if (conn) conn.pc.close();
   const nome = hosts[hostId]?.name || hostId.slice(0, 8);
   const pc = new RTCPeerConnection({ iceServers: STUN });
-  conn = { id: uuid(), host: hostId, pc, res: {}, t0: performance.now(), nome, aberto: false };
+  conn = { id: uuid(), host: hostId, pc, res: {}, t0: performance.now(), nome, aberto: false, reintento: !!reintento };
   const c = conn, dc = pc.createDataChannel('api'); c.dc = dc;
   pc.onicecandidate = e => { if (e.candidate && conn === c) sig('ice', hostId, { candidate: { candidate: e.candidate.candidate, sdp_mid: e.candidate.sdpMid, sdp_mline_index: e.candidate.sdpMLineIndex } }); };
   pc.onconnectionstatechange = () => {
@@ -187,8 +188,12 @@ async function connect(hostId) {
   const offer = await pc.createOffer(); await pc.setLocalDescription(offer);
   await sig('offer', hostId, { sdp: offer.sdp });
   log('offer sent to ' + nome);
-  // Sem resposta: diz-se (o Mac pode ter adormecido entre a presenca e a oferta).
-  setTimeout(() => { if (conn === c && pc.connectionState !== 'connected' && !c.recebeuResposta) falhou('No answer from ' + nome + '. Is the Mac awake and online?'); }, 12000);
+  // Sem resposta em 10 s: oferece-se outra vez (uma vez); depois diz-se, com o motivo se o Mac o deu.
+  setTimeout(() => {
+    if (conn !== c || pc.connectionState === 'connected' || c.recebeuResposta) return;
+    if (!c.reintento) { log('no answer in 10 s — offering again'); connect(hostId, true); return; }
+    falhou('Your Mac didn’t answer.' + (c.motivo ? ' (' + c.motivo + ')' : ' Is it awake and online, with the Fork app open?'));
+  }, 10000);
 }
 // ── o tunel: o Studio do Mac num iframe; os pedidos dele passam pelo service worker e por este canal ─────────
 let tid = 0;
@@ -247,17 +252,23 @@ $('macbar-sair').onclick = () => {
 function falhou(texto) { msg(texto, true); $('retry').classList.remove('hidden'); }
 $('retry').onclick = () => { const h = conn && conn.host; auto = true; conn = null; $('retry').classList.add('hidden'); if (h && hosts[h]) connect(h); else arranca(); };
 
+const pcState = c => c.pc.connectionState;
 async function onSignal(s) {
   if (!conn || s.v !== 1 || s.to !== deviceId || s.conn !== conn.id) return;
   conn.recebeuResposta = true;
   if (s.kind === 'answer') await conn.pc.setRemoteDescription({ type: 'answer', sdp: s.sdp });
   else if (s.kind === 'ice' && s.candidate && s.candidate.candidate) await conn.pc.addIceCandidate({ candidate: s.candidate.candidate, sdpMid: s.candidate.sdp_mid, sdpMLineIndex: s.candidate.sdp_mline_index });
-  else if (s.kind === 'bye') { log('host said bye'); conn.pc.close(); }
+  else if (s.kind === 'bye') {
+    log('host said bye' + (s.reason ? ': ' + s.reason : '')); conn.motivo = s.reason || '';
+    if (pcState(conn) !== 'connected') { const c = conn; c.pc.close(); if (conn === c) falhou('Your Mac couldn’t accept the connection' + (s.reason ? ': ' + s.reason : '') + '.'); }
+  }
 }
 
 // De volta ao primeiro plano (o iOS corta as ligacoes em segundo plano): volta a ligar ao ultimo Mac.
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible' || !uid) return;
+  // O iOS corta o socket em segundo plano: volta a abri-lo (a ligacao WebRTC nao depende dele).
+  try { if (sb.realtime.isConnected && !sb.realtime.isConnected()) { log('socket was closed — reconnecting'); sb.realtime.connect(); } } catch (e) { log('socket reconnect: ' + e); }
   const morta = conn && ['failed', 'disconnected', 'closed'].includes(conn.pc.connectionState);
   const canalMau = !channel || channel.state !== 'joined';
   // So refaz o canal se ele nao esta dentro (antes refazia-o a cada regresso ao primeiro plano, sem ligacao).
