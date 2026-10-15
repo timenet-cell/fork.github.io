@@ -76,7 +76,7 @@ const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $(
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
 let swErro = '';
-const BUILD = '2026-10-15f-tunnel';
+const BUILD = '2026-10-15g-tunnel';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -171,14 +171,19 @@ async function connect(hostId, reintento) {
   const nome = hosts[hostId]?.name || hostId.slice(0, 8);
   const pc = new RTCPeerConnection({ iceServers: STUN });
   conn = { id: uuid(), host: hostId, pc, res: {}, t0: performance.now(), nome, aberto: false, reintento: !!reintento };
-  const c = conn, dc = pc.createDataChannel('api'); c.dc = dc;
+  const c = conn, dc = pc.createDataChannel('api'); c.dc = dc; dc.binaryType = 'arraybuffer';
   pc.onicecandidate = e => { if (e.candidate && conn === c) sig('ice', hostId, { candidate: { candidate: e.candidate.candidate, sdp_mid: e.candidate.sdpMid, sdp_mline_index: e.candidate.sdpMLineIndex } }); };
   pc.onconnectionstatechange = () => {
     log('pc: ' + pc.connectionState + ' (' + Math.round(performance.now() - c.t0) + ' ms)');
     if (conn !== c) return;
-    if (pc.connectionState === 'connected') msg('Connected to ' + nome);
+    if (pc.connectionState === 'connected') msg(c.aberto2 ? '' : 'Connected to ' + nome);
     else if (pc.connectionState === 'connecting') msg('Connecting to ' + nome + '\u2026');
-    else if (['failed', 'disconnected', 'closed'].includes(pc.connectionState)) {
+    else if (pc.connectionState === 'disconnected') {
+      // Passageiro (uma rajada que enche a ligacao, uma pausa do Wi-Fi): espera-se 12 s antes de desistir.
+      msg('Reconnecting to ' + nome + '\u2026', true);
+      setTimeout(() => { if (conn === c && pc.connectionState === 'disconnected') pc.close(); }, 12000);
+    }
+    else if (['failed', 'closed'].includes(pc.connectionState)) {
       tunelFecha(c, 'The connection to your Mac dropped.'); document.body.classList.remove('mac');
       falhou(c.aberto ? 'The connection to ' + nome + ' dropped.' : 'Couldn\u2019t connect to ' + nome + '. Your network may block direct connections.');
     }
@@ -198,29 +203,54 @@ async function connect(hostId, reintento) {
 }
 // ── o tunel: o Studio do Mac num iframe; os pedidos dele passam pelo service worker e por este canal ─────────
 let tid = 0;
+const MAX_PEDIDOS = 6;     // pedidos do tunel em voo ao mesmo tempo (o resto espera: uma rajada de 20 ficheiros enche a ligacao)
 function tunelPede(c, m, port) {
   if (!c.dc || c.dc.readyState !== 'open') { port.postMessage({ t: 'err', msg: 'Not connected to your Mac.' }); return; }
   const id = 't' + (++tid);
-  (c.pend ||= {})[id] = port;
-  (c.info ||= {})[id] = { path: m.path, t: performance.now(), bytes: 0 };
-  if (tid <= 40 || tid % 25 === 0) log('tunnel → ' + id + ' ' + m.method + ' ' + m.path.slice(0, 70));
-  port.onmessage = ev => { if (ev.data && ev.data.t === 'cancel' && c.pend[id]) { delete c.pend[id]; try { c.dc.send(JSON.stringify({ t: 'cancel', id })); } catch {} } };
-  c.dc.send(JSON.stringify({ t: 'req', id, method: m.method, path: m.path, headers: m.headers || {}, body: m.body || null }));
+  (c.fila ||= []).push({ id, m, port });
+  c.ativos = c.ativos || 0;
+  port.onmessage = ev => {
+    if (!(ev.data && ev.data.t === 'cancel')) return;
+    const i = c.fila.findIndex(x => x.id === id);
+    if (i >= 0) { c.fila.splice(i, 1); return; }                                  // ainda na fila: nunca chegou a sair
+    if (c.pend && c.pend[id]) { delete c.pend[id]; c.ativos--; try { c.dc.send(JSON.stringify({ t: 'cancel', id })); } catch {} bomba(c); }
+  };
+  bomba(c);
 }
-function tunelResposta(c, texto) {
-  let m; try { m = JSON.parse(texto); } catch { return; }
+function bomba(c) {
+  while (c.ativos < MAX_PEDIDOS && c.fila && c.fila.length && c.dc && c.dc.readyState === 'open') {
+    const { id, m, port } = c.fila.shift();
+    (c.pend ||= {})[id] = port; c.ativos++;
+    (c.info ||= {})[id] = { path: m.path, t: performance.now(), bytes: 0 };
+    if (tid <= 40 || tid % 25 === 0) log('tunnel \u2192 ' + id + ' ' + m.method + ' ' + m.path.slice(0, 70));
+    c.dc.send(JSON.stringify({ t: 'req', id, method: m.method, path: m.path, headers: m.headers || {}, body: m.body || null, bin: true, gz: typeof DecompressionStream === 'function' }));
+  }
+}
+function tunelFim(c, id) {
+  const port = c.pend && c.pend[id]; if (!port) return;
+  port.postMessage({ t: 'done' }); delete c.pend[id]; c.ativos = Math.max(0, c.ativos - 1);
+  const inf = c.info && c.info[id];
+  if (inf) { if (tid <= 40 || performance.now() - inf.t > 2000) log('tunnel \u2190 ' + id + ' ' + inf.path.slice(0, 50) + ' ' + Math.round(inf.bytes / 1024) + ' KB in ' + Math.round(performance.now() - inf.t) + ' ms'); delete c.info[id]; }
+  bomba(c);
+}
+function tunelResposta(c, dados) {
+  if (typeof dados !== 'string') {                                   // frame binario: [tam id][id][ultimo][bytes]
+    const v = new Uint8Array(dados), n = v[0], id = new TextDecoder().decode(v.subarray(1, 1 + n));
+    const port = c.pend && c.pend[id]; if (!port) return;
+    const corpo = v.slice(2 + n);                                      // copia: o buffer da mensagem nao e nosso
+    if (corpo.length) { port.postMessage({ t: 'chunk', buf: corpo.buffer }, [corpo.buffer]); const inf = c.info && c.info[id]; if (inf) inf.bytes += corpo.length; }
+    if (v[1 + n] === 1) tunelFim(c, id);
+    return;
+  }
+  let m; try { m = JSON.parse(dados); } catch { return; }
   if (m.t !== 'res') return;
   const port = c.pend && c.pend[m.id];
   if (!port) { if (c.sonda && m.id === c.sonda.id) sondaResposta(c, m); return; }
   if (m.seq === 0) port.postMessage({ t: 'head', status: m.status, headers: m.headers || {} });
-  if (m.body) { const bin = atob(m.body), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); port.postMessage({ t: 'chunk', buf: u.buffer }, [u.buffer]); }
-  const inf = c.info && c.info[m.id]; if (inf) inf.bytes += (m.body || '').length * 0.75;
-  if (m.last) {
-    port.postMessage({ t: 'done' }); delete c.pend[m.id];
-    if (inf) { if (tid <= 40 || performance.now() - inf.t > 2000) log('tunnel ← ' + m.id + ' ' + inf.path.slice(0, 50) + ' ' + Math.round(inf.bytes / 1024) + ' KB in ' + Math.round(performance.now() - inf.t) + ' ms'); delete c.info[m.id]; }
-  }
+  if (m.body) { const bin = atob(m.body), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); port.postMessage({ t: 'chunk', buf: u.buffer }, [u.buffer]); const inf = c.info && c.info[m.id]; if (inf) inf.bytes += u.length; }
+  if (m.last) tunelFim(c, m.id);
 }
-function tunelFecha(c, msg) { for (const p of Object.values(c.pend || {})) { try { p.postMessage({ t: 'err', msg }); } catch {} } c.pend = {}; }
+function tunelFecha(c, msg) { for (const p of Object.values(c.pend || {})) { try { p.postMessage({ t: 'err', msg }); } catch {} } for (const x of c.fila || []) { try { x.port.postMessage({ t: 'err', msg }); } catch {} } c.pend = {}; c.fila = []; c.ativos = 0; }
 if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', ev => {
   if (ev.data && ev.data.t === 'log') { log('sw: ' + ev.data.msg); return; }
   if (ev.data && ev.data.t === 'fetch' && conn && ev.ports[0]) tunelPede(conn, ev.data, ev.ports[0]);

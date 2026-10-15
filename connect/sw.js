@@ -2,12 +2,12 @@
 // em /connect/mac/<device>/ e CADA pedido desse iframe (HTML, JS, CSS, imagens, audio com Range, XHR — mesmo os com URL
 // absoluta tipo /static/x.js) passa por aqui e vai, pelo data channel, ao Studio do Mac. O canal vive na pagina /connect/
 // (o service worker nao tem WebRTC): fala-se com ela por MessageChannel e a resposta volta aos bocados.
-const V = 'fork-p2p-shell-v5';
+const V = 'fork-p2p-shell-v6';
 const BASE = new URL(self.registration.scope).pathname;            // /connect/
 const CASCA = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
                'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => Promise.all(CASCA.map(u => c.add(u).catch(() => {})))).then(() => self.skipWaiting())); });
-self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== CACHE_MAC).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 
 const b64 = buf => { let s = '', a = new Uint8Array(buf); for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000)); return btoa(s); };
 const PROIBIDOS = /^(host|cookie|origin|referer|connection|content-length|accept-encoding|user-agent|sec-.*|upgrade-insecure-requests|priority)$/i;
@@ -35,7 +35,14 @@ async function conchaCliente() {
 let nPedidos = 0;
 function rel(casca, msg) { try { casca && casca.postMessage({ t: 'log', msg }); } catch {} }
 
+// Os ficheiros de /static/ com versao (?v=<selo>) nao mudam: ficam em cache por Mac (a 2.a abertura nao os pede outra vez).
+const CACHE_MAC = 'fork-mac-static-v1';
+const versionado = (request, d) => request.method === 'GET' && d.path.startsWith('/static/') && /[?&]v=/.test(d.path);
+const chaveCache = d => new Request(location.origin + BASE + 'cache/' + d.id + d.path);
+
 async function tunel(request, d) {
+  const cache = versionado(request, d) ? await caches.open(CACHE_MAC) : null;
+  if (cache) { const guardado = await cache.match(chaveCache(d)); if (guardado) return guardado; }
   const casca = await conchaCliente();
   const n = ++nPedidos;
   if (n <= 30) rel(casca, 'fetch ' + request.method + ' ' + d.path.slice(0, 70) + (casca ? '' : ' (NO shell client)'));
@@ -65,7 +72,15 @@ async function tunel(request, d) {
   const loc = hs.get('location');
   if (loc && loc.startsWith('/')) hs.set('location', BASE + 'mac/' + d.id + loc);      // um redirect para a raiz fica no tunel
   const semCorpo = [101, 204, 205, 304].includes(h.status) || request.method === 'HEAD';
-  return new Response(semCorpo ? null : corpo, { status: h.status, headers: hs });
+  // O Mac comprime texto (gzip) para a ligacao do telemovel ter menos pacotes: aqui descomprime-se.
+  let saida = corpo;
+  if (!semCorpo && hs.get('content-encoding') === 'gzip') {
+    saida = corpo.pipeThrough(new DecompressionStream('gzip'));
+    hs.delete('content-encoding'); hs.delete('content-length');
+  }
+  const r = new Response(semCorpo ? null : saida, { status: h.status, headers: hs });
+  if (cache && h.status === 200) cache.put(chaveCache(d), r.clone()).catch(() => {});
+  return r;
 }
 
 self.addEventListener('fetch', e => {
