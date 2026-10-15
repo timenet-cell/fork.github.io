@@ -2,7 +2,7 @@
 // em /connect/mac/<device>/ e CADA pedido desse iframe (HTML, JS, CSS, imagens, audio com Range, XHR — mesmo os com URL
 // absoluta tipo /static/x.js) passa por aqui e vai, pelo data channel, ao Studio do Mac. O canal vive na pagina /connect/
 // (o service worker nao tem WebRTC): fala-se com ela por MessageChannel e a resposta volta aos bocados.
-const V = 'fork-p2p-shell-v6';
+const V = 'fork-p2p-shell-v8';
 const BASE = new URL(self.registration.scope).pathname;            // /connect/
 const CASCA = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
                'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
@@ -37,12 +37,21 @@ function rel(casca, msg) { try { casca && casca.postMessage({ t: 'log', msg }); 
 
 // Os ficheiros de /static/ com versao (?v=<selo>) nao mudam: ficam em cache por Mac (a 2.a abertura nao os pede outra vez).
 const CACHE_MAC = 'fork-mac-static-v1';
-const versionado = (request, d) => request.method === 'GET' && d.path.startsWith('/static/') && /[?&]v=/.test(d.path);
+const versionado = (request, d) => request.method === 'GET' && (d.path.startsWith('/static/') && /[?&]v=/.test(d.path));
+// A pagina do Studio (/): mostra-se a copia guardada JA e atualiza-se por tras (os ficheiros que ela pede trazem ?v=: mudam sozinhos).
+const paginaInicial = (request, d) => request.method === 'GET' && request.mode === 'navigate' && (d.path === '/' || d.path === '');
 const chaveCache = d => new Request(location.origin + BASE + 'cache/' + d.id + d.path);
 
-async function tunel(request, d) {
-  const cache = versionado(request, d) ? await caches.open(CACHE_MAC) : null;
-  if (cache) { const guardado = await cache.match(chaveCache(d)); if (guardado) return guardado; }
+async function tunel(request, d, semCache) {
+  const swr = !semCache && paginaInicial(request, d);
+  const cache = !semCache && (versionado(request, d) || swr) ? await caches.open(CACHE_MAC) : null;
+  if (cache) {
+    const guardado = await cache.match(chaveCache(d));
+    if (guardado) {
+      if (swr) fetchEmSegundoPlano(request, d, cache);       // atualiza a copia para a proxima vez
+      return guardado;
+    }
+  }
   const casca = await conchaCliente();
   const n = ++nPedidos;
   if (n <= 30) rel(casca, 'fetch ' + request.method + ' ' + d.path.slice(0, 70) + (casca ? '' : ' (NO shell client)'));
@@ -81,6 +90,11 @@ async function tunel(request, d) {
   const r = new Response(semCorpo ? null : saida, { status: h.status, headers: hs });
   if (cache && h.status === 200) cache.put(chaveCache(d), r.clone()).catch(() => {});
   return r;
+}
+
+// Refaz o pedido da pagina inicial e guarda-o (sem ninguem a espera).
+function fetchEmSegundoPlano(request, d, cache) {
+  tunel(new Request(request.url, { method: 'GET' }), d, true).then(r => { if (r && r.status === 200) cache.put(chaveCache(d), r.clone()); }).catch(() => {});
 }
 
 self.addEventListener('fetch', e => {

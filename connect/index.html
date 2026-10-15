@@ -27,6 +27,7 @@ button[disabled]{opacity:.6;cursor:default}
 .hidden{display:none}
 .mac{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:var(--field)}
 .mac span{font-weight:600;overflow:hidden;text-overflow:ellipsis}.mac button{width:auto;margin:0;padding:8px 14px}
+p.vel{margin:8px 0 0}.vel button{width:auto;margin:0 8px 0 0;padding:6px 12px;font-size:12px}
 button.sec{background:none;color:var(--red);font-weight:500;margin-top:8px;padding:8px}
 .hint{margin-top:16px;padding:12px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted)}
 .hint button{margin-top:8px}
@@ -52,7 +53,7 @@ body.mac #macframe{display:block;position:fixed;top:calc(34px + env(safe-area-in
   <div class="msg" id="st"></div>
   <button class="sec hidden" id="retry">Try again</button>
   <div class="hint hidden" id="hint"></div>
-  <details id="det"><summary>Details</summary><pre id="dbg"></pre><pre id="log"></pre></details>
+  <details id="det"><summary>Details</summary><p class="vel"><button id="vel" type="button">Speed test</button> <span id="velr">Downloads 20 MB from your Mac.</span></p><pre id="dbg"></pre><pre id="log"></pre></details>
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -76,7 +77,7 @@ const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $(
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
 let swErro = '';
-const BUILD = '2026-10-15g-tunnel';
+const BUILD = '2026-10-15i-speed';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -188,7 +189,10 @@ async function connect(hostId, reintento) {
       falhou(c.aberto ? 'The connection to ' + nome + ' dropped.' : 'Couldn\u2019t connect to ' + nome + '. Your network may block direct connections.');
     }
   };
-  dc.onopen = () => { c.aberto = true; ls.set('fork-p2p-last', hostId); log('data channel open'); sondaEAbre(c, nome); };
+  dc.onclose = () => log('dc closed (pc ' + pc.connectionState + ', ice ' + pc.iceConnectionState + ')');
+  dc.onerror = e => log('dc error: ' + ((e.error && e.error.message) || 'unknown'));
+  pc.oniceconnectionstatechange = () => log('ice: ' + pc.iceConnectionState);
+  dc.onopen = () => { c.aberto = true; c.pingT = setInterval(() => { try { if (dc.readyState === 'open') dc.send('{"t":"ping"}'); } catch {} }, 5000); caminho(pc); ls.set('fork-p2p-last', hostId); log('data channel open'); sondaEAbre(c, nome); };
   dc.onmessage = e => tunelResposta(c, e.data);
   msg('Connecting to ' + nome + '\u2026');
   const offer = await pc.createOffer(); await pc.setLocalDescription(offer);
@@ -250,7 +254,36 @@ function tunelResposta(c, dados) {
   if (m.body) { const bin = atob(m.body), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); port.postMessage({ t: 'chunk', buf: u.buffer }, [u.buffer]); const inf = c.info && c.info[m.id]; if (inf) inf.bytes += u.length; }
   if (m.last) tunelFim(c, m.id);
 }
-function tunelFecha(c, msg) { for (const p of Object.values(c.pend || {})) { try { p.postMessage({ t: 'err', msg }); } catch {} } for (const x of c.fila || []) { try { x.port.postMessage({ t: 'err', msg }); } catch {} } c.pend = {}; c.fila = []; c.ativos = 0; }
+// Que caminho a ligacao usa (direto / relay) e o RTT medido: explica lentidao e quedas.
+async function caminho(pc) {
+  try {
+    const st = await pc.getStats(); let par = null; const locais = {}, remotos = {};
+    st.forEach(r => { if (r.type === 'local-candidate') locais[r.id] = r; if (r.type === 'remote-candidate') remotos[r.id] = r; });
+    st.forEach(r => { if (r.type === 'candidate-pair' && r.nominated && r.state === 'succeeded') par = r; });
+    if (par) log('path: ' + (locais[par.localCandidateId] || {}).candidateType + ' <-> ' + (remotos[par.remoteCandidateId] || {}).candidateType + ', rtt ' + Math.round((par.currentRoundTripTime || 0) * 1000) + ' ms');
+  } catch (e) { log('stats: ' + e); }
+}
+// Teste de velocidade (Details): 20 MB do proprio anfitriao pelo canal (sem o service worker nem o Studio) → Mbit/s.
+async function testeVelocidade() {
+  const r = $('velr');
+  if (!conn || !conn.dc || conn.dc.readyState !== 'open') { r.textContent = 'Connect to your Mac first.'; return; }
+  $('vel').disabled = true; r.textContent = 'Downloading 20 MB\u2026';
+  const t0 = performance.now(); let bytes = 0, primeiro = 0;
+  const erro = await new Promise(fim => tunelPede(conn, { method: 'GET', path: '/__fork/speedtest?mb=20' }, {
+    postMessage(m) {
+      if (m.t === 'head' && m.status !== 200) fim('Your Mac needs the latest Fork Studio for the speed test (status ' + m.status + ').');
+      else if (m.t === 'chunk') { bytes += m.buf.byteLength; primeiro ||= performance.now(); }
+      else if (m.t === 'done') fim(null);
+      else if (m.t === 'err') fim(m.msg || 'The connection failed.');
+    } }));
+  const s = (performance.now() - t0) / 1000;
+  $('vel').disabled = false;
+  if (erro) { r.textContent = erro; log('speed test: ' + erro); return; }
+  const txt = (bytes / 1048576).toFixed(1) + ' MB in ' + s.toFixed(1) + ' s = ' + (bytes * 8 / s / 1e6).toFixed(1) + ' Mbit/s (first byte ' + Math.round(primeiro - t0) + ' ms)';
+  r.textContent = txt; log('speed test: ' + txt);
+}
+$('vel').onclick = testeVelocidade;
+function tunelFecha(c, msg) { clearInterval(c.pingT); for (const p of Object.values(c.pend || {})) { try { p.postMessage({ t: 'err', msg }); } catch {} } for (const x of c.fila || []) { try { x.port.postMessage({ t: 'err', msg }); } catch {} } c.pend = {}; c.fila = []; c.ativos = 0; }
 if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', ev => {
   if (ev.data && ev.data.t === 'log') { log('sw: ' + ev.data.msg); return; }
   if (ev.data && ev.data.t === 'fetch' && conn && ev.ports[0]) tunelPede(conn, ev.data, ev.ports[0]);
