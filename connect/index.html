@@ -27,7 +27,7 @@ details{margin-top:18px;color:var(--muted);font-size:12px}pre{white-space:pre-wr
   <h1>Fork P2P</h1>
   <p class="sub">Reach your Mac from anywhere.</p>
   <div id="cfg">
-    <label for="email">Email</label><input id="email" type="email" autocomplete="username" autocapitalize="off">
+    <label for="email">Username or email</label><input id="email" type="text" autocomplete="username" autocapitalize="off" spellcheck="false">
     <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
     <button id="in">Sign in</button>
   </div>
@@ -50,7 +50,18 @@ let sb, channel, uid, hosts = {}, conn = null;
 $('in').onclick = async () => {
   ls.set('fork-p2p-email', $('email').value.trim());
   sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
-  const { data, error } = await sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('pw').value });
+  const login = $('email').value.trim(), password = $('pw').value;
+  let data, error;
+  if (login.includes('@')) {
+    ({ data, error } = await sb.auth.signInWithPassword({ email: login, password }));
+  } else {
+    // A username: a funcao `sign-in` procura o email do lado do servidor (nunca o devolve) e devolve a sessao.
+    const r = await fetch(SUPABASE_URL + '/functions/v1/sign-in', { method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY }, body: JSON.stringify({ login, password }) });
+    const out = await r.json().catch(() => ({}));
+    if (!r.ok) error = { message: out.error === 'rate_limited' ? 'Too many attempts. Try again in a few minutes.' : 'Username or password is incorrect.' };
+    else ({ data, error } = await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token }));
+  }
   $('pw').value = '';
   if (error) { $('st').className = 'msg err'; $('st').textContent = error.message; return log('sign-in: ' + error.message); }
   uid = data.user.id; sb.realtime.setAuth(data.session.access_token);
