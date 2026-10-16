@@ -77,7 +77,7 @@ const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $(
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
 let swErro = '';
-const BUILD = '2026-10-16k-cool';
+const BUILD = '2026-10-16l-views';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -392,6 +392,30 @@ addEventListener('offline', () => msg('You\u2019re offline. Your studio is unrea
 })();
 </script>
 
+<script>
+// ── visitas (forkgate.io/admin/): uma linha por pagina e uma por "Join The Beta" ──────────────────────────────────────
+// Sem IP, cookies nem identificadores: o caminho, so o anfitriao de onde veio, os utm_*, telemovel/computador, o pais que a
+// lingua do browser declara (pt-PT -> PT) e o fuso. Robots e browsers automatizados nao contam. Nunca atrasa nem parte
+// a pagina (falhas em silencio).
+const ROBO = /bot|crawl|spider|slurp|preview|facebookexternalhit|whatsapp|telegram|discord|slack|twitter|linkedin|embedly|headless|lighthouse|pingdom|curl|wget|python|go-http|java\//i;
+function visita(event) {
+  try {
+    // so conta no site publicado (nunca em testes locais nem pre-visualizacoes) e nunca robots
+    if (!/(^|\.)forkgate\.io$/.test(location.hostname) || ROBO.test(navigator.userAgent || '') || navigator.webdriver) return;
+    const q = new URLSearchParams(location.search), utm = k => (q.get(k) || '').trim().slice(0, 100) || null;
+    let referrer_host = null;
+    try { const h = document.referrer && new URL(document.referrer).hostname.toLowerCase(); if (h && h !== location.hostname && /^[a-z0-9.-]+$/.test(h)) referrer_host = h.slice(0, 253); } catch {}
+    const ua = navigator.userAgent || '';
+    const device = /Mobi|Android|iPhone|iPad|iPod/i.test(ua) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua)) ? 'mobile' : 'desktop';
+    const regiao = (navigator.language || '').split('-')[1] || '';
+    let tz = null; try { tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').slice(0, 64) || null; } catch {}
+    sb.from('page_views').insert({ event, path: (location.pathname || '/').slice(0, 200), referrer_host,
+      utm_source: utm('utm_source'), utm_medium: utm('utm_medium'), utm_campaign: utm('utm_campaign'), device,
+      country: /^[a-z]{2}$/i.test(regiao) ? regiao.toUpperCase() : null, tz }).then(() => {}, () => {});
+  } catch {}
+}
+visita('view');
+</script>
 <script>
 // Painel de diagnostico (em "Details"): estado do canal, presenca tal como chega, ultimo erro.
 setInterval(() => {

@@ -2,7 +2,7 @@
 // em /connect/mac/<device>/ e CADA pedido desse iframe (HTML, JS, CSS, imagens, audio com Range, XHR — mesmo os com URL
 // absoluta tipo /static/x.js) passa por aqui e vai, pelo data channel, ao Studio do Mac. O canal vive na pagina /connect/
 // (o service worker nao tem WebRTC): fala-se com ela por MessageChannel e a resposta volta aos bocados.
-const V = 'fork-p2p-shell-v10';
+const V = 'fork-p2p-shell-v11';
 const BASE = new URL(self.registration.scope).pathname;            // /connect/
 const CASCA = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
                'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
