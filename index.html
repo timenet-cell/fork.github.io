@@ -35,29 +35,27 @@ h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;ma
 .panel{position:relative;flex:1;margin:24px max(16px,env(safe-area-inset-left)) max(24px,env(safe-area-inset-bottom));border:1px solid var(--line);border-radius:18px;overflow:hidden;
   background-color:var(--panel);
   background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:32px 32px;background-position:-1px -1px;min-height:860px}
+  background-size:32px 32px;background-position:-1px -1px;min-height:940px}
 #net{position:absolute;inset:0;width:100%;height:100%;display:block}
 .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:20px;pointer-events:none}
 .center>*{pointer-events:auto}
 
 .card{width:380px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 28px 24px;box-shadow:0 18px 50px rgba(20,40,70,.08)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:18px}
-.tabs button{all:unset;text-align:center;padding:9px 0;border-radius:9px;font:600 14px/1.2 var(--sans);color:var(--muted);cursor:pointer}
-.tabs button[aria-selected="true"]{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.tabs button:focus-visible{outline:2px solid var(--red);outline-offset:1px}
 h2{font:650 20px/1.2 var(--display);letter-spacing:-.01em;margin:0 0 4px}
 .sub{color:var(--muted);margin:0 0 6px;font-size:14px}
 label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
 input{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--field);color:var(--text);outline:none}
-input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 18%,transparent)}
-.hint{font-size:12px;color:var(--faint);margin:6px 0 0}
+select{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--field);color:var(--text);outline:none;-webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+select:invalid{color:var(--faint)}
+select:focus,input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 18%,transparent)}
 .btn{display:block;width:100%;font:600 15px/1.2 var(--sans);padding:12px 14px;border:0;border-radius:12px;background:var(--red);color:var(--red-ink);margin-top:18px;cursor:pointer;text-align:center;text-decoration:none}
 .btn[disabled]{opacity:.6;cursor:default}
-.link{all:unset;display:block;margin:12px auto 0;color:var(--red);font-size:14px;font-weight:500;cursor:pointer;text-align:center}
-.link:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:4px}
 .msg{min-height:20px;margin-top:12px;font-size:14px;text-align:center;color:var(--muted)}
 .msg.err{color:var(--err)}
-.who{font-weight:600;word-break:break-all;color:var(--text)}
+.opt{color:var(--faint);font-size:12px;margin-left:4px}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.done{font-size:16px;margin:10px 0 4px;color:var(--text)}
+#v-done:focus{outline:none}
 
 .dl{width:220px;align-self:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;box-shadow:0 10px 30px rgba(20,40,70,.05)}
 .dl h3{font:650 15px/1.2 var(--display);margin:0}
@@ -114,66 +112,34 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
   <svg id="net" role="img" aria-label="ForkStudio, ForkManager, ForkLabels, ForkMusic and ForkEvents with their features"></svg>
   <div class="center">
     <div class="card" id="card">
-      <div class="tabs" role="tablist" id="tabs">
-        <button role="tab" id="t-in" aria-selected="true" aria-controls="v-login">Sign in</button>
-        <button role="tab" id="t-up" aria-selected="false" aria-controls="v-signup">Create account</button>
-      </div>
-
-      <section id="v-login" role="tabpanel" aria-labelledby="t-in">
-        <h2>Sign in to Fork</h2>
-        <p class="sub">With your username or email.</p>
-        <form id="f-in" autocomplete="on">
-          <label for="login">Username or email</label>
-          <input id="login" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="username" required>
-          <div id="pass-box">
-            <label for="password">Password</label>
-            <input id="password" type="password" autocomplete="current-password">
-          </div>
-          <div id="code-box" class="hidden">
-            <label for="code">Code from your email</label>
-            <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8">
-          </div>
-          <button class="btn" id="go" type="submit">Sign in</button>
+      <section id="v-beta">
+        <h2>Private beta</h2>
+        <p class="sub">Fork is opening to a small circle of engineers, producers, labels, agents and event teams. Invitations go out in small batches.</p>
+        <form id="f-beta" autocomplete="on" novalidate>
+          <label for="b-name">Name</label>
+          <input id="b-name" type="text" autocomplete="name" maxlength="100" required>
+          <label for="b-email">Email</label>
+          <input id="b-email" type="email" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="email" maxlength="254" required>
+          <label for="b-role">I work as</label>
+          <select id="b-role" required>
+            <option value="" selected disabled>Choose one</option>
+            <option value="engineer">Engineer</option>
+            <option value="producer">Producer</option>
+            <option value="label">Label</option>
+            <option value="agent">Agent</option>
+            <option value="events">Events</option>
+            <option value="other">Other</option>
+          </select>
+          <label for="b-link">Where can we hear your work? <span class="opt">Optional</span></label>
+          <input id="b-link" type="url" inputmode="url" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="500" placeholder="A link">
+          <div class="hp" aria-hidden="true"><label for="b-site">Website</label><input id="b-site" type="text" tabindex="-1" autocomplete="off"></div>
+          <button class="btn" id="b-go" type="submit">Request an invitation</button>
         </form>
-        <button id="toggle" class="link" type="button">Email me a sign-in code instead</button>
-        <div id="msg" class="msg" role="status" aria-live="polite"></div>
+        <div id="b-msg" class="msg" role="status" aria-live="polite"></div>
       </section>
-
-      <section id="v-signup" role="tabpanel" aria-labelledby="t-up" class="hidden">
-        <h2>Create your Fork account</h2>
-        <form id="f-up" autocomplete="on" novalidate>
-          <label for="u-email">Email</label>
-          <input id="u-email" type="email" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="email" required>
-          <label for="u-pass">Password</label>
-          <input id="u-pass" type="password" autocomplete="new-password" minlength="8" required>
-          <p class="hint">At least 8 characters.</p>
-          <label for="u-name">Username</label>
-          <input id="u-name" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off" maxlength="30" placeholder="e.g. yourname" required>
-          <p class="hint">3–30 characters: a–z, 0–9, dot, dash or underscore.</p>
-          <button class="btn" id="up-go" type="submit">Create account</button>
-        </form>
-        <form id="f-confirm" class="hidden" autocomplete="on">
-          <p class="sub">We sent a code to <span id="c-email" class="who"></span>.</p>
-          <label for="c-code">Code from your email</label>
-          <input id="c-code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required>
-          <button class="btn" id="c-go" type="submit">Confirm</button>
-          <button class="link" id="c-resend" type="button">Send the code again</button>
-        </form>
-        <div id="umsg2" class="msg" role="status" aria-live="polite"></div>
-      </section>
-
-      <section id="v-in" class="hidden">
-        <h2>You’re signed in</h2>
-        <p class="sub">as <span id="who" class="who"></span></p>
-        <form id="f-user" class="hidden">
-          <label for="uname">Choose your username</label>
-          <input id="uname" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="30" placeholder="e.g. yourname">
-          <p class="hint">3–30 characters: a–z, 0–9, dot, dash or underscore. You can then sign in with it.</p>
-          <button class="btn" type="submit">Save username</button>
-          <div id="umsg" class="msg" role="status" aria-live="polite"></div>
-        </form>
-        <a class="btn" href="connect/">Open Fork</a>
-        <button id="out" class="link" type="button">Sign out</button>
+      <section id="v-done" class="hidden" tabindex="-1">
+        <h2>Private beta</h2>
+        <p class="done">You’re on the list. We’ll be in touch.</p>
       </section>
     </div>
 
@@ -313,143 +279,47 @@ new ResizeObserver(() => { clearTimeout(espera); espera = setTimeout(desenha, 60
 desenha();
 if (!calmo) requestAnimationFrame(anima);
 
-// ── a conta ────────────────────────────────────────────────────────────────────────────────────────────────────────
+// ── o pedido de convite (beta privada) ───────────────────────────────────────────────────────────────────────────────
+// So insere em `public.beta_requests` (RLS: o anon so insere; um email repetido e aceite em silencio, sem erro).
 const SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";  // publishable key: public by design; access is enforced by Supabase row-level security
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
 const $ = id => document.getElementById(id);
-const USERNAME = /^[a-z0-9._-]{3,30}$/;
-let codeMode = false, codeSent = false, emailPendente = '';
+const ROLES = ['engineer', 'producer', 'label', 'agent', 'events', 'other'];
 
-function diz(id, t, err) { const m = $(id); m.textContent = t || ''; m.classList.toggle('err', !!err); }
-function separador(qual) {
-  const up = qual === 'up';
-  $('t-in').setAttribute('aria-selected', String(!up));
-  $('t-up').setAttribute('aria-selected', String(up));
-  $('v-login').classList.toggle('hidden', up);
-  $('v-signup').classList.toggle('hidden', !up);
+function diz(t) { const m = $('b-msg'); m.textContent = t || ''; m.classList.toggle('err', !!t); }
+function feito() {
+  $('v-beta').classList.add('hidden');
+  $('v-done').classList.remove('hidden');
+  $('v-done').focus();
 }
-$('t-in').onclick = () => separador('in');
-$('t-up').onclick = () => separador('up');
-$('tabs').addEventListener('keydown', e => {
-  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-  const up = $('t-in').getAttribute('aria-selected') === 'true';
-  separador(up ? 'up' : 'in'); (up ? $('t-up') : $('t-in')).focus();
-});
-
-function mostra(user) {
-  $('tabs').classList.toggle('hidden', !!user);
-  $('v-login').classList.toggle('hidden', !!user || $('t-up').getAttribute('aria-selected') === 'true');
-  $('v-signup').classList.toggle('hidden', !!user || $('t-in').getAttribute('aria-selected') === 'true');
-  $('v-in').classList.toggle('hidden', !user);
-  if (user) { $('who').textContent = user.email || ''; vePerfil(user); }
+// Um link sem esquema ("soundcloud.com/x") leva https://; outra coisa que nao http(s) nao serve.
+function link(v) {
+  v = v.trim();
+  if (!v) return null;
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(v)) v = 'https://' + v;
+  try { const u = new URL(v); return /^https?:$/.test(u.protocol) && u.hostname.includes('.') && v.length <= 500 ? u.href : undefined; }
+  catch { return undefined; }
 }
-async function vePerfil(user) {
-  const { data } = await sb.from('profiles').select('username').eq('id', user.id).maybeSingle();
-  const u = data && data.username;
-  if (u) { $('who').textContent = u; $('f-user').classList.add('hidden'); }
-  else {
-    $('f-user').classList.remove('hidden');
-    const pedido = user.user_metadata && user.user_metadata.username;
-    if (pedido) { $('uname').value = pedido; diz('umsg', 'That username wasn’t available. Choose another.', true); }
-  }
-}
-const erroUsername = m => /taken/.test(m) ? 'That username is taken.' : /reserved/.test(m) ? 'That username isn’t available.'
-  : /invalid/.test(m) ? 'Use 3–30 characters: a–z, 0–9, dot, dash or underscore.' : m;
-$('f-user').onsubmit = async e => {
+$('f-beta').onsubmit = async e => {
   e.preventDefault();
-  diz('umsg', '');
-  const { data, error } = await sb.rpc('set_username', { p_username: $('uname').value.trim().toLowerCase() });
-  if (error) return diz('umsg', erroUsername(error.message), true);
-  $('who').textContent = data; $('f-user').classList.add('hidden');
-};
-
-// Entrar: username pela funcao `sign-in` (a palavra-passe nunca fica a saber se o username existe), email direto, ou codigo.
-$('toggle').onclick = () => {
-  codeMode = !codeMode; codeSent = false;
-  $('pass-box').classList.toggle('hidden', codeMode);
-  $('code-box').classList.add('hidden');
-  $('go').textContent = codeMode ? 'Email me a code' : 'Sign in';
-  $('toggle').textContent = codeMode ? 'Use my password instead' : 'Email me a sign-in code instead';
-  diz('msg', '');
-};
-$('f-in').onsubmit = async e => {
-  e.preventDefault();
-  const login = $('login').value.trim(); if (!login) return;
-  $('go').disabled = true; diz('msg', '');
+  diz('');
+  // isca: so um robo preenche o campo escondido — diz-se que sim e nao se envia nada
+  if ($('b-site').value) return feito();
+  const name = $('b-name').value.trim(), email = $('b-email').value.trim(), role = $('b-role').value, l = link($('b-link').value);
+  if (!name || name.length > 100) return diz('Type your name.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return diz('Type a valid email address.');
+  if (!ROLES.includes(role)) return diz('Choose what you work as.');
+  if (l === undefined) return diz('That link doesn’t look right. Use a web address, or leave it empty.');
+  $('b-go').disabled = true;
   try {
-    if (!codeMode && !login.includes('@')) {
-      const r = await fetch(SUPABASE_URL + '/functions/v1/sign-in', { method: 'POST',
-        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
-        body: JSON.stringify({ login, password: $('password').value }) });
-      const out = await r.json().catch(() => ({}));
-      if (r.status === 429 || out.error === 'rate_limited') throw new Error('Too many attempts. Try again in a few minutes.');
-      if (!r.ok) throw new Error('Username or password is incorrect.');
-      const { data, error } = await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token });
-      if (error) throw error; mostra(data.user);
-    } else if (!codeMode) {
-      const { data, error } = await sb.auth.signInWithPassword({ email: login, password: $('password').value });
-      if (error) throw error; mostra(data.user);
-    } else if (!codeSent) {
-      if (!login.includes('@')) throw new Error('Sign-in codes go to your email: type your email address.');
-      const { error } = await sb.auth.signInWithOtp({ email: login, options: { shouldCreateUser: false } });
-      if (error) throw error;
-      codeSent = true; $('code-box').classList.remove('hidden'); $('go').textContent = 'Sign in'; $('code').focus();
-      diz('msg', 'Check your email for the code.');
-    } else {
-      const { data, error } = await sb.auth.verifyOtp({ email: login, token: $('code').value.trim(), type: 'email' });
-      if (error) throw error; mostra(data.user);
-    }
-  } catch (err) {
-    diz('msg', err.message === 'Invalid login credentials' ? 'Username or password is incorrect.' : (err.message || 'Could not sign in.'), true);
-  } finally { $('go').disabled = false; }
-};
-
-// Criar conta: email + palavra-passe + username (o gatilho da base guarda-o se estiver livre), depois o codigo do email.
-$('u-name').addEventListener('input', e => { const v = e.target.value.toLowerCase(); if (v !== e.target.value) e.target.value = v; });
-$('f-up').onsubmit = async e => {
-  e.preventDefault();
-  const email = $('u-email').value.trim(), password = $('u-pass').value, username = $('u-name').value.trim().toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return diz('umsg2', 'Type a valid email address.', true);
-  if ([...password].length < 8) return diz('umsg2', 'Use at least 8 characters for your password.', true);
-  if (!USERNAME.test(username)) return diz('umsg2', 'Usernames are 3–30 characters: a–z, 0–9, dot, dash or underscore.', true);
-  $('up-go').disabled = true; diz('umsg2', '');
-  try {
-    const { data, error } = await sb.auth.signUp({ email, password, options: { data: { username } } });
+    const { error } = await sb.from('beta_requests').insert({ name, email, role, link: l, user_agent: navigator.userAgent.slice(0, 400) });
     if (error) throw error;
-    // Email ja registado: o Supabase devolve um utilizador sem identidades (para nao revelar contas).
-    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0)
-      throw new Error('An account with this email already exists. Sign in instead.');
-    if (data.session) return mostra(data.user);   // projeto sem confirmacao por email
-    emailPendente = email;
-    $('c-email').textContent = email;
-    $('f-up').classList.add('hidden'); $('f-confirm').classList.remove('hidden'); $('c-code').focus();
-    diz('umsg2', 'Check your email for the code.');
+    feito();
   } catch (err) {
-    const m = err.message || '';
-    diz('umsg2', /rate|too many/i.test(m) ? 'Too many attempts. Wait a minute and try again.'
-      : /password/i.test(m) && /least|weak|short/i.test(m) ? 'That password is too weak. Use at least 8 characters.' : (m || 'Could not create the account.'), true);
-  } finally { $('up-go').disabled = false; }
+    diz(/fetch|network/i.test(err.message || '') ? 'You seem to be offline. Try again in a moment.' : 'Something went wrong. Try again in a moment.');
+  } finally { $('b-go').disabled = false; }
 };
-$('f-confirm').onsubmit = async e => {
-  e.preventDefault();
-  $('c-go').disabled = true; diz('umsg2', '');
-  try {
-    const { data, error } = await sb.auth.verifyOtp({ email: emailPendente, token: $('c-code').value.trim(), type: 'signup' });
-    if (error) throw error;
-    $('f-confirm').classList.add('hidden'); $('f-up').classList.remove('hidden'); diz('umsg2', '');
-    mostra(data.user);
-  } catch (err) {
-    diz('umsg2', /expired|invalid/i.test(err.message || '') ? 'That code is wrong or has expired.' : (err.message || 'Could not confirm.'), true);
-  } finally { $('c-go').disabled = false; }
-};
-$('c-resend').onclick = async () => {
-  const { error } = await sb.auth.resend({ type: 'signup', email: emailPendente });
-  diz('umsg2', error ? (error.message || 'Could not send the code.') : 'A new code is on its way.', !!error);
-};
-
-$('out').onclick = async () => { await sb.auth.signOut(); mostra(null); diz('msg', ''); };
-sb.auth.getSession().then(({ data }) => mostra(data.session && data.session.user));
 </script>
 </body>
 </html>
