@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f6f1e7">
+<meta name="theme-color" content="#EEF3F8">
 <meta name="color-scheme" content="light">
 <meta name="robots" content="noindex">
 <title>Fork</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f6f1e7'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%23e0312a' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EEF3F8'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%23e0312a' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <style>
 :root{
-  --bg:#f6f1e7;--panel:#f9f5ec;--card:#fffdf8;--text:#1d1b18;--muted:#6f6a62;--faint:#a39c90;--line:#e6dfd2;--grid:#ece5d7;
+  --bg:#EEF3F8;--panel:#F3F7FB;--card:#F8FAFC;--text:#141A22;--muted:#5B6675;--faint:#8A96A5;--line:#DCE4EC;--grid:#DCE5EE;
   --red:#e0312a;--red-ink:#fff;--field:#fff;--err:#b3261e;
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
@@ -40,7 +40,7 @@ h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;ma
 .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:20px;pointer-events:none}
 .center>*{pointer-events:auto}
 
-.card{width:380px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 28px 24px;box-shadow:0 18px 50px rgba(60,40,10,.08)}
+.card{width:380px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 28px 24px;box-shadow:0 18px 50px rgba(20,40,70,.08)}
 .tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:18px}
 .tabs button{all:unset;text-align:center;padding:9px 0;border-radius:9px;font:600 14px/1.2 var(--sans);color:var(--muted);cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
@@ -59,16 +59,16 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .msg.err{color:var(--err)}
 .who{font-weight:600;word-break:break-all;color:var(--text)}
 
-.dl{width:220px;align-self:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;box-shadow:0 10px 30px rgba(60,40,10,.05)}
+.dl{width:220px;align-self:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;box-shadow:0 10px 30px rgba(20,40,70,.05)}
 .dl h3{font:650 15px/1.2 var(--display);margin:0}
 .dl ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
 .dl li{font-size:14px;color:var(--faint);padding:8px 10px;border:1px dashed var(--line);border-radius:10px}
 
 
 /* o grafo */
-.lk{stroke:#d5ccbb;stroke-width:1}
-.lk.hub{stroke:#cfc5b2;stroke-dasharray:3 4}
-.nd{fill:var(--card);stroke:#b9b0a1;stroke-width:1.2}
+.lk{stroke:#C5D1DD;stroke-width:1}
+.lk.hub{stroke:#B6C3D1;stroke-dasharray:3 4}
+.nd{fill:var(--card);stroke:#9AA8B8;stroke-width:1.2}
 .an{fill:var(--text)}
 .ctr{fill:var(--red)}
 .nl{font:500 11px var(--mono);fill:var(--muted)}
@@ -100,7 +100,7 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 <body>
 <header class="bar">
   <a class="logo" href="./" aria-label="Fork home">
-    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#efe7d6"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="#e0312a" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="#e0312a" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="#e0312a"/></svg>
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#DCE5EE"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="#e0312a" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="#e0312a" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="#e0312a"/></svg>
     Fork
   </a>
 </header>
