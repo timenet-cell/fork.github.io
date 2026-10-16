@@ -48,15 +48,16 @@ h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;ma
 .go{display:block;width:100%;margin-top:10px;font:600 13px/1 var(--sans);padding:9px 11px;border:0;border-radius:9px;background:var(--red);color:var(--red-ink);cursor:pointer;white-space:nowrap}
 .go[disabled]{opacity:.6;cursor:default}
 .go:focus-visible{outline:2px solid var(--red);outline-offset:2px}
-.chips{border:0;margin:9px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+.chips{border:0;margin:9px 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.chips .sep{width:1px;height:16px;background:var(--line);margin:0 2px}
 .chips legend{font-size:11px;color:var(--faint);padding:0;margin:0 0 5px}
 .chips label{position:relative}
 .chips input{position:absolute;opacity:0;width:1px;height:1px}
-.chips span{display:inline-block;font:500 11px/1 var(--sans);color:var(--muted);padding:4px 7px;border:1px solid var(--line);border-radius:999px;background:var(--field);cursor:pointer;user-select:none}
-.chips span:hover{border-color:var(--faint)}
+.chips label span{display:inline-block;font:500 11px/1 var(--sans);color:var(--muted);padding:4px 7px;border:1px solid var(--line);border-radius:999px;background:var(--field);cursor:pointer;user-select:none}
+.chips label span:hover{border-color:var(--faint)}
 /* escolhido: cheio, a vermelho, texto branco — escolhem-se varios (checkboxes) */
-.chips input:checked+span{border-color:var(--red);color:var(--red-ink);background:var(--red)}
-.chips input:focus-visible+span{box-shadow:0 0 0 2px color-mix(in srgb,var(--red) 25%,transparent)}
+.chips label input:checked+span{border-color:var(--red);color:var(--red-ink);background:var(--red)}
+.chips label input:focus-visible+span{box-shadow:0 0 0 2px color-mix(in srgb,var(--red) 25%,transparent)}
 .done{font-size:14px;font-weight:600;color:var(--text);margin:2px 0;padding:7px 0}
 .done:focus{outline:none}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -124,6 +125,7 @@ h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;ma
           <label><input type="checkbox" name="plat" value="macos"><span>macOS</span></label>
           <label><input type="checkbox" name="plat" value="windows"><span>Windows</span></label>
           <label><input type="checkbox" name="plat" value="linux"><span>Linux</span></label>
+          <span class="sep" aria-hidden="true"></span>
           <label><input type="checkbox" name="plat" value="ios"><span>iOS</span></label>
           <label><input type="checkbox" name="plat" value="android"><span>Android</span></label>
         </fieldset>
@@ -274,6 +276,17 @@ const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";  // publi
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
 const $ = id => document.getElementById(id);
 const PLATS = ['macos', 'windows', 'linux', 'ios', 'android'];
+// No maximo UM computador e UM telemovel: escolher outro do mesmo grupo troca o anterior; tocar no escolhido limpa-o.
+const GRUPO = { macos: 'desktop', windows: 'desktop', linux: 'desktop', ios: 'mobile', android: 'mobile' };
+document.querySelectorAll('input[name="plat"]').forEach(c => c.addEventListener('change', () => {
+  if (!c.checked) return;
+  document.querySelectorAll('input[name="plat"]').forEach(o => { if (o !== c && GRUPO[o.value] === GRUPO[c.value]) o.checked = false; });
+}));
+function plataformas() {
+  const visto = {};
+  return [...document.querySelectorAll('input[name="plat"]:checked')].map(c => c.value)
+    .filter(v => PLATS.includes(v) && !visto[GRUPO[v]] && (visto[GRUPO[v]] = true));
+}
 
 function diz(t) { $('b-msg').textContent = t || ''; }
 function feito() {
@@ -291,7 +304,7 @@ $('f-beta').onsubmit = async e => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return diz('Type a valid email address.');
   $('b-go').disabled = true;
   try {
-    const platforms = [...document.querySelectorAll('input[name="plat"]:checked')].map(c => c.value).filter(v => PLATS.includes(v));
+    const platforms = plataformas();
     const { error } = await sb.from('beta_requests').insert({ email, platforms, user_agent: navigator.userAgent.slice(0, 400) });
     if (error) throw error;
     feito();
