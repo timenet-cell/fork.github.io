@@ -27,7 +27,7 @@ button[disabled]{opacity:.6;cursor:default}
 .hidden{display:none}
 .mac{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:var(--field)}
 .mac span{font-weight:600;overflow:hidden;text-overflow:ellipsis}.mac button{width:auto;margin:0;padding:8px 14px}
-p.vel{margin:8px 0 0}.vel button{width:auto;margin:0 8px 0 0;padding:6px 12px;font-size:12px}
+p.vel{margin:8px 0 0}.vel button{width:auto;margin:0 0 0 8px;padding:6px 12px;font-size:12px}
 button.sec{background:none;color:var(--red);font-weight:500;margin-top:8px;padding:8px}
 .hint{margin-top:16px;padding:12px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted)}
 .hint button{margin-top:8px}
@@ -53,7 +53,7 @@ body.mac #macframe{display:block;position:fixed;top:calc(34px + env(safe-area-in
   <div class="msg" id="st"></div>
   <button class="sec hidden" id="retry">Try again</button>
   <div class="hint hidden" id="hint"></div>
-  <details id="det"><summary>Details</summary><p class="vel"><button id="vel" type="button">Speed test</button> <span id="velr">Downloads 20 MB from your Mac.</span></p><pre id="dbg"></pre><pre id="log"></pre></details>
+  <details id="det"><summary>Details</summary><p class="vel">Speed test <button id="vel20" type="button">20 MB</button><button id="vel60" type="button">60 MB</button><br><span id="velr">Downloads from your Mac over this connection.</span></p><pre id="dbg"></pre><pre id="log"></pre></details>
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -263,26 +263,41 @@ async function caminho(pc) {
     if (par) log('path: ' + (locais[par.localCandidateId] || {}).candidateType + ' <-> ' + (remotos[par.remoteCandidateId] || {}).candidateType + ', rtt ' + Math.round((par.currentRoundTripTime || 0) * 1000) + ' ms');
   } catch (e) { log('stats: ' + e); }
 }
-// Teste de velocidade (Details): 20 MB do proprio anfitriao pelo canal (sem o service worker nem o Studio) → Mbit/s.
-async function testeVelocidade() {
-  const r = $('velr');
+// Teste de velocidade (Details): N MB incompressiveis do proprio anfitriao (`/__speed`, sem Studio, sem disco, sem
+// gzip) pelo canal, sem o service worker. Mbit/s medidos AQUI, do primeiro ao ultimo byte; mais o RTT e o par ICE.
+async function parIce(pc) {
+  try {
+    const st = await pc.getStats(); let par = null; const loc = {}, rem = {};
+    st.forEach(r => { if (r.type === 'local-candidate') loc[r.id] = r; if (r.type === 'remote-candidate') rem[r.id] = r; });
+    st.forEach(r => { if (r.type === 'candidate-pair' && r.state === 'succeeded' && (r.nominated || r.selected) && (!par || r.nominated)) par = r; });
+    if (!par) return 'path unknown';
+    const l = loc[par.localCandidateId] || {}, r = rem[par.remoteCandidateId] || {};
+    const tipo = c => (c.candidateType || '?') + (c.candidateType === 'relay' && c.relayProtocol ? '/' + c.relayProtocol : '');
+    return tipo(l) + ' \u2194 ' + tipo(r) + ' ' + (l.protocol || r.protocol || '?') + ', RTT ' + (par.currentRoundTripTime != null ? Math.round(par.currentRoundTripTime * 1000) + ' ms' : '?');
+  } catch (e) { return 'path unknown'; }
+}
+async function testeVelocidade(mb) {
+  const r = $('velr'), bs = [$('vel20'), $('vel60')];
   if (!conn || !conn.dc || conn.dc.readyState !== 'open') { r.textContent = 'Connect to your Mac first.'; return; }
-  $('vel').disabled = true; r.textContent = 'Downloading 20 MB\u2026';
-  const t0 = performance.now(); let bytes = 0, primeiro = 0;
-  const erro = await new Promise(fim => tunelPede(conn, { method: 'GET', path: '/__fork/speedtest?mb=20' }, {
+  bs.forEach(b => b.disabled = true); r.textContent = 'Downloading ' + mb + ' MB\u2026';
+  const pedido = mb * 1048576, t0 = performance.now(); let bytes = 0, tPrim = 0, bPrim = 0, tUlt = 0;
+  const erro = await new Promise(fim => tunelPede(conn, { method: 'GET', path: '/__speed?bytes=' + pedido }, {
     postMessage(m) {
       if (m.t === 'head' && m.status !== 200) fim('Your Mac needs the latest Fork Studio for the speed test (status ' + m.status + ').');
-      else if (m.t === 'chunk') { bytes += m.buf.byteLength; primeiro ||= performance.now(); }
-      else if (m.t === 'done') fim(null);
+      else if (m.t === 'chunk') { const n = m.buf.byteLength; if (!tPrim) { tPrim = performance.now(); bPrim = n; } bytes += n; tUlt = performance.now(); }
+      else if (m.t === 'done') fim(bytes === pedido ? null : 'Incomplete: ' + bytes + ' of ' + pedido + ' bytes.');
       else if (m.t === 'err') fim(m.msg || 'The connection failed.');
     } }));
-  const s = (performance.now() - t0) / 1000;
-  $('vel').disabled = false;
+  const caminho = await parIce(conn.pc);
+  bs.forEach(b => b.disabled = false);
   if (erro) { r.textContent = erro; log('speed test: ' + erro); return; }
-  const txt = (bytes / 1048576).toFixed(1) + ' MB in ' + s.toFixed(1) + ' s = ' + (bytes * 8 / s / 1e6).toFixed(1) + ' Mbit/s (first byte ' + Math.round(primeiro - t0) + ' ms)';
+  // do 1.o ao ultimo byte: os bytes do 1.o bocado chegaram no instante zero, nao contam
+  const s = (tUlt - tPrim) / 1000, mbit = s > 0 ? (bytes - bPrim) * 8 / s / 1e6 : 0;
+  const txt = mbit.toFixed(1) + ' Mbit/s \u2014 ' + mb + ' MB in ' + s.toFixed(2) + ' s (first byte after ' + Math.round(tPrim - t0) + ' ms) \u00b7 ' + caminho;
   r.textContent = txt; log('speed test: ' + txt);
 }
-$('vel').onclick = testeVelocidade;
+$('vel20').onclick = () => testeVelocidade(20);
+$('vel60').onclick = () => testeVelocidade(60);
 function tunelFecha(c, msg) { clearInterval(c.pingT); for (const p of Object.values(c.pend || {})) { try { p.postMessage({ t: 'err', msg }); } catch {} } for (const x of c.fila || []) { try { x.port.postMessage({ t: 'err', msg }); } catch {} } c.pend = {}; c.fila = []; c.ativos = 0; }
 if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', ev => {
   if (ev.data && ev.data.t === 'log') { log('sw: ' + ev.data.msg); return; }
