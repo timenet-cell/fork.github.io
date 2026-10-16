@@ -53,7 +53,9 @@ h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;ma
 .chips label{position:relative}
 .chips input{position:absolute;opacity:0;width:1px;height:1px}
 .chips span{display:inline-block;font:500 11px/1 var(--sans);color:var(--muted);padding:4px 7px;border:1px solid var(--line);border-radius:999px;background:var(--field);cursor:pointer;user-select:none}
-.chips input:checked+span{border-color:var(--red);color:var(--red);background:color-mix(in srgb,var(--red) 7%,var(--field))}
+.chips span:hover{border-color:var(--faint)}
+/* escolhido: cheio, a vermelho, texto branco — escolhem-se varios (checkboxes) */
+.chips input:checked+span{border-color:var(--red);color:var(--red-ink);background:var(--red)}
 .chips input:focus-visible+span{box-shadow:0 0 0 2px color-mix(in srgb,var(--red) 25%,transparent)}
 .done{font-size:14px;font-weight:600;color:var(--text);margin:2px 0;padding:7px 0}
 .done:focus{outline:none}
