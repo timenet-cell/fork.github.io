@@ -9,170 +9,460 @@
 <title>Fork</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f6f1e7'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%23e0312a' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <style>
-:root{--bg:#f6f1e7;--card:#fffdf8;--text:#1d1b18;--muted:#6f6a62;--line:#e6dfd2;--red:#e0312a;--red-ink:#fff;--field:#fff;--err:#b3261e}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
-main{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
-.card{width:100%;max-width:380px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px 24px;box-shadow:0 10px 40px rgba(0,0,0,.06)}
-.mark{width:56px;height:56px;margin:0 auto 14px;display:block}
-h1{font-size:22px;font-weight:650;text-align:center;margin:0 0 4px;letter-spacing:-.01em}
-.sub{color:var(--muted);text-align:center;margin:0 0 24px;font-size:15px}
-label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
-input{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--field);color:var(--text);outline:none}
-input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 20%,transparent)}
-button{width:100%;font:inherit;font-weight:600;padding:12px 14px;border:0;border-radius:12px;background:var(--red);color:var(--red-ink);margin-top:20px;cursor:pointer}
-button[disabled]{opacity:.6;cursor:default}
-.link{background:none;color:var(--red);font-weight:500;margin-top:12px;padding:6px}
-.msg{min-height:20px;margin-top:14px;font-size:14px;text-align:center;color:var(--muted)}
-.msg.err{color:var(--err)}
-.hidden{display:none}
-.who{font-weight:600;word-break:break-all}
-.foot{color:var(--muted);font-size:12px;text-align:center;margin-top:22px}
-.wrap{width:100%;max-width:380px}
-.brand{display:none}
-@media (min-width:900px){
-  main{padding:48px}
-  .wrap{max-width:1040px;display:grid;grid-template-columns:1fr 400px;gap:72px;align-items:center}
-  .brand{display:block}
-  .brand .big{width:88px;height:88px;margin:0 0 28px}
-  .brand h2{font-size:44px;line-height:1.08;font-weight:700;letter-spacing:-.02em;margin:0 0 16px}
-  .brand p{font-size:18px;color:var(--muted);margin:0 0 28px;max-width:30em}
-  .brand ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
-  .brand li{display:flex;gap:12px;align-items:baseline;font-size:16px}
-  .brand li::before{content:"";flex:0 0 8px;height:8px;border-radius:50%;background:var(--red);transform:translateY(-2px)}
-  .card .mark{display:none}
-  .card{padding:40px 32px;max-width:none}
+:root{
+  --bg:#f6f1e7;--panel:#f9f5ec;--card:#fffdf8;--text:#1d1b18;--muted:#6f6a62;--faint:#a39c90;--line:#e6dfd2;--grid:#ece5d7;
+  --red:#e0312a;--red-ink:#fff;--field:#fff;--err:#b3261e;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
 }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;display:flex;flex-direction:column}
+a{color:var(--red)}
+.hidden{display:none!important}
+
+/* barra de cima, a moda de um terminal */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:600 15px/1 var(--display);letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo svg{width:28px;height:28px}
+.status{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;white-space:nowrap}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+
+.hero{text-align:center;padding:40px 16px 8px}
+h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;margin:0}
+.lede{color:var(--muted);font-size:clamp(15px,1.6vw,18px);margin:14px auto 0;max-width:34em}
+
+/* o painel da rede */
+.panel{position:relative;flex:1;margin:24px max(16px,env(safe-area-inset-left)) 0;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  background-color:var(--panel);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px;background-position:-1px -1px;min-height:860px}
+#net{position:absolute;inset:0;width:100%;height:100%;display:block}
+.center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:20px;pointer-events:none}
+.center>*{pointer-events:auto}
+
+.card{width:380px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 28px 24px;box-shadow:0 18px 50px rgba(60,40,10,.08)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:18px}
+.tabs button{all:unset;text-align:center;padding:9px 0;border-radius:9px;font:600 14px/1.2 var(--sans);color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tabs button:focus-visible{outline:2px solid var(--red);outline-offset:1px}
+h2{font:650 20px/1.2 var(--display);letter-spacing:-.01em;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 6px;font-size:14px}
+label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
+input{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--field);color:var(--text);outline:none}
+input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 18%,transparent)}
+.hint{font-size:12px;color:var(--faint);margin:6px 0 0}
+.btn{display:block;width:100%;font:600 15px/1.2 var(--sans);padding:12px 14px;border:0;border-radius:12px;background:var(--red);color:var(--red-ink);margin-top:18px;cursor:pointer;text-align:center;text-decoration:none}
+.btn[disabled]{opacity:.6;cursor:default}
+.link{all:unset;display:block;margin:12px auto 0;color:var(--red);font-size:14px;font-weight:500;cursor:pointer;text-align:center}
+.link:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:4px}
+.msg{min-height:20px;margin-top:12px;font-size:14px;text-align:center;color:var(--muted)}
+.msg.err{color:var(--err)}
+.who{font-weight:600;word-break:break-all;color:var(--text)}
+
+.dl{width:220px;align-self:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;box-shadow:0 10px 30px rgba(60,40,10,.05)}
+.dl h3{font:650 15px/1.2 var(--display);margin:0 0 2px}
+.dl .soon{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.dl ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+.dl li{display:flex;justify-content:space-between;font-size:14px;color:var(--faint);padding:8px 10px;border:1px dashed var(--line);border-radius:10px}
+.dl li span{font:500 10px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+
+footer{color:var(--muted);font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-align:center;padding:18px 16px max(22px,env(safe-area-inset-bottom))}
+
+/* o grafo */
+.lk{stroke:#d5ccbb;stroke-width:1}
+.lk.hub{stroke:#cfc5b2;stroke-dasharray:3 4}
+.nd{fill:var(--card);stroke:#b9b0a1;stroke-width:1.2}
+.an{fill:var(--text)}
+.ctr{fill:var(--red)}
+.nl{font:500 11px var(--mono);fill:var(--muted)}
+.cl{font:600 14px var(--display);fill:var(--text);letter-spacing:-.01em}
+.cn{font:500 10px var(--mono);fill:var(--faint);letter-spacing:.06em}
+.pulse{fill:var(--red)}
+.cluster{cursor:pointer;outline:none}
+.cluster .hit{fill:transparent}
+#net.focus .lk,#net.focus .nd,#net.focus .nl,#net.focus .cl,#net.focus .an{opacity:.28;transition:opacity .2s}
+#net .on .lk,#net .on .lk.hub{stroke:var(--red);opacity:1}
+#net .on .nd{stroke:var(--red);opacity:1}
+#net .on .an{fill:var(--red);opacity:1}
+#net .on .nl,#net .on .cl{opacity:1}
+#net .on .cl{fill:var(--red)}
+.cluster:focus-visible .cl{text-decoration:underline}
+
+/* telemovel e janelas estreitas: o anel em cima, os cartoes por baixo */
+@media (max-width:1079px){
+  .panel{min-height:0;display:flex;flex-direction:column;align-items:center;padding:0 0 20px}
+  #net{position:relative;inset:auto;height:auto;aspect-ratio:1/1;max-width:560px}
+  .center{position:relative;inset:auto;flex-direction:column;gap:14px;padding:0 14px;width:100%}
+  .card{width:100%;max-width:420px;padding:24px 20px 20px}
+  .dl{width:100%;max-width:420px}
+  .dl ul{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+  .hero{padding-top:28px}
+  .status .long{display:none}
+}
+@media (prefers-reduced-motion:reduce){.status i{animation:none}}
 </style>
 </head>
 <body>
-<main>
-<div class="wrap">
-  <section class="brand" aria-hidden="false">
-    <svg class="mark big" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="var(--red)" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="var(--red)"/></svg>
-    <h2>Your music, your Macs, anywhere.</h2>
-    <p>Sign in once to reach Fork Studio, Fork Labels and Fork Manager from any device.</p>
-    <ul>
-      <li>Your files stay on your own Macs</li>
-      <li>One account for every Fork app</li>
-      <li>Encrypted end to end, phone to Mac</li>
-    </ul>
-  </section>
-  <div class="card">
-    <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="var(--red)" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="var(--red)"/></svg>
+<header class="bar">
+  <a class="logo" href="./" aria-label="Fork home">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#efe7d6"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="#e0312a" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="#e0312a" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="#e0312a"/></svg>
+    Fork
+  </a>
+  <div class="status" aria-hidden="true"><i></i><span>Fork network</span><span class="long">· 5 apps · 23 features</span></div>
+</header>
 
-    <section id="v-login">
-      <h1>Sign in to Fork</h1>
-      <p class="sub">Use your Fork account.</p>
-      <form id="f-pass" autocomplete="on">
-        <label for="email">Username or email</label>
-        <input id="email" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="username" required>
-        <div id="pass-box">
-          <label for="password">Password</label>
-          <input id="password" type="password" autocomplete="current-password">
-        </div>
-        <div id="code-box" class="hidden">
-          <label for="code">Code from your email</label>
-          <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8">
-        </div>
-        <button id="go" type="submit">Sign in</button>
-      </form>
-      <button id="toggle" class="link" type="button">Email me a sign-in code instead</button>
-      <div id="msg" class="msg" role="status" aria-live="polite"></div>
-    </section>
+<section class="hero">
+  <h1>Welcome To A New Era</h1>
+  <p class="lede">One account for every Fork app, on every device you own. Your work stays in your studio.</p>
+</section>
 
-    <section id="v-in" class="hidden">
-      <h1>You're signed in</h1>
-      <p class="sub">as <span id="who" class="who"></span></p>
-      <form id="f-user" class="hidden">
-        <label for="uname">Choose your username</label>
-        <input id="uname" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="30" placeholder="e.g. yourname">
-        <p class="sub" style="margin:8px 0 0;font-size:13px;text-align:left">3–30 characters: letters, numbers, dot, dash or underscore. You can then sign in with it.</p>
-        <button type="submit">Save username</button>
-        <div id="umsg" class="msg" role="status" aria-live="polite"></div>
-      </form>
-      <p class="sub">To reach your Mac, turn on “Use Fork P2P Network” in the app’s Settings, then:</p>
-      <a href="connect/" style="display:block;text-align:center;text-decoration:none;font-weight:600;padding:12px 14px;border-radius:12px;background:var(--red);color:var(--red-ink);margin-top:8px">Connect to my Mac</a>
-      <button id="out" class="link" type="button">Sign out</button>
-    </section>
+<main class="panel" id="panel">
+  <svg id="net" role="img" aria-label="The Fork apps: ForkStudio, ForkManager, ForkLabels, ForkMusic and ForkEvents, each with its features, connected to one account"></svg>
+  <div class="center">
+    <div class="card" id="card">
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" id="t-in" aria-selected="true" aria-controls="v-login">Sign in</button>
+        <button role="tab" id="t-up" aria-selected="false" aria-controls="v-signup">Create account</button>
+      </div>
 
-    <p class="foot">Fork · your data stays on your Macs</p>
+      <section id="v-login" role="tabpanel" aria-labelledby="t-in">
+        <h2>Sign in to Fork</h2>
+        <p class="sub">With your username or email.</p>
+        <form id="f-in" autocomplete="on">
+          <label for="login">Username or email</label>
+          <input id="login" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="username" required>
+          <div id="pass-box">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password">
+          </div>
+          <div id="code-box" class="hidden">
+            <label for="code">Code from your email</label>
+            <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8">
+          </div>
+          <button class="btn" id="go" type="submit">Sign in</button>
+        </form>
+        <button id="toggle" class="link" type="button">Email me a sign-in code instead</button>
+        <div id="msg" class="msg" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="v-signup" role="tabpanel" aria-labelledby="t-up" class="hidden">
+        <h2>Create your Fork account</h2>
+        <p class="sub">One account for every Fork app.</p>
+        <form id="f-up" autocomplete="on" novalidate>
+          <label for="u-email">Email</label>
+          <input id="u-email" type="email" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="email" required>
+          <label for="u-pass">Password</label>
+          <input id="u-pass" type="password" autocomplete="new-password" minlength="8" required>
+          <p class="hint">At least 8 characters.</p>
+          <label for="u-name">Username</label>
+          <input id="u-name" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off" maxlength="30" placeholder="e.g. yourname" required>
+          <p class="hint">3–30 characters: a–z, 0–9, dot, dash or underscore.</p>
+          <button class="btn" id="up-go" type="submit">Create account</button>
+        </form>
+        <form id="f-confirm" class="hidden" autocomplete="on">
+          <p class="sub">We sent a code to <span id="c-email" class="who"></span>.</p>
+          <label for="c-code">Code from your email</label>
+          <input id="c-code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required>
+          <button class="btn" id="c-go" type="submit">Confirm</button>
+          <button class="link" id="c-resend" type="button">Send the code again</button>
+        </form>
+        <div id="umsg2" class="msg" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="v-in" class="hidden">
+        <h2>You’re signed in</h2>
+        <p class="sub">as <span id="who" class="who"></span></p>
+        <form id="f-user" class="hidden">
+          <label for="uname">Choose your username</label>
+          <input id="uname" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="30" placeholder="e.g. yourname">
+          <p class="hint">3–30 characters: a–z, 0–9, dot, dash or underscore. You can then sign in with it.</p>
+          <button class="btn" type="submit">Save username</button>
+          <div id="umsg" class="msg" role="status" aria-live="polite"></div>
+        </form>
+        <a class="btn" href="connect/">Open Fork</a>
+        <button id="out" class="link" type="button">Sign out</button>
+      </section>
+    </div>
+
+    <aside class="dl" aria-labelledby="dl-h">
+      <h3 id="dl-h">Downloads</h3>
+      <span class="soon">Soon</span>
+      <ul>
+        <li>Mac <span>soon</span></li>
+        <li>Windows <span>soon</span></li>
+        <li>Linux <span>soon</span></li>
+        <li>iOS <span>soon</span></li>
+        <li>Android <span>soon</span></li>
+      </ul>
+    </aside>
   </div>
-</div>
 </main>
+
+<footer>Fork · your data stays on your devices</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
+// ── o grafo: cinco apps, cada uma com as suas funcoes, ligadas a uma conta ao centro ─────────────────────────────────
+const APPS = [
+  ['ForkStudio', ['Projects', 'Versions', 'Library', 'Samples', 'DJ']],
+  ['ForkLabels', ['Releases', 'Catalog', 'Demos', 'Artists', 'Submissions']],
+  ['ForkEvents', ['Events', 'Tickets', 'Line-ups']],
+  ['ForkMusic', ['Listen', 'Collect', 'Support']],
+  ['ForkManager', ['Gigs', 'Invoices', 'Press', 'Riders', 'Social']],
+];
+const NS = 'http://www.w3.org/2000/svg';
+const net = document.getElementById('net');
+const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let G = null, ativo = -1;
+
+function el(tag, attrs, pai) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (pai) pai.appendChild(e);
+  return e;
+}
+
+function desenha() {
+  const W = net.clientWidth, H = net.clientHeight;
+  if (!W || !H) return;
+  const compacto = W < 760 || matchMedia('(max-width:1079px)').matches;
+  net.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  net.textContent = '';
+  const cx = W / 2, cy = H / 2;
+  // Ancoras: um pentagono com um vertice em cima; no painel largo os de baixo abrem para os lados (os cartoes estao ao centro).
+  const angs = compacto ? [270, 342, 54, 126, 198] : [270, 333, 36, 144, 207];
+  const rx = compacto ? W * 0.31 : W / 2 - 200, ry = compacto ? H * 0.31 : H / 2 - 115;
+  const raio = compacto ? Math.max(28, W * 0.085) : 82;
+  const lks = el('g', {}, net);
+  const grupos = [], nos = [];
+  el('circle', { cx, cy, r: compacto ? 9 : 6, class: 'ctr' }, net);
+  if (compacto) { const t = el('text', { x: cx, y: cy + 26, 'text-anchor': 'middle', class: 'cn' }, net); t.textContent = 'ONE ACCOUNT'; }
+  APPS.forEach(([nome, funcs], i) => {
+    const a = angs[i] * Math.PI / 180, ax = cx + rx * Math.cos(a), ay = cy + ry * Math.sin(a);
+    const g = el('g', { class: 'cluster', tabindex: 0, role: 'button', 'aria-label': nome + ': ' + funcs.join(', ') }, net);
+    const hub = el('line', { class: 'lk hub', x1: ax, y1: ay, x2: cx, y2: cy }, g);
+    const n = funcs.length, abre = (compacto ? 150 : 140) * Math.PI / 180;
+    const ps = funcs.map((f, k) => {
+      const b = a + (n === 1 ? 0 : (k / (n - 1) - .5) * abre);
+      return { x: ax + raio * Math.cos(b), y: ay + raio * Math.sin(b), b, f, ph: Math.random() * 6.28 };
+    });
+    // area de toque generosa (os nos sao pequenos)
+    el('circle', { cx: ax + raio * .45 * Math.cos(a), cy: ay + raio * .45 * Math.sin(a), r: raio * 1.25, class: 'hit' }, g);
+    ps.forEach(p => {
+      p.ln = el('line', { class: 'lk', x1: ax, y1: ay, x2: p.x, y2: p.y }, g);
+      p.c = el('circle', { cx: p.x, cy: p.y, r: compacto ? 3.2 : 4, class: 'nd' }, g);
+      const dir = Math.cos(p.b) >= 0 ? 1 : -1;
+      p.t = el('text', { x: p.x + dir * 9, y: p.y + 4, 'text-anchor': dir > 0 ? 'start' : 'end', class: 'nl' }, g);
+      p.t.textContent = p.f;
+      p.dir = dir;
+      if (compacto) p.t.classList.add('hidden');
+    });
+    el('circle', { cx: ax, cy: ay, r: compacto ? 4.5 : 5.5, class: 'an' }, g);
+    // o nome da app por baixo da ancora nas de cima e por cima nas de baixo (sempre longe dos cartoes do centro)
+    const baixo = Math.sin(a) > 0.2, ly = baixo ? ay - (compacto ? 12 : 30) : ay + (compacto ? 20 : 24);
+    const cl = el('text', { x: ax, y: ly, 'text-anchor': 'middle', class: 'cl' }, g);
+    cl.textContent = nome;
+    if (!compacto) { const cn = el('text', { x: ax, y: ly + 14, 'text-anchor': 'middle', class: 'cn' }, g); cn.textContent = n + ' FEATURES'; }
+    const liga = () => foca(i), larga = () => foca(-1);
+    g.addEventListener('mouseenter', liga);
+    g.addEventListener('mouseleave', larga);
+    g.addEventListener('focus', liga);
+    g.addEventListener('blur', larga);
+    g.addEventListener('click', e => { e.stopPropagation(); foca(ativo === i && e.pointerType !== 'mouse' ? -1 : i); });
+    g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); foca(ativo === i ? -1 : i); } });
+    grupos.push(g);
+    nos.push({ ax, ay, ps, hub });
+  });
+  const pulsos = el('g', {}, net);
+  G = { cx, cy, grupos, nos, pulsos, compacto, vivos: [] };
+  foca(ativo);
+}
+
+function foca(i) {
+  ativo = i;
+  if (!G) return;
+  net.classList.toggle('focus', i >= 0);
+  G.grupos.forEach((g, k) => {
+    g.classList.toggle('on', k === i);
+    if (G.compacto) G.nos[k].ps.forEach(p => p.t.classList.toggle('hidden', k !== i));
+  });
+}
+document.addEventListener('click', () => { if (ativo >= 0 && G && G.compacto) foca(-1); });
+
+// Movimento discreto: os nos respiram e, de vez em quando, um sinal corre de uma funcao ate ao centro.
+let ultimoPulso = 0;
+function anima(t) {
+  if (G && !document.hidden) {
+    for (const c of G.nos) for (const p of c.ps) {
+      const x = p.x + Math.sin(t / 1700 + p.ph) * 2.2, y = p.y + Math.cos(t / 2100 + p.ph) * 2.2;
+      p.c.setAttribute('cx', x); p.c.setAttribute('cy', y);
+      p.ln.setAttribute('x2', x); p.ln.setAttribute('y2', y);
+      p.t.setAttribute('x', x + p.dir * 9); p.t.setAttribute('y', y + 4);
+    }
+    if (t - ultimoPulso > 1100) {
+      ultimoPulso = t;
+      const ci = ativo >= 0 ? ativo : Math.floor(Math.random() * G.nos.length), c = G.nos[ci], p = c.ps[Math.floor(Math.random() * c.ps.length)];
+      G.vivos.push({ c, p, t0: t, d: el('circle', { r: 2.6, class: 'pulse' }, G.pulsos) });
+    }
+    G.vivos = G.vivos.filter(v => {
+      const k = (t - v.t0) / 1800;
+      if (k >= 1) { v.d.remove(); return false; }
+      // 0..0.4: da funcao a ancora; 0.4..1: da ancora ao centro
+      let x, y;
+      if (k < .4) { const s = k / .4; x = v.p.x + (v.c.ax - v.p.x) * s; y = v.p.y + (v.c.ay - v.p.y) * s; }
+      else { const s = (k - .4) / .6; x = v.c.ax + (G.cx - v.c.ax) * s; y = v.c.ay + (G.cy - v.c.ay) * s; }
+      v.d.setAttribute('cx', x); v.d.setAttribute('cy', y);
+      v.d.setAttribute('opacity', Math.min(1, (1 - k) * 3));
+      return true;
+    });
+  }
+  requestAnimationFrame(anima);
+}
+let espera;
+new ResizeObserver(() => { clearTimeout(espera); espera = setTimeout(desenha, 60); }).observe(net);
+desenha();
+if (!calmo) requestAnimationFrame(anima);
+
+// ── a conta ────────────────────────────────────────────────────────────────────────────────────────────────────────
 const SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
 const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";  // publishable key: public by design; access is enforced by Supabase row-level security
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
 const $ = id => document.getElementById(id);
-let codeMode = false, codeSent = false;
+const USERNAME = /^[a-z0-9._-]{3,30}$/;
+let codeMode = false, codeSent = false, emailPendente = '';
 
-function say(t, err){ const m = $('msg'); m.textContent = t || ''; m.classList.toggle('err', !!err); }
-function show(user){
-  $('v-login').classList.toggle('hidden', !!user);
-  $('v-in').classList.toggle('hidden', !user);
-  if (user) { $('who').textContent = user.email || ''; checkUsername(user); }
+function diz(id, t, err) { const m = $(id); m.textContent = t || ''; m.classList.toggle('err', !!err); }
+function separador(qual) {
+  const up = qual === 'up';
+  $('t-in').setAttribute('aria-selected', String(!up));
+  $('t-up').setAttribute('aria-selected', String(up));
+  $('v-login').classList.toggle('hidden', up);
+  $('v-signup').classList.toggle('hidden', !up);
 }
-async function checkUsername(user){
+$('t-in').onclick = () => separador('in');
+$('t-up').onclick = () => separador('up');
+$('tabs').addEventListener('keydown', e => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  const up = $('t-in').getAttribute('aria-selected') === 'true';
+  separador(up ? 'up' : 'in'); (up ? $('t-up') : $('t-in')).focus();
+});
+
+function mostra(user) {
+  $('tabs').classList.toggle('hidden', !!user);
+  $('v-login').classList.toggle('hidden', !!user || $('t-up').getAttribute('aria-selected') === 'true');
+  $('v-signup').classList.toggle('hidden', !!user || $('t-in').getAttribute('aria-selected') === 'true');
+  $('v-in').classList.toggle('hidden', !user);
+  if (user) { $('who').textContent = user.email || ''; vePerfil(user); }
+}
+async function vePerfil(user) {
   const { data } = await sb.from('profiles').select('username').eq('id', user.id).maybeSingle();
   const u = data && data.username;
   if (u) { $('who').textContent = u; $('f-user').classList.add('hidden'); }
-  else { $('f-user').classList.remove('hidden'); }
+  else {
+    $('f-user').classList.remove('hidden');
+    const pedido = user.user_metadata && user.user_metadata.username;
+    if (pedido) { $('uname').value = pedido; diz('umsg', 'That username wasn’t available. Choose another.', true); }
+  }
 }
+const erroUsername = m => /taken/.test(m) ? 'That username is taken.' : /reserved/.test(m) ? 'That username isn’t available.'
+  : /invalid/.test(m) ? 'Use 3–30 characters: a–z, 0–9, dot, dash or underscore.' : m;
 $('f-user').onsubmit = async e => {
   e.preventDefault();
-  const m = $('umsg'); m.classList.remove('err'); m.textContent = '';
-  const { data, error } = await sb.rpc('set_username', { p_username: $('uname').value });
-  if (error) {
-    const t = /taken/.test(error.message) ? 'That username is taken.' : /reserved/.test(error.message) ? 'That username is reserved.'
-            : /invalid/.test(error.message) ? 'Use 3–30 letters, numbers, dot, dash or underscore.' : error.message;
-    m.textContent = t; m.classList.add('err'); return;
-  }
+  diz('umsg', '');
+  const { data, error } = await sb.rpc('set_username', { p_username: $('uname').value.trim().toLowerCase() });
+  if (error) return diz('umsg', erroUsername(error.message), true);
   $('who').textContent = data; $('f-user').classList.add('hidden');
-  m.textContent = '';
 };
+
+// Entrar: username pela funcao `sign-in` (a palavra-passe nunca fica a saber se o username existe), email direto, ou codigo.
 $('toggle').onclick = () => {
   codeMode = !codeMode; codeSent = false;
   $('pass-box').classList.toggle('hidden', codeMode);
   $('code-box').classList.add('hidden');
   $('go').textContent = codeMode ? 'Email me a code' : 'Sign in';
   $('toggle').textContent = codeMode ? 'Use my password instead' : 'Email me a sign-in code instead';
-  say('');
+  diz('msg', '');
 };
-$('f-pass').onsubmit = async e => {
+$('f-in').onsubmit = async e => {
   e.preventDefault();
-  const email = $('email').value.trim(); if (!email) return;
-  $('go').disabled = true; say('');
+  const login = $('login').value.trim(); if (!login) return;
+  $('go').disabled = true; diz('msg', '');
   try {
-    if (!codeMode && !email.includes('@')) {
+    if (!codeMode && !login.includes('@')) {
       const r = await fetch(SUPABASE_URL + '/functions/v1/sign-in', { method: 'POST',
         headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
-        body: JSON.stringify({ login: email, password: $('password').value }) });
+        body: JSON.stringify({ login, password: $('password').value }) });
       const out = await r.json().catch(() => ({}));
       if (r.status === 429 || out.error === 'rate_limited') throw new Error('Too many attempts. Try again in a few minutes.');
-      if (!r.ok) throw new Error('Username or password is incorrect. Usernames work once you set one: the first time, sign in with your email.');
+      if (!r.ok) throw new Error('Username or password is incorrect.');
       const { data, error } = await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token });
-      if (error) throw error; show(data.user);
+      if (error) throw error; mostra(data.user);
     } else if (!codeMode) {
-      const { data, error } = await sb.auth.signInWithPassword({ email, password: $('password').value });
-      if (error) throw error; show(data.user);
+      const { data, error } = await sb.auth.signInWithPassword({ email: login, password: $('password').value });
+      if (error) throw error; mostra(data.user);
     } else if (!codeSent) {
-      if (!email.includes('@')) throw new Error('Sign-in codes go to your email: type your email address.');
-      const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+      if (!login.includes('@')) throw new Error('Sign-in codes go to your email: type your email address.');
+      const { error } = await sb.auth.signInWithOtp({ email: login, options: { shouldCreateUser: false } });
       if (error) throw error;
       codeSent = true; $('code-box').classList.remove('hidden'); $('go').textContent = 'Sign in'; $('code').focus();
-      say('Check your email for the code.');
+      diz('msg', 'Check your email for the code.');
     } else {
-      const { data, error } = await sb.auth.verifyOtp({ email, token: $('code').value.trim(), type: 'email' });
-      if (error) throw error; show(data.user);
+      const { data, error } = await sb.auth.verifyOtp({ email: login, token: $('code').value.trim(), type: 'email' });
+      if (error) throw error; mostra(data.user);
     }
   } catch (err) {
-    say(err.message === 'Invalid login credentials' ? 'Username or password is incorrect.' : (err.message || 'Could not sign in.'), true);
+    diz('msg', err.message === 'Invalid login credentials' ? 'Username or password is incorrect.' : (err.message || 'Could not sign in.'), true);
   } finally { $('go').disabled = false; }
 };
-$('out').onclick = async () => { await sb.auth.signOut(); show(null); say(''); };
-sb.auth.getSession().then(({ data }) => show(data.session && data.session.user));
+
+// Criar conta: email + palavra-passe + username (o gatilho da base guarda-o se estiver livre), depois o codigo do email.
+$('u-name').addEventListener('input', e => { const v = e.target.value.toLowerCase(); if (v !== e.target.value) e.target.value = v; });
+$('f-up').onsubmit = async e => {
+  e.preventDefault();
+  const email = $('u-email').value.trim(), password = $('u-pass').value, username = $('u-name').value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return diz('umsg2', 'Type a valid email address.', true);
+  if ([...password].length < 8) return diz('umsg2', 'Use at least 8 characters for your password.', true);
+  if (!USERNAME.test(username)) return diz('umsg2', 'Usernames are 3–30 characters: a–z, 0–9, dot, dash or underscore.', true);
+  $('up-go').disabled = true; diz('umsg2', '');
+  try {
+    const { data, error } = await sb.auth.signUp({ email, password, options: { data: { username } } });
+    if (error) throw error;
+    // Email ja registado: o Supabase devolve um utilizador sem identidades (para nao revelar contas).
+    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0)
+      throw new Error('An account with this email already exists. Sign in instead.');
+    if (data.session) return mostra(data.user);   // projeto sem confirmacao por email
+    emailPendente = email;
+    $('c-email').textContent = email;
+    $('f-up').classList.add('hidden'); $('f-confirm').classList.remove('hidden'); $('c-code').focus();
+    diz('umsg2', 'Check your email for the code.');
+  } catch (err) {
+    const m = err.message || '';
+    diz('umsg2', /rate|too many/i.test(m) ? 'Too many attempts. Wait a minute and try again.'
+      : /password/i.test(m) && /least|weak|short/i.test(m) ? 'That password is too weak. Use at least 8 characters.' : (m || 'Could not create the account.'), true);
+  } finally { $('up-go').disabled = false; }
+};
+$('f-confirm').onsubmit = async e => {
+  e.preventDefault();
+  $('c-go').disabled = true; diz('umsg2', '');
+  try {
+    const { data, error } = await sb.auth.verifyOtp({ email: emailPendente, token: $('c-code').value.trim(), type: 'signup' });
+    if (error) throw error;
+    $('f-confirm').classList.add('hidden'); $('f-up').classList.remove('hidden'); diz('umsg2', '');
+    mostra(data.user);
+  } catch (err) {
+    diz('umsg2', /expired|invalid/i.test(err.message || '') ? 'That code is wrong or has expired.' : (err.message || 'Could not confirm.'), true);
+  } finally { $('c-go').disabled = false; }
+};
+$('c-resend').onclick = async () => {
+  const { error } = await sb.auth.resend({ type: 'signup', email: emailPendente });
+  diz('umsg2', error ? (error.message || 'Could not send the code.') : 'A new code is on its way.', !!error);
+};
+
+$('out').onclick = async () => { await sb.auth.signOut(); mostra(null); diz('msg', ''); };
+sb.auth.getSession().then(({ data }) => mostra(data.session && data.session.user));
 </script>
 </body>
 </html>

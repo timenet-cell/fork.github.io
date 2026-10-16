@@ -2,7 +2,7 @@
 // em /connect/mac/<device>/ e CADA pedido desse iframe (HTML, JS, CSS, imagens, audio com Range, XHR — mesmo os com URL
 // absoluta tipo /static/x.js) passa por aqui e vai, pelo data channel, ao Studio do Mac. O canal vive na pagina /connect/
 // (o service worker nao tem WebRTC): fala-se com ela por MessageChannel e a resposta volta aos bocados.
-const V = 'fork-p2p-shell-v8';
+const V = 'fork-p2p-shell-v9';
 const BASE = new URL(self.registration.scope).pathname;            // /connect/
 const CASCA = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
                'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
@@ -55,7 +55,7 @@ async function tunel(request, d, semCache) {
   const casca = await conchaCliente();
   const n = ++nPedidos;
   if (n <= 30) rel(casca, 'fetch ' + request.method + ' ' + d.path.slice(0, 70) + (casca ? '' : ' (NO shell client)'));
-  if (!casca) return new Response('Open Fork and connect to your Mac first.', { status: 503, headers: { 'content-type': 'text/plain' } });
+  if (!casca) return new Response('Open Fork and connect to your device first.', { status: 503, headers: { 'content-type': 'text/plain' } });
   const headers = {};
   request.headers.forEach((v, k) => { if (!PROIBIDOS.test(k)) headers[k] = v; });
   let body = null;
@@ -70,7 +70,7 @@ async function tunel(request, d, semCache) {
       else if (m.t === 'done') { try { controlo && controlo.close(); } catch {} ok(null); }
       else if (m.t === 'err') { try { controlo && controlo.error(new Error(m.msg)); } catch {} falha(new Error(m.msg)); }
     };
-    setTimeout(() => falha(new Error('The Mac did not answer in time.')), 60000);
+    setTimeout(() => falha(new Error('Your device did not answer in time.')), 60000);
   });
   const corpo = new ReadableStream({ start(c) { controlo = c; }, cancel() { canal.port1.postMessage({ t: 'cancel' }); } });
   casca.postMessage({ t: 'fetch', method: request.method, path: d.path, headers, body }, [canal.port2]);

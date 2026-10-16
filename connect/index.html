@@ -39,21 +39,21 @@ body.mac #macbar button{width:auto;margin:0;padding:4px 10px;font-size:12px;back
 body.mac #macframe{display:block;position:fixed;top:calc(34px + env(safe-area-inset-top));left:0;right:0;bottom:0;width:100%;height:calc(100% - 34px - env(safe-area-inset-top));border:0;background:#fff}
 </style></head><body>
 <div id="macbar"><span id="macbar-nome"></span><button id="macbar-sair">Disconnect</button></div>
-<iframe id="macframe" title="Your Mac" allow="autoplay; fullscreen"></iframe>
+<iframe id="macframe" title="Your studio" allow="autoplay; fullscreen"></iframe>
 <main><div class="card">
   <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="var(--red)" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
   <h1>Fork</h1>
-  <p class="sub" id="sub">Reach your Mac from anywhere.</p>
+  <p class="sub" id="sub">Reach your studio from anywhere.</p>
   <div id="cfg" class="hidden">
     <label for="email">Username or email</label><input id="email" type="text" autocomplete="username" autocapitalize="off" spellcheck="false">
     <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
     <button id="in">Sign in</button>
   </div>
-  <div id="app" class="hidden"><label>Your Macs</label><div id="macs"></div><button class="sec" id="out">Sign out</button></div>
+  <div id="app" class="hidden"><label>Your devices</label><div id="macs"></div><button class="sec" id="out">Sign out</button></div>
   <div class="msg" id="st"></div>
   <button class="sec hidden" id="retry">Try again</button>
   <div class="hint hidden" id="hint"></div>
-  <details id="det"><summary>Details</summary><p class="vel">Speed test <button id="vel20" type="button">20 MB</button><button id="vel60" type="button">60 MB</button><br><span id="velr">Downloads from your Mac over this connection.</span></p><pre id="dbg"></pre><pre id="log"></pre></details>
+  <details id="det"><summary>Details</summary><p class="vel">Speed test <button id="vel20" type="button">20 MB</button><button id="vel60" type="button">60 MB</button><br><span id="velr">Downloads from your device over this connection.</span></p><pre id="dbg"></pre><pre id="log"></pre></details>
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -77,7 +77,7 @@ const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $(
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
 let swErro = '';
-const BUILD = '2026-10-15i-speed';
+const BUILD = '2026-10-16j-devices';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -140,10 +140,10 @@ async function arranca() {
   channel.on('presence', { event: 'sync' }, sync);
   for (const ev of ['answer', 'ice', 'bye']) channel.on('broadcast', { event: ev }, ({ payload }) => onSignal(payload));
   channel.subscribe((s, err) => { canalEstado = s; if (err) ultimoErro = String(err.message || err); log('channel: ' + s + (err ? ' ' + (err.message || err) : '')); if ((s === 'CHANNEL_ERROR' || s === 'TIMED_OUT') && !(conn && conn.pc.connectionState === 'connected')) msg('Can\u2019t reach Fork right now. Retrying\u2026', true); });
-  if (!navigator.onLine) return msg('You\u2019re offline. Your Mac is unreachable.', true);
-  msg('Looking for your Mac\u2026');
+  if (!navigator.onLine) return msg('You\u2019re offline. Your studio is unreachable.', true);
+  msg('Looking for your devices\u2026');
   clearTimeout(esperaMacs);
-  esperaMacs = setTimeout(() => { if (!Object.keys(hosts).length && !conn) msg('Your Mac is unreachable. Make sure it\u2019s awake, online, and \u201cUse Fork P2P Network\u201d is on in its Settings.', true); }, 8000);
+  esperaMacs = setTimeout(() => { if (!Object.keys(hosts).length && !conn) msg('Your studio is unreachable. Make sure your device is awake, online, and \u201cUse Fork P2P Network\u201d is on in its Settings.', true); }, 8000);
 }
 function sync() {
   hosts = {};
@@ -160,8 +160,8 @@ function sync() {
     const d = document.createElement('div'); d.className = 'mac'; d.innerHTML = '<span></span><button>Connect</button>';
     d.firstChild.textContent = hosts[id].name || id.slice(0, 8); d.lastChild.onclick = () => connect(id); $('macs').appendChild(d);
   }
-  if (!ids.length) $('macs').textContent = ultimo ? 'Your Mac is offline.' : 'No Mac online. Turn on \u201cUse Fork P2P Network\u201d in the Mac app (Settings \u2192 Advanced \u2192 Network).';
-  else if (!conn) msg(ids.length > 1 || ultimo ? 'Choose a Mac.' : '');
+  if (!ids.length) $('macs').textContent = ultimo ? 'That device is offline.' : 'No device online. Turn on \u201cUse Fork P2P Network\u201d in the Fork app (Settings \u2192 Advanced \u2192 Network).';
+  else if (!conn) msg(ids.length > 1 || ultimo ? 'Choose a device.' : '');
 }
 
 const sig = (kind, to, extra = {}) => channel.send({ type: 'broadcast', event: kind, payload: { v: 1, kind, conn: conn.id, from: deviceId, to, ts: Math.floor(Date.now() / 1000), ...extra } });
@@ -185,7 +185,7 @@ async function connect(hostId, reintento) {
       setTimeout(() => { if (conn === c && pc.connectionState === 'disconnected') pc.close(); }, 12000);
     }
     else if (['failed', 'closed'].includes(pc.connectionState)) {
-      tunelFecha(c, 'The connection to your Mac dropped.'); document.body.classList.remove('mac');
+      tunelFecha(c, 'The connection to your studio dropped.'); document.body.classList.remove('mac');
       falhou(c.aberto ? 'The connection to ' + nome + ' dropped.' : 'Couldn\u2019t connect to ' + nome + '. Your network may block direct connections.');
     }
   };
@@ -202,14 +202,14 @@ async function connect(hostId, reintento) {
   setTimeout(() => {
     if (conn !== c || pc.connectionState === 'connected' || c.recebeuResposta) return;
     if (!c.reintento) { log('no answer in 10 s — offering again'); connect(hostId, true); return; }
-    falhou('Your Mac didn’t answer.' + (c.motivo ? ' (' + c.motivo + ')' : ' Is it awake and online, with the Fork app open?'));
+    falhou('Your device didn’t answer.' + (c.motivo ? ' (' + c.motivo + ')' : ' Is it awake and online, with the Fork app open?'));
   }, 10000);
 }
 // ── o tunel: o Studio do Mac num iframe; os pedidos dele passam pelo service worker e por este canal ─────────
 let tid = 0;
 const MAX_PEDIDOS = 6;     // pedidos do tunel em voo ao mesmo tempo (o resto espera: uma rajada de 20 ficheiros enche a ligacao)
 function tunelPede(c, m, port) {
-  if (!c.dc || c.dc.readyState !== 'open') { port.postMessage({ t: 'err', msg: 'Not connected to your Mac.' }); return; }
+  if (!c.dc || c.dc.readyState !== 'open') { port.postMessage({ t: 'err', msg: 'Not connected to your device.' }); return; }
   const id = 't' + (++tid);
   (c.fila ||= []).push({ id, m, port });
   c.ativos = c.ativos || 0;
@@ -278,12 +278,12 @@ async function parIce(pc) {
 }
 async function testeVelocidade(mb) {
   const r = $('velr'), bs = [$('vel20'), $('vel60')];
-  if (!conn || !conn.dc || conn.dc.readyState !== 'open') { r.textContent = 'Connect to your Mac first.'; return; }
+  if (!conn || !conn.dc || conn.dc.readyState !== 'open') { r.textContent = 'Connect to your device first.'; return; }
   bs.forEach(b => b.disabled = true); r.textContent = 'Downloading ' + mb + ' MB\u2026';
   const pedido = mb * 1048576, t0 = performance.now(); let bytes = 0, tPrim = 0, bPrim = 0, tUlt = 0;
   const erro = await new Promise(fim => tunelPede(conn, { method: 'GET', path: '/__speed?bytes=' + pedido }, {
     postMessage(m) {
-      if (m.t === 'head' && m.status !== 200) fim('Your Mac needs the latest Fork Studio for the speed test (status ' + m.status + ').');
+      if (m.t === 'head' && m.status !== 200) fim('Your device needs the latest Fork Studio for the speed test (status ' + m.status + ').');
       else if (m.t === 'chunk') { const n = m.buf.byteLength; if (!tPrim) { tPrim = performance.now(); bPrim = n; } bytes += n; tUlt = performance.now(); }
       else if (m.t === 'done') fim(bytes === pedido ? null : 'Incomplete: ' + bytes + ' of ' + pedido + ' bytes.');
       else if (m.t === 'err') fim(m.msg || 'The connection failed.');
@@ -307,7 +307,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
 function sondaEAbre(c, nome) {
   c.sonda = { id: 'probe' }; c.res = {};
   c.dc.send(JSON.stringify({ t: 'req', id: 'probe', method: 'GET', path: '/api/quem' }));
-  c.sondaT = setTimeout(() => { if (conn === c && !c.aberto2) falhou('Connected, but ' + nome + ' did not answer. Is Fork Studio running on the Mac?'); }, 10000);
+  c.sondaT = setTimeout(() => { if (conn === c && !c.aberto2) falhou('Connected, but ' + nome + ' did not answer. Is Fork Studio running on that device?'); }, 10000);
 }
 function sondaResposta(c, m) {
   (c.res[m.id] ||= []).push(m);
@@ -315,11 +315,11 @@ function sondaResposta(c, m) {
   clearTimeout(c.sondaT);
   // O status vem so na moldura seq 0 (a das respostas aos bocados), nao na ultima.
   const status = (c.res[m.id].find(x => x.status != null) || {}).status;
-  if (status !== 200) return falhou('Your Mac answered with an error (' + status + '). Is Fork Studio running?');
+  if (status !== 200) return falhou('Your device answered with an error (' + status + '). Is Fork Studio running?');
   abreMac(c);
 }
 async function abreMac(c) {
-  if (!navigator.serviceWorker) return falhou('This browser can’t open your Mac (no service worker).');
+  if (!navigator.serviceWorker) return falhou('This browser can’t open your studio (no service worker).');
   // O service worker tem de controlar esta pagina antes de o iframe pedir seja o que for. Sem o tomar conta ja
   // (primeira visita), espera-se o `controllerchange` (o sw faz clients.claim) em vez de recarregar a pagina — recarregar
   // mata a ligacao WebRTC. `ready` tem prazo: se o registo falhou nunca resolve.
@@ -356,7 +356,7 @@ async function onSignal(s) {
   else if (s.kind === 'ice' && s.candidate && s.candidate.candidate) await conn.pc.addIceCandidate({ candidate: s.candidate.candidate, sdpMid: s.candidate.sdp_mid, sdpMLineIndex: s.candidate.sdp_mline_index });
   else if (s.kind === 'bye') {
     log('host said bye' + (s.reason ? ': ' + s.reason : '')); conn.motivo = s.reason || '';
-    if (pcState(conn) !== 'connected') { const c = conn; c.pc.close(); if (conn === c) falhou('Your Mac couldn’t accept the connection' + (s.reason ? ': ' + s.reason : '') + '.'); }
+    if (pcState(conn) !== 'connected') { const c = conn; c.pc.close(); if (conn === c) falhou('Your device couldn’t accept the connection' + (s.reason ? ': ' + s.reason : '') + '.'); }
   }
 }
 
@@ -371,7 +371,7 @@ document.addEventListener('visibilitychange', () => {
   if (morta || (!conn && canalMau)) { conn = null; arranca(); }
 });
 addEventListener('online', () => { if (uid && !conn && (!channel || channel.state !== 'joined')) arranca(); });
-addEventListener('offline', () => msg('You\u2019re offline. Your Mac is unreachable.', true));
+addEventListener('offline', () => msg('You\u2019re offline. Your studio is unreachable.', true));
 
 // ── arranque: ligacao rapida por QR (#q=codigo) ou a sessao que ja la esta ─────────────────────────────────
 (async () => {
@@ -386,7 +386,7 @@ addEventListener('offline', () => msg('You\u2019re offline. Your Mac is unreacha
     if (r && r.ok && out.access_token) {
       await sb.auth.setSession({ access_token: out.access_token, refresh_token: out.refresh_token });
       if (out.mac) ls.set('fork-p2p-last', out.mac);
-    } else msg(r && r.status === 429 ? 'Too many attempts. Try again in a few minutes.' : 'That QR code has expired. Show a new one on your Mac.', true);
+    } else msg(r && r.status === 429 ? 'Too many attempts. Try again in a few minutes.' : 'That QR code has expired. Show a new one in the Fork app.', true);
   }
   await arranca();
 })();

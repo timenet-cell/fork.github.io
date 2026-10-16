@@ -1,7 +1,7 @@
 {
   "name": "Fork",
   "short_name": "Fork",
-  "description": "Reach your Mac from anywhere.",
+  "description": "Reach your studio from anywhere.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
