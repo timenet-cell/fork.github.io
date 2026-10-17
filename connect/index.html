@@ -338,7 +338,9 @@ async function abreMac(c) {
   c.aberto2 = true;
   document.body.classList.add('mac');
   $('macbar-nome').textContent = c.nome;
-  $('macframe').src = 'mac/' + c.host + '/';
+  // No telemovel abre a versao movel do Studio (/m: Analytics, Network, Signals, Projects, Palette); no computador, a app toda.
+  const telemovel = /Mobi|iPhone|Android/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && Math.min(screen.width, screen.height) < 820);
+  $('macframe').src = 'mac/' + c.host + (telemovel ? '/m' : '/');
   msg('');
 }
 $('macbar-sair').onclick = () => {
