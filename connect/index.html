@@ -227,7 +227,13 @@ function bomba(c) {
     (c.pend ||= {})[id] = port; c.ativos++;
     (c.info ||= {})[id] = { path: m.path, t: performance.now(), bytes: 0 };
     if (tid <= 40 || tid % 25 === 0) log('tunnel \u2192 ' + id + ' ' + m.method + ' ' + m.path.slice(0, 70));
-    c.dc.send(JSON.stringify({ t: 'req', id, method: m.method, path: m.path, headers: m.headers || {}, body: m.body || null, bin: true, gz: typeof DecompressionStream === 'function' }));
+    // Um pedido e UMA mensagem do canal de dados (corpo em base64): acima do limite do SCTP o send() falha e o pedido ficava pendurado ate
+    // ao fim do tempo, sem ninguem saber porque. Agora recusa-se logo, com o motivo; quem envia ficheiros grandes parte-os em pedidos pequenos.
+    const txt = JSON.stringify({ t: 'req', id, method: m.method, path: m.path, headers: m.headers || {}, body: m.body || null, bin: true, gz: typeof DecompressionStream === 'function' });
+    const limite = Math.min((c.pc && c.pc.sctp && c.pc.sctp.maxMessageSize) || 65536, 65536) - 1024;
+    let falha = txt.length > limite ? `This request is too large for the connection (${Math.round(txt.length / 1024)} KB, limit ${Math.round(limite / 1024)} KB). Send it in smaller parts.` : null;
+    if (!falha) { try { c.dc.send(txt); } catch (e) { falha = 'The connection could not send this request (' + (e && e.message || e) + ').'; } }
+    if (falha) { log('tunnel \u2717 ' + id + ' ' + m.method + ' ' + m.path.slice(0, 60) + ' ' + falha); delete c.pend[id]; delete c.info[id]; c.ativos = Math.max(0, c.ativos - 1); port.postMessage({ t: 'err', msg: falha }); }
   }
 }
 function tunelFim(c, id) {
