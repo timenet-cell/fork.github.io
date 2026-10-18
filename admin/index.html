@@ -70,6 +70,8 @@ table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;font-weight:600;color:var(--muted);font-size:12px;padding:6px 8px;border-bottom:1px solid var(--line)}
 td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 td.e{overflow-wrap:anywhere}
+td.m{white-space:pre-wrap;overflow-wrap:anywhere;min-width:200px}
+td.fe{min-width:150px;overflow-wrap:anywhere}
 td.d{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
 .chip{display:inline-block;font-size:11px;padding:2px 6px;border:1px solid var(--line);border-radius:999px;margin:0 3px 3px 0;color:var(--muted);background:var(--field)}
 .tabhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
@@ -160,6 +162,12 @@ svg.chart{display:block;width:100%;height:auto}
       <div class="scroll"><table><thead><tr><th>Email</th><th>Platforms</th><th>Date</th></tr></thead><tbody id="rows"></tbody></table></div>
       <div id="more" class="note"></div>
     </div>
+
+    <div class="box" style="margin-top:12px">
+      <div class="tabhead"><h2 style="margin:0">Feedback <small id="fb-count"></small></h2></div>
+      <div class="scroll"><table><thead><tr><th>Date</th><th>Category</th><th>Message</th><th>Version</th><th>Email</th></tr></thead><tbody id="fb-rows"></tbody></table></div>
+      <div id="fb-more" class="note"></div>
+    </div>
   </section>
 </main>
 
@@ -234,6 +242,24 @@ async function carrega() {
   const erro = tot.error || sig.error || vis.error;
   if (erro) { $('err').textContent = 'Could not load the data: ' + erro.message; return; }
   mostra({ total: tot.count ?? sig.data.length, signups: sig.data, views: vis.data, desde });
+  // o feedback vem a parte: sem a migracao 14 aplicada, o resto do painel continua a funcionar
+  const fb = await sb.from('beta_feedback').select('id, created_at, category, message, app, app_version, os_version, page, email, log_excerpt').order('created_at', { ascending: false }).limit(500);
+  feedback(fb.error ? null : fb.data, fb.error);
+}
+const CAT = { bug: 'Bug', idea: 'Idea', other: 'Other' };
+function feedback(lista, erro) {
+  const rows = $('fb-rows');
+  if (erro || !lista) {
+    $('fb-count').textContent = '';
+    rows.innerHTML = '<tr><td colspan="5" class="empty">' + esc('Could not load feedback: ' + (erro ? erro.message : 'no data')) + '</td></tr>';
+    $('fb-more').textContent = ''; return;
+  }
+  $('fb-count').textContent = lista.length ? nf(lista.length) + (lista.length === 500 ? '+' : '') : '';
+  rows.innerHTML = lista.length ? lista.map(f => `<tr><td class="d">${esc(quando(f.created_at))}</td><td><span class="chip">${esc(CAT[f.category] || f.category)}</span></td>` +
+    `<td class="m">${esc(f.message)}${f.log_excerpt ? ' <span class="chip">log attached</span>' : ''}</td>` +
+    `<td class="d">${esc(f.app_version || '—')}</td><td class="fe">${f.email ? esc(f.email) : '<span style="color:var(--faint)">—</span>'}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="empty">No feedback yet.</td></tr>';
+  $('fb-more').textContent = lista.length === 500 ? 'Showing the latest 500.' : '';
 }
 $('refresh').onclick = () => carrega();
 
