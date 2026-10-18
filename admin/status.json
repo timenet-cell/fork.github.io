@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-18T18:27:26Z",
+  "updated": "2026-10-18T18:29:01Z",
   "tasks": [
     {
-      "t": "Encryption: AES-256 fragments (wave 0\u20131)",
-      "p": 10,
-      "s": "Building: crypto core + key backup",
+      "t": "Encryption: AES-256 fragments",
+      "p": 25,
+      "s": "Waves 0\u20131 done (crypto core + key backup, 40 tests) \u00b7 wave 2 encrypted store building",
       "prio": 1
     },
     {
