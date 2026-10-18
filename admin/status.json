@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-18T19:57:59Z",
+  "updated": "2026-10-18T20:07:17Z",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
-      "p": 70,
-      "s": "Waves 0\u20134 done (encrypted store, sharing, keys and versions in Supabase) \u00b7 wave 8 Studio reader building \u00b7 needs: supabase db push + functions deploy create_version",
+      "p": 80,
+      "s": "Waves 0\u20134 + 8 done, in your app (switched off until verified) \u00b7 needs: supabase db push + functions deploy create_version",
       "prio": 1
     },
     {
@@ -21,8 +21,8 @@
     },
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-      "p": 10,
-      "s": "Plan approved; builds after encryption",
+      "p": 15,
+      "s": "Wave 5 (host storage + your limits) building",
       "prio": 1
     },
     {
