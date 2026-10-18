@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-18T21:02:37Z",
+  "updated": "2026-10-18T21:11:55Z",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
-      "p": 80,
-      "s": "Waves 0\u20134 + 8 done, in your app (switched off until verified) \u00b7 needs: supabase db push + functions deploy create_version",
+      "p": 85,
+      "s": "Waves 0\u20134 + 8 done, server side live \u00b7 switched off until verified on your Mac",
       "prio": 1
     },
     {
@@ -22,7 +22,7 @@
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
       "p": 60,
-      "s": "Waves 5\u20136 done: 3 encrypted copies, audit + repair, fair share, recency (off until verified) \u00b7 next: first-run notice, catalogue, phone \u00b7 needs supabase db push",
+      "s": "Waves 5\u20136 done: 3 encrypted copies, audit + repair, fair share, recency (off until verified) \u00b7 next: first-run notice, catalogue, phone",
       "prio": 1
     },
     {
@@ -33,8 +33,8 @@
     },
     {
       "t": "Beta feedback (card, Help menu, admin list)",
-      "p": 90,
-      "s": "Live \u00b7 needs supabase db push",
+      "p": 100,
+      "s": "Live (database ready)",
       "prio": 2
     },
     {
