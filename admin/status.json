@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-18T18:59:56Z",
+  "updated": "2026-10-18T19:34:43Z",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
-      "p": 45,
-      "s": "Waves 0\u20132 done (crypto core, key backup, encrypted store + migration; 121 tests) \u00b7 wave 3 sharing keys building",
+      "p": 60,
+      "s": "Waves 0\u20133 done (encrypted store, encrypted sharing + revocation; 255 tests) \u00b7 wave 4 encrypted versions in Supabase building",
       "prio": 1
     },
     {
