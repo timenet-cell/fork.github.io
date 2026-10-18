@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18T21:15:52Z",
+  "updated": "2026-10-18T23:44:03Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -15,8 +15,8 @@
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 30,
-      "s": "Approved \u00b7 building: licence schema, signed leases, store database + admin Platform settings",
+      "p": 40,
+      "s": "Store database + Platform settings tab done \u00b7 licence schema + signed leases building \u00b7 needs: supabase db push (migration 17)",
       "prio": 1
     },
     {
