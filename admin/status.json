@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18T23:44:03Z",
+  "updated": "2026-10-18T23:54:02Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -15,14 +15,14 @@
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 40,
-      "s": "Store database + Platform settings tab done \u00b7 licence schema + signed leases building \u00b7 needs: supabase db push (migration 17)",
+      "p": 50,
+      "s": "Done: licence format, store database, Platform settings \u00b7 building: Studio 'Put on sale' sheet + Solana licence builders \u00b7 needs: supabase db push (migration 17)",
       "prio": 1
     },
     {
       "t": "WIP fan passes (off-chain, revocable)",
-      "p": 25,
-      "s": "Approved \u00b7 fan pass signing building",
+      "p": 50,
+      "s": "Signed passes + revocation done \u00b7 Studio screen building",
       "prio": 1
     },
     {
