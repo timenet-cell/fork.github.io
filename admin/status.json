@@ -1,6 +1,12 @@
 {
-  "updated": "2026-10-18T21:11:55Z",
+  "updated": "2026-10-18T21:15:52Z",
   "tasks": [
+    {
+      "t": "Terms: softer wording for storage contribution",
+      "p": 0,
+      "s": "Tomorrow (19 Oct) \u2014 your review",
+      "prio": 1
+    },
     {
       "t": "Encryption: AES-256 fragments",
       "p": 85,
@@ -9,14 +15,14 @@
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 20,
-      "s": "Plan ready (STORE_PLAN.md) \u00b7 waiting for your approval",
+      "p": 30,
+      "s": "Approved \u00b7 building: licence schema, signed leases, store database + admin Platform settings",
       "prio": 1
     },
     {
       "t": "WIP fan passes (off-chain, revocable)",
-      "p": 15,
-      "s": "Designed in the store plan \u00b7 waiting for your approval",
+      "p": 25,
+      "s": "Approved \u00b7 fan pass signing building",
       "prio": 1
     },
     {
