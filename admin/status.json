@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18T20:22:37Z",
+  "updated": "2026-10-18T21:02:37Z",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
@@ -21,8 +21,8 @@
     },
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-      "p": 35,
-      "s": "Wave 5 done (host storage, your limits, pauses on battery/Low Power/metered) \u00b7 wave 6 swarm protocol building",
+      "p": 60,
+      "s": "Waves 5\u20136 done: 3 encrypted copies, audit + repair, fair share, recency (off until verified) \u00b7 next: first-run notice, catalogue, phone \u00b7 needs supabase db push",
       "prio": 1
     },
     {
