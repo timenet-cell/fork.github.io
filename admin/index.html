@@ -96,6 +96,28 @@ svg.chart{display:block;width:100%;height:auto}
 .chart text{font:10.5px var(--mono);fill:var(--faint)}
 .scroll{overflow-x:auto}
 
+/* platform settings */
+.ps-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+.ps-grp{margin-bottom:16px}
+.ps-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.ps-row:last-child{border-bottom:0}
+.ps-row .nm{font-weight:600;font-size:14px}
+.ps-row .ds{font-size:12.5px;color:var(--muted)}
+.ps-row .cur{font:12px var(--mono);color:var(--faint);margin-top:2px}
+.ps-ed{display:flex;align-items:center;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.ps-ed input[type=number]{width:104px;text-align:right}
+.ps-ed .u{font-size:13px;color:var(--muted);min-width:28px}
+.ps-ed input[type=checkbox]{width:40px;height:22px;appearance:none;-webkit-appearance:none;border-radius:99px;background:var(--grid);border:1px solid var(--line);position:relative;cursor:pointer;padding:0}
+.ps-ed input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .12s}
+.ps-ed input[type=checkbox]:checked{background:var(--red);border-color:var(--red)}
+.ps-ed input[type=checkbox]:checked::after{left:20px}
+.ps-ed .sec[disabled]{opacity:.45;cursor:default}
+.ps-fb{grid-column:1 / -1;font-size:12px;margin:0;color:var(--muted)}
+.ps-fb.bad{color:var(--err)}
+.ps-fb:empty{display:none}
+.ps-new{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+@media (max-width:480px){.ps-row{grid-template-columns:1fr}.ps-ed{justify-content:flex-start}}
+
 @media (max-width:900px){
   .kpis{grid-template-columns:repeat(3,1fr)}
   .grid,.grid3{grid-template-columns:1fr}
@@ -149,10 +171,12 @@ svg.chart{display:block;width:100%;height:auto}
       <button class="on" data-tab="t-status" type="button">Development status</button>
       <button data-tab="t-arch" type="button">Architecture</button>
       <button data-tab="t-traffic" type="button">Traffic &amp; signups</button>
+      <button data-tab="t-settings" type="button">Platform settings</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
       <div style="font-size:12.5px;color:var(--muted);margin-top:8px">Green = built and running · yellow = being built · dashed = planned. Click to open full size.</div></div>
+    <div id="t-settings" class="hidden"><div id="ps"></div></div>
     <div id="t-traffic" class="hidden">
     <div class="kpis" id="kpis"></div>
 
@@ -252,6 +276,7 @@ async function entrar() {
   $('who').textContent = s.user.email || '';
   vista('v-dash');
   estado();
+  definicoes();
   await carrega();
 }
 
@@ -286,7 +311,76 @@ function feedback(lista, erro) {
     : '<tr><td colspan="5" class="empty">No feedback yet.</td></tr>';
   $('fb-more').textContent = lista.length === 500 ? 'Showing the latest 500.' : '';
 }
-$('refresh').onclick = () => { estado(); carrega(); };
+
+// ── definicoes da plataforma (tabela platform_settings; a base decide quem escreve, a pagina nunca) ─────────────
+// Mostra-se em unidades humanas; guarda-se o inteiro da base (centimos, bps, ...).
+const PS_UNIT = {
+  eur_minor: { u: '€', f: 100, step: '0.01' }, bps: { u: '%', f: 100, step: '0.01' }, pct: { u: '%', f: 1, step: '1' },
+  days: { u: 'days', f: 1, step: '1' }, seconds: { u: 's', f: 1, step: '1' }, gb: { u: 'GB', f: 1, step: '1' },
+};
+const psShow = (st, v) => st.unit === 'bool' ? (v ? 'On' : 'Off') : (v / PS_UNIT[st.unit].f).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + PS_UNIT[st.unit].u;
+async function definicoes() {
+  const box = $('ps');
+  const { data, error } = await sb.from('platform_settings').select('key, value, unit, label, description, min_value, max_value, applies_to_new_only, updated_at').order('key');
+  if (error) {
+    // tabela em falta (migracao 17 por aplicar): so esta mensagem
+    const falta = error.code === '42P01' || error.code === 'PGRST205' || /does not exist|schema cache/i.test(error.message || '');
+    box.innerHTML = '<div class="empty">' + (falta ? 'Waiting for the database update (supabase db push)' : esc('Could not load the settings: ' + error.message)) + '</div>';
+    return;
+  }
+  if (!data.length) { box.innerHTML = '<div class="empty">Waiting for the database update (supabase db push)</div>'; return; }
+  const grupos = [['store', 'Store'], ['network', 'Network']];
+  box.innerHTML = '<p class="ps-note">A change applies to new listings only. Licences already issued keep their terms.</p>' + grupos.map(([g, t]) => {
+    const lst = data.filter(x => x.key.startsWith(g + '.'));
+    if (!lst.length) return '';
+    return `<div class="box ps-grp"><h2>${t}</h2>` + lst.map(linhaDef).join('') + '</div>';
+  }).join('');
+  for (const st of data) ligaDef(st);
+}
+function linhaDef(st) {
+  const id = 'ps-' + st.key.replace(/\W/g, '_'), U = PS_UNIT[st.unit];
+  const ed = st.unit === 'bool'
+    ? `<input type="checkbox" id="${id}" aria-label="${esc(st.label)}"${st.value ? ' checked' : ''}>`
+    : `<input type="number" id="${id}" aria-label="${esc(st.label)}" step="${U.step}" min="${st.min_value / U.f}" max="${st.max_value / U.f}" value="${st.value / U.f}"><span class="u">${U.u}</span>`;
+  return `<div class="ps-row"><div><div class="nm">${esc(st.label)}</div><div class="ds">${esc(st.description)}</div>` +
+    `<div class="cur">Current: <span id="${id}-cur">${esc(psShow(st, st.value))}</span></div></div>` +
+    `<div class="ps-ed">${ed}<button class="sec" id="${id}-save" type="button" disabled>Save</button></div>` +
+    `<p class="ps-fb" id="${id}-fb" role="status" aria-live="polite"></p></div>`;
+}
+function ligaDef(st) {
+  const id = 'ps-' + st.key.replace(/\W/g, '_'), inp = $(id), btn = $(id + '-save'), fb = $(id + '-fb'), U = PS_UNIT[st.unit];
+  let atual = st.value;
+  const lido = () => st.unit === 'bool' ? inp.checked : Math.round(Number(inp.value) * U.f);
+  const aviso = (t, mau) => { fb.textContent = t; fb.classList.toggle('bad', !!mau); };
+  const confere = () => {
+    if (st.unit === 'bool') return null;
+    if (inp.value === '' || !isFinite(Number(inp.value))) return 'Enter a number.';
+    const n = Number(inp.value) * U.f;
+    if (Math.abs(n - Math.round(n)) > 1e-6) return 'Too many decimals.';
+    if (Math.round(n) < st.min_value || Math.round(n) > st.max_value) return `Allowed range: ${psShow(st, st.min_value)} to ${psShow(st, st.max_value)}.`;
+    return null;
+  };
+  const muda = () => {
+    const e = confere(), v = e ? null : lido(), diferente = !e && v !== atual;
+    btn.disabled = !diferente;
+    if (e) aviso(e, true);
+    else if (diferente) aviso((st.applies_to_new_only ? 'Applies to new listings only. ' : '') + 'Will change ' + psShow(st, atual) + ' → ' + psShow(st, v) + '.', false);
+    else aviso('', false);
+  };
+  inp.addEventListener('input', muda); inp.addEventListener('change', muda);
+  btn.onclick = async () => {
+    const e = confere(); if (e) return aviso(e, true);
+    const v = lido(); btn.disabled = true; aviso('Saving…', false);
+    const { data, error } = await sb.from('platform_settings').update({ value: v }).eq('key', st.key).select('value');
+    if (error) { aviso('Could not save: ' + error.message, true); btn.disabled = false; return; }
+    // a base nao recusou mas nao mudou nada = a RLS nao deixa esta conta escrever
+    if (!data || !data.length) { aviso('Not saved: the database did not allow this change.', true); btn.disabled = false; return; }
+    atual = data[0].value; $(id + '-cur').textContent = psShow(st, atual);
+    aviso('Saved. ' + (st.applies_to_new_only ? 'Applies to new listings only.' : ''), false);
+    btn.disabled = true;
+  };
+}
+$('refresh').onclick = () => { estado(); carrega(); definicoes(); };
 
 // ── estado do desenvolvimento (admin/status.json; atualizado pelo CEO) ─────────────────────────────────────────────────
 for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
