@@ -51,6 +51,20 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .grid{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.tabs{display:flex;gap:6px;margin:6px 0 16px;flex-wrap:wrap}
+.tabs button{font:600 13px/1 var(--sans);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.tabs button.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.st{display:grid;gap:10px}
+.st .row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.st .hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.st .nm{font-weight:600}.st .pc{font:600 13px/1 var(--mono);color:var(--muted)}
+.st .bar{height:8px;border:0;padding:0;margin:8px 0 6px;background:var(--grid);border-radius:99px;overflow:hidden;display:block}
+.st .bar i{display:block;height:100%;background:var(--red);border-radius:99px}
+.st .bar i.ok{background:#2E7D32}
+.st .sub,#st-upd{font:12.5px/1.4 var(--sans)!important;letter-spacing:0!important;text-transform:none!important;color:var(--muted)}
+.st .pri{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-right:6px}
+.arch{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:auto}
+.arch img{display:block;width:100%;min-width:900px;height:auto}
 .box h2{font:600 13px/1.2 var(--sans);margin:0 0 10px;color:var(--text)}
 .box h2 small{font-weight:500;color:var(--faint);margin-left:6px}
 .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:-4px 0 6px}
@@ -131,6 +145,15 @@ svg.chart{display:block;width:100%;height:auto}
     </div>
     <div id="err" class="msg" role="status" aria-live="polite"></div>
 
+    <div class="tabs" role="tablist">
+      <button class="on" data-tab="t-status" type="button">Development status</button>
+      <button data-tab="t-arch" type="button">Architecture</button>
+      <button data-tab="t-traffic" type="button">Traffic &amp; signups</button>
+    </div>
+    <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
+    <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
+      <div style="font-size:12.5px;color:var(--muted);margin-top:8px">Green = built and running · yellow = being built · dashed = planned. Click to open full size.</div></div>
+    <div id="t-traffic" class="hidden">
     <div class="kpis" id="kpis"></div>
 
     <div class="grid">
@@ -167,6 +190,7 @@ svg.chart{display:block;width:100%;height:auto}
       <div class="tabhead"><h2 style="margin:0">Feedback <small id="fb-count"></small></h2></div>
       <div class="scroll"><table><thead><tr><th>Date</th><th>Category</th><th>Message</th><th>Version</th><th>Email</th></tr></thead><tbody id="fb-rows"></tbody></table></div>
       <div id="fb-more" class="note"></div>
+    </div>
     </div>
   </section>
 </main>
@@ -227,6 +251,7 @@ async function entrar() {
   if (error || admin !== true) return vista('v-denied');
   $('who').textContent = s.user.email || '';
   vista('v-dash');
+  estado();
   await carrega();
 }
 
@@ -261,7 +286,23 @@ function feedback(lista, erro) {
     : '<tr><td colspan="5" class="empty">No feedback yet.</td></tr>';
   $('fb-more').textContent = lista.length === 500 ? 'Showing the latest 500.' : '';
 }
-$('refresh').onclick = () => carrega();
+$('refresh').onclick = () => { estado(); carrega(); };
+
+// ── estado do desenvolvimento (admin/status.json; atualizado pelo CEO) ─────────────────────────────────────────────────
+for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
+  for (const x of document.querySelectorAll('.tabs button')) { x.classList.toggle('on', x === b); $(x.dataset.tab).classList.toggle('hidden', x !== b); }
+};
+async function estado() {
+  $('st-err').textContent = '';
+  try {
+    const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
+    const d = await r.json();
+    const t = [...d.tasks].sort((a, b) => (a.prio - b.prio) || (a.p - b.p));
+    $('st-upd').textContent = 'Updated ' + new Date(d.updated).toLocaleString();
+    $('st').innerHTML = t.map(x => `<div class="row"><div class="hd"><span class="nm">${x.prio === 1 ? '<span class="pri">Top priority</span>' : ''}${esc(x.t)}</span><span class="pc">${Math.max(0, Math.min(100, x.p))}%</span></div>` +
+      `<span class="bar"><i class="${x.p >= 100 ? 'ok' : ''}" style="width:${Math.max(2, Math.min(100, x.p))}%"></i></span><div class="sub">${esc(x.s)}</div></div>`).join('');
+  } catch (e) { $('st-err').textContent = 'Could not load the status: ' + e.message; }
+}
 
 // ── desenho ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 function lista(el, pares, total, vazio) {

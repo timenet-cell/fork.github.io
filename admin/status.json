@@ -1,0 +1,18 @@
+{
+  "updated": "2026-10-18T19:30:00Z",
+  "tasks": [
+    {"t": "Encryption: AES-256 fragments (wave 0–1)", "p": 10, "s": "Building: crypto core + key backup", "prio": 1},
+    {"t": "Store: Stripe + licence registry plan", "p": 15, "s": "Plan being written", "prio": 1},
+    {"t": "WIP fan passes (off-chain, revocable)", "p": 5, "s": "In the store plan", "prio": 1},
+    {"t": "Swarm: 10 GB reserve, recent projects, 3 copies", "p": 10, "s": "Plan approved; builds after encryption", "prio": 1},
+    {"t": "Fork Music: distribution + streaming", "p": 0, "s": "After store and swarm", "prio": 2},
+    {"t": "Beta feedback (card, Help menu, admin list)", "p": 90, "s": "Live · needs supabase db push", "prio": 2},
+    {"t": "Settings › Network (upload/download/storage)", "p": 100, "s": "Live · applies when swarm launches", "prio": 3},
+    {"t": "Terms v0.8 + Welcome tour", "p": 95, "s": "Live · lawyer review pending", "prio": 3},
+    {"t": "Update feed + first beta release B371", "p": 100, "s": "Live", "prio": 3},
+    {"t": "Developer gates: DJ, Network Evo, Live Companion", "p": 100, "s": "Live", "prio": 3},
+    {"t": "Analytics cards on desktop", "p": 100, "s": "Live", "prio": 3},
+    {"t": "Drive rename fix + no personal defaults", "p": 100, "s": "Live", "prio": 3},
+    {"t": "Merges: integration → master, PR #1, PR #3", "p": 100, "s": "Done", "prio": 3}
+  ]
+}
