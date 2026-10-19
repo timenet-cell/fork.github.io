@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T00:40:38Z",
+  "updated": "2026-10-19T04:42:29Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -15,8 +15,8 @@
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 80,
-      "s": "Done: licences, database, Platform settings, Studio sheet, Solana code, Stripe test checkout (off by default) \u00b7 building: signer \u00b7 needs: db push (17\u201319), Stripe test keys, your Ledger multisig",
+      "p": 85,
+      "s": "Done: licences, database, Platform settings, Studio sheet, Solana code, Stripe test checkout, signer (off until your Ledger multisig) \u00b7 building: release keys for buyers \u00b7 needs: db push (17\u201319), Stripe test keys, Ledgers",
       "prio": 1
     },
     {
@@ -27,8 +27,8 @@
     },
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-      "p": 60,
-      "s": "Waves 5\u20136 done: 3 encrypted copies, audit + repair, fair share, recency (off until verified) \u00b7 next: first-run notice, catalogue, phone",
+      "p": 65,
+      "s": "Waves 5\u20136 done (off until verified) \u00b7 building: Fork-signed device certificates (closes the 'anyone can host' gap)",
       "prio": 1
     },
     {
