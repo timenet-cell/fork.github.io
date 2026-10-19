@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EEF3F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F141B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Licence check · Fork</title>
+<meta name="description" content="Check who holds a Fork licence now, from its receipt.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EEF3F8'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%23e0312a' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<style>
+/* Verificacao publica de um recibo (Store S12): so factos publicos; o estado vem da cadeia pela funcao licence_verify. */
+:root{
+  --bg:#EEF3F8;--card:#F8FAFC;--text:#141A22;--muted:#5B6675;--faint:#8A96A5;--line:#DCE4EC;
+  --red:#e0312a;--ok:#1d7a46;--ok-bg:#e6f4ec;--warn:#9a5b00;--warn-bg:#fbf1e1;--off:#5B6675;--off-bg:#eef1f5;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F141B;--card:#161D26;--text:#E8EDF3;--muted:#9AA6B4;--faint:#6F7B89;--line:#26303C;
+    --red:#ff5a4f;--ok:#5cd08f;--ok-bg:#12291d;--warn:#f0b35a;--warn-bg:#2b2213;--off:#9AA6B4;--off-bg:#1c242e;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F141B;--card:#161D26;--text:#E8EDF3;--muted:#9AA6B4;--faint:#6F7B89;--line:#26303C;
+  --red:#ff5a4f;--ok:#5cd08f;--ok-bg:#12291d;--warn:#f0b35a;--warn-bg:#2b2213;--off:#9AA6B4;--off-bg:#1c242e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;display:flex;flex-direction:column}
+a{color:var(--red)}
+.hidden{display:none!important}
+.bar{display:flex;align-items:center;justify-content:center;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:600 15px/1 var(--display);letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo svg{width:28px;height:28px}
+main{flex:1;display:flex;justify-content:center;padding:32px 16px max(32px,env(safe-area-inset-bottom))}
+.card{width:100%;max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 24px;box-shadow:0 10px 30px rgba(20,40,70,.07);align-self:flex-start}
+.tag{display:block;font:600 10.5px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--red);margin:0 0 10px}
+h1{font:700 24px/1.2 var(--display);letter-spacing:-.02em;margin:0 0 6px}
+.state{display:flex;gap:12px;align-items:flex-start;border-radius:12px;padding:14px;margin:16px 0 4px;background:var(--off-bg);color:var(--text)}
+.state svg{flex:none;width:22px;height:22px;margin-top:1px}
+.state.ok{background:var(--ok-bg)} .state.ok svg{color:var(--ok)}
+.state.warn{background:var(--warn-bg)} .state.warn svg{color:var(--warn)}
+.state.off svg{color:var(--off)}
+.state>div{min-width:0}
+.state strong{display:block;font-weight:650;margin-bottom:2px}
+.state p{margin:0;color:var(--muted);font-size:14px}
+.addr{font:13px/1.4 var(--mono);overflow-wrap:anywhere;color:var(--text)}
+dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 18px;margin:20px 0 0;font-size:14px}
+dt{color:var(--muted)} dd{margin:0;min-width:0;overflow-wrap:anywhere}
+dd.mono{font:13px/1.45 var(--mono)}
+.note{margin:22px 0 0;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+.spin{width:22px;height:22px;border:2.5px solid var(--line);border-top-color:var(--red);border-radius:50%;animation:r .8s linear infinite;flex:none}
+@keyframes r{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion: reduce){.spin{animation:none}}
+@media (max-width:480px){.card{padding:22px 16px;border-radius:14px} dl{grid-template-columns:1fr;gap:2px} dd{margin-bottom:10px} h1{font-size:21px}}
+</style>
+</head>
+<body>
+<header class="bar"><a class="logo" href="/"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v16" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>Fork</a></header>
+<main><article class="card" aria-live="polite">
+  <span class="tag">Licence check</span>
+  <h1 id="title">Checking this licence</h1>
+  <div class="state off" id="state"><div class="spin" role="img" aria-label="Checking"></div><div><strong id="head">Checking the chain…</strong><p id="body">This takes a moment.</p></div></div>
+  <dl id="facts" class="hidden">
+    <dt>Release</dt><dd id="f-title"></dd>
+    <dt>Creator</dt><dd id="f-creator"></dd>
+    <dt>Licence</dt><dd id="f-serial"></dd>
+    <dt>Original purchase</dt><dd id="f-date"></dd>
+    <dt>Licence record</dt><dd id="f-asset" class="mono"></dd>
+    <dt>Checked</dt><dd id="f-checked"></dd>
+  </dl>
+  <p class="note">A Fork receipt is permanent proof of the original purchase. Whoever holds the licence now is its owner: listening rights and authorised resale follow the licence, not the receipt. This page shows public facts only — no names, emails or accounts.</p>
+</article></main>
+<script>
+(() => {
+  // A funcao publica (sem sessao). A chave publishable e publica por desenho, como na pagina inicial.
+  const SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";
+  const $ = (id) => document.getElementById(id);
+  const ICON = {
+    ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5"/></svg>',
+    warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5v.01"/></svg>',
+    off: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 7.5v5M12 16v.01"/></svg>',
+  };
+  const fmtDate = (iso) => { const d = iso ? new Date(iso) : null; return d && !isNaN(d) ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) : ''; };
+  const fmtTime = (iso) => { const d = iso ? new Date(iso) : null; return d && !isNaN(d) ? fmtDate(iso) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC' : ''; };
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  function show(kind, title, head, body) {
+    $('title').textContent = title;
+    const st = $('state');
+    st.className = 'state ' + kind;
+    st.innerHTML = ICON[kind] + '<div><strong></strong><p></p></div>';
+    st.querySelector('strong').innerHTML = head;    // ja escapado por quem chama
+    st.querySelector('p').textContent = body || '';
+    if (!body) st.querySelector('p').remove();
+  }
+
+  function facts(a) {
+    $('f-title').textContent = a.title || '';
+    $('f-creator').textContent = a.creator || '';
+    $('f-serial').textContent = a.serial ? '#' + String(a.serial).padStart(4, '0') + (a.edition_size ? ' of ' + a.edition_size : ' (open edition)') : 'Number not assigned yet';
+    $('f-date').textContent = fmtDate(a.purchased_at);
+    $('f-asset').textContent = a.asset_id ? a.asset_id + (a.network === 'devnet' ? '  (devnet, test only)' : '') : 'Not recorded yet';
+    $('f-checked').textContent = a.chain_checked_at ? fmtTime(a.chain_checked_at) : 'Not checked yet';
+    $('facts').classList.remove('hidden');
+  }
+
+  function render(a) {
+    facts(a);
+    const who = a.current_owner === 'Fork custody' ? 'Fork custody' : '<span class="addr">' + esc(a.current_owner || '') + '</span>';
+    switch (a.status) {
+      case 'held_by_original':
+        return show('ok', 'Licence verified', 'Ownership confirmed — still held by the original buyer', '');
+      case 'frozen':
+        return show('ok', 'Licence verified', 'Ownership confirmed — still held by the original buyer', 'This licence is locked: it cannot be resold.');
+      case 'transferred':
+        return show('warn', 'Licence transferred',
+          'This item was transferred to ' + who + (a.transferred_at ? ' on ' + esc(fmtDate(a.transferred_at)) : ' (the date is not recorded yet)') + '.',
+          'The original receipt holder no longer owns it.');
+      case 'pending_mint':
+        return show('off', 'Licence not recorded yet', 'The licence is not recorded on the chain yet.', 'The receipt is valid. Check again later.');
+      case 'refunded':
+        return show('off', 'Purchase refunded', 'This purchase was refunded; the licence ended.', '');
+      default:
+        return show('off', 'Licence check', esc(a.message || 'Could not check the chain right now.'),
+          a.chain_checked_at ? 'Last checked ' + fmtTime(a.chain_checked_at) + '. Try again in a few minutes.' : 'Try again in a few minutes.');
+    }
+  }
+
+  const t = new URLSearchParams(location.search).get('t') || '';
+  if (!/^[0-9a-f]{64}$/.test(t)) {
+    return show('off', 'Licence check', 'This verification link is not valid.', 'Scan the QR code on the receipt again, or copy the whole link.');
+  }
+  fetch(SUPABASE_URL + '/functions/v1/licence_verify?t=' + t, { headers: { apikey: SUPABASE_KEY } })
+    .then(async (r) => {
+      const a = await r.json().catch(() => null);
+      if (r.ok && a && a.ok) return render(a);
+      if (r.status === 404) return show('off', 'Licence check', 'No receipt matches this link.', 'Check that the whole link was copied.');
+      if (r.status === 429) return show('off', 'Licence check', 'Too many checks.', 'Try again in a minute.');
+      show('off', 'Licence check', 'Could not check the chain right now.', 'Try again in a few minutes.');
+    })
+    .catch(() => show('off', 'Licence check', 'Could not check the chain right now.', 'Check your connection and try again.'));
+})();
+</script>
+</body>
+</html>
