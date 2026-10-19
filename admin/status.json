@@ -1,12 +1,6 @@
 {
- "updated": "2026-10-19T15:36:40Z",
+ "updated": "2026-10-19T15:55:50Z",
  "tasks": [
-  {
-   "t": "Terms: softer wording for storage contribution",
-   "p": 60,
-   "s": "Draft v0.9 softer wording done · waiting on your review, then shipped to the app",
-   "prio": 1
-  },
   {
    "t": "Encryption: AES-256 fragments",
    "p": 85,
@@ -84,6 +78,12 @@
    "p": 100,
    "s": "Done",
    "prio": 3
+  },
+  {
+   "t": "Terms: softer wording for storage contribution",
+   "p": 60,
+   "s": "Left for the end (owner, 19 Oct) · draft v0.9 ready",
+   "prio": 0
   }
  ]
 }
