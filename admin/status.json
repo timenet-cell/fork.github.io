@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T05:09:43Z",
+  "updated": "2026-10-19T05:24:40Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -33,8 +33,8 @@
     },
     {
       "t": "Fork Music: distribution + streaming",
-      "p": 50,
-      "s": "v1 structure + Buy (behind Platform setting 'checkout enabled') \u00b7 next: streaming",
+      "p": 65,
+      "s": "v1 + Buy + encrypted playback/keys/leases done (offline-tested) \u00b7 next: delivery over the swarm (S11) \u00b7 needs db push (migration 23) + lease issuer key",
       "prio": 2
     },
     {
