@@ -1,10 +1,10 @@
 {
- "updated": "2026-10-19T10:17:58Z",
+ "updated": "2026-10-19T13:59:20Z",
  "tasks": [
   {
    "t": "Terms: softer wording for storage contribution",
-   "p": 0,
-   "s": "Tomorrow (19 Oct) — your review",
+   "p": 60,
+   "s": "Draft v0.9 softer wording done · waiting on your review, then shipped to the app",
    "prio": 1
   },
   {
@@ -27,8 +27,8 @@
   },
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-   "p": 80,
-   "s": "Waves 5–6 + Fork-signed device certificates done (off until verified) · needs: db push, device_cert deploy + key",
+   "p": 88,
+   "s": "Waves 5–6 + device certs + collab seeding: every share shards to the network, guests pull from all members + hosts (loopback-tested; off until verified) · needs: db push 26",
    "prio": 1
   },
   {
