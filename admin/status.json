@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T00:33:49Z",
+  "updated": "2026-10-19T00:40:38Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -15,8 +15,8 @@
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 70,
-      "s": "Done: licences, database, Platform settings, Studio sheet, Solana licence code (matches official SDK) \u00b7 building: signer (offline, needs your Ledger multisig to go live) \u00b7 needs supabase db push (migration 17)",
+      "p": 80,
+      "s": "Done: licences, database, Platform settings, Studio sheet, Solana code, Stripe test checkout (off by default) \u00b7 building: signer \u00b7 needs: db push (17\u201319), Stripe test keys, your Ledger multisig",
       "prio": 1
     },
     {
@@ -33,8 +33,8 @@
     },
     {
       "t": "Fork Music: distribution + streaming",
-      "p": 40,
-      "s": "v1 structure done: Store, Library (licences), Passes, Fork login, Terms \u00b7 next: checkout, streaming \u00b7 needs supabase db push (migration 17)",
+      "p": 50,
+      "s": "v1 structure + Buy (behind Platform setting 'checkout enabled') \u00b7 next: streaming",
       "prio": 2
     },
     {
