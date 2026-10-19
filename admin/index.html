@@ -318,7 +318,8 @@ const PS_UNIT = {
   eur_minor: { u: '€', f: 100, step: '0.01' }, bps: { u: '%', f: 100, step: '0.01' }, pct: { u: '%', f: 1, step: '1' },
   days: { u: 'days', f: 1, step: '1' }, seconds: { u: 's', f: 1, step: '1' }, gb: { u: 'GB', f: 1, step: '1' },
 };
-const psShow = (st, v) => st.unit === 'bool' ? (v ? 'On' : 'Off') : (v / PS_UNIT[st.unit].f).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + PS_UNIT[st.unit].u;
+const psTxt = st => st.unit !== 'bool' && !PS_UNIT[st.unit];   // hex/texto (ex.: chave publica do emissor de certificados)
+const psShow = (st, v) => psTxt(st) ? String(v ?? '') : st.unit === 'bool' ? (v ? 'On' : 'Off') : (v / PS_UNIT[st.unit].f).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + PS_UNIT[st.unit].u;
 async function definicoes() {
   const box = $('ps');
   const { data, error } = await sb.from('platform_settings').select('key, value, unit, label, description, min_value, max_value, applies_to_new_only, updated_at').order('key');
@@ -339,7 +340,9 @@ async function definicoes() {
 }
 function linhaDef(st) {
   const id = 'ps-' + st.key.replace(/\W/g, '_'), U = PS_UNIT[st.unit];
-  const ed = st.unit === 'bool'
+  const ed = psTxt(st)
+    ? `<input type="text" id="${id}" aria-label="${esc(st.label)}" spellcheck="false" style="width:22em;font-family:var(--mono)" value="${esc(String(st.value ?? ''))}">`
+    : st.unit === 'bool'
     ? `<input type="checkbox" id="${id}" aria-label="${esc(st.label)}"${st.value ? ' checked' : ''}>`
     : `<input type="number" id="${id}" aria-label="${esc(st.label)}" step="${U.step}" min="${st.min_value / U.f}" max="${st.max_value / U.f}" value="${st.value / U.f}"><span class="u">${U.u}</span>`;
   return `<div class="ps-row"><div><div class="nm">${esc(st.label)}</div><div class="ds">${esc(st.description)}</div>` +
@@ -350,10 +353,11 @@ function linhaDef(st) {
 function ligaDef(st) {
   const id = 'ps-' + st.key.replace(/\W/g, '_'), inp = $(id), btn = $(id + '-save'), fb = $(id + '-fb'), U = PS_UNIT[st.unit];
   let atual = st.value;
-  const lido = () => st.unit === 'bool' ? inp.checked : Math.round(Number(inp.value) * U.f);
+  const lido = () => psTxt(st) ? inp.value.trim() : st.unit === 'bool' ? inp.checked : Math.round(Number(inp.value) * U.f);
   const aviso = (t, mau) => { fb.textContent = t; fb.classList.toggle('bad', !!mau); };
   const confere = () => {
     if (st.unit === 'bool') return null;
+    if (psTxt(st)) return /^[0-9a-f]{64}$/i.test(inp.value.trim()) || st.unit !== 'hex' ? null : 'Enter 64 hex characters.';
     if (inp.value === '' || !isFinite(Number(inp.value))) return 'Enter a number.';
     const n = Number(inp.value) * U.f;
     if (Math.abs(n - Math.round(n)) > 1e-6) return 'Too many decimals.';

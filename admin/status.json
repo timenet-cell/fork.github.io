@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T04:42:29Z",
+  "updated": "2026-10-19T05:02:28Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -27,8 +27,8 @@
     },
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-      "p": 65,
-      "s": "Waves 5\u20136 done (off until verified) \u00b7 building: Fork-signed device certificates (closes the 'anyone can host' gap)",
+      "p": 75,
+      "s": "Waves 5\u20136 + Fork-signed device certificates done (off until verified) \u00b7 needs: db push, device_cert deploy + key",
       "prio": 1
     },
     {
