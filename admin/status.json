@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T00:22:23Z",
+  "updated": "2026-10-19T00:33:49Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -33,8 +33,8 @@
     },
     {
       "t": "Fork Music: distribution + streaming",
-      "p": 15,
-      "s": "v1 app structure building: Store, Library, Passes",
+      "p": 40,
+      "s": "v1 structure done: Store, Library (licences), Passes, Fork login, Terms \u00b7 next: checkout, streaming \u00b7 needs supabase db push (migration 17)",
       "prio": 2
     },
     {
