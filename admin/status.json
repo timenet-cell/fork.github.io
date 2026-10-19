@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T09:49:56Z",
+ "updated": "2026-10-19T10:17:58Z",
  "tasks": [
   {
    "t": "Terms: softer wording for storage contribution",
@@ -27,14 +27,14 @@
   },
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-   "p": 75,
+   "p": 80,
    "s": "Waves 5–6 + Fork-signed device certificates done (off until verified) · needs: db push, device_cert deploy + key",
    "prio": 1
   },
   {
    "t": "Fork Music: distribution + streaming",
-   "p": 72,
-   "s": "v1 + Buy + encrypted playback + Used tracks shelf & Sell/Transfer (offline-tested) · next: delivery over the swarm (S11)",
+   "p": 82,
+   "s": "v1 + Buy + encrypted playback + Used tracks + P2P delivery to fans (S11, loopback-tested) · next: test between real Macs, fans re-serving",
    "prio": 2
   },
   {
