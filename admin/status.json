@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19T13:59:20Z",
+ "updated": "2026-10-19T15:36:40Z",
  "tasks": [
   {
    "t": "Terms: softer wording for storage contribution",
@@ -10,13 +10,13 @@
   {
    "t": "Encryption: AES-256 fragments",
    "p": 85,
-   "s": "Waves 0–4 + 8 done, server side live · switched off until verified on your Mac",
+   "s": "Waves 0–4 + 8 done, server side live · switched off until verified on your Mac · ETA ~2–3 days + your Mac test",
    "prio": 1
   },
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 93,
-   "s": "Done: licences, Stripe test checkout, signer, wallet connect + used-track resale (off until enabled) · needs: db push 17–23, Stripe keys, Solana tree",
+   "s": "Code done: licences, receipts + verify page, signer, custody-only resale (in progress) · database + functions live · needs you: Stripe keys, Solana multisig/tree · ETA ~1 day after your setup",
    "prio": 1
   },
   {
@@ -28,13 +28,13 @@
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
    "p": 88,
-   "s": "Waves 5–6 + device certs + collab seeding: every share shards to the network, guests pull from all members + hosts (loopback-tested; off until verified) · needs: db push 26",
+   "s": "Waves 5–6 + device certs + collab seeding: every share shards to the network, guests pull from all members + hosts (loopback-tested; off until verified) · next: reach Macs behind routers · ETA ~3–5 days",
    "prio": 1
   },
   {
    "t": "Fork Music: distribution + streaming",
    "p": 82,
-   "s": "v1 + Buy + encrypted playback + Used tracks + P2P delivery to fans (S11, loopback-tested) · next: test between real Macs, fans re-serving",
+   "s": "v1 + Buy + encrypted playback + Used tracks + P2P delivery to fans (loopback-tested) · next: real Mac test, fans re-serving · ETA ~3–4 days",
    "prio": 2
   },
   {
