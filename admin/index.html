@@ -357,7 +357,7 @@ function ligaDef(st) {
   const aviso = (t, mau) => { fb.textContent = t; fb.classList.toggle('bad', !!mau); };
   const confere = () => {
     if (st.unit === 'bool') return null;
-    if (psTxt(st)) return /^[0-9a-f]{64}$/i.test(inp.value.trim()) || st.unit !== 'hex' ? null : 'Enter 64 hex characters.';
+    if (psTxt(st)) return /^[0-9a-f]{64}$/i.test(inp.value.trim()) || (st.unit !== 'hex' && st.unit !== 'x25519') ? null : 'Enter 64 hex characters.';
     if (inp.value === '' || !isFinite(Number(inp.value))) return 'Enter a number.';
     const n = Number(inp.value) * U.f;
     if (Math.abs(n - Math.round(n)) > 1e-6) return 'Too many decimals.';

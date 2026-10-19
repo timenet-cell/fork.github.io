@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T05:02:28Z",
+  "updated": "2026-10-19T05:09:43Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -15,8 +15,8 @@
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 85,
-      "s": "Done: licences, database, Platform settings, Studio sheet, Solana code, Stripe test checkout, signer (off until your Ledger multisig) \u00b7 building: release keys for buyers \u00b7 needs: db push (17\u201319), Stripe test keys, Ledgers",
+      "p": 90,
+      "s": "Done: licences, database, settings, Studio sheet, Solana code, Stripe test checkout, signer, buyer key release \u00b7 next: wallet connect + used-track market \u00b7 needs: db push (17\u201321), Stripe test keys, your Ledgers, escrow key",
       "prio": 1
     },
     {
