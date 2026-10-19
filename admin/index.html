@@ -95,6 +95,11 @@ svg.chart{display:block;width:100%;height:auto}
 .chart .ax{stroke:var(--line);stroke-width:1}
 .chart text{font:10.5px var(--mono);fill:var(--faint)}
 .scroll{overflow-x:auto}
+.rp-det td{background:var(--field)}
+.rp-det textarea{display:block;width:100%;font:12px var(--mono);padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);margin:4px 0 8px;min-height:64px}
+.rp-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.rp-act .sec.dng{border-color:var(--err);color:var(--err)}
+td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 
 /* platform settings */
 .ps-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
@@ -172,11 +177,21 @@ svg.chart{display:block;width:100%;height:auto}
       <button data-tab="t-arch" type="button">Architecture</button>
       <button data-tab="t-traffic" type="button">Traffic &amp; signups</button>
       <button data-tab="t-settings" type="button">Platform settings</button>
+      <button data-tab="t-reports" type="button">Reports</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
       <div style="font-size:12.5px;color:var(--muted);margin-top:8px">Green = built and running · yellow = being built · dashed = planned. Click to open full size.</div></div>
     <div id="t-settings" class="hidden"><div id="ps"></div></div>
+    <div id="t-reports" class="hidden">
+      <p class="ps-note">Reports name a block or manifest by its cid, never its content: encrypted blocks can’t be read by hosts or by Fork. A valid report tombstones the cid (cooperating devices delete it and refuse it again). If a host’s upload receipt is attached, it names the account that sent it, which can then be suspended. A modified client can keep a copy.</p>
+      <div class="box">
+        <div class="tabhead"><h2 style="margin:0">Reports <small id="rp-count"></small></h2>
+          <span><select id="rp-status" class="sec" aria-label="Status"><option value="open">Open</option><option value="valid">Valid</option><option value="rejected">Rejected</option><option value="all">All</option></select></span></div>
+        <div id="rp-err" class="msg" role="status" aria-live="polite"></div>
+        <div class="scroll"><table><thead><tr><th>Date</th><th>Reason</th><th>Target</th><th>Account</th><th>State</th><th></th></tr></thead><tbody id="rp-rows"></tbody></table></div>
+      </div>
+    </div>
     <div id="t-traffic" class="hidden">
     <div class="kpis" id="kpis"></div>
 
@@ -277,6 +292,7 @@ async function entrar() {
   vista('v-dash');
   estado();
   definicoes();
+  denuncias();
   await carrega();
 }
 
@@ -384,7 +400,61 @@ function ligaDef(st) {
     btn.disabled = true;
   };
 }
-$('refresh').onclick = () => { estado(); carrega(); definicoes(); };
+$('refresh').onclick = () => { estado(); carrega(); definicoes(); denuncias(); };
+
+// ── denuncias (migracao 30: block_reports; so por RPC de admin; a pagina nunca decide quem pode) ────────────────────
+const RP_WHY = { csam: 'Child safety', terror: 'Terrorist content', copyright: 'Copyright', fraud: 'Fraud', other: 'Other' };
+let rpLista = [];
+async function denuncias() {
+  const el = $('rp-rows'); $('rp-err').textContent = '';
+  const { data, error } = await sb.rpc('abuse_reports', { p_status: $('rp-status').value });
+  if (error) {
+    const falta = error.code === 'PGRST202' || /could not find the function/i.test(error.message || '');
+    $('rp-count').textContent = '';
+    el.innerHTML = '<tr><td colspan="6" class="empty">' + (falta ? 'Waiting for the database update (supabase db push)' : esc('Could not load the reports: ' + error.message)) + '</td></tr>';
+    return;
+  }
+  rpLista = data;
+  $('rp-count').textContent = data.length ? nf(data.length) : '';
+  el.innerHTML = data.length ? data.map((r, i) => {
+    const est = r.status === 'open' ? 'Open' : r.status === 'valid' ? 'Valid' : 'Rejected';
+    const chips = (r.tombstoned ? `<span class="chip">${r.tombstone_signed ? 'tombstone signed' : 'tombstone waiting for signature'}</span>` : '') + (r.suspended ? '<span class="chip">account suspended</span>' : '');
+    return `<tr><td class="d">${esc(quando(r.created_at))}</td><td><span class="chip">${esc(RP_WHY[r.reason] || r.reason)}</span></td>` +
+      `<td class="cid">${esc(r.kind)} ${esc(r.target.slice(0, 16))}…</td>` +
+      `<td class="fe">${r.account_hash ? esc(r.account_hash.slice(0, 12)) + '…' : '<span style="color:var(--faint)">no receipt</span>'}</td>` +
+      `<td>${esc(est)} ${chips}</td><td><button class="sec" data-rp="${i}" type="button">Review</button></td></tr>`;
+  }).join('') : '<tr><td colspan="6" class="empty">No reports here.</td></tr>';
+}
+function revisao(i, btn) {
+  const r = rpLista[i], tr = btn.closest('tr'), nxt = tr.nextElementSibling;
+  if (nxt && nxt.classList.contains('rp-det')) { nxt.remove(); return; }
+  const aberta = r.status === 'open';
+  const d = document.createElement('tr'); d.className = 'rp-det';
+  d.innerHTML = `<td colspan="6"><div class="sub" style="font:12px var(--mono);overflow-wrap:anywhere">cid ${esc(r.target)}</div>` +
+    (r.detail ? `<div style="margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere">${esc(r.detail)}</div>` : '') +
+    `<div class="note">Reporter: ${esc(r.reporter_email || '—')}${r.decision_note ? ' · Decision: ' + esc(r.decision_note) : ''}</div>` +
+    (aberta ? `<label>Upload receipt from a host (JSON)</label><textarea class="rp-rec" spellcheck="false" placeholder="{&quot;cid&quot;: …, &quot;cert&quot;: {…}}"></textarea>
+      <button class="sec rp-att" type="button">Attach receipt</button>
+      <label>Note for the statement of reasons</label><input class="rp-note" maxlength="2000">
+      <div class="rp-act"><button class="sec rp-ok" type="button">Valid: tombstone the cid</button>
+      <button class="sec dng rp-su" type="button"${r.account_hash ? '' : ' disabled title="Attach a receipt first"'}>Valid: tombstone and suspend the account</button>
+      <button class="sec rp-no" type="button">Not valid</button></div>` : '') +
+    '<p class="msg rp-m" role="status" aria-live="polite"></p></td>';
+  tr.after(d);
+  const m = d.querySelector('.rp-m'), note = () => (d.querySelector('.rp-note')?.value || '').trim() || null;
+  const faz = async (f, ok) => { m.textContent = ''; const { error } = await f(); if (error) { m.textContent = error.message; return; } if (ok) { await denuncias(); } };
+  if (!aberta) return;
+  d.querySelector('.rp-att').onclick = async () => {
+    let j; try { j = JSON.parse(d.querySelector('.rp-rec').value); } catch { m.textContent = 'That is not valid JSON.'; return; }
+    await faz(() => sb.rpc('abuse_attach_receipt', { p_report: r.id, p_receipt: j }), true);
+  };
+  const decide = (valido, suspende) => () => faz(() => sb.rpc('abuse_decide', { p_report: r.id, p_valid: valido, p_note: note(), p_suspend: suspende }), true);
+  d.querySelector('.rp-ok').onclick = decide(true, false);
+  d.querySelector('.rp-su').onclick = () => confirm('Suspend the account behind this receipt?') && decide(true, true)();
+  d.querySelector('.rp-no').onclick = decide(false, false);
+}
+$('rp-rows').onclick = e => { const b = e.target.closest('button[data-rp]'); if (b) revisao(+b.dataset.rp, b); };
+$('rp-status').onchange = denuncias;
 
 // ── estado do desenvolvimento (admin/status.json; atualizado pelo CEO) ─────────────────────────────────────────────────
 for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
