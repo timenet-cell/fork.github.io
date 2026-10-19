@@ -1,16 +1,16 @@
 {
- "updated": "2026-10-19T15:55:50Z",
+ "updated": "2026-10-19T21:10:31Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
-   "p": 85,
-   "s": "Waves 0–4 + 8 done, server side live · switched off until verified on your Mac · ETA ~2–3 days + your Mac test",
+   "p": 88,
+   "s": "Waves 0–4, 8, 10, 13 done (first-run notice, recency) · next: switch on with your real data on your Mac (needs your OK)",
    "prio": 1
   },
   {
    "t": "Store: Stripe + Solana licence registry",
-   "p": 93,
-   "s": "Code done: licences, receipts + verify page, signer, custody-only resale (in progress) · database + functions live · needs you: Stripe keys, Solana multisig/tree · ETA ~1 day after your setup",
+   "p": 96,
+   "s": "Code + database + functions live, Stripe connected · in progress: licence id + smaller transfers · needs you: Solana devnet setup (one command, coming)",
    "prio": 1
   },
   {
@@ -21,8 +21,8 @@
   },
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-   "p": 88,
-   "s": "Waves 5–6 + device certs + collab seeding: every share shards to the network, guests pull from all members + hosts (loopback-tested; off until verified) · next: reach Macs behind routers · ETA ~3–5 days",
+   "p": 92,
+   "s": "Done: certs, collab seeding, multi-source, abuse controls (wave 7), notice (13) · in progress: routers/NAT, fair share + catalogue, DB backup",
    "prio": 1
   },
   {
