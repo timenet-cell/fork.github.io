@@ -1,89 +1,89 @@
 {
-  "updated": "2026-10-19T05:24:40Z",
-  "tasks": [
-    {
-      "t": "Terms: softer wording for storage contribution",
-      "p": 0,
-      "s": "Tomorrow (19 Oct) \u2014 your review",
-      "prio": 1
-    },
-    {
-      "t": "Encryption: AES-256 fragments",
-      "p": 85,
-      "s": "Waves 0\u20134 + 8 done, server side live \u00b7 switched off until verified on your Mac",
-      "prio": 1
-    },
-    {
-      "t": "Store: Stripe + Solana licence registry",
-      "p": 90,
-      "s": "Done: licences, database, settings, Studio sheet, Solana code, Stripe test checkout, signer, buyer key release \u00b7 next: wallet connect + used-track market \u00b7 needs: db push (17\u201321), Stripe test keys, your Ledgers, escrow key",
-      "prio": 1
-    },
-    {
-      "t": "WIP fan passes (off-chain, revocable)",
-      "p": 75,
-      "s": "Signed passes + Studio screen done (developer tick) \u00b7 fan side comes with Fork Music",
-      "prio": 1
-    },
-    {
-      "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-      "p": 75,
-      "s": "Waves 5\u20136 + Fork-signed device certificates done (off until verified) \u00b7 needs: db push, device_cert deploy + key",
-      "prio": 1
-    },
-    {
-      "t": "Fork Music: distribution + streaming",
-      "p": 65,
-      "s": "v1 + Buy + encrypted playback/keys/leases done (offline-tested) \u00b7 next: delivery over the swarm (S11) \u00b7 needs db push (migration 23) + lease issuer key",
-      "prio": 2
-    },
-    {
-      "t": "Beta feedback (card, Help menu, admin list)",
-      "p": 100,
-      "s": "Live (database ready)",
-      "prio": 2
-    },
-    {
-      "t": "Settings \u203a Network (upload/download/storage)",
-      "p": 100,
-      "s": "Live \u00b7 applies when swarm launches",
-      "prio": 3
-    },
-    {
-      "t": "Terms v0.8 + Welcome tour",
-      "p": 95,
-      "s": "Live \u00b7 lawyer review pending",
-      "prio": 3
-    },
-    {
-      "t": "Update feed + first beta release B371",
-      "p": 100,
-      "s": "Live",
-      "prio": 3
-    },
-    {
-      "t": "Developer gates: DJ, Network Evo, Live Companion",
-      "p": 100,
-      "s": "Live",
-      "prio": 3
-    },
-    {
-      "t": "Analytics cards on desktop",
-      "p": 100,
-      "s": "Live",
-      "prio": 3
-    },
-    {
-      "t": "Drive rename fix + no personal defaults",
-      "p": 100,
-      "s": "Live",
-      "prio": 3
-    },
-    {
-      "t": "Merges: integration \u2192 master, PR #1, PR #3",
-      "p": 100,
-      "s": "Done",
-      "prio": 3
-    }
-  ]
+ "updated": "2026-10-19T09:49:56Z",
+ "tasks": [
+  {
+   "t": "Terms: softer wording for storage contribution",
+   "p": 0,
+   "s": "Tomorrow (19 Oct) — your review",
+   "prio": 1
+  },
+  {
+   "t": "Encryption: AES-256 fragments",
+   "p": 85,
+   "s": "Waves 0–4 + 8 done, server side live · switched off until verified on your Mac",
+   "prio": 1
+  },
+  {
+   "t": "Store: Stripe + Solana licence registry",
+   "p": 93,
+   "s": "Done: licences, Stripe test checkout, signer, wallet connect + used-track resale (off until enabled) · needs: db push 17–23, Stripe keys, Solana tree",
+   "prio": 1
+  },
+  {
+   "t": "WIP fan passes (off-chain, revocable)",
+   "p": 75,
+   "s": "Signed passes + Studio screen done (developer tick) · fan side comes with Fork Music",
+   "prio": 1
+  },
+  {
+   "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
+   "p": 75,
+   "s": "Waves 5–6 + Fork-signed device certificates done (off until verified) · needs: db push, device_cert deploy + key",
+   "prio": 1
+  },
+  {
+   "t": "Fork Music: distribution + streaming",
+   "p": 72,
+   "s": "v1 + Buy + encrypted playback + Used tracks shelf & Sell/Transfer (offline-tested) · next: delivery over the swarm (S11)",
+   "prio": 2
+  },
+  {
+   "t": "Beta feedback (card, Help menu, admin list)",
+   "p": 100,
+   "s": "Live (database ready)",
+   "prio": 2
+  },
+  {
+   "t": "Settings › Network (upload/download/storage)",
+   "p": 100,
+   "s": "Live · applies when swarm launches",
+   "prio": 3
+  },
+  {
+   "t": "Terms v0.8 + Welcome tour",
+   "p": 95,
+   "s": "Live · lawyer review pending",
+   "prio": 3
+  },
+  {
+   "t": "Update feed + first beta release B371",
+   "p": 100,
+   "s": "Live",
+   "prio": 3
+  },
+  {
+   "t": "Developer gates: DJ, Network Evo, Live Companion",
+   "p": 100,
+   "s": "Live",
+   "prio": 3
+  },
+  {
+   "t": "Analytics cards on desktop",
+   "p": 100,
+   "s": "Live",
+   "prio": 3
+  },
+  {
+   "t": "Drive rename fix + no personal defaults",
+   "p": 100,
+   "s": "Live",
+   "prio": 3
+  },
+  {
+   "t": "Merges: integration → master, PR #1, PR #3",
+   "p": 100,
+   "s": "Done",
+   "prio": 3
+  }
+ ]
 }
