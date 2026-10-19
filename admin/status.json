@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18T23:54:02Z",
+  "updated": "2026-10-19T00:19:27Z",
   "tasks": [
     {
       "t": "Terms: softer wording for storage contribution",
@@ -15,14 +15,14 @@
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 50,
-      "s": "Done: licence format, store database, Platform settings \u00b7 building: Studio 'Put on sale' sheet + Solana licence builders \u00b7 needs: supabase db push (migration 17)",
+      "p": 60,
+      "s": "Done: licence format, store database, Platform settings, Studio 'Put on sale' (developer tick) \u00b7 building: Solana licence code \u00b7 next: signer needs your Ledger multisig \u00b7 needs supabase db push (migration 17)",
       "prio": 1
     },
     {
       "t": "WIP fan passes (off-chain, revocable)",
-      "p": 50,
-      "s": "Signed passes + revocation done \u00b7 Studio screen building",
+      "p": 75,
+      "s": "Signed passes + Studio screen done (developer tick) \u00b7 fan side comes with Fork Music",
       "prio": 1
     },
     {
