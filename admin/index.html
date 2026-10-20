@@ -445,6 +445,8 @@ const PS_UNIT = {
 const psTxt = st => st.unit !== 'bool' && !PS_UNIT[st.unit];   // hex/texto (ex.: chave publica do emissor de certificados)
 // Chaves publicas (migracoes 20, 21, 23): 64 hex MINUSCULOS na base; x25519/ed25519 podem ficar nulas ate o dono as por.
 const PS_KEY = ['hex', 'x25519', 'ed25519'];
+// Contacto de suporte (migracao 51): texto, nulo enquanto vazio.
+const PS_CONTACTO = ['url', 'email'];
 const psShow = (st, v) => psTxt(st) ? (v == null || v === '' ? 'Not set' : String(v)) : st.unit === 'bool' ? (v ? 'On' : 'Off') : (v / PS_UNIT[st.unit].f).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + PS_UNIT[st.unit].u;
 // ── reserva da cadeia (migracao 47): o que entrou (gas + service fee, partes do saldo) contra o gasto real na cadeia ──────
 // Tudo vem de `chain_reserve()` (so administradores); a pagina so formata. Vermelho so abaixo do chao.
@@ -509,10 +511,14 @@ function linhaDef(st) {
 function ligaDef(st) {
   const id = 'ps-' + st.key.replace(/\W/g, '_'), inp = $(id), btn = $(id + '-save'), fb = $(id + '-fb'), U = PS_UNIT[st.unit];
   let atual = st.value;
-  const lido = () => psTxt(st) ? (PS_KEY.includes(st.unit) ? inp.value.trim().toLowerCase() : inp.value.trim()) : st.unit === 'bool' ? inp.checked : Math.round(Number(inp.value) * U.f);
+  // url/email (migracao 51): vazio = nulo ("Not set"), como as chaves publicas
+  const lido = () => psTxt(st) ? (PS_KEY.includes(st.unit) ? inp.value.trim().toLowerCase()
+    : PS_CONTACTO.includes(st.unit) ? (inp.value.trim() || null) : inp.value.trim()) : st.unit === 'bool' ? inp.checked : Math.round(Number(inp.value) * U.f);
   const aviso = (t, mau) => { fb.textContent = t; fb.classList.toggle('bad', !!mau); };
   const confere = () => {
     if (st.unit === 'bool') return null;
+    if (st.unit === 'url') return !inp.value.trim() || /^https:\/\/[^\s"<>]{3,250}$/.test(inp.value.trim()) ? null : 'Enter an https:// address.';
+    if (st.unit === 'email') return !inp.value.trim() || /^[^@\s"<>]{1,64}@[^@\s"<>]+\.[^@\s"<>]{2,}$/.test(inp.value.trim()) ? null : 'Enter an email address.';
     if (psTxt(st)) return /^[0-9a-f]{64}$/i.test(inp.value.trim()) || !PS_KEY.includes(st.unit) ? null : 'Enter 64 hex characters.';
     if (inp.value === '' || !isFinite(Number(inp.value))) return 'Enter a number.';
     const n = Number(inp.value) * U.f;
