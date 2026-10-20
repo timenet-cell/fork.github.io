@@ -1,16 +1,16 @@
 {
- "updated": "2026-10-19T21:10:31Z",
+ "updated": "2026-10-20T09:40:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
    "p": 88,
-   "s": "Waves 0–4, 8, 10, 13 done (first-run notice, recency) · next: switch on with your real data on your Mac (needs your OK)",
+   "s": "Waves 0–4, 7, 8, 10, 13 merged · encrypted DB backup being verified · next: switch on with your real data (needs your OK)",
    "prio": 1
   },
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 96,
-   "s": "Code + database + functions live, Stripe connected · in progress: licence id + smaller transfers · needs you: Solana devnet setup (one command, coming)",
+   "s": "Code, database, functions live, Stripe connected · agent finishing licence id + smaller transfers (20 Oct) · needs you: Solana devnet multisig + FORK_DAS_URL",
    "prio": 1
   },
   {
@@ -22,13 +22,13 @@
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
    "p": 92,
-   "s": "Done: certs, collab seeding, multi-source, abuse controls (wave 7), notice (13) · in progress: routers/NAT, fair share + catalogue, DB backup",
+   "s": "Merged: certs, collab seeding, multi-source, abuse controls, notice · 3 agents on routers/NAT, fair share + catalogue, DB backup (20 Oct)",
    "prio": 1
   },
   {
    "t": "Fork Music: distribution + streaming",
    "p": 82,
-   "s": "v1 + Buy + encrypted playback + Used tracks + P2P delivery to fans (loopback-tested) · next: real Mac test, fans re-serving · ETA ~3–4 days",
+   "s": "v1 + Buy + encrypted playback + P2P delivery (loopback) · agent finishing fans re-serving (20 Oct) · next: real two-Mac test",
    "prio": 2
   },
   {
