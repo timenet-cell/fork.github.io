@@ -123,6 +123,55 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .ps-new{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
 @media (max-width:480px){.ps-row{grid-template-columns:1fr}.ps-ed{justify-content:flex-start}}
 
+/* manual de operacoes (conteudo vem do balde privado admin-manual; nada dele vive neste repositorio publico) */
+.mn{display:grid;grid-template-columns:280px minmax(0,1fr);gap:12px;align-items:start}
+.mn>*{min-width:0}
+.mn-side{position:sticky;top:8px;max-height:calc(100vh - 16px);overflow:auto}
+.mn-side input{margin-bottom:10px}
+.mn-cat{font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:14px 0 6px}
+.mn-cat:first-of-type{margin-top:4px}
+.mn-side a{display:block;padding:6px 8px;border-radius:8px;font-size:13px;color:var(--text);text-decoration:none;overflow-wrap:anywhere}
+.mn-side a:hover{background:var(--grid)}
+.mn-side a.on{background:var(--red);color:var(--red-ink)}
+.mn-side a small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.mn-side a.on small{color:inherit;opacity:.85}
+.mn-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.mn-tools .sec{width:auto}
+.mn-doc{min-width:0;line-height:1.55;overflow-wrap:anywhere}
+.mn-doc h1{font:700 24px/1.2 var(--display);letter-spacing:-.02em;margin:0 0 12px}
+.mn-doc h2{font:650 18px/1.25 var(--display);margin:22px 0 8px;padding-top:6px;border-top:1px solid var(--line)}
+.mn-doc h3{font:650 15px/1.3 var(--display);margin:18px 0 6px}
+.mn-doc h4,.mn-doc h5,.mn-doc h6{font:600 14px/1.3 var(--sans);margin:14px 0 4px}
+.mn-doc p{margin:0 0 10px}
+.mn-doc ul,.mn-doc ol{margin:0 0 10px;padding-left:22px}
+.mn-doc li{margin:2px 0}
+.mn-doc code{font:12.5px var(--mono);background:var(--grid);padding:1px 5px;border-radius:5px}
+.mn-doc pre{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow:auto;margin:0 0 12px}
+.mn-doc pre code{background:none;padding:0;font-size:12px;white-space:pre}
+.mn-doc blockquote{margin:0 0 10px;padding:2px 12px;border-left:3px solid var(--line);color:var(--muted)}
+.mn-doc hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.mn-doc a{color:var(--red)}
+.mn-doc .tw{overflow-x:auto;margin:0 0 12px}
+.mn-doc th,.mn-doc td{border:1px solid var(--line);padding:6px 8px}
+.mn-doc th{background:var(--grid)}
+.mn-sec{padding-bottom:18px;margin-bottom:18px}
+.mn-hit{font-size:12px;color:var(--muted);margin-top:2px}
+.mn-pr{display:none}
+@media (max-width:900px){.mn{grid-template-columns:minmax(0,1fr)}.mn-side{position:static;max-height:42vh}}
+@media print{
+  html,body{background:#fff!important;color:#000!important;font-size:11pt}
+  .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,.mn-side,.mn-tools,#mn-status{display:none!important}
+  main{padding:0;max-width:none}
+  .mn{display:block}
+  .box{border:0;padding:0;background:none}
+  .mn-pr{display:block;font:10pt var(--sans);color:#444;border-bottom:1px solid #999;padding-bottom:6px;margin-bottom:14px}
+  .mn-sec{page-break-after:always;break-after:page}
+  .mn-sec:last-child{page-break-after:auto;break-after:auto}
+  .mn-doc h2,.mn-doc h3{break-after:avoid}
+  .mn-doc pre,.mn-doc table,.mn-doc blockquote{break-inside:avoid}
+  .mn-doc a{color:#000;text-decoration:underline}
+}
+
 @media (max-width:900px){
   .kpis{grid-template-columns:repeat(3,1fr)}
   .grid,.grid3{grid-template-columns:1fr}
@@ -178,6 +227,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-traffic" type="button">Traffic &amp; signups</button>
       <button data-tab="t-settings" type="button">Platform settings</button>
       <button data-tab="t-reports" type="button">Reports</button>
+      <button data-tab="t-manual" id="tab-manual" type="button">Manual</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -190,6 +240,23 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
           <span><select id="rp-status" class="sec" aria-label="Status"><option value="open">Open</option><option value="valid">Valid</option><option value="rejected">Rejected</option><option value="all">All</option></select></span></div>
         <div id="rp-err" class="msg" role="status" aria-live="polite"></div>
         <div class="scroll"><table><thead><tr><th>Date</th><th>Reason</th><th>Target</th><th>Account</th><th>State</th><th></th></tr></thead><tbody id="rp-rows"></tbody></table></div>
+      </div>
+    </div>
+    <div id="t-manual" class="hidden">
+      <div class="mn">
+        <div class="box mn-side" id="mn-side">
+          <input id="mn-q" type="search" placeholder="Search titles and contents" aria-label="Search the manual" autocomplete="off" spellcheck="false">
+          <div id="mn-idx"></div>
+        </div>
+        <div class="box">
+          <div class="mn-tools" id="mn-tools">
+            <button class="sec" id="mn-print" type="button">Print this page</button>
+            <button class="sec" id="mn-all" type="button">Full manual (print view)</button>
+          </div>
+          <div id="mn-status" class="empty" role="status" aria-live="polite"></div>
+          <div class="mn-pr" id="mn-pr"></div>
+          <article class="mn-doc" id="mn-doc"></article>
+        </div>
       </div>
     </div>
     <div id="t-traffic" class="hidden">
@@ -279,7 +346,7 @@ $('f-in').onsubmit = async e => {
     $('msg').textContent = err.message === 'Invalid login credentials' ? 'Username or password is incorrect.' : (err.message || 'Could not sign in.');
   } finally { $('go').disabled = false; }
 };
-async function sair() { await sb.auth.signOut(); dados = null; vista('v-login'); }
+async function sair() { await sb.auth.signOut(); dados = null; manualReset(true); vista('v-login'); }
 $('out').onclick = sair; $('out2').onclick = sair;
 
 async function entrar() {
@@ -293,6 +360,7 @@ async function entrar() {
   estado();
   definicoes();
   denuncias();
+  manualHash();
   await carrega();
 }
 
@@ -405,7 +473,7 @@ function ligaDef(st) {
     btn.disabled = true;
   };
 }
-$('refresh').onclick = () => { estado(); carrega(); definicoes(); denuncias(); };
+$('refresh').onclick = () => { estado(); carrega(); definicoes(); denuncias(); manualReset(); };
 
 // ── denuncias (migracao 30: block_reports; so por RPC de admin; a pagina nunca decide quem pode) ────────────────────
 const RP_WHY = { csam: 'Child safety', terror: 'Terrorist content', copyright: 'Copyright', fraud: 'Fraud', other: 'Other' };
@@ -464,6 +532,8 @@ $('rp-status').onchange = denuncias;
 // ── estado do desenvolvimento (admin/status.json; atualizado pelo CEO) ─────────────────────────────────────────────────
 for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
   for (const x of document.querySelectorAll('.tabs button')) { x.classList.toggle('on', x === b); $(x.dataset.tab).classList.toggle('hidden', x !== b); }
+  if (b.id === 'tab-manual') manualAbre();
+  else if (location.hash.startsWith('#manual')) history.replaceState(null, '', location.pathname + location.search);
 };
 async function estado() {
   $('st-err').textContent = '';
@@ -574,6 +644,200 @@ $('csv').onclick = () => {
   const a = document.createElement('a'); a.href = url; a.download = 'fork-beta-signups-' + dia(new Date()) + '.csv';
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
+
+// ── manual de operacoes (ficheiros no balde privado `admin-manual`: index.json + <id>.md; so admins leem, a base decide) ──
+const MN = { index: null, pages: new Map(), estado: 'idle', todos: null, q: '' };
+const MN_BUCKET = 'admin-manual', MN_ID = /^[A-Za-z0-9][A-Za-z0-9_.-]{0,100}$/;
+function manualReset(limpa) {
+  MN.index = null; MN.pages = new Map(); MN.estado = 'idle'; MN.todos = null;
+  if (limpa) { $('mn-doc').innerHTML = ''; $('mn-idx').innerHTML = ''; $('mn-status').textContent = ''; $('mn-q').value = ''; MN.q = ''; return; }
+  if (!$('t-manual').classList.contains('hidden')) manualAbre();
+}
+// erro do armazenamento -> frase honesta (sem ficheiro = por carregar; 401/403 = sem acesso)
+function mnErro(error) {
+  const st = Number(error?.status ?? error?.statusCode ?? error?.originalError?.status), msg = String(error?.message || '');
+  if (st === 401 || st === 403 || /unauthor|forbidden|permission/i.test(msg)) return { acesso: true };
+  if (st === 404 || /not found/i.test(msg)) return { falta: true };
+  return { texto: msg || 'unknown error' };
+}
+async function mnLe(nome) {
+  const { data, error } = await sb.storage.from(MN_BUCKET).download(nome);
+  if (error) throw Object.assign(new Error(error.message || 'download failed'), { info: mnErro(error) });
+  return await data.text();
+}
+function mnMensagem(t) { $('mn-status').textContent = t || ''; $('mn-status').hidden = !t; }
+function mnFalha(e) {
+  const i = e.info || {};
+  $('mn-doc').innerHTML = ''; $('mn-idx').innerHTML = '';
+  mnMensagem(i.acesso ? 'You don’t have access to the manual.' : i.falta ? 'Manual not uploaded yet.' : 'Could not load the manual: ' + (i.texto || e.message));
+}
+async function manualAbre() {
+  if (MN.estado === 'ok') { manualMostra(); return; }
+  if (MN.estado === 'carregando') return;
+  MN.estado = 'carregando'; mnMensagem('Loading the manual…');
+  try {
+    const arr = JSON.parse(await mnLe('index.json'));
+    if (!Array.isArray(arr)) throw Object.assign(new Error('index.json is not a list'), { info: { texto: 'index.json is not a list' } });
+    // so entradas com id seguro (vira nome de ficheiro); o resto e ignorado
+    MN.index = arr.filter(x => x && typeof x.id === 'string' && MN_ID.test(x.id))
+      .map(x => ({ id: x.id, title: String(x.title || x.id), category: String(x.category || 'General') }));
+    if (!MN.index.length) { MN.estado = 'idle'; $('mn-idx').innerHTML = ''; $('mn-doc').innerHTML = ''; return mnMensagem('The manual has no pages yet.'); }
+    MN.estado = 'ok'; mnMensagem('');
+    manualMostra();
+  } catch (e) {
+    MN.estado = 'idle';
+    if (e instanceof SyntaxError) e.info = { texto: 'index.json is not valid JSON' };
+    mnFalha(e);
+  }
+}
+async function mnPagina(id) {
+  if (!MN.pages.has(id)) MN.pages.set(id, await mnLe(id + '.md'));
+  return MN.pages.get(id);
+}
+// hash: #manual | #manual/<id> | #manual/_all (vista de impressao do manual todo)
+function manualHash() {
+  if (!location.hash.startsWith('#manual')) return;
+  if ($('t-manual').classList.contains('hidden')) $('tab-manual').click(); else manualMostra();
+}
+addEventListener('hashchange', () => { if (!$('v-dash').classList.contains('hidden')) manualHash(); });
+async function manualMostra() {
+  if (MN.estado !== 'ok') return;
+  const id = decodeURIComponent((location.hash.match(/^#manual\/(.+)$/) || [])[1] || '');
+  mnIndice(id);
+  const doc = $('mn-doc'), pr = $('mn-pr');
+  pr.textContent = 'Fork Operations Manual · confidential · printed ' + new Date().toLocaleString('en-GB') + ' by ' + ($('who').textContent || 'admin');
+  if (id === '_all') {
+    mnMensagem('Loading every page…');
+    try {
+      const partes = [];
+      for (const it of MN.index) partes.push(`<section class="mn-sec" id="mn-s-${esc(it.id)}"><div class="sub">${esc(it.category)}</div>${mdRender(await mnPagina(it.id), it.title)}</section>`);
+      if (location.hash !== '#manual/_all') return;
+      doc.innerHTML = partes.join(''); mnMensagem('');
+    } catch (e) { return mnFalha(e); }
+    return;
+  }
+  const it = MN.index.find(x => x.id === id) || (id ? null : MN.index[0]);
+  if (!it) { doc.innerHTML = ''; return mnMensagem(id ? 'There is no manual page “' + id + '”.' : ''); }
+  if (!id) { history.replaceState(null, '', '#manual/' + it.id); mnIndice(it.id); }
+  mnMensagem('Loading…');
+  try {
+    const md = await mnPagina(it.id);
+    if (decodeURIComponent((location.hash.match(/^#manual\/(.+)$/) || [])[1] || it.id) !== it.id) return;
+    doc.innerHTML = mdRender(md, it.title); mnMensagem(''); scrollTo(0, 0);
+  } catch (e) { doc.innerHTML = ''; mnFalha(e); }
+}
+// indice a esquerda, por categoria; com pesquisa, so os que batem (titulo ou conteudo)
+function mnIndice(ativo) {
+  const q = MN.q.trim().toLowerCase(), hits = MN.hits;
+  let lista = MN.index;
+  if (q) lista = lista.filter(x => hits ? hits.has(x.id) : x.title.toLowerCase().includes(q));
+  if (!lista.length) { $('mn-idx').innerHTML = '<div class="empty">' + (q ? 'Nothing matches “' + esc(MN.q.trim()) + '”.' : 'No pages.') + '</div>'; return; }
+  const cats = new Map();
+  for (const x of lista) { if (!cats.has(x.category)) cats.set(x.category, []); cats.get(x.category).push(x); }
+  $('mn-idx').innerHTML = [...cats].map(([c, l]) => `<div class="mn-cat">${esc(c)}</div>` + l.map(x =>
+    `<a href="#manual/${encodeURIComponent(x.id)}" class="${x.id === ativo ? 'on' : ''}">${esc(x.title)}${hits && hits.get(x.id) ? `<small>${esc(hits.get(x.id))}</small>` : ''}</a>`).join('')).join('');
+}
+// pesquisa: titulos logo; conteudos depois de descarregar todas as paginas (uma vez)
+let mnTimer;
+$('mn-q').addEventListener('input', () => {
+  clearTimeout(mnTimer);
+  mnTimer = setTimeout(async () => {
+    const q = $('mn-q').value; MN.q = q; MN.hits = null;
+    if (MN.estado !== 'ok') return;
+    if (!q.trim()) return mnIndice(decodeURIComponent((location.hash.match(/^#manual\/(.+)$/) || [])[1] || ''));
+    mnIndice(''); 
+    try {
+      if (!MN.todos) { mnMensagem('Searching every page…'); await Promise.all(MN.index.map(x => mnPagina(x.id))); MN.todos = true; mnMensagem(''); }
+    } catch (e) { return mnFalha(e); }
+    if ($('mn-q').value !== q) return;
+    const n = q.trim().toLowerCase(), hits = new Map();
+    for (const x of MN.index) {
+      const txt = MN.pages.get(x.id) || '', i = txt.toLowerCase().indexOf(n);
+      if (x.title.toLowerCase().includes(n)) hits.set(x.id, '');
+      else if (i >= 0) hits.set(x.id, '…' + txt.slice(Math.max(0, i - 40), i + n.length + 60).replace(/\s+/g, ' ').trim() + '…');
+    }
+    MN.hits = hits; mnIndice(decodeURIComponent((location.hash.match(/^#manual\/(.+)$/) || [])[1] || ''));
+  }, 200);
+});
+$('mn-print').onclick = () => print();
+$('mn-all').onclick = () => { if (location.hash === '#manual/_all') print(); else { location.hash = '#manual/_all'; } };
+
+// Markdown minimo e seguro: tudo passa por esc() antes de virar HTML; so ha as etiquetas abaixo; links so http(s) ou internos.
+function mdLink(t, u) {
+  u = u.replace(/&amp;/g, '&');
+  let href = null;
+  if (/^https?:\/\//i.test(u)) href = u;
+  else if (/^#manual\/[A-Za-z0-9_.%-]+$/.test(u)) href = u;
+  else { const m = u.match(/^(?:\.\/)?([A-Za-z0-9][A-Za-z0-9_.-]*)\.md(?:#.*)?$/); if (m) href = '#manual/' + m[1]; }
+  if (!href) return t;
+  const ext = /^https?:/i.test(href);
+  return `<a href="${esc(href)}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>${t}</a>`;
+}
+function mdInline(src) {
+  const cod = [];
+  let s = esc(src).replace(/`([^`]+)`/g, (_, c) => { cod.push(c); return '\u0000' + (cod.length - 1) + '\u0000'; });
+  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, t, u) => mdLink(t, u));
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/(^|[^*\w])\*([^*\s][^*]*)\*(?!\w)/g, '$1<em>$2</em>');
+  return s.replace(/\u0000(\d+)\u0000/g, (_, i) => '<code>' + cod[i] + '</code>');
+}
+function mdCells(l) { return l.trim().replace(/^\|/, '').replace(/\|$/, '').split(/(?<!\\)\|/).map(c => c.trim().replace(/\\\|/g, '|')); }
+function mdRender(md, titulo) {
+  const L = String(md).replace(/\r\n?/g, '\n').split('\n'), out = [];
+  const bloco = l => /^\s*(```|#{1,6}\s|>|(?:[-*+]|\d+\.)\s|(?:-{3,}|\*{3,}|_{3,})\s*$)/.test(l);
+  const sepTab = l => /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(l) && l.includes('-');
+  let i = 0, temH1 = false;
+  while (i < L.length) {
+    const l = L[i];
+    if (!l.trim()) { i++; continue; }
+    let m;
+    if (/^\s*```/.test(l)) {
+      const buf = []; i++;
+      while (i < L.length && !/^\s*```/.test(L[i])) buf.push(L[i++]);
+      i++; out.push('<pre><code>' + esc(buf.join('\n')) + '</code></pre>'); continue;
+    }
+    if ((m = l.match(/^(#{1,6})\s+(.*?)\s*#*\s*$/))) {
+      const n = m[1].length; if (n === 1) temH1 = true;
+      out.push(`<h${n}>${mdInline(m[2])}</h${n}>`); i++; continue;
+    }
+    if (/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/.test(l)) { out.push('<hr>'); i++; continue; }
+    if (l.includes('|') && i + 1 < L.length && sepTab(L[i + 1])) {
+      const cab = mdCells(l), al = mdCells(L[i + 1]).map(c => /^:-+:$/.test(c) ? 'center' : /-:$/.test(c) ? 'right' : '');
+      const st = k => al[k] ? ` style="text-align:${al[k]}"` : '';
+      let h = '<div class="tw"><table><thead><tr>' + cab.map((c, k) => `<th${st(k)}>${mdInline(c)}</th>`).join('') + '</tr></thead><tbody>';
+      i += 2;
+      while (i < L.length && L[i].trim() && L[i].includes('|')) { h += '<tr>' + mdCells(L[i]).map((c, k) => `<td${st(k)}>${mdInline(c)}</td>`).join('') + '</tr>'; i++; }
+      out.push(h + '</tbody></table></div>'); continue;
+    }
+    if (/^>/.test(l)) {
+      const buf = []; while (i < L.length && /^>/.test(L[i])) buf.push(L[i++].replace(/^>\s?/, ''));
+      out.push('<blockquote>' + mdInline(buf.join(' ')) + '</blockquote>'); continue;
+    }
+    if ((m = l.match(/^(\s*)([-*+]|\d+\.)\s+(.*)$/))) {
+      // listas com um nivel por cada 2+ espacos de indentacao; linhas indentadas sem marcador continuam o item
+      const pilha = []; let h = '';
+      while (i < L.length) {
+        const x = L[i], mm = x.match(/^(\s*)([-*+]|\d+\.)\s+(.*)$/);
+        if (mm) {
+          const ind = mm[1].replace(/\t/g, '    ').length, tag = /\d/.test(mm[2]) ? 'ol' : 'ul';
+          while (pilha.length && ind < pilha[pilha.length - 1].ind) { h += '</li></' + pilha.pop().tag + '>'; }
+          if (pilha.length && ind === pilha[pilha.length - 1].ind && pilha[pilha.length - 1].tag !== tag) { h += '</li></' + pilha.pop().tag + '>'; }
+          if (pilha.length && ind === pilha[pilha.length - 1].ind) h += '</li>';
+          else { pilha.push({ ind, tag }); h += '<' + tag + '>'; }
+          h += '<li>' + mdInline(mm[3]); i++;
+        } else if (x.trim() && /^\s+/.test(x) && !bloco(x)) { h += ' ' + mdInline(x.trim()); i++; }
+        else break;
+      }
+      while (pilha.length) h += '</li></' + pilha.pop().tag + '>';
+      out.push(h); continue;
+    }
+    const buf = [];
+    while (i < L.length && L[i].trim() && !bloco(L[i]) && !(L[i].includes('|') && i + 1 < L.length && sepTab(L[i + 1]))) buf.push(L[i++].trim());
+    if (!buf.length) { buf.push(L[i++].trim()); }
+    out.push('<p>' + mdInline(buf.join(' ')) + '</p>');
+  }
+  // sem titulo no ficheiro, usa o do indice
+  return (temH1 ? '' : `<h1>${esc(titulo || '')}</h1>`) + out.join('\n');
+}
 
 sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') vista('v-login'); });
 entrar();
