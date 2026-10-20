@@ -655,14 +655,29 @@ function manualReset(limpa) {
 }
 // erro do armazenamento -> frase honesta (sem ficheiro = por carregar; 401/403 = sem acesso)
 function mnErro(error) {
-  const st = Number(error?.status ?? error?.statusCode ?? error?.originalError?.status), msg = String(error?.message || '');
-  if (st === 401 || st === 403 || /unauthor|forbidden|permission/i.test(msg)) return { acesso: true };
-  if (st === 404 || /not found/i.test(msg)) return { falta: true };
-  return { texto: msg || 'unknown error' };
+  const o = error?.originalError;
+  let msg = String(error?.message || ''), st = Number(error?.status ?? error?.statusCode ?? o?.status ?? o?.statusCode);
+  // a mensagem pode vir como o corpo JSON da resposta ({"statusCode":"404","error":"not_found","message":"Object not found"})
+  try { const j = JSON.parse(msg); if (j && typeof j === 'object') { if (!st) st = Number(j.statusCode ?? j.status); msg = String(j.message || j.error || ''); } } catch {}
+  if (!msg && o && typeof o.message === 'string') msg = o.message;
+  if (st === 401 || st === 403 || /unauthor|forbidden|permission|row-level/i.test(msg)) return { acesso: true };
+  if (st === 404 || /not.?found/i.test(msg)) return { falta: true };
+  if (st === 400 && !msg) return { falta: true };   // o armazenamento responde 400 a um objeto que nao existe
+  return { texto: msg, st };
 }
 async function mnLe(nome) {
   const { data, error } = await sb.storage.from(MN_BUCKET).download(nome);
-  if (error) throw Object.assign(new Error(error.message || 'download failed'), { info: mnErro(error) });
+  if (error) {
+    let info = mnErro(error);
+    // erro sem estado nem mensagem (objeto vazio): pergunta ao balde se o ficheiro existe, em vez de mostrar "{}"
+    if (info.texto === '' && !info.st) {
+      const l = await sb.storage.from(MN_BUCKET).list('', { limit: 1000 });
+      if (l.error) info = mnErro(l.error);
+      if (!info.acesso && !l.error) info = (l.data || []).some(x => x.name === nome) ? { texto: 'could not read ' + nome } : { falta: true };
+    }
+    if (info.texto === '') info.texto = 'unknown storage error';
+    throw Object.assign(new Error(info.texto || 'download failed'), { info });
+  }
   return await data.text();
 }
 function mnMensagem(t) { $('mn-status').textContent = t || ''; $('mn-status').hidden = !t; }
