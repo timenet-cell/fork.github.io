@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T10:20:00Z",
+ "updated": "2026-10-20T11:30:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -9,8 +9,8 @@
   },
   {
    "t": "Store: Stripe + Solana licence registry",
-   "p": 97,
-   "s": "Licence id + smaller transfers merged (669 tests pass) · agent finishing last code gaps · needs you: Solana multisig, devnet tree, keys, FORK_DAS_URL",
+   "p": 98,
+   "s": "All code gaps merged (704 tests pass), Receipts tab in Studio · needs you: devnet setup (guide ready), fee amounts",
    "prio": 1
   },
   {
