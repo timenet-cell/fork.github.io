@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T11:30:00Z",
+ "updated": "2026-10-20T16:30:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -10,7 +10,7 @@
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 98,
-   "s": "All code gaps merged (704 tests pass), Receipts tab in Studio · needs you: devnet setup (guide ready), fee amounts",
+   "s": "Owner decisions built: one Fork collection, network fee 4× chain cost, wallet = Pro, no Arweave (all tests pass) · needs you: db push + deploy, devnet setup",
    "prio": 1
   },
   {
@@ -29,6 +29,18 @@
    "t": "Fork Music: distribution + streaming",
    "p": 82,
    "s": "v1 + Buy + encrypted playback + P2P delivery · fans re-serving done, waiting to merge (paused while Store finishes)",
+   "prio": 2
+  },
+  {
+   "t": "Fork Ledger + credits & creation record",
+   "p": 5,
+   "s": "Plan written, 11 decisions waiting for you",
+   "prio": 1
+  },
+  {
+   "t": "Operations Manual (admin Guide)",
+   "p": 90,
+   "s": "20 chapters written, admin tab built · waiting: your publish OK + upload",
    "prio": 2
   },
   {
