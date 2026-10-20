@@ -439,6 +439,8 @@ const PS_UNIT = {
   eur_milli: { u: '¢', f: 10, step: '0.1' },
   // Custos por operacao em lamports (migracao 44): o cron diario converte-os em euros com o preco do SOL.
   lamports: { u: 'lamports', f: 1, step: '1' },
+  // Limites de risco do checkout (migracao 50).
+  count: { u: '', f: 1, step: '1' }, hours: { u: 'h', f: 1, step: '1' },
 };
 const psTxt = st => st.unit !== 'bool' && !PS_UNIT[st.unit];   // hex/texto (ex.: chave publica do emissor de certificados)
 // Chaves publicas (migracoes 20, 21, 23): 64 hex MINUSCULOS na base; x25519/ed25519 podem ficar nulas ate o dono as por.
