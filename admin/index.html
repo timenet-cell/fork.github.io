@@ -83,6 +83,8 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:-4px 0 6px}
 .legend i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .empty{font-size:13px;color:var(--faint);padding:8px 0}
+.kpi.cr-low{border-color:var(--err)}.kpi.cr-low b{color:var(--err)}
+.cr-alert{color:var(--err);font-size:13px;margin-top:6px}
 .rows{display:grid;gap:7px}
 .r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;font-size:13px;align-items:center}
 .r .n{font-variant-numeric:tabular-nums;color:var(--muted)}
@@ -263,7 +265,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
       <div style="font-size:12.5px;color:var(--muted);margin-top:8px">Green = built and running · yellow = being built · dashed = planned. Click to open full size.</div></div>
-    <div id="t-settings" class="hidden"><div id="ps"></div></div>
+    <div id="t-settings" class="hidden"><div id="cr"></div><div id="ps"></div></div>
     <div id="t-reports" class="hidden">
       <p class="ps-note">Reports name a block or manifest by its cid, never its content: encrypted blocks can’t be read by hosts or by Fork. A valid report tombstones the cid (cooperating devices delete it and refuse it again). If a host’s upload receipt is attached, it names the account that sent it, which can then be suspended. A modified client can keep a copy.</p>
       <div class="box">
@@ -435,12 +437,43 @@ const PS_UNIT = {
   mb: { u: 'MB', f: 1, step: '1' },
   // Custos estimados na cadeia (migracao 34): milesimos de euro na base, mostrados em centimos (13 = 1.3 ¢).
   eur_milli: { u: '¢', f: 10, step: '0.1' },
+  // Custos por operacao em lamports (migracao 44): o cron diario converte-os em euros com o preco do SOL.
+  lamports: { u: 'lamports', f: 1, step: '1' },
 };
 const psTxt = st => st.unit !== 'bool' && !PS_UNIT[st.unit];   // hex/texto (ex.: chave publica do emissor de certificados)
 // Chaves publicas (migracoes 20, 21, 23): 64 hex MINUSCULOS na base; x25519/ed25519 podem ficar nulas ate o dono as por.
 const PS_KEY = ['hex', 'x25519', 'ed25519'];
 const psShow = (st, v) => psTxt(st) ? (v == null || v === '' ? 'Not set' : String(v)) : st.unit === 'bool' ? (v ? 'On' : 'Off') : (v / PS_UNIT[st.unit].f).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + PS_UNIT[st.unit].u;
+// ── reserva da cadeia (migracao 47): o que entrou (gas + service fee, partes do saldo) contra o gasto real na cadeia ──────
+// Tudo vem de `chain_reserve()` (so administradores); a pagina so formata. Vermelho so abaixo do chao.
+const eurMilli = m => (Number(m) / 1000).toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 3 });
+async function reserva() {
+  const box = $('cr');
+  const { data: f, error } = await sb.rpc('chain_reserve');
+  if (error) {
+    const falta = error.code === 'PGRST202' || error.code === '42883' || /could not find|does not exist|schema cache/i.test(error.message || '');
+    box.innerHTML = '<div class="box ps-grp"><h2>Chain reserve</h2><div class="empty">' + (falta ? 'Waiting for the database update (supabase db push)' : esc('Could not load the reserve: ' + error.message)) + '</div></div>';
+    return;
+  }
+  const k = (v, t, cls) => `<div class="kpi${cls ? ' ' + cls : ''}"><b>${esc(v)}</b><span>${esc(t)}</span></div>`;
+  const alertas = (f.open_alerts || []).map(a => `<div class="msg cr-alert">${esc(a.message)} <small>${esc(new Date(a.created_at).toLocaleString())}</small></div>`).join('');
+  box.innerHTML = `<div class="box ps-grp"><h2>Chain reserve <small>gas cost + service fee collected vs chain spend</small></h2>` +
+    `<div class="kpis">` +
+    k(eurMilli(f.reserve_milli), 'Reserve', f.below_floor ? 'cr-low' : '') +
+    k(eurMilli(f.floor_milli), 'Floor: 3 months of chain spend') +
+    k(eurMilli(f.surplus_milli), 'Surplus available for promos') +
+    k(eurMilli(f.collected_milli), 'Collected') +
+    k(eurMilli(f.chain_spent_milli), 'Spent on chain') +
+    k(eurMilli(f.bonus_given_milli) + ' / ' + eurMilli(f.bonus_share_milli), 'Top-up bonus given / its share in') +
+    `</div>` +
+    `<p class="ps-note">The floor is the chain spend of the last ${esc(f.window_days)} days scaled to 90 days.` +
+    (Number(f.unpriced_lamports) > 0 ? ` ${esc(Number(f.unpriced_lamports).toLocaleString('en-US'))} lamports of spend have no SOL price yet and are not counted in euros.` : '') +
+    (Number(f.adjust_milli) !== 0 ? ` Includes ${esc(eurMilli(f.adjust_milli))} of admin adjustments.` : '') + `</p>` +
+    (f.below_floor ? '<div class="msg cr-alert">The reserve is below its floor.</div>' : '') + alertas + `</div>`;
+}
+
 async function definicoes() {
+  reserva();
   const box = $('ps');
   const { data, error } = await sb.from('platform_settings').select('key, value, unit, label, description, min_value, max_value, applies_to_new_only, updated_at').order('key');
   if (error) {
