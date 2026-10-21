@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21T03:00:00Z",
+ "updated": "2026-10-21T06:55:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -9,8 +9,8 @@
   },
   {
    "t": "Store: Stripe + Solana licence registry",
-   "p": 98,
-   "s": "Money model + easy refunds + auto-refund on fraud warning + dispute fee recovery + risk limits, all merged · needs you: db push + deploy, devnet hour",
+   "p": 99,
+   "s": "All code merged incl. public receipt page forkgate.io/r/ (waiting your OK on screenshots) · devnet bootstrap command being built · needs you: db push (55–56) + deploy, devnet hour",
    "prio": 1
   },
   {
