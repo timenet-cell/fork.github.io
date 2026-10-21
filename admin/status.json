@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21T17:30:00Z",
+ "updated": "2026-10-21T22:30:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -21,14 +21,14 @@
   },
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-   "p": 97,
-   "s": "All waves merged incl. routers/NAT (UPnP/PCP, AutoNAT, hole punching; loopback-tested) · needs you: db push, a rendezvous relay on a server, real-router test, switch on with real data",
+   "p": 98,
+   "s": "Late joiners serve, slow last block raced, >8 GB fixed, phone reads from the swarm (WebRTC direct) · needs you: db push (60), relay server, real-router + iPhone test",
    "prio": 1
   },
   {
    "t": "Fork Music: distribution + streaming",
-   "p": 96,
-   "s": "Stays signed in, router support, Settings › Network, passes, ForkMusic wordmark — merged (794 tests pass) · needs you: db push, real two-Mac test",
+   "p": 97,
+   "s": "Shared frame (bell, Appearance, four balls, login) in all apps; keep-alive only from Fork — merged (812 tests pass) · needs you: db push (60), rebuild, two-Mac test",
    "prio": 2
   },
   {
