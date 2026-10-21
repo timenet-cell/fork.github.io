@@ -26,6 +26,10 @@
   --bg:#0F141A;--card:#161D25;--text:#E8EEF5;--muted:#9AA6B4;--faint:#6E7A88;--line:#26303B;--grid:#1F2832;
   --field:#0F141A;--err:#ff6b62;--blue:#9AA6B4;color-scheme:dark;
 }}
+.tema-linha{display:inline-flex;gap:4px;align-items:center}
+.tema-modo{font:600 12px/1 var(--sans);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.tema-modo:hover{color:var(--text)}
+.tema-modo.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
 .hidden{display:none!important}
@@ -193,21 +197,19 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 }
 </style>
 <script>
-// Dia / noite: guardado so neste browser (localStorage pode falhar: entao vale so nesta visita)
+// Aparencia Light / Dark / System, como o menu Appearance das apps (guardada so neste browser; sem escolha = System)
 (function(){
-  const root=document.documentElement, mq=window.matchMedia('(prefers-color-scheme: dark)');
-  let t=null; try{ t=localStorage.getItem('fork-admin-theme'); }catch(e){}
-  if(t==='dark'||t==='light') root.dataset.theme=t;
-  const atual=()=>root.dataset.theme||(mq.matches?'dark':'light');
-  const rotula=()=>document.querySelectorAll('#theme,#theme2').forEach(b=>{b.textContent=atual()==='dark'?'Day':'Night';});
+  const root=document.documentElement;
+  let m='system'; try{ m=localStorage.getItem('fork-admin-theme')||'system'; }catch(e){}
+  const aplica=k=>{ if(k==='light'||k==='dark') root.dataset.theme=k; else delete root.dataset.theme;
+    document.querySelectorAll('.tema-modo').forEach(b=>b.classList.toggle('on',b.dataset.modo===k)); };
+  aplica(m);
   document.addEventListener('DOMContentLoaded',()=>{
-    rotula();
-    document.querySelectorAll('#theme,#theme2').forEach(b=>b.addEventListener('click',()=>{
-      const n=atual()==='dark'?'light':'dark'; root.dataset.theme=n;
-      try{ localStorage.setItem('fork-admin-theme',n); }catch(e){}
-      rotula();
+    aplica(m);
+    document.querySelectorAll('.tema-modo').forEach(b=>b.addEventListener('click',()=>{
+      m=b.dataset.modo; try{ localStorage.setItem('fork-admin-theme',m); }catch(e){}
+      aplica(m);
     }));
-    mq.addEventListener&&mq.addEventListener('change',rotula);
   });
 })();
 </script>
@@ -239,14 +241,14 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
     <span class="tag">Admin</span>
     <h1>No access</h1>
     <p style="font-size:14px;color:var(--muted);margin:0 0 12px">This account isn’t an admin.</p>
-    <button class="lnk" id="theme2" type="button" aria-label="Switch day or night mode">Night</button>
+    <span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span>
     <button class="lnk" id="out2" type="button">Sign out</button>
   </section>
 
   <section id="v-dash" class="hidden">
     <div class="top">
       <h1>Dashboard</h1>
-      <div class="who"><span id="who"></span><button class="lnk" id="theme" type="button" aria-label="Switch day or night mode">Night</button><button class="lnk" id="refresh" type="button">Refresh</button><button class="lnk" id="out" type="button">Sign out</button></div>
+      <div class="who"><span id="who"></span><span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span><button class="lnk" id="refresh" type="button">Refresh</button><button class="lnk" id="out" type="button">Sign out</button></div>
     </div>
     <div id="err" class="msg" role="status" aria-live="polite"></div>
 
