@@ -12,7 +12,7 @@
 <style>
 :root{
   --bg:#EEF3F8;--card:#F8FAFC;--text:#141A22;--muted:#5B6675;--faint:#8A96A5;--line:#DCE4EC;--grid:#DCE5EE;
-  --red:#e0312a;--red-ink:#fff;--field:#fff;--err:#b3261e;--blue:#5B6675;
+  --red:#e0312a;--red-ink:#fff;--field:#fff;--err:#b3261e;--blue:#5B6675;--pos:#1E8E3E;--neg:#C5221F;--promo:#1A73E8;
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
@@ -20,11 +20,11 @@
 /* Night mode: escolha guardada neste browser; sem escolha segue o sistema */
 :root[data-theme="dark"]{
   --bg:#0F141A;--card:#161D25;--text:#E8EEF5;--muted:#9AA6B4;--faint:#6E7A88;--line:#26303B;--grid:#1F2832;
-  --field:#0F141A;--err:#ff6b62;--blue:#9AA6B4;color-scheme:dark;
+  --field:#0F141A;--err:#ff6b62;--blue:#9AA6B4;--pos:#5BD27A;--neg:#FF6B62;--promo:#6EA8FF;color-scheme:dark;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0F141A;--card:#161D25;--text:#E8EEF5;--muted:#9AA6B4;--faint:#6E7A88;--line:#26303B;--grid:#1F2832;
-  --field:#0F141A;--err:#ff6b62;--blue:#9AA6B4;color-scheme:dark;
+  --field:#0F141A;--err:#ff6b62;--blue:#9AA6B4;--pos:#5BD27A;--neg:#FF6B62;--promo:#6EA8FF;color-scheme:dark;
 }}
 .tema-linha{display:inline-flex;gap:4px;align-items:center}
 .tema-modo{font:600 12px/1 var(--sans);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
@@ -83,7 +83,11 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:-4px 0 6px}
 .legend i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .empty{font-size:13px;color:var(--faint);padding:8px 0}
-.kpi.cr-low{border-color:var(--err)}.kpi.cr-low b{color:var(--err)}
+/* reserva: verde positiva, vermelho negativa, azul o que ha para promocoes (decisao do dono, 21 Out) */
+.kpi.cr-pos{border-color:var(--pos)}.kpi.cr-pos b{color:var(--pos)}
+.kpi.cr-neg{border-color:var(--neg)}.kpi.cr-neg b{color:var(--neg)}
+.kpi.cr-promo{border-color:var(--promo)}.kpi.cr-promo b{color:var(--promo)}
+.cr-note{color:var(--muted);font-size:13px;margin-top:6px}
 .cr-alert{color:var(--err);font-size:13px;margin-top:6px}
 .rows{display:grid;gap:7px}
 .r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;font-size:13px;align-items:center}
@@ -449,7 +453,7 @@ const PS_KEY = ['hex', 'x25519', 'ed25519'];
 const PS_CONTACTO = ['url', 'email'];
 const psShow = (st, v) => psTxt(st) ? (v == null || v === '' ? 'Not set' : String(v)) : st.unit === 'bool' ? (v ? 'On' : 'Off') : (v / PS_UNIT[st.unit].f).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + PS_UNIT[st.unit].u;
 // ── reserva da cadeia (migracao 47): o que entrou (gas + service fee, partes do saldo) contra o gasto real na cadeia ──────
-// Tudo vem de `chain_reserve()` (so administradores); a pagina so formata. Vermelho so abaixo do chao.
+// Tudo vem de `chain_reserve()` (so administradores); a pagina so formata. Verde positiva, vermelho negativa, azul o excedente para promocoes.
 const eurMilli = m => (Number(m) / 1000).toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 3 });
 async function reserva() {
   const box = $('cr');
@@ -463,9 +467,9 @@ async function reserva() {
   const alertas = (f.open_alerts || []).map(a => `<div class="msg cr-alert">${esc(a.message)} <small>${esc(new Date(a.created_at).toLocaleString())}</small></div>`).join('');
   box.innerHTML = `<div class="box ps-grp"><h2>Chain reserve <small>gas cost + service fee collected vs chain spend</small></h2>` +
     `<div class="kpis">` +
-    k(eurMilli(f.reserve_milli), 'Reserve', f.below_floor ? 'cr-low' : '') +
+    k(eurMilli(f.reserve_milli), 'Reserve', f.reserve_milli > 0 ? 'cr-pos' : f.reserve_milli < 0 ? 'cr-neg' : '') +
     k(eurMilli(f.floor_milli), 'Floor: 3 months of chain spend') +
-    k(eurMilli(f.surplus_milli), 'Surplus available for promos') +
+    k(eurMilli(f.surplus_milli), 'Surplus available for promos', f.surplus_milli > 0 ? 'cr-promo' : '') +
     k(eurMilli(f.collected_milli), 'Collected') +
     k(eurMilli(f.chain_spent_milli), 'Spent on chain') +
     k(eurMilli(f.bonus_given_milli) + ' / ' + eurMilli(f.bonus_share_milli), 'Top-up bonus given / its share in') +
@@ -473,7 +477,7 @@ async function reserva() {
     `<p class="ps-note">The floor is the chain spend of the last ${esc(f.window_days)} days scaled to 90 days.` +
     (Number(f.unpriced_lamports) > 0 ? ` ${esc(Number(f.unpriced_lamports).toLocaleString('en-US'))} lamports of spend have no SOL price yet and are not counted in euros.` : '') +
     (Number(f.adjust_milli) !== 0 ? ` Includes ${esc(eurMilli(f.adjust_milli))} of admin adjustments.` : '') + `</p>` +
-    (f.below_floor ? '<div class="msg cr-alert">The reserve is below its floor.</div>' : '') + alertas + `</div>`;
+    (f.below_floor ? '<div class="cr-note">The reserve is below its 3-month floor.</div>' : '') + alertas + `</div>`;
 }
 
 async function definicoes() {
