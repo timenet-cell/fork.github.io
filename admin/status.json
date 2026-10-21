@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21T06:55:00Z",
+ "updated": "2026-10-21T11:45:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -10,7 +10,7 @@
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 99,
-   "s": "All code merged incl. public receipt page forkgate.io/r/ (waiting your OK on screenshots) · devnet bootstrap command being built · needs you: db push (55–56) + deploy, devnet hour",
+   "s": "All code merged incl. receipt page (waiting your OK on screenshots) and one-command devnet setup · needs you: db push (55–56), then the devnet runbook",
    "prio": 1
   },
   {
@@ -27,8 +27,8 @@
   },
   {
    "t": "Fork Music: distribution + streaming",
-   "p": 88,
-   "s": "Fans re-serving merged (encrypted, multi-source; disputed licences stop seeding) · needs you: db push (48), real two-Mac test",
+   "p": 93,
+   "s": "Native heartbeat, fans seed behind NAT, terms served over the swarm — merged (769 tests pass) · needs you: db push, device-cert issuer key, real two-Mac test",
    "prio": 2
   },
   {
