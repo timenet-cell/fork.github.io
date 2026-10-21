@@ -2,9 +2,9 @@
 // em /connect/mac/<device>/ e CADA pedido desse iframe (HTML, JS, CSS, imagens, audio com Range, XHR — mesmo os com URL
 // absoluta tipo /static/x.js) passa por aqui e vai, pelo data channel, ao Studio do Mac. O canal vive na pagina /connect/
 // (o service worker nao tem WebRTC): fala-se com ela por MessageChannel e a resposta volta aos bocados.
-const V = 'fork-p2p-shell-v11';
+const V = 'fork-p2p-shell-v12';
 const BASE = new URL(self.registration.scope).pathname;            // /connect/
-const CASCA = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
+const CASCA = ['./', 'index.html', 'swarm.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
                'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => Promise.all(CASCA.map(u => c.add(u).catch(() => {})))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== CACHE_MAC).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
@@ -107,7 +107,7 @@ self.addEventListener('fetch', e => {
     const casca = u.origin === location.origin || u.hostname === 'cdn.jsdelivr.net';
     if (!casca) return fetch(e.request);                    // supabase.co, STUN, etc.: direto
     // A casca: rede primeiro, SEM a cache HTTP (o GitHub Pages serve com max-age de 10 min); a cache so serve offline.
-    const fresco = e.request.mode === 'navigate' || /\/(index\.html|sw\.js|manifest\.webmanifest)?$/.test(u.pathname);
+    const fresco = e.request.mode === 'navigate' || /\/(index\.html|sw\.js|swarm\.js|manifest\.webmanifest)?$/.test(u.pathname);
     try {
       const r = await fetch(e.request, fresco ? { cache: 'no-store' } : undefined);
       const c = r.clone(); caches.open(V).then(k => k.put(e.request, c));

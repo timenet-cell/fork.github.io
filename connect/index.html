@@ -31,6 +31,11 @@ p.vel{margin:8px 0 0}.vel button{width:auto;margin:0 0 0 8px;padding:6px 12px;fo
 button.sec{background:none;color:var(--red);font-weight:500;margin-top:8px;padding:8px}
 .hint{margin-top:16px;padding:12px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted)}
 .hint button{margin-top:8px}
+.note{font-size:13px;color:var(--muted);margin:4px 0 0}
+#net{margin-top:22px;padding-top:6px;border-top:1px solid var(--line)}
+#net .mac small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+#net audio{width:100%;margin-top:8px}
+#net a.save{display:inline-block;margin-top:8px;color:var(--red);font-size:14px}
 details{margin-top:18px;color:var(--muted);font-size:12px}pre{white-space:pre-wrap;word-break:break-all;margin:6px 0 0}
 body.mac main{display:none}
 #macbar,#macframe{display:none}
@@ -49,13 +54,17 @@ body.mac #macframe{display:block;position:fixed;top:calc(34px + env(safe-area-in
     <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
     <button id="in">Sign in</button>
   </div>
-  <div id="app" class="hidden"><label>Your devices</label><div id="macs"></div><button class="sec" id="out">Sign out</button></div>
+  <div id="app" class="hidden"><label>Your devices</label><p class="note">Remote access to your studio, including files that were never uploaded.</p><div id="macs"></div>
+    <div id="net"><label>On the Fork network</label><p class="note" id="net-sub">The latest saved version of your recent projects, even when your Mac is off. Encrypted; decrypted only on this phone.</p>
+      <div id="net-list"></div><div class="msg" id="net-st"></div><button class="sec" id="net-open">Open from the Fork network</button></div>
+    <button class="sec" id="out">Sign out</button></div>
   <div class="msg" id="st"></div>
   <button class="sec hidden" id="retry">Try again</button>
   <div class="hint hidden" id="hint"></div>
   <details id="det"><summary>Details</summary><p class="vel">Speed test <button id="vel20" type="button">20 MB</button><button id="vel60" type="button">60 MB</button><br><span id="velr">Downloads from your device over this connection.</span></p><pre id="dbg"></pre><pre id="log"></pre></details>
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="swarm.js"></script>
 <script>
 const $ = id => document.getElementById(id), log = m => { $('log').textContent += new Date().toLocaleTimeString() + ' ' + m + '\n'; };
 const uuid = () => crypto.randomUUID();
@@ -77,7 +86,7 @@ const mostra = quem => { $('cfg').classList.toggle('hidden', quem !== 'cfg'); $(
 
 // ── PWA: casca offline e dica de instalacao ─────────────────────────────────────────────────────────────
 let swErro = '';
-const BUILD = '2026-10-16l-views';
+const BUILD = '2026-10-21-swarm';
 function toastAtualizado() {
   if ($('toast')) return;
   const t = document.createElement('div'); t.id = 'toast';
@@ -127,7 +136,7 @@ $('in').onclick = async () => {
   if (error) { msg(error.message, true); return log('sign-in: ' + error.message); }
   msg(''); arranca();
 };
-$('out').onclick = async () => { ls.del('fork-p2p-last'); if (conn) conn.pc.close(); conn = null; if (channel) await sb.removeChannel(channel); channel = null; await sb.auth.signOut(); mostra('cfg'); msg(''); };
+$('out').onclick = async () => { ls.del('fork-p2p-last'); try { if (NET.reader) NET.reader.close(); NET.reader = null; await ForkSwarm.cache.del('device'); await ForkSwarm.cache.del('cert'); } catch {} $('net-list').innerHTML = ''; if (conn) conn.pc.close(); conn = null; if (channel) await sb.removeChannel(channel); channel = null; await sb.auth.signOut(); mostra('cfg'); msg(''); };
 
 // ── os Macs e a ligacao ─────────────────────────────────────────────────────────────────────────────────────
 async function arranca() {
@@ -398,6 +407,118 @@ addEventListener('offline', () => msg('You\u2019re offline. Your studio is unrea
   }
   await arranca();
 })();
+</script>
+
+<script>
+// ── Fork network (ENCRYPTION_SWARM_PLAN §2.G-4 passo 2): o que esta no enxame vem do enxame, de qualquer anfitriao, e
+// decifra-se AQUI (swarm.js). O resto (ficheiros que nunca subiram) continua por "Your devices": o acesso remoto ao Mac.
+// Este telemovel so entra na rede com um toque ("Add this phone"): a chave nasce aqui, so a publica (PeerId) vai para
+// `devices`, e o Mac principal embrulha-lhe a chave de conta na volta seguinte do catalogo.
+const NET = { reader: null, cat: null, url: null };
+const netMsg = (t, erro) => { $('net-st').className = 'msg' + (erro ? ' err' : ''); $('net-st').textContent = t || ''; };
+const fmtMB = n => n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+const AUDIO = /\.(wav|aif|aiff|mp3|m4a|aac|flac|ogg|opus)$/i;
+async function netNuvem(dev) {
+  const { data: ses } = await sb.auth.getSession();
+  if (!ses.session) throw new Error('Sign in first.');
+  const u = ses.session.user.id;
+  let r = await sb.from('devices').select('id').eq('user_id', u).eq('peer_id', dev.peer).limit(1);
+  if (r.error) throw new Error('Can’t reach Fork right now.');
+  let deviceId = r.data[0] && r.data[0].id;
+  if (!deviceId) {
+    r = await sb.from('devices').insert({ user_id: u, peer_id: dev.peer }).select('id').single();
+    if (r.error) throw new Error('Couldn’t add this phone to your account.');
+    deviceId = r.data.id; log('net: this phone registered as a device');
+  }
+  // O cert da Fork deste telemovel (7 dias): pedido outra vez quando falta menos de 1 dia.
+  let cert = await ForkSwarm.cache.get('cert');
+  if (!cert || cert.peer_id !== dev.peer || cert.expires_at - Date.now() / 1000 < 86400) {
+    const f = await fetch(SUPABASE_URL + '/functions/v1/device_cert', { method: 'POST', headers: { 'Content-Type': 'application/json',
+      apikey: SUPABASE_KEY, Authorization: 'Bearer ' + ses.session.access_token }, body: JSON.stringify({ peer_id: dev.peer }) }).catch(() => null);
+    const out = f ? await f.json().catch(() => ({})) : {};
+    if (!f || !f.ok || !out.cert) {
+      const porque = { terms_required: 'Accept the Fork network terms in Fork Studio on your Mac first.',
+        account_suspended: 'This account is suspended from the Fork network.' }[out.code];
+      throw new Error(porque || (f && f.status === 503 ? 'The Fork network isn’t set up yet.' : 'Couldn’t get a network certificate for this phone.'));
+    }
+    cert = out.cert; await ForkSwarm.cache.put('cert', cert);
+  }
+  const ak = await sb.from('artist_keys').select('pubkey').eq('user_id', u).limit(1);
+  const artistPub = ak.data && ak.data[0] && ak.data[0].pubkey;
+  if (!artistPub) throw new Error('Your account has no artist key yet. Open Fork Studio on your Mac once.');
+  const q = async p => { const x = await p; if (x.error) throw new Error('Can’t reach Fork right now.'); return x.data; };
+  return { userId: u, deviceId, artistPub, cert,
+    accountKeys: () => q(sb.from('account_keys').select('epoch_id,device_id,wrapped_key,wrapped_by_sig,created_at').order('created_at')),
+    userCatalog: async () => (await q(sb.from('user_catalog').select('cid,sealed_ref,seq,updated_at')))[0] || null,
+    hosts: async () => (await q(sb.rpc('swarm_hosts_online'))) || [] };
+}
+async function netAbre() {
+  $('net-open').disabled = true; $('net-list').innerHTML = ''; netMsg('');
+  try {
+    if (!(await ForkSwarm.supported())) throw new Error('This browser can’t keep a Fork device key, so it can’t read from the Fork network. Use “Your devices” instead.');
+    let dev = await ForkSwarm.deviceKey(false);
+    if (!dev) {
+      if (!confirm('Add this phone to your Fork network? A device key is created on this phone and never leaves it.')) { netMsg(''); return; }
+      dev = await ForkSwarm.deviceKey(true);
+    }
+    netMsg('Opening your catalogue…');
+    const nuvem = await netNuvem(dev);
+    if (NET.reader) NET.reader.close();
+    NET.reader = await new ForkSwarm.Reader(dev, nuvem, m => log('net: ' + m)).start().catch(e => {
+      if (e.code === 'no_account_key') throw new Error('This phone isn’t added to your Fork network yet. Open Fork Studio on your Mac with the Fork network on; it adds this phone within a few minutes.');
+      throw e;
+    });
+    if (!NET.reader.hosts.length) throw new Error('No device on the Fork network can be reached from this phone right now.');
+    NET.cat = await NET.reader.catalog();
+    if (!NET.cat || !NET.cat.entries.length) { netMsg('Nothing from your projects is on the Fork network yet.'); return; }
+    netMsg('');
+    for (const e of NET.cat.entries) {
+      const d = document.createElement('div'); d.className = 'mac';
+      d.innerHTML = '<span></span><button>Open</button>';
+      d.firstChild.textContent = e.name || e.project;
+      d.lastChild.onclick = () => netProjeto(e);
+      $('net-list').appendChild(d);
+    }
+  } catch (e) { netMsg(e.message, true); log('net: ' + e.message); }
+  finally { $('net-open').disabled = false; }
+}
+async function netProjeto(e) {
+  $('net-list').innerHTML = ''; netMsg('Opening ' + (e.name || e.project) + '…');
+  try {
+    const body = await NET.reader.version(e);
+    const fs = [...body.version.manifest.files].sort((a, b) => (AUDIO.test(b.path) - AUDIO.test(a.path)) || a.path.localeCompare(b.path));
+    netMsg('Latest saved version · ' + fs.length + ' files');
+    const volta = document.createElement('button'); volta.className = 'sec'; volta.textContent = 'All projects'; volta.onclick = netAbre;
+    $('net-list').appendChild(volta);
+    for (const f of fs) {
+      const d = document.createElement('div'); d.className = 'mac';
+      d.innerHTML = '<span><b></b><small></small></span><button></button>';
+      d.querySelector('b').textContent = f.path.split('/').pop();
+      d.querySelector('small').textContent = f.path + ' · ' + fmtMB(f.size);
+      d.querySelector('button').textContent = AUDIO.test(f.path) ? 'Play' : 'Get';
+      d.querySelector('button').onclick = () => netFicheiro(e, body, f, d);
+      $('net-list').appendChild(d);
+    }
+  } catch (err) { netMsg(err.message, true); log('net: ' + err.message); }
+}
+async function netFicheiro(e, body, f, linha) {
+  const b = linha.querySelector('button'); b.disabled = true;
+  try {
+    const bytes = await NET.reader.file(e, body, f.path, (n, t) => netMsg('Downloading ' + Math.round(100 * n / t) + '% from the Fork network'));
+    const n = NET.reader.stats.hosts.size;
+    netMsg('Decrypted on this phone · from ' + n + (n === 1 ? ' device' : ' devices'));
+    if (NET.url) URL.revokeObjectURL(NET.url);
+    NET.url = URL.createObjectURL(new Blob([bytes]));
+    const velho = $('net-player'); if (velho) velho.remove();
+    const nome = f.path.split('/').pop();
+    const el = document.createElement(AUDIO.test(f.path) ? 'audio' : 'a'); el.id = 'net-player';
+    if (el.tagName === 'AUDIO') { el.controls = true; el.src = NET.url; el.play().catch(() => {}); }
+    else { el.className = 'save'; el.href = NET.url; el.download = nome; el.textContent = 'Save ' + nome; }
+    linha.after(el);
+  } catch (err) { netMsg(err.message, true); log('net: ' + err.message); }
+  finally { b.disabled = false; }
+}
+$('net-open').onclick = netAbre;
 </script>
 
 <script>
