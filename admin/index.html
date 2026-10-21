@@ -419,13 +419,14 @@ async function definicoes() {
     return;
   }
   if (!data.length) { box.innerHTML = '<div class="empty">Waiting for the database update (supabase db push)</div>'; return; }
-  const grupos = [['store', 'Store'], ['network', 'Network']];
+  const grupos = [['store', 'Store'], ['network', 'Network'], ['backup', 'Backup']];
   box.innerHTML = '<p class="ps-note">A change applies to new listings only. Licences already issued keep their terms.</p>' + grupos.map(([g, t]) => {
     const lst = data.filter(x => x.key.startsWith(g + '.'));
     if (!lst.length) return '';
     return `<div class="box ps-grp"><h2>${t}</h2>` + lst.map(linhaDef).join('') + '</div>';
   }).join('');
-  for (const st of data) ligaDef(st);
+  // so as linhas desenhadas (um prefixo sem grupo partia todas as seguintes)
+  for (const st of data) if ($('ps-' + st.key.replace(/\W/g, '_'))) ligaDef(st);
 }
 function linhaDef(st) {
   const id = 'ps-' + st.key.replace(/\W/g, '_'), U = PS_UNIT[st.unit];
