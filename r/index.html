@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EEF3F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F141B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Licence registry · Fork</title>
+<meta name="description" content="Fork's public licence registry: the terms of a licence and a check that they match.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EEF3F8'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%23e0312a' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<style>
+/* Registo publico de licencas: so factos dos registos da Fork (funcao registry_public); a pagina recalcula o SHA-256 dos termos. */
+:root{
+  --bg:#EEF3F8;--card:#F8FAFC;--text:#141A22;--muted:#5B6675;--faint:#8A96A5;--line:#DCE4EC;--field:#fff;
+  --red:#e0312a;--red-ink:#fff;--ok:#1d7a46;--ok-bg:#e6f4ec;--warn:#9a5b00;--warn-bg:#fbf1e1;--bad:#b3261e;--bad-bg:#fbeae8;--off:#5B6675;--off-bg:#eef1f5;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+:root[data-theme="dark"]{
+  --bg:#0F141B;--card:#161D26;--text:#E8EDF3;--muted:#9AA6B4;--faint:#6F7B89;--line:#26303C;--field:#0F141B;
+  --red:#ff5a4f;--ok:#5cd08f;--ok-bg:#12291d;--warn:#f0b35a;--warn-bg:#2b2213;--bad:#ff8a80;--bad-bg:#2e1715;--off:#9AA6B4;--off-bg:#1c242e;color-scheme:dark;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F141B;--card:#161D26;--text:#E8EDF3;--muted:#9AA6B4;--faint:#6F7B89;--line:#26303C;--field:#0F141B;
+  --red:#ff5a4f;--ok:#5cd08f;--ok-bg:#12291d;--warn:#f0b35a;--warn-bg:#2b2213;--bad:#ff8a80;--bad-bg:#2e1715;--off:#9AA6B4;--off-bg:#1c242e;color-scheme:dark;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;display:flex;flex-direction:column}
+a{color:var(--red)}
+.hidden{display:none!important}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:600 15px/1 var(--display);letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo svg{width:28px;height:28px}
+.tema-linha{display:inline-flex;gap:4px}
+.tema-modo{font:600 12px/1 var(--sans);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.tema-modo:hover{color:var(--text)}
+.tema-modo.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+main{flex:1;min-width:0;display:flex;justify-content:center;padding:32px 16px max(32px,env(safe-area-inset-bottom))}
+.card{width:100%;min-width:0;max-width:640px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 24px;box-shadow:0 10px 30px rgba(20,40,70,.07);align-self:flex-start}
+.tag{display:block;font:600 10.5px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--red);margin:0 0 10px}
+h1{font:700 24px/1.2 var(--display);letter-spacing:-.02em;margin:0 0 6px;overflow-wrap:anywhere}
+h2{font:650 15px/1.3 var(--display);margin:26px 0 8px}
+.sub{margin:0;color:var(--muted);font-size:14px}
+.state{display:flex;gap:12px;align-items:flex-start;border-radius:12px;padding:14px;margin:16px 0 4px;background:var(--off-bg)}
+.state svg{flex:none;width:22px;height:22px;margin-top:1px}
+.state.ok{background:var(--ok-bg)} .state.ok svg{color:var(--ok)}
+.state.warn{background:var(--warn-bg)} .state.warn svg{color:var(--warn)}
+.state.bad{background:var(--bad-bg)} .state.bad svg{color:var(--bad)}
+.state.off svg{color:var(--off)}
+.state>div{min-width:0}
+.state strong{display:block;font-weight:650;margin-bottom:2px}
+.state p{margin:0;color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.addr,.hash{font:13px/1.4 var(--mono);overflow-wrap:anywhere}
+dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 18px;margin:16px 0 0;font-size:14px}
+dt{color:var(--muted)} dd{margin:0;min-width:0;overflow-wrap:anywhere}
+dd.mono{font:13px/1.45 var(--mono)}
+details{margin-top:8px;border:1px solid var(--line);border-radius:12px;background:var(--field)}
+summary{cursor:pointer;padding:10px 14px;font-size:14px;font-weight:600}
+pre{margin:0;padding:0 14px 14px;max-height:360px;overflow:auto;font:12.5px/1.5 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.note{margin:22px 0 0;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+p{margin:0 0 12px}
+.spin{width:22px;height:22px;border:2.5px solid var(--line);border-top-color:var(--red);border-radius:50%;animation:r .8s linear infinite;flex:none}
+@keyframes r{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion: reduce){.spin{animation:none}}
+@media (max-width:480px){.card{padding:22px 16px;border-radius:14px} dl{grid-template-columns:1fr;gap:2px} dd{margin-bottom:10px} h1{font-size:21px}}
+</style>
+<script>
+// Aparencia Light / Dark / System, como a do admin (guardada so neste browser; sem escolha = System)
+(function(){
+  const root=document.documentElement;
+  let m='system'; try{ m=localStorage.getItem('fork-admin-theme')||'system'; }catch(e){}
+  const aplica=k=>{ if(k==='light'||k==='dark') root.dataset.theme=k; else delete root.dataset.theme;
+    document.querySelectorAll('.tema-modo').forEach(b=>b.classList.toggle('on',b.dataset.modo===k)); };
+  aplica(m);
+  document.addEventListener('DOMContentLoaded',()=>{
+    aplica(m);
+    document.querySelectorAll('.tema-modo').forEach(b=>b.addEventListener('click',()=>{
+      m=b.dataset.modo; try{ localStorage.setItem('fork-admin-theme',m); }catch(e){}
+      aplica(m);
+    }));
+  });
+})();
+</script>
+</head>
+<body>
+<header class="bar">
+  <a class="logo" href="/"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v16" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>Fork</a>
+  <span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span>
+</header>
+<main><article class="card" aria-live="polite">
+  <span class="tag" id="tag">Licence registry</span>
+  <h1 id="title">Loading the registry</h1>
+  <p class="sub hidden" id="sub"></p>
+  <div class="state off" id="state"><div class="spin" role="img" aria-label="Loading"></div><div><strong>Loading…</strong><p>This takes a moment.</p></div></div>
+
+  <section id="coll" class="hidden">
+    <p>Every licence Fork issues is a compressed NFT in a single Fork collection on Solana. The NFT is the licence: whoever holds it holds the listening rights and the right to resell it where the terms allow.</p>
+    <p>Each edition for sale has its own page here, at <span class="addr">forkgate.io/r/&lt;edition id&gt;</span>. It shows the signed licence terms and a fingerprint of them, which your browser recomputes from the terms it receives, so you can see that they match the link or QR code you followed.</p>
+    <p>Publishing on Fork costs creators nothing, and this registry is kept from Fork's own records, without querying the chain. Who owns a particular licence is shown only to its owner; if a licence moved to another wallet, its page links to that asset on Solana Explorer.</p>
+  </section>
+
+  <section id="ed" class="hidden">
+    <dl id="facts">
+      <dt>Creator</dt><dd id="f-creator"></dd>
+      <dt>Edition</dt><dd id="f-size"></dd>
+      <dt>Price</dt><dd id="f-price"></dd>
+      <dt>Published</dt><dd id="f-date"></dd>
+      <dt>Network</dt><dd id="f-net"></dd>
+    </dl>
+    <div id="lic" class="hidden">
+      <h2 id="lic-h">Licence</h2>
+      <dl><dt>Issued</dt><dd id="l-date"></dd><dt>Status</dt><dd id="l-status"></dd></dl>
+      <div class="state off" id="l-state"></div>
+    </div>
+    <h2>Licence terms</h2>
+    <div class="state off" id="match"></div>
+    <dl id="hashes" class="hidden"><dt>This link</dt><dd class="hash" id="h-link"></dd><dt>Computed here</dt><dd class="hash" id="h-calc"></dd></dl>
+    <details id="terms-box" class="hidden"><summary>Show the terms (JSON)</summary><pre id="terms"></pre></details>
+  </section>
+
+  <p class="note">This page shows public facts from Fork's records only. It never shows who bought a licence: no names, emails or accounts. The licence terms are public by design.</p>
+</article></main>
+<script>
+(() => {
+  // A funcao publica (sem sessao). A chave publishable e publica por desenho, como na pagina inicial.
+  let SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";
+  const q = new URLSearchParams(location.search);
+  // So para testes locais: outro endereco da funcao (nunca fora de localhost).
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && q.get('api')) SUPABASE_URL = q.get('api');
+  const $ = (id) => document.getElementById(id);
+  const ICON = {
+    ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5"/></svg>',
+    warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5v.01"/></svg>',
+    bad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8.5 8.5 7 7M15.5 8.5l-7 7"/></svg>',
+    off: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 7.5v5M12 16v.01"/></svg>',
+  };
+  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+  const HEX = /^[0-9a-f]{64}$/;
+  const fmtDate = (iso) => { const d = iso ? new Date(iso) : null; return d && !isNaN(d) ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) : 'Not recorded'; };
+  const money = (minor, cur) => { try { return new Intl.NumberFormat('en-GB', { style: 'currency', currency: cur }).format(minor / 100); } catch { return (minor / 100).toFixed(2) + ' ' + cur; } };
+
+  // Caixa de estado: texto sempre por textContent (nada vindo da funcao entra como HTML).
+  function box(el, kind, head, body) {
+    el.className = 'state ' + kind;
+    el.innerHTML = ICON[kind] + '<div><strong></strong><p></p></div>';
+    el.querySelector('strong').textContent = head;
+    const p = el.querySelector('p');
+    if (Array.isArray(body)) p.append(...body); else if (body) p.textContent = body; else p.remove();
+  }
+  function fail(title, head, body) {
+    $('title').textContent = title;
+    box($('state'), 'off', head, body);
+  }
+
+  // JSON canonico = o do core-chain: chaves ordenadas, sem espacos, so inteiros.
+  function canonical(v) {
+    if (v === null || typeof v === 'boolean' || typeof v === 'string') return JSON.stringify(v);
+    if (typeof v === 'number') { if (!Number.isSafeInteger(v)) throw new Error('not an integer'); return JSON.stringify(v); }
+    if (Array.isArray(v)) return '[' + v.map(canonical).join(',') + ']';
+    if (typeof v === 'object') return '{' + Object.keys(v).filter((k) => v[k] !== undefined).sort().map((k) => JSON.stringify(k) + ':' + canonical(v[k])).join(',') + '}';
+    throw new Error('unsupported value');
+  }
+  const enc = new TextEncoder();
+  const sha = async (s) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', enc.encode(s)))].map((x) => x.toString(16).padStart(2, '0')).join('');
+  // edition_hash = sem a assinatura nem o serial; licence_hash = com a assinatura e o serial.
+  const editionHash = (t) => { const { licensor_sig, serial, ...rest } = t; return sha(canonical(rest)); };
+  const licenceHash = (t, n) => { const { serial, ...rest } = t; return sha(canonical({ ...rest, serial: n })); };
+
+  // Que serial da edicao tem este hash? So se a edicao tem tamanho; uma busca e o unico modo de o provar, nunca um palpite.
+  async function serialFor(terms, size, hash) {
+    if (!size || size > 20000) return null;
+    for (let n = 1; n <= size; n++) if (await licenceHash(terms, n) === hash) return n;
+    return null;
+  }
+
+  async function checkTerms(a, linkHash, askedSerial) {
+    const m = $('match');
+    if (a.terms === null || typeof a.terms !== 'object') {
+      return box(m, 'off', 'No terms are published for this edition', 'There is nothing to compare, so nothing is claimed.');
+    }
+    $('terms').textContent = JSON.stringify(a.terms, null, 2);
+    $('terms-box').classList.remove('hidden');
+    let calc;
+    try { calc = await editionHash(a.terms); } catch {
+      return box(m, 'bad', 'The terms could not be fingerprinted', 'They contain a value this check does not accept, so no match is claimed.');
+    }
+    if (!linkHash) {
+      $('h-calc').textContent = calc; $('hashes').classList.remove('hidden');
+      $('h-link').textContent = 'None in this link';
+      return box(m, 'off', 'No fingerprint in this link', 'Open the link from the receipt or the QR code to compare. The terms below hash to the value shown.');
+    }
+    $('h-link').textContent = linkHash; $('h-calc').textContent = calc; $('hashes').classList.remove('hidden');
+    if (calc === linkHash) return box(m, 'ok', 'Terms match this licence ✓', 'Your browser computed the SHA-256 of these terms and it equals the fingerprint in this link.');
+    // A folha de uma licenca leva o serial no hash: ou veio no pedido, ou procura-se.
+    let n = askedSerial;
+    let c2 = null;
+    if (n) { try { c2 = await licenceHash(a.terms, n); } catch {} }
+    else { n = await serialFor(a.terms, a.edition_size, linkHash); if (n) c2 = linkHash; }
+    if (n && c2) {
+      $('h-calc').textContent = c2;
+      if (c2 === linkHash) {
+        box(m, 'ok', 'Terms match this licence ✓', 'Your browser computed the SHA-256 of these terms with licence number ' + n + ' and it equals the fingerprint in this link.');
+        return n;
+      }
+    }
+    if (!askedSerial && (!a.edition_size || a.edition_size > 20000)) {
+      return box(m, 'warn', 'Could not confirm these terms', "This link's fingerprint isn't the edition's, and this edition is too large to search for a licence number. Add ?licence=<number> to the address to check a specific licence.");
+    }
+    box(m, 'bad', "Terms don't match", "The SHA-256 your browser computed from these terms is not the one in this link. Don't rely on this link or receipt for these terms.");
+    return null;
+  }
+
+  function showLicence(a) {
+    const l = a.licence;
+    $('lic').classList.remove('hidden');
+    if (!l) {
+      $('lic-h').textContent = 'Licence';
+      $('l-date').textContent = '—'; $('l-status').textContent = 'Not found';
+      return box($('l-state'), 'warn', 'This edition has no licence with that number', 'Check the number in the link.');
+    }
+    $('lic-h').textContent = 'Licence #' + String(l.serial).padStart(4, '0') + (a.edition_size ? ' of ' + a.edition_size : '');
+    $('l-date').textContent = fmtDate(l.issued_at);
+    const s = l.status;
+    $('l-status').textContent = { custody: 'In Fork custody', wallet: 'Moved to a wallet', frozen: 'Frozen', refunded: 'Refunded' }[s] || 'Unknown';
+    if (s === 'wallet' && l.wallet) {
+      const addr = document.createElement('span');
+      addr.className = 'addr'; addr.textContent = l.wallet;
+      const parts = ['This licence moved to ', addr];
+      if (typeof l.explorer_url === 'string' && l.explorer_url.startsWith('https://explorer.solana.com/address/')) {
+        const link = document.createElement('a');
+        link.href = l.explorer_url; link.rel = 'noopener noreferrer'; link.target = '_blank'; link.textContent = 'view on Solana Explorer';
+        parts.push(' — ', link);
+      } else parts.push('.');
+      box($('l-state'), 'warn', 'Moved to a wallet', parts);
+    } else if (s === 'custody') {
+      box($('l-state'), 'ok', 'Held in Fork custody', "From Fork's records. Fork keeps the licence for its owner until they move it.");
+    } else if (s === 'frozen') {
+      box($('l-state'), 'ok', 'Frozen', "From Fork's records: this licence is locked and cannot be resold.");
+    } else if (s === 'refunded') {
+      box($('l-state'), 'off', 'Refunded', 'This purchase was refunded; the licence ended.');
+    } else {
+      box($('l-state'), 'off', 'Status unknown', "Fork's records returned a status this page does not know.");
+    }
+  }
+
+  async function render(a, linkHash, askedSerial) {
+    $('tag').textContent = a.licence ? 'Licence registry · licence' : 'Licence registry · edition';
+    $('title').textContent = a.title || 'Untitled';
+    $('state').classList.add('hidden');
+    $('f-creator').textContent = a.creator || '';
+    $('f-size').textContent = a.edition_size ? a.edition_size + ' licences' : 'Open edition';
+    $('f-price').textContent = money(a.price_minor, a.currency);
+    $('f-date').textContent = fmtDate(a.published_at);
+    $('f-net').textContent = a.network === 'devnet' ? 'Devnet (test only)' : a.network === 'mainnet' ? 'Mainnet' : String(a.network || '');
+    $('ed').classList.remove('hidden');
+    if (a.withdrawn) { $('sub').textContent = 'This edition is no longer on sale. Existing licences stay valid.'; $('sub').classList.remove('hidden'); }
+    if (askedSerial) showLicence(a);
+    const found = await checkTerms(a, linkHash, askedSerial);
+    // A folha de uma licenca sem o numero no pedido: o hash provou qual e; mostra-se o estado dessa licenca.
+    if (!askedSerial && found) {
+      const r = await fetch(api(a.edition_id, found), { headers: { apikey: SUPABASE_KEY } }).catch(() => null);
+      const b = r && r.ok ? await r.json().catch(() => null) : null;
+      if (b && b.ok) { a.licence = b.licence; showLicence(b); }
+    }
+  }
+
+  const api = (id, serial) => SUPABASE_URL + '/functions/v1/registry_public?edition=' + id + (serial ? '&licence=' + serial : '');
+
+  // O endereco: /r/?e=<id> (o 404.html de /r/<id> manda para aqui), ou /r/<id> se o servidor o servir diretamente.
+  const seg = (q.get('e') || location.pathname.replace(/^\/r\/?/, '').split('/')[0] || '').toLowerCase();
+  const hm = /^#sha256=([0-9a-fA-F]{64})$/.exec(location.hash);
+  const linkHash = hm ? hm[1].toLowerCase() : '';
+  const rawSerial = q.get('licence');
+  const askedSerial = rawSerial && /^[1-9][0-9]{0,8}$/.test(rawSerial) ? Number(rawSerial) : null;
+
+  if (seg === 'collection') {
+    $('tag').textContent = 'Licence registry · collection';
+    $('title').textContent = 'The Fork collection';
+    $('state').classList.add('hidden');
+    $('coll').classList.remove('hidden');
+    return;
+  }
+  if (!UUID.test(seg) || (rawSerial && !askedSerial)) {
+    return fail('Licence registry', 'This registry link is not valid.', 'Scan the QR code on the receipt again, or copy the whole link.');
+  }
+  fetch(api(seg, askedSerial), { headers: { apikey: SUPABASE_KEY } })
+    .then(async (r) => {
+      const a = await r.json().catch(() => null);
+      if (r.ok && a && a.ok) return render(a, linkHash, askedSerial);
+      if (r.status === 404) return fail('Licence registry', 'No edition matches this link.', 'Check that the whole link was copied. Editions that are not published are not listed.');
+      if (r.status === 429) return fail('Licence registry', 'Too many requests.', 'Try again in a minute.');
+      fail('Licence registry', 'The registry is not available right now.', 'Try again in a few minutes.');
+    })
+    .catch(() => fail('Licence registry', 'The registry is not available right now.', 'Check your connection and try again.'));
+})();
+</script>
+</body>
+</html>

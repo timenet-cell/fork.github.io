@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>Page not found · Fork</title>
+<script>
+// GitHub Pages so serve /r/ (r/index.html); /r/<id> cai aqui. Manda para /r/?e=<id>, mantendo ?licence= e o #sha256=.
+(function(){
+  var m = /^\/r\/([A-Za-z0-9_-]{1,64})\/?$/.exec(location.pathname);
+  if (!m) return;
+  var rest = location.search ? '&' + location.search.slice(1) : '';
+  location.replace('/r/?e=' + encodeURIComponent(m[1]) + rest + location.hash);
+})();
+</script>
+<style>
+:root{--bg:#EEF3F8;--text:#141A22;--muted:#5B6675;--red:#e0312a;color-scheme:light dark}
+@media (prefers-color-scheme: dark){:root{--bg:#0F141B;--text:#E8EDF3;--muted:#9AA6B4;--red:#ff5a4f}}
+body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:16px;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;text-align:center}
+h1{font-size:22px;margin:0 0 6px} p{color:var(--muted);margin:0 0 12px} a{color:var(--red)}
+</style>
+</head>
+<body><main><h1>Page not found</h1><p>This address doesn't exist on forkgate.io.</p><a href="/">Back to Fork</a></main></body>
+</html>
