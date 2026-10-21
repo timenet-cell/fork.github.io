@@ -1,22 +1,22 @@
 {
- "updated": "2026-10-21T11:45:00Z",
+ "updated": "2026-10-21T17:30:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
-   "p": 88,
-   "s": "Waves 0–4, 7, 8, 10, 13 + encrypted DB backup merged, database updated · next: switch on with your real data (needs your OK)",
+   "p": 92,
+   "s": "Revocations, keep-alives and shared-project removals now signed (forged/unsigned refused) · needs you: db push (58–59), new signer build, switch on with real data",
    "prio": 1
   },
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 99,
-   "s": "All code merged incl. receipt page (waiting your OK on screenshots) and one-command devnet setup · needs you: db push (55–56), then the devnet runbook",
+   "s": "All code merged: receipt page, wallet pages (MetaMask/Phantom sign in and move back), one-command devnet setup · needs you: OK on receipt page, devnet hour",
    "prio": 1
   },
   {
    "t": "WIP fan passes (off-chain, revocable)",
-   "p": 75,
-   "s": "Signed passes + Studio screen done (developer tick) · fan side comes with Fork Music",
+   "p": 95,
+   "s": "Fan side done: Fork Music checks the artist signature, signed revocation only · needs you: db push (57)",
    "prio": 1
   },
   {
@@ -27,8 +27,8 @@
   },
   {
    "t": "Fork Music: distribution + streaming",
-   "p": 93,
-   "s": "Native heartbeat, fans seed behind NAT, terms served over the swarm — merged (769 tests pass) · needs you: db push, device-cert issuer key, real two-Mac test",
+   "p": 96,
+   "s": "Stays signed in, router support, Settings › Network, passes, ForkMusic wordmark — merged (794 tests pass) · needs you: db push, real two-Mac test",
    "prio": 2
   },
   {
@@ -39,8 +39,8 @@
   },
   {
    "t": "Operations Manual (admin Guide)",
-   "p": 95,
-   "s": "Live in admin, 20 chapters, updated with all 20 Oct decisions",
+   "p": 98,
+   "s": "Live in admin, updated with all 21 Oct changes",
    "prio": 2
   },
   {
