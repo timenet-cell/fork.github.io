@@ -213,6 +213,11 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .nc-honest{font-size:12px;color:var(--muted);margin-top:10px;padding:8px 10px;border-left:3px solid var(--grid)}
 @media (max-width:900px){.nc-grid{grid-template-columns:1fr}.nc-kpis{grid-template-columns:repeat(2,1fr)}}
 @media print{#t-netcap{display:none!important}}
+.ac-plano{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ac-plano button{font:inherit;font-size:12px;padding:4px 10px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.ac-plano button.on{background:var(--neg,#d0453a);color:#fff}
+.ac-plano button[data-p="free"].on{background:var(--grid);color:inherit}
+.ac-plano button:disabled{cursor:default}
 /* ── Survey tab (Fork Protocol survey, migracao 63): bloco autonomo, prefixo sy- ── */
 .sy-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
 .sy-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
@@ -318,6 +323,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-services" id="tab-services" type="button">Services</button>
       <button data-tab="t-survey" id="tab-survey" type="button">Survey</button>
       <button data-tab="t-netcap" id="tab-netcap" type="button">Network capacity</button>
+      <button data-tab="t-accounts" id="tab-accounts" type="button">Accounts</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -390,6 +396,14 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
         <div class="tabhead"><h2 style="margin:0">Responses <small id="sy-count"></small></h2><button class="sec" id="sy-csv" type="button" disabled>Export CSV</button></div>
         <div class="scroll"><table><thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Space</th><th>Fork Free</th><th>Pro €2.99</th><th>Comment</th></tr></thead><tbody id="sy-rows"></tbody></table></div>
         <div id="sy-more" class="note"></div>
+      </div>
+    </div>
+    <div id="t-accounts" class="hidden">
+      <p class="sy-note">Fork accounts and their plan. Free: collaboration, fork and merge, saving versions. Pro (€2.99/month) adds Structure and Chain Preview, the version diff report, auto-render, Loudness, Palette Creator and the Rendering library. Changing a plan here takes effect in Fork Studio within a minute.</p>
+      <div id="ac-err" class="msg" role="status" aria-live="polite"></div>
+      <div class="box">
+        <div class="tabhead"><h2 style="margin:0">Accounts <small id="ac-count"></small></h2></div>
+        <div class="scroll"><table><thead><tr><th>Email</th><th>Username</th><th>Created</th><th>Last sign-in</th><th>Plan</th></tr></thead><tbody id="ac-rows"></tbody></table></div>
       </div>
     </div>
     <div id="t-traffic" class="hidden">
@@ -1230,6 +1244,37 @@ function mdRender(md, titulo) {
 
 sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') vista('v-login'); });
 entrar();
+
+// ── Accounts (migracao 66): as contas Fork e o plano; Free/Pro muda-se com admin_set_plan (migracao 35) ──
+(() => {
+  const el = id => document.getElementById(id);
+  let lista = null;
+  const data = v => v ? new Date(v).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+  const h = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function desenha() {
+    el('ac-count').textContent = lista.length + ' · ' + lista.filter(a => a.plan === 'pro').length + ' Pro';
+    el('ac-rows').innerHTML = lista.map((a, i) => `<tr><td>${h(a.email)}</td><td>${h(a.username || '—')}</td><td>${data(a.created_at)}</td><td>${data(a.last_sign_in_at)}</td>
+      <td><span class="ac-plano">${['free', 'pro'].map(p => `<button type="button" data-i="${i}" data-p="${p}" class="${a.plan === p ? 'on' : ''}">${p === 'pro' ? 'Pro' : 'Free'}</button>`).join('')}</span></td></tr>`).join('');
+  }
+  async function carrega() {
+    el('ac-err').textContent = '';
+    const { data: d, error } = await sb.rpc('admin_list_accounts');
+    if (error) { lista = null; el('ac-rows').innerHTML = ''; el('ac-err').textContent = /could not find the function/i.test(error.message || '') || error.code === 'PGRST202'
+      ? 'Waiting for the database update (supabase db push, migration 66).' : 'Could not load the accounts: ' + error.message; return; }
+    lista = d || []; desenha();
+  }
+  el('ac-rows').addEventListener('click', async ev => {
+    const b = ev.target.closest('button[data-p]'); if (!b || b.classList.contains('on')) return;
+    const a = lista[+b.dataset.i];
+    b.closest('.ac-plano').querySelectorAll('button').forEach(x => x.disabled = true);
+    const { error } = await sb.rpc('admin_set_plan', { p_user: a.id, p_plan: b.dataset.p });
+    if (error) el('ac-err').textContent = 'Could not change the plan: ' + error.message; else a.plan = b.dataset.p;
+    desenha();
+  });
+  el('tab-accounts').addEventListener('click', () => { if (lista === null) carrega(); });
+  document.getElementById('refresh').addEventListener('click', () => { if (!el('t-accounts').classList.contains('hidden')) carrega(); else lista = null; });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { lista = null; el('ac-rows').innerHTML = ''; } });
+})();
 </script>
 </body>
 </html>
