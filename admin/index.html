@@ -355,18 +355,18 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div id="sv-list"></div>
     </div>
     <div id="t-netcap" class="hidden">
-      <p class="nc-note">How much seed space the Fork P2P swarm has against what Pro users are promised. Real numbers come from the database; the quotas are platform settings; "What if" is a separate simulator that never saves anything.</p>
+      <p class="nc-note">Each desktop, Free or Pro, chooses its seed in Fork Studio (a slider from the minimum to the maximum seed) and earns P2P cloud at its plan's ratio. Capacity is the sum of the seeds plus the founder nodes; demand is the sum of the cloud everyone earned. Real numbers come from the database; the settings are platform settings; "What if" is a separate simulator that never saves anything.</p>
       <div id="nc-err" class="msg" role="status" aria-live="polite"></div>
       <div class="box" style="margin-bottom:12px">
         <h2 class="nc-h">Real network</h2>
         <div class="nc-kpis" id="nc-real"></div>
-        <div class="nc-honest">The swarm actually keeps 3 copies of each Pro project. R shows the network's capacity (how many full copies of all Pro data could fit), not the copies that really exist.</div>
+        <div class="nc-honest">Fork Studio doesn't report each desktop's chosen seed yet, so this assumes every user seeds the minimum — the worst case. R shows how many full copies of all P2P cloud data could fit, not the copies that really exist (the swarm keeps 3).</div>
       </div>
       <div class="nc-grid">
         <div class="box">
-          <h2 class="nc-h">Quotas</h2>
+          <h2 class="nc-h">Settings</h2>
           <div class="nc-set" id="nc-set"></div>
-          <div class="nc-act"><button id="nc-save" type="button" disabled>Save quotas</button><span id="nc-saved" class="note"></span></div>
+          <div class="nc-act"><button id="nc-save" type="button" disabled>Save settings</button><span id="nc-saved" class="note"></span></div>
         </div>
         <div class="box">
           <h2 class="nc-h">What if</h2>
@@ -374,8 +374,10 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
             <label for="nc-w-users">Total users</label><input id="nc-w-users" type="number" min="0" step="1">
             <label for="nc-w-pro">Pro users (%)</label><input id="nc-w-pro" type="number" min="0" max="100" step="1">
             <label for="nc-w-nodes">Founder nodes</label><input id="nc-w-nodes" type="number" min="0" step="1">
+            <label for="nc-w-sf">Average seed, Free (GB)</label><input id="nc-w-sf" type="number" min="0" step="5">
+            <label for="nc-w-sp">Average seed, Pro (GB)</label><input id="nc-w-sp" type="number" min="0" step="5">
           </div>
-          <p class="note">Starts from the real numbers and the quotas on the left. Change anything to simulate; nothing here is saved.</p>
+          <p class="note">Starts from the real numbers and the settings on the left. Change anything to simulate; nothing here is saved.</p>
           <div class="nc-kpis" id="nc-what" style="margin-top:10px"></div>
         </div>
       </div>
@@ -1142,31 +1144,36 @@ function mdRender(md, titulo) {
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') limpa(); });
 })();
 
-// ── Network capacity (migracao 64): numeros reais (admin_network_capacity), cotas (platform_settings) e simulador ──
+// ── Network capacity (migracoes 64 e 65): numeros reais (admin_network_capacity), definicoes (platform_settings) e simulador ──
 (() => {
   const el = id => document.getElementById(id);
-  const CHAVES = [['network.seed_free_gb', 'Seed quota, Free (GB)'], ['network.seed_pro_gb', 'Seed quota, Pro (GB)'], ['network.cloud_pro_gb', 'P2P cloud per Pro user (GB)'],
-                  ['network.bootstrap_nodes', 'Founder nodes'], ['network.bootstrap_node_gb', 'Capacity per founder node (GB)'], ['network.mobile_cache_gb', 'Mobile cache (GB)']];
+  const CHAVES = [['network.seed_min_gb', 'Minimum seed (GB)'], ['network.seed_max_gb', 'Maximum seed (GB)'],
+                  ['network.cloud_ratio_free', 'Seed-to-cloud, Free (x:1)'], ['network.cloud_ratio_pro', 'Seed-to-cloud, Pro (x:1)'],
+                  ['network.bootstrap_nodes', 'Founder nodes'], ['network.bootstrap_node_gb', 'Capacity per founder node (GB)']];
   let real = null, cotas = null, carregando = false;
   const n1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
   const n2 = v => (Math.round(v * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  // As formulas do dono, tal e qual: Ufree = U(1-P), Upro = U*P; S = Ufree*Sfree + Upro*Spro + N*Sboot; D = Upro*Cpro; R = S/max(D,1); T = (1-1/R)*100.
-  function calcula(U, Upro, q) {
+  // Modelo do dono (22-10): seed variavel, nuvem = seed / racio do plano. Ufree = U(1-P), Upro = U*P;
+  // S = Ufree*sF + Upro*sP + N*Sboot; D = Ufree*sF/rF + Upro*sP/rP; R = S/max(D,1); T = (1-1/R)*100. sF/sP ficam entre o minimo e o maximo.
+  const prende = (v, q) => Math.min(q['network.seed_max_gb'], Math.max(q['network.seed_min_gb'], v));
+  function calcula(U, Upro, q, sF, sP) {
     const Ufree = Math.max(0, U - Upro);
-    const S = Ufree * q['network.seed_free_gb'] + Upro * q['network.seed_pro_gb'] + q['network.bootstrap_nodes'] * q['network.bootstrap_node_gb'];
-    const D = Upro * q['network.cloud_pro_gb'];
+    sF = prende(sF ?? q['network.seed_min_gb'], q); sP = prende(sP ?? q['network.seed_min_gb'], q);
+    const rF = Math.max(1, q['network.cloud_ratio_free']), rP = Math.max(1, q['network.cloud_ratio_pro']);
+    const S = Ufree * sF + Upro * sP + q['network.bootstrap_nodes'] * q['network.bootstrap_node_gb'];
+    const D = Ufree * sF / rF + Upro * sP / rP;
     const R = S / Math.max(D, 1);
     const T = R > 0 ? Math.max(0, (1 - 1 / R) * 100) : 0;
     const estado = R < 3 ? ['Critical', 'nc-crit'] : R <= 6 ? ['Stable', 'nc-ok'] : ['Excellent', 'nc-exc'];
     return { Ufree, S, D, R, T, estado };
   }
   const kpi = (b, span, cls) => `<div class="kpi${cls ? ' ' + cls : ''}"><b>${b}</b><span>${span}</span></div>`;
-  function cartoes(alvo, U, Upro, q) {
-    const c = calcula(U, Upro, q), pp = U ? Upro / U * 100 : 0;
+  function cartoes(alvo, U, Upro, q, sF, sP) {
+    const c = calcula(U, Upro, q, sF, sP), pp = U ? Upro / U * 100 : 0;
     el(alvo).innerHTML =
       kpi(U.toLocaleString('en-US'), `users · ${n1(pp)}% Pro (${Upro.toLocaleString('en-US')} Pro, ${c.Ufree.toLocaleString('en-US')} Free)`) +
       kpi(n1(c.S) + ' GB', 'total seed capacity') +
-      kpi(n1(c.D) + ' GB', 'P2P cloud demand (Pro)') +
+      kpi(n1(c.D) + ' GB', 'P2P cloud demand (Free + Pro)') +
       kpi(n2(c.R) + '×', 'redundancy R · churn tolerance ' + n1(c.T) + '%') +
       kpi(c.estado[0], 'swarm health (R < 3 critical, 3–6 stable, > 6 excellent)', c.estado[1]);
   }
@@ -1175,16 +1182,16 @@ function mdRender(md, titulo) {
     if (!cotas) return;
     const U = Math.max(0, Math.round(+el('nc-w-users').value || 0)), P = Math.min(100, Math.max(0, +el('nc-w-pro').value || 0));
     const q = Object.assign(lerCotas(), { 'network.bootstrap_nodes': Math.max(0, Math.round(+el('nc-w-nodes').value || 0)) });
-    cartoes('nc-what', U, Math.round(U * P / 100), q);
+    cartoes('nc-what', U, Math.round(U * P / 100), q, +el('nc-w-sf').value || 0, +el('nc-w-sp').value || 0);
   }
   function mostra() {
     cartoes('nc-real', real.total_users, real.pro_users, cotas);
-    el('nc-real').insertAdjacentHTML('beforeend', '');
     el('nc-set').innerHTML = CHAVES.map(([k, rot]) => `<label for="nc-q-${k.replace('.', '_')}">${rot}</label><input id="nc-q-${k.replace('.', '_')}" type="number" min="0" step="1" value="${cotas[k]}">`).join('');
     el('nc-set').querySelectorAll('input').forEach(i => i.addEventListener('input', () => { el('nc-save').disabled = false; el('nc-saved').textContent = ''; simula(); }));
     el('nc-w-users').value = real.total_users;
     el('nc-w-pro').value = real.total_users ? Math.round(real.pro_users / real.total_users * 100) : 0;
     el('nc-w-nodes').value = cotas['network.bootstrap_nodes'];
+    el('nc-w-sf').value = el('nc-w-sp').value = cotas['network.seed_min_gb'];
     el('nc-save').disabled = true;
     simula();
   }
@@ -1194,10 +1201,10 @@ function mdRender(md, titulo) {
     try {
       const [a, b] = await Promise.all([sb.rpc('admin_network_capacity'), sb.from('platform_settings').select('key, value').in('key', CHAVES.map(c => c[0]))]);
       const falta = e => e && (e.code === 'PGRST202' || /could not find the function/i.test(e.message || ''));
-      if (a.error) throw new Error(falta(a.error) ? 'Waiting for the database update (supabase db push, migration 64).' : 'Could not load the network numbers: ' + a.error.message);
+      if (a.error) throw new Error(falta(a.error) ? 'Waiting for the database update (supabase db push, migrations 64 and 65).' : 'Could not load the network numbers: ' + a.error.message);
       if (b.error) throw new Error('Could not load the quotas: ' + b.error.message);
       cotas = {}; for (const r of b.data || []) cotas[r.key] = +r.value;
-      if (CHAVES.some(([k]) => !(k in cotas))) throw new Error('Waiting for the database update (supabase db push, migration 64).');
+      if (CHAVES.some(([k]) => !(k in cotas))) throw new Error('Waiting for the database update (supabase db push, migrations 64 and 65).');
       real = { total_users: +a.data.total_users || 0, pro_users: +a.data.pro_users || 0 };
       mostra();
     } catch (e) { real = null; el('nc-real').innerHTML = ''; el('nc-err').textContent = e.message || 'Could not load.'; }
@@ -1215,7 +1222,7 @@ function mdRender(md, titulo) {
       el('nc-saved').textContent = '✓ Saved'; cartoes('nc-real', real.total_users, real.pro_users, cotas);
     } catch (e) { el('nc-saved').textContent = ''; el('nc-err').textContent = 'Could not save: ' + (e.message || e); el('nc-save').disabled = false; }
   };
-  ['nc-w-users', 'nc-w-pro', 'nc-w-nodes'].forEach(id => el(id).addEventListener('input', simula));
+  ['nc-w-users', 'nc-w-pro', 'nc-w-nodes', 'nc-w-sf', 'nc-w-sp'].forEach(id => el(id).addEventListener('input', simula));
   el('tab-netcap').addEventListener('click', () => { if (real === null) carrega(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-netcap').classList.contains('hidden')) carrega(); else real = null; });
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { real = null; el('nc-real').innerHTML = ''; el('nc-what').innerHTML = ''; } });
