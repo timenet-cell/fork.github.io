@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-22T07:40:00Z",
+ "updated": "2026-10-22T11:00:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -39,8 +39,8 @@
   },
   {
    "t": "Operations Manual (admin Guide)",
-   "p": 98,
-   "s": "Live in admin, updated with all 21 Oct changes",
+   "p": 100,
+   "s": "Done: all chapters current to 22 Oct, decision log, Services tab, open questions moved to \"Waiting for the owner\" (ch. 18)",
    "prio": 2
   },
   {
