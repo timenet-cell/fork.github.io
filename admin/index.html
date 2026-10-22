@@ -199,6 +199,20 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 :root[data-theme="dark"] .pill.choose{color:#F2C14E}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill.choose{color:#F2C14E}}
 .sv-sn{font-size:12px;color:var(--faint)}
+/* ── Network capacity (migracao 64): bloco autonomo, prefixo nc- ── */
+.nc-note{font-size:12.5px;color:var(--muted);margin:0 0 12px;max-width:62em}
+.nc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.nc-h{font:600 13px/1.2 var(--sans,inherit);margin:0 0 10px}
+.nc-set{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:8px 10px;align-items:center;font-size:13px}
+.nc-set input{width:100%;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:inherit;text-align:right;font-variant-numeric:tabular-nums}
+.nc-act{display:flex;gap:8px;align-items:center;margin-top:12px}
+.nc-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi.nc-crit{border-color:var(--neg)}.kpi.nc-crit b{color:var(--neg)}
+.kpi.nc-ok{border-color:var(--promo)}.kpi.nc-ok b{color:var(--promo)}
+.kpi.nc-exc{border-color:var(--pos)}.kpi.nc-exc b{color:var(--pos)}
+.nc-honest{font-size:12px;color:var(--muted);margin-top:10px;padding:8px 10px;border-left:3px solid var(--grid)}
+@media (max-width:900px){.nc-grid{grid-template-columns:1fr}.nc-kpis{grid-template-columns:repeat(2,1fr)}}
+@media print{#t-netcap{display:none!important}}
 /* ── Survey tab (Fork Protocol survey, migracao 63): bloco autonomo, prefixo sy- ── */
 .sy-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
 .sy-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
@@ -303,6 +317,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-manual" id="tab-manual" type="button">Manual</button>
       <button data-tab="t-services" id="tab-services" type="button">Services</button>
       <button data-tab="t-survey" id="tab-survey" type="button">Survey</button>
+      <button data-tab="t-netcap" id="tab-netcap" type="button">Network capacity</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -338,6 +353,32 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <p class="sv-note">Every service and dependency Fork uses, from manual chapter 21. A directory only: no passwords, keys or seed phrases are kept here.</p>
       <div id="sv-status" class="empty" role="status" aria-live="polite"></div>
       <div id="sv-list"></div>
+    </div>
+    <div id="t-netcap" class="hidden">
+      <p class="nc-note">How much seed space the Fork P2P swarm has against what Pro users are promised. Real numbers come from the database; the quotas are platform settings; "What if" is a separate simulator that never saves anything.</p>
+      <div id="nc-err" class="msg" role="status" aria-live="polite"></div>
+      <div class="box" style="margin-bottom:12px">
+        <h2 class="nc-h">Real network</h2>
+        <div class="nc-kpis" id="nc-real"></div>
+        <div class="nc-honest">The swarm actually keeps 3 copies of each Pro project. R shows the network's capacity (how many full copies of all Pro data could fit), not the copies that really exist.</div>
+      </div>
+      <div class="nc-grid">
+        <div class="box">
+          <h2 class="nc-h">Quotas</h2>
+          <div class="nc-set" id="nc-set"></div>
+          <div class="nc-act"><button id="nc-save" type="button" disabled>Save quotas</button><span id="nc-saved" class="note"></span></div>
+        </div>
+        <div class="box">
+          <h2 class="nc-h">What if</h2>
+          <div class="nc-set">
+            <label for="nc-w-users">Total users</label><input id="nc-w-users" type="number" min="0" step="1">
+            <label for="nc-w-pro">Pro users (%)</label><input id="nc-w-pro" type="number" min="0" max="100" step="1">
+            <label for="nc-w-nodes">Founder nodes</label><input id="nc-w-nodes" type="number" min="0" step="1">
+          </div>
+          <p class="note">Starts from the real numbers and the quotas on the left. Change anything to simulate; nothing here is saved.</p>
+          <div class="nc-kpis" id="nc-what" style="margin-top:10px"></div>
+        </div>
+      </div>
     </div>
     <div id="t-survey" class="hidden">
       <p class="sy-note">Answers from forkgate.io/protocol. Read through the admin-only <code>protocol_survey_list()</code> function; the table itself can’t be read with the public key.</p>
@@ -1099,6 +1140,85 @@ function mdRender(md, titulo) {
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') limpa(); });
+})();
+
+// ── Network capacity (migracao 64): numeros reais (admin_network_capacity), cotas (platform_settings) e simulador ──
+(() => {
+  const el = id => document.getElementById(id);
+  const CHAVES = [['network.seed_free_gb', 'Seed quota, Free (GB)'], ['network.seed_pro_gb', 'Seed quota, Pro (GB)'], ['network.cloud_pro_gb', 'P2P cloud per Pro user (GB)'],
+                  ['network.bootstrap_nodes', 'Founder nodes'], ['network.bootstrap_node_gb', 'Capacity per founder node (GB)'], ['network.mobile_cache_gb', 'Mobile cache (GB)']];
+  let real = null, cotas = null, carregando = false;
+  const n1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
+  const n2 = v => (Math.round(v * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // As formulas do dono, tal e qual: Ufree = U(1-P), Upro = U*P; S = Ufree*Sfree + Upro*Spro + N*Sboot; D = Upro*Cpro; R = S/max(D,1); T = (1-1/R)*100.
+  function calcula(U, Upro, q) {
+    const Ufree = Math.max(0, U - Upro);
+    const S = Ufree * q['network.seed_free_gb'] + Upro * q['network.seed_pro_gb'] + q['network.bootstrap_nodes'] * q['network.bootstrap_node_gb'];
+    const D = Upro * q['network.cloud_pro_gb'];
+    const R = S / Math.max(D, 1);
+    const T = R > 0 ? Math.max(0, (1 - 1 / R) * 100) : 0;
+    const estado = R < 3 ? ['Critical', 'nc-crit'] : R <= 6 ? ['Stable', 'nc-ok'] : ['Excellent', 'nc-exc'];
+    return { Ufree, S, D, R, T, estado };
+  }
+  const kpi = (b, span, cls) => `<div class="kpi${cls ? ' ' + cls : ''}"><b>${b}</b><span>${span}</span></div>`;
+  function cartoes(alvo, U, Upro, q) {
+    const c = calcula(U, Upro, q), pp = U ? Upro / U * 100 : 0;
+    el(alvo).innerHTML =
+      kpi(U.toLocaleString('en-US'), `users · ${n1(pp)}% Pro (${Upro.toLocaleString('en-US')} Pro, ${c.Ufree.toLocaleString('en-US')} Free)`) +
+      kpi(n1(c.S) + ' GB', 'total seed capacity') +
+      kpi(n1(c.D) + ' GB', 'P2P cloud demand (Pro)') +
+      kpi(n2(c.R) + '×', 'redundancy R · churn tolerance ' + n1(c.T) + '%') +
+      kpi(c.estado[0], 'swarm health (R < 3 critical, 3–6 stable, > 6 excellent)', c.estado[1]);
+  }
+  function lerCotas() { const q = {}; for (const [k] of CHAVES) q[k] = Math.max(0, +el('nc-q-' + k.replace('.', '_')).value || 0); return q; }
+  function simula() {
+    if (!cotas) return;
+    const U = Math.max(0, Math.round(+el('nc-w-users').value || 0)), P = Math.min(100, Math.max(0, +el('nc-w-pro').value || 0));
+    const q = Object.assign(lerCotas(), { 'network.bootstrap_nodes': Math.max(0, Math.round(+el('nc-w-nodes').value || 0)) });
+    cartoes('nc-what', U, Math.round(U * P / 100), q);
+  }
+  function mostra() {
+    cartoes('nc-real', real.total_users, real.pro_users, cotas);
+    el('nc-real').insertAdjacentHTML('beforeend', '');
+    el('nc-set').innerHTML = CHAVES.map(([k, rot]) => `<label for="nc-q-${k.replace('.', '_')}">${rot}</label><input id="nc-q-${k.replace('.', '_')}" type="number" min="0" step="1" value="${cotas[k]}">`).join('');
+    el('nc-set').querySelectorAll('input').forEach(i => i.addEventListener('input', () => { el('nc-save').disabled = false; el('nc-saved').textContent = ''; simula(); }));
+    el('nc-w-users').value = real.total_users;
+    el('nc-w-pro').value = real.total_users ? Math.round(real.pro_users / real.total_users * 100) : 0;
+    el('nc-w-nodes').value = cotas['network.bootstrap_nodes'];
+    el('nc-save').disabled = true;
+    simula();
+  }
+  async function carrega() {
+    if (carregando) return;
+    carregando = true; el('nc-err').textContent = '';
+    try {
+      const [a, b] = await Promise.all([sb.rpc('admin_network_capacity'), sb.from('platform_settings').select('key, value').in('key', CHAVES.map(c => c[0]))]);
+      const falta = e => e && (e.code === 'PGRST202' || /could not find the function/i.test(e.message || ''));
+      if (a.error) throw new Error(falta(a.error) ? 'Waiting for the database update (supabase db push, migration 64).' : 'Could not load the network numbers: ' + a.error.message);
+      if (b.error) throw new Error('Could not load the quotas: ' + b.error.message);
+      cotas = {}; for (const r of b.data || []) cotas[r.key] = +r.value;
+      if (CHAVES.some(([k]) => !(k in cotas))) throw new Error('Waiting for the database update (supabase db push, migration 64).');
+      real = { total_users: +a.data.total_users || 0, pro_users: +a.data.pro_users || 0 };
+      mostra();
+    } catch (e) { real = null; el('nc-real').innerHTML = ''; el('nc-err').textContent = e.message || 'Could not load.'; }
+    finally { carregando = false; }
+  }
+  el('nc-save').onclick = async () => {
+    const q = lerCotas(); el('nc-save').disabled = true; el('nc-saved').textContent = 'Saving…';
+    try {
+      for (const [k] of CHAVES) {
+        if (q[k] === cotas[k]) continue;
+        const { error } = await sb.from('platform_settings').update({ value: q[k] }).eq('key', k).select('value');
+        if (error) throw error;
+        cotas[k] = q[k];
+      }
+      el('nc-saved').textContent = '✓ Saved'; cartoes('nc-real', real.total_users, real.pro_users, cotas);
+    } catch (e) { el('nc-saved').textContent = ''; el('nc-err').textContent = 'Could not save: ' + (e.message || e); el('nc-save').disabled = false; }
+  };
+  ['nc-w-users', 'nc-w-pro', 'nc-w-nodes'].forEach(id => el(id).addEventListener('input', simula));
+  el('tab-netcap').addEventListener('click', () => { if (real === null) carrega(); });
+  document.getElementById('refresh').addEventListener('click', () => { if (!el('t-netcap').classList.contains('hidden')) carrega(); else real = null; });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { real = null; el('nc-real').innerHTML = ''; el('nc-what').innerHTML = ''; } });
 })();
 
 sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') vista('v-login'); });
