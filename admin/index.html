@@ -210,6 +210,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .kpi.nc-crit{border-color:var(--neg)}.kpi.nc-crit b{color:var(--neg)}
 .kpi.nc-ok{border-color:var(--promo)}.kpi.nc-ok b{color:var(--promo)}
 .kpi.nc-exc{border-color:var(--pos)}.kpi.nc-exc b{color:var(--pos)}
+.nc-beta{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);margin-top:12px}
 .nc-honest{font-size:12px;color:var(--muted);margin-top:10px;padding:8px 10px;border-left:3px solid var(--grid)}
 @media (max-width:900px){.nc-grid{grid-template-columns:1fr}.nc-kpis{grid-template-columns:repeat(2,1fr)}}
 @media print{#t-netcap{display:none!important}}
@@ -372,6 +373,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
         <div class="box">
           <h2 class="nc-h">Settings</h2>
           <div class="nc-set" id="nc-set"></div>
+          <label class="nc-beta"><input type="checkbox" id="nc-beta" checked> Beta: every account seeds at the Free ratio (the Pro ratio starts at the alpha release)</label>
           <div class="nc-act"><button id="nc-save" type="button" disabled>Save settings</button><span id="nc-saved" class="note"></span></div>
         </div>
         <div class="box">
@@ -399,7 +401,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       </div>
     </div>
     <div id="t-accounts" class="hidden">
-      <p class="sy-note">Fork accounts and their plan. Free: collaboration, fork and merge, saving versions. Pro (€2.99/month) adds Structure and Chain Preview, the version diff report, auto-render, Loudness, Palette Creator and the Rendering library. Changing a plan here takes effect in Fork Studio within a minute.</p>
+      <p class="sy-note">Fork accounts and their plan. Free: collaboration, fork and merge, saving versions. Pro (€2.99/month) adds Structure and Chain Preview, the version diff report, auto-render, Loudness, Palette Creator and the Rendering library. During the beta every account has every feature; the split starts at the alpha release. Changing a plan here takes effect in Fork Studio within a minute.</p>
       <div id="ac-err" class="msg" role="status" aria-live="polite"></div>
       <div class="box">
         <div class="tabhead"><h2 style="margin:0">Accounts <small id="ac-count"></small></h2></div>
@@ -1173,7 +1175,8 @@ function mdRender(md, titulo) {
   function calcula(U, Upro, q, sF, sP) {
     const Ufree = Math.max(0, U - Upro);
     sF = prende(sF ?? q['network.seed_min_gb'], q); sP = prende(sP ?? q['network.seed_min_gb'], q);
-    const rF = Math.max(1, q['network.cloud_ratio_free']), rP = Math.max(1, q['network.cloud_ratio_pro']);
+    const rF = Math.max(1, q['network.cloud_ratio_free']);
+    const rP = el('nc-beta').checked ? rF : Math.max(1, q['network.cloud_ratio_pro']);      // beta: so o racio Free
     const S = Ufree * sF + Upro * sP + q['network.bootstrap_nodes'] * q['network.bootstrap_node_gb'];
     const D = Ufree * sF / rF + Upro * sP / rP;
     const R = S / Math.max(D, 1);
@@ -1236,6 +1239,7 @@ function mdRender(md, titulo) {
       el('nc-saved').textContent = '✓ Saved'; cartoes('nc-real', real.total_users, real.pro_users, cotas);
     } catch (e) { el('nc-saved').textContent = ''; el('nc-err').textContent = 'Could not save: ' + (e.message || e); el('nc-save').disabled = false; }
   };
+  el('nc-beta').addEventListener('change', () => { if (real) cartoes('nc-real', real.total_users, real.pro_users, cotas); simula(); });
   ['nc-w-users', 'nc-w-pro', 'nc-w-nodes', 'nc-w-sf', 'nc-w-sp'].forEach(id => el(id).addEventListener('input', simula));
   el('tab-netcap').addEventListener('click', () => { if (real === null) carrega(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-netcap').classList.contains('hidden')) carrega(); else real = null; });
