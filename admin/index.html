@@ -177,9 +177,31 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .mn-hit{font-size:12px;color:var(--muted);margin-top:2px}
 .mn-pr{display:none}
 @media (max-width:900px){.mn{grid-template-columns:minmax(0,1fr)}.mn-side{position:static;max-height:42vh}}
+
+/* servicos (services.json vem do balde privado admin-manual; nada dele vive neste repositorio publico) */
+.sv-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+.sv-grp{margin-bottom:12px}
+.sv-it{padding:12px 0;border-bottom:1px solid var(--line);display:grid;gap:4px;min-width:0}
+.sv-it:last-child{border-bottom:0;padding-bottom:0}
+.sv-hd{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap}
+.sv-nm{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.sv-ln{display:flex;gap:4px 12px;flex-wrap:wrap;font-size:12.5px}
+.sv-ln a{color:var(--red);overflow-wrap:anywhere}
+.sv-tx{font-size:13px;color:var(--text);overflow-wrap:anywhere}
+.sv-tx b{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-right:6px}
+.sv-ac{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.sv-ac b{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-right:6px}
+.pill{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.pill.live{color:var(--pos);background:color-mix(in srgb,var(--pos) 14%,transparent);border-color:color-mix(in srgb,var(--pos) 35%,transparent)}
+.pill.test{color:var(--promo);background:color-mix(in srgb,var(--promo) 14%,transparent);border-color:color-mix(in srgb,var(--promo) 35%,transparent)}
+.pill.planned{color:var(--muted);background:var(--grid);border-color:var(--line)}
+.pill.choose{color:#9A6700;background:color-mix(in srgb,#E3A008 18%,transparent);border-color:color-mix(in srgb,#E3A008 45%,transparent)}
+:root[data-theme="dark"] .pill.choose{color:#F2C14E}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill.choose{color:#F2C14E}}
+.sv-sn{font-size:12px;color:var(--faint)}
 @media print{
   html,body{background:#fff!important;color:#000!important;font-size:11pt}
-  .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,.mn-side,.mn-tools,#mn-status{display:none!important}
+  .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,#t-services,.mn-side,.mn-tools,#mn-status{display:none!important}
   main{padding:0;max-width:none}
   .mn{display:block}
   .box{border:0;padding:0;background:none}
@@ -265,6 +287,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-settings" type="button">Platform settings</button>
       <button data-tab="t-reports" type="button">Reports</button>
       <button data-tab="t-manual" id="tab-manual" type="button">Manual</button>
+      <button data-tab="t-services" id="tab-services" type="button">Services</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -295,6 +318,11 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
           <article class="mn-doc" id="mn-doc"></article>
         </div>
       </div>
+    </div>
+    <div id="t-services" class="hidden">
+      <p class="sv-note">Every service and dependency Fork uses, from manual chapter 21. A directory only: no passwords, keys or seed phrases are kept here.</p>
+      <div id="sv-status" class="empty" role="status" aria-live="polite"></div>
+      <div id="sv-list"></div>
     </div>
     <div id="t-traffic" class="hidden">
     <div class="kpis" id="kpis"></div>
@@ -383,7 +411,7 @@ $('f-in').onsubmit = async e => {
     $('msg').textContent = err.message === 'Invalid login credentials' ? 'Username or password is incorrect.' : (err.message || 'Could not sign in.');
   } finally { $('go').disabled = false; }
 };
-async function sair() { await sb.auth.signOut(); dados = null; manualReset(true); vista('v-login'); }
+async function sair() { await sb.auth.signOut(); dados = null; manualReset(true); servicosReset(true); vista('v-login'); }
 $('out').onclick = sair; $('out2').onclick = sair;
 
 async function entrar() {
@@ -550,7 +578,7 @@ function ligaDef(st) {
     btn.disabled = true;
   };
 }
-$('refresh').onclick = () => { estado(); carrega(); definicoes(); denuncias(); manualReset(); };
+$('refresh').onclick = () => { estado(); carrega(); definicoes(); denuncias(); manualReset(); servicosReset(); };
 
 // ── denuncias (migracao 30: block_reports; so por RPC de admin; a pagina nunca decide quem pode) ────────────────────
 const RP_WHY = { csam: 'Child safety', terror: 'Terrorist content', copyright: 'Copyright', fraud: 'Fraud', other: 'Other' };
@@ -610,6 +638,7 @@ $('rp-status').onchange = denuncias;
 for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
   for (const x of document.querySelectorAll('.tabs button')) { x.classList.toggle('on', x === b); $(x.dataset.tab).classList.toggle('hidden', x !== b); }
   if (b.id === 'tab-manual') manualAbre();
+  if (b.id === 'tab-services') servicosAbre();
   else if (location.hash.startsWith('#manual')) history.replaceState(null, '', location.pathname + location.search);
 };
 async function estado() {
@@ -785,6 +814,47 @@ async function manualAbre() {
 async function mnPagina(id) {
   if (!MN.pages.has(id)) MN.pages.set(id, await mnLe(id + '.md'));
   return MN.pages.get(id);
+}
+// ── servicos (services.json no mesmo balde privado; so admins leem, a base decide) ──────────────────────────────────────
+const SV = { estado: 'idle' };
+const SV_ESTADO = { 'Live': 'live', 'Test': 'test', 'Planned': 'planned', 'To choose': 'choose' };
+function servicosReset(limpa) {
+  SV.estado = 'idle';
+  if (limpa) { $('sv-list').innerHTML = ''; $('sv-status').textContent = ''; return; }
+  if (!$('t-services').classList.contains('hidden')) servicosAbre();
+}
+const svMsg = t => { $('sv-status').textContent = t || ''; $('sv-status').hidden = !t; };
+// so ligacoes https para fora; nunca javascript: nem outros esquemas
+const svUrl = u => { try { const x = new URL(String(u)); return x.protocol === 'https:' ? x.href : ''; } catch { return ''; } };
+function svItem(s) {
+  const st = String(s.status || ''), cls = SV_ESTADO[st] || 'planned';
+  const links = (Array.isArray(s.links) ? s.links : []).map(l => ({ t: String(l && l.label || ''), h: svUrl(l && l.url) })).filter(l => l.h)
+    .map(l => `<a href="${esc(l.h)}" target="_blank" rel="noopener noreferrer">${esc(l.t || l.h)}</a>`).join('');
+  return `<div class="sv-it"><div class="sv-hd"><span class="sv-nm">${esc(s.name || '')}</span><span class="pill ${cls}">${esc(st || 'Planned')}</span>` +
+    (s.status_note ? `<span class="sv-sn">${esc(s.status_note)}</span>` : '') + `</div>` +
+    (links ? `<div class="sv-ln">${links}</div>` : '') +
+    (s.does ? `<div class="sv-tx"><b>Does</b>${esc(s.does)}</div>` : '') +
+    (s.why ? `<div class="sv-tx"><b>Why</b>${esc(s.why)}</div>` : '') +
+    (s.account ? `<div class="sv-ac"><b>Account</b>${esc(s.account)}</div>` : '') + `</div>`;
+}
+async function servicosAbre() {
+  if (SV.estado === 'ok' || SV.estado === 'carregando') return;
+  SV.estado = 'carregando'; svMsg('Loading the services…');
+  try {
+    const d = JSON.parse(await mnLe('services.json'));
+    const arr = Array.isArray(d) ? d : d && d.services;
+    if (!Array.isArray(arr)) throw Object.assign(new Error('services.json has no list'), { info: { texto: 'services.json has no list' } });
+    const grupos = new Map();
+    for (const s of arr) { if (!s || typeof s !== 'object') continue; const c = String(s.category || 'Other'); if (!grupos.has(c)) grupos.set(c, []); grupos.get(c).push(s); }
+    if (!grupos.size) { SV.estado = 'idle'; $('sv-list').innerHTML = ''; return svMsg('No services listed yet.'); }
+    $('sv-list').innerHTML = [...grupos].map(([c, l]) => `<div class="box sv-grp"><h2>${esc(c)} <small>${l.length}</small></h2>${l.map(svItem).join('')}</div>`).join('');
+    SV.estado = 'ok'; svMsg('');
+  } catch (e) {
+    SV.estado = 'idle'; $('sv-list').innerHTML = '';
+    if (e instanceof SyntaxError) e.info = { texto: 'services.json is not valid JSON' };
+    const i = e.info || {};
+    svMsg(i.acesso ? 'You don’t have access to the services list.' : i.falta ? 'Services list not uploaded yet.' : 'Could not load the services: ' + (i.texto || e.message));
+  }
 }
 // hash: #manual | #manual/<id> | #manual/_all (vista de impressao do manual todo)
 function manualHash() {

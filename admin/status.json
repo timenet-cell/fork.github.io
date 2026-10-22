@@ -1,34 +1,34 @@
 {
- "updated": "2026-10-21T22:30:00Z",
+ "updated": "2026-10-22T07:40:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
    "p": 92,
-   "s": "Revocations, keep-alives and shared-project removals now signed (forged/unsigned refused) · needs you: db push (58–59), new signer build, switch on with real data",
+   "s": "Revocations, keep-alives and shared-project removals signed; database up to date · needs you: switch on with real data",
    "prio": 1
   },
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 99,
-   "s": "All code merged: receipt page, wallet pages (MetaMask/Phantom sign in and move back), one-command devnet setup · needs you: OK on receipt page, devnet hour",
+   "s": "All code merged, receipt page live, signer keys + Stripe/Supabase keys stored, public keys published · left: devnet SOL (faucet limit), then one test purchase",
    "prio": 1
   },
   {
    "t": "WIP fan passes (off-chain, revocable)",
-   "p": 95,
-   "s": "Fan side done: Fork Music checks the artist signature, signed revocation only · needs you: db push (57)",
+   "p": 97,
+   "s": "Fan side done and database updated (57) · left: one real test (Studio issues a pass, Fork Music opens it)",
    "prio": 1
   },
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
    "p": 98,
-   "s": "Late joiners serve, slow last block raced, >8 GB fixed, phone reads from the swarm (WebRTC direct) · needs you: db push (60), relay server, real-router + iPhone test",
+   "s": "Late joiners serve, slow last block raced, >8 GB fixed, phone reads from the swarm; database updated (60) · needs you: relay server, real-router + iPhone test",
    "prio": 1
   },
   {
    "t": "Fork Music: distribution + streaming",
-   "p": 97,
-   "s": "Shared frame (bell, Appearance, four balls, login) in all apps; keep-alive only from Fork — merged (812 tests pass) · needs you: db push (60), rebuild, two-Mac test",
+   "p": 98,
+   "s": "Shared frame incl. 4th blue ball, Settings window, updater, build line, brand icon; database updated · left: release feeds (3 GitHub repos), two-Mac test",
    "prio": 2
   },
   {
