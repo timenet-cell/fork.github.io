@@ -199,6 +199,20 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 :root[data-theme="dark"] .pill.choose{color:#F2C14E}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill.choose{color:#F2C14E}}
 .sv-sn{font-size:12px;color:var(--faint)}
+/* ── Survey tab (Fork Protocol survey, migracao 63): bloco autonomo, prefixo sy- ── */
+.sy-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+.sy-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.sy-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:baseline;font-size:13px;margin-bottom:10px}
+.sy-row:last-child{margin-bottom:0}
+.sy-k{overflow-wrap:anywhere}
+.sy-n{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.sy-bar{grid-column:1 / -1;height:8px;border-radius:99px;background:var(--grid);overflow:hidden}
+.sy-bar i{display:block;height:100%;min-width:0;background:var(--red);border-radius:99px}
+.sy-tot{font-size:12px;color:var(--faint);margin-top:10px}
+.sy-c{white-space:pre-wrap;overflow-wrap:anywhere;min-width:180px}
+@media (max-width:900px){.sy-bars{grid-template-columns:1fr}}
+@media print{#t-survey{display:none!important}}
+
 @media print{
   html,body{background:#fff!important;color:#000!important;font-size:11pt}
   .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,#t-services,.mn-side,.mn-tools,#mn-status{display:none!important}
@@ -288,6 +302,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-reports" type="button">Reports</button>
       <button data-tab="t-manual" id="tab-manual" type="button">Manual</button>
       <button data-tab="t-services" id="tab-services" type="button">Services</button>
+      <button data-tab="t-survey" id="tab-survey" type="button">Survey</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -323,6 +338,16 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <p class="sv-note">Every service and dependency Fork uses, from manual chapter 21. A directory only: no passwords, keys or seed phrases are kept here.</p>
       <div id="sv-status" class="empty" role="status" aria-live="polite"></div>
       <div id="sv-list"></div>
+    </div>
+    <div id="t-survey" class="hidden">
+      <p class="sy-note">Answers from forkgate.io/protocol. Read through the admin-only <code>protocol_survey_list()</code> function; the table itself can’t be read with the public key.</p>
+      <div id="sy-err" class="msg" role="status" aria-live="polite"></div>
+      <div class="sy-bars" id="sy-bars"></div>
+      <div class="box">
+        <div class="tabhead"><h2 style="margin:0">Responses <small id="sy-count"></small></h2><button class="sec" id="sy-csv" type="button" disabled>Export CSV</button></div>
+        <div class="scroll"><table><thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Space</th><th>Fork Free</th><th>Pro €2.99</th><th>Comment</th></tr></thead><tbody id="sy-rows"></tbody></table></div>
+        <div id="sy-more" class="note"></div>
+      </div>
     </div>
     <div id="t-traffic" class="hidden">
     <div class="kpis" id="kpis"></div>
@@ -1000,6 +1025,81 @@ function mdRender(md, titulo) {
   // sem titulo no ficheiro, usa o do indice
   return (temH1 ? '' : `<h1>${esc(titulo || '')}</h1>`) + out.join('\n');
 }
+
+// ── Survey (Fork Protocol survey, migracao 63): bloco autonomo; le por RPC de admin, a pagina nunca decide quem pode ──
+(() => {
+  const Q = {
+    space_gb:   { title: 'Space to donate to the swarm', order: [10, 20, 30, 40], label: v => v + ' GB' },
+    free_offer: { title: 'Is Fork Free a good offer?', order: ['yes', 'doubts', 'barrier'],
+                  names: { yes: 'Yes, it makes total sense', doubts: 'I have doubts', barrier: 'No, it’s a barrier' } },
+    pro_price:  { title: 'Is €2.99/month a good price for Pro?', order: ['great', 'fair', 'expensive'],
+                  names: { great: 'Yes, great price', fair: 'Fair price', expensive: 'Too expensive' } },
+  };
+  const nome = (k, v) => Q[k].label ? Q[k].label(v) : (Q[k].names[v] || String(v));
+  const SHOWN = 200;
+  let lista = null, carregando = false;
+
+  const raiz = document.getElementById('t-survey'), el = id => document.getElementById(id);
+  const aberta = () => !raiz.classList.contains('hidden');
+  const esc2 = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+  function barras() {
+    const n = lista.length;
+    el('sy-bars').innerHTML = Object.keys(Q).map(k => {
+      const cont = {}; for (const r of lista) cont[r[k]] = (cont[r[k]] || 0) + 1;
+      const max = Math.max(1, ...Q[k].order.map(v => cont[v] || 0));
+      const rows = Q[k].order.map(v => {
+        const c = cont[v] || 0;
+        return `<div class="sy-row"><span class="sy-k">${esc2(nome(k, v))}</span><span class="sy-n">${c} · ${n ? Math.round(100 * c / n) : 0}%</span>` +
+               `<span class="sy-bar" role="img" aria-label="${esc2(nome(k, v))}: ${c} of ${n}"><i style="width:${(100 * c / max).toFixed(1)}%"></i></span></div>`;
+      }).join('');
+      return `<div class="box"><h2>${esc2(Q[k].title)}</h2>${rows}<div class="sy-tot">${n} ${n === 1 ? 'response' : 'responses'}</div></div>`;
+    }).join('');
+  }
+  function tabela() {
+    el('sy-count').textContent = lista.length ? '(' + lista.length + ')' : '';
+    el('sy-csv').disabled = !lista.length;
+    el('sy-rows').innerHTML = lista.length ? lista.slice(0, SHOWN).map(r =>
+      `<tr><td class="d">${esc2(new Date(r.created_at).toLocaleString())}</td><td>${esc2(r.name)}</td><td class="e">${esc2(r.email)}</td>` +
+      `<td>${esc2(nome('space_gb', r.space_gb))}</td><td>${esc2(nome('free_offer', r.free_offer))}</td><td>${esc2(nome('pro_price', r.pro_price))}</td>` +
+      `<td class="sy-c">${esc2(r.comments || '')}</td></tr>`).join('')
+      : '<tr><td colspan="7" class="empty">No responses yet.</td></tr>';
+    el('sy-more').textContent = lista.length > SHOWN ? `Showing the latest ${SHOWN} of ${lista.length}. Export CSV has them all.` : '';
+  }
+  async function carrega() {
+    if (carregando) return;
+    carregando = true; el('sy-err').textContent = '';
+    try {
+      const { data, error } = await sb.rpc('protocol_survey_list');
+      if (error) {
+        const falta = error.code === 'PGRST202' || /could not find the function/i.test(error.message || '');
+        throw new Error(falta ? 'The survey function isn’t in the database yet (run supabase db push, migration 63).' : 'Could not load the survey: ' + (error.message || 'error'));
+      }
+      lista = Array.isArray(data) ? data : [];
+      barras(); tabela();
+    } catch (e) {
+      lista = null; el('sy-bars').innerHTML = ''; el('sy-rows').innerHTML = ''; el('sy-count').textContent = ''; el('sy-more').textContent = ''; el('sy-csv').disabled = true;
+      el('sy-err').textContent = e.message || 'Could not load the survey.';
+    } finally { carregando = false; }
+  }
+  function limpa() {
+    lista = null; el('sy-bars').innerHTML = ''; el('sy-rows').innerHTML = ''; el('sy-count').textContent = ''; el('sy-more').textContent = ''; el('sy-err').textContent = ''; el('sy-csv').disabled = true;
+  }
+
+  el('tab-survey').addEventListener('click', () => { if (lista === null) carrega(); });
+  document.getElementById('refresh').addEventListener('click', () => { if (aberta()) carrega(); else lista = null; });
+  el('sy-csv').onclick = () => {
+    if (!lista || !lista.length) return;
+    // aspas dobradas; celulas que comecam por = + - @ levam um apostrofo (nao correm como formula no Excel)
+    const q = v => { let t = String(v ?? ''); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return '"' + t.replace(/"/g, '""') + '"'; };
+    const cols = ['created_at', 'name', 'email', 'space_gb', 'free_offer', 'pro_price', 'comments'];
+    const linhas = [cols.join(',')].concat(lista.map(r => cols.map(c => q(r[c])).join(',')));
+    const url = URL.createObjectURL(new Blob([linhas.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' }));
+    const a = document.createElement('a'); a.href = url; a.download = 'fork-protocol-survey-' + dia(new Date()) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') limpa(); });
+})();
 
 sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') vista('v-login'); });
 entrar();

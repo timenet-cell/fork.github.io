@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EEF3F8">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>Fork Protocol survey</title>
+<meta name="description" content="Help shape the Fork Protocol: P2P seed validation and the freemium model.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EEF3F8'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%23e0312a' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#EEF3F8;--panel:#F3F7FB;--card:#F8FAFC;--text:#141A22;--muted:#5B6675;--faint:#8A96A5;--line:#DCE4EC;--grid:#DCE5EE;
+  --red:#e0312a;--red-ink:#fff;--field:#fff;--err:#b3261e;--ok:#1E8E3E;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+/* Night mode: escolha guardada neste browser; sem escolha segue o sistema (como a pagina de admin) */
+:root[data-theme="dark"]{
+  --bg:#0F141A;--panel:#121921;--card:#161D25;--text:#E8EEF5;--muted:#9AA6B4;--faint:#6E7A88;--line:#26303B;--grid:#1F2832;
+  --field:#0F141A;--err:#ff6b62;--ok:#5BD27A;color-scheme:dark;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F141A;--panel:#121921;--card:#161D25;--text:#E8EEF5;--muted:#9AA6B4;--faint:#6E7A88;--line:#26303B;--grid:#1F2832;
+  --field:#0F141A;--err:#ff6b62;--ok:#5BD27A;color-scheme:dark;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;display:flex;flex-direction:column}
+a{color:var(--red)}
+.hidden{display:none!important}
+
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px max(16px,env(safe-area-inset-left)) 14px max(16px,env(safe-area-inset-right));border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:600 15px/1 var(--display);letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo svg{width:28px;height:28px}
+.tema-linha{display:inline-flex;gap:4px;align-items:center}
+.tema-modo{font:600 12px/1 var(--sans);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.tema-modo:hover{color:var(--text)}
+.tema-modo.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.tema-modo:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+main{width:100%;max-width:640px;margin:0 auto;padding:32px max(16px,env(safe-area-inset-left)) max(40px,env(safe-area-inset-bottom))}
+.tag{display:block;font:600 10.5px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--red);margin:0 0 12px}
+h1{font:700 clamp(28px,6vw,40px)/1.05 var(--display);letter-spacing:-.03em;margin:0}
+.lede{color:var(--muted);font-size:16px;margin:12px 0 0;max-width:36em}
+
+form,.thanks{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 20px 22px;box-shadow:0 10px 30px rgba(20,40,70,.07)}
+:root[data-theme="dark"] form,:root[data-theme="dark"] .thanks{box-shadow:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) form,:root:not([data-theme="light"]) .thanks{box-shadow:none}}
+.q{border:0;margin:0;padding:20px 0 0;min-width:0}
+.q+.q{border-top:1px solid var(--line);margin-top:20px}
+.q .ql{display:block;padding:0;font:600 15px/1.35 var(--sans);color:var(--text);margin:0 0 10px;width:100%}
+.n{font:600 11px/1 var(--mono);color:var(--faint);margin-right:8px;letter-spacing:.04em}
+.opt{font-weight:500;font-size:12px;color:var(--faint);margin-left:6px}
+.offer{margin:-4px 0 12px;padding:10px 12px;border-radius:10px;background:var(--panel);border:1px solid var(--line);color:var(--muted);font-size:13.5px}
+.offer b{color:var(--text);font-weight:600}
+
+input[type=text],input[type=email],textarea{display:block;width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--text);outline:none}
+textarea{min-height:104px;resize:vertical}
+input[type=text]:focus,input[type=email]:focus,textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 18%,transparent)}
+.count{font:11px var(--mono);color:var(--faint);text-align:right;margin-top:4px}
+
+/* respostas: linhas inteiras de toque; o escolhido fica a vermelho */
+.choices{display:grid;gap:8px}
+.choices.four{grid-template-columns:repeat(4,1fr)}
+.choices label{position:relative;display:block}
+.choices input{position:absolute;opacity:0;width:1px;height:1px}
+.choices label span{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--text);font-size:15px;cursor:pointer;user-select:none}
+.choices.four label span{justify-content:center;text-align:center;font-weight:600}
+.choices label span::before{content:"";flex:none;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--faint);background:transparent}
+.choices.four label span::before{display:none}
+.choices label span:hover{border-color:var(--faint)}
+.choices input:checked+span{border-color:var(--red);background:color-mix(in srgb,var(--red) 8%,var(--field))}
+.choices input:checked+span::before{border-color:var(--red);background:radial-gradient(var(--red) 0 4px,transparent 5px)}
+.choices.four input:checked+span{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.choices input:focus-visible+span{outline:2px solid var(--red);outline-offset:2px}
+.bad input[type=text],.bad input[type=email],.bad textarea{border-color:var(--err)}
+.bad .choices label span{border-color:color-mix(in srgb,var(--err) 55%,var(--line))}
+.err{font-size:12.5px;color:var(--err);margin:8px 0 0}
+.err:empty{display:none}
+
+.go{display:block;width:100%;margin-top:26px;font:600 15px/1 var(--sans);padding:14px 16px;border:0;border-radius:12px;background:var(--red);color:var(--red-ink);cursor:pointer}
+.go[disabled]{opacity:.6;cursor:default}
+.go:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.status{font-size:14px;margin:12px 0 0;color:var(--err)}
+.status:empty{display:none}
+.fine{font-size:12px;color:var(--faint);margin:14px 0 0}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+
+.thanks{padding:28px 22px;text-align:center}
+.thanks:focus{outline:none}
+.thanks h2{font:650 22px/1.2 var(--display);letter-spacing:-.02em;margin:0 0 6px}
+.thanks p{color:var(--muted);margin:0}
+.thanks .check{width:44px;height:44px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+
+@media (max-width:480px){
+  main{padding-top:24px}
+  form{padding:2px 16px 20px}
+  .choices.four{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+<script>
+// Aparencia Light / Dark / System (guardada so neste browser; sem escolha = System)
+(function(){
+  const root=document.documentElement;
+  let m='system'; try{ m=localStorage.getItem('fork-site-theme')||'system'; }catch(e){}
+  const aplica=k=>{ if(k==='light'||k==='dark') root.dataset.theme=k; else delete root.dataset.theme;
+    document.querySelectorAll('.tema-modo').forEach(b=>{ const on=b.dataset.modo===k; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on); }); };
+  aplica(m);
+  document.addEventListener('DOMContentLoaded',()=>{
+    aplica(m);
+    document.querySelectorAll('.tema-modo').forEach(b=>b.addEventListener('click',()=>{
+      m=b.dataset.modo; try{ localStorage.setItem('fork-site-theme',m); }catch(e){}
+      aplica(m);
+    }));
+  });
+})();
+</script>
+</head>
+<body>
+<header class="bar">
+  <a class="logo" href="../" aria-label="Fork home">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#DCE5EE"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="#e0312a" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="#e0312a" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="#e0312a"/></svg>
+    Fork
+  </a>
+  <span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span>
+</header>
+
+<main>
+  <span class="tag">Fork Protocol</span>
+  <h1>Help shape the Fork Protocol</h1>
+  <p class="lede">Six short questions about seeding the Fork P2P swarm and about how Fork should be priced. It takes about a minute.</p>
+
+  <form id="f" novalidate autocomplete="on">
+    <div class="q" id="q-name">
+      <label class="ql" for="name"><span class="n">01</span>Name</label>
+      <input id="name" type="text" autocomplete="name" maxlength="100" required>
+      <div class="err" id="e-name" role="alert"></div>
+    </div>
+
+    <div class="q" id="q-email">
+      <label class="ql" for="email"><span class="n">02</span>Contact email</label>
+      <input id="email" type="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="254" required>
+      <div class="err" id="e-email" role="alert"></div>
+    </div>
+
+    <div class="q" id="q-space" role="radiogroup" aria-labelledby="ql-space">
+      <div class="ql" id="ql-space"><span class="n">03</span>How much space are you willing to donate to seed the Fork P2P swarm?</div>
+      <div class="offer"><b>What "donate" means:</b> you set aside part of your disk for the Fork network. It stores small <b>encrypted</b> pieces of other users' projects, so their music stays available when their computer is off. Nobody, not even Fork, can open those pieces, and they never touch your own files. It only works while your computer is on, it pauses on battery, and you can change the amount at any time in Settings.</div>
+      <div class="choices four">
+        <label><input type="radio" name="space" value="10"><span>10 GB</span></label>
+        <label><input type="radio" name="space" value="20"><span>20 GB</span></label>
+        <label><input type="radio" name="space" value="30"><span>30 GB</span></label>
+        <label><input type="radio" name="space" value="40"><span>40 GB</span></label>
+      </div>
+      <div class="err" id="e-space" role="alert"></div>
+    </div>
+
+    <div class="q" id="q-free" role="radiogroup" aria-labelledby="ql-free">
+      <div class="ql" id="ql-free"><span class="n">04</span>Is Fork Free a good offer?</div>
+      <div class="offer"><b>The offer:</b> free access to the studio tools, plus unlimited direct P2P, as long as you keep your computer on to share.</div>
+      <div class="choices">
+        <label><input type="radio" name="free" value="yes"><span>Yes, it makes total sense</span></label>
+        <label><input type="radio" name="free" value="doubts"><span>I have doubts</span></label>
+        <label><input type="radio" name="free" value="barrier"><span>No, it’s a barrier</span></label>
+      </div>
+      <div class="err" id="e-free" role="alert"></div>
+    </div>
+
+    <div class="q" id="q-pro" role="radiogroup" aria-labelledby="ql-pro">
+      <div class="ql" id="ql-pro"><span class="n">05</span>Is €2.99/month a good price for Pro?</div>
+      <div class="offer"><b>The offer:</b> 10 GB of P2P Cloud for high availability, without keeping your PC on.</div>
+      <div class="choices">
+        <label><input type="radio" name="pro" value="great"><span>Yes, great price</span></label>
+        <label><input type="radio" name="pro" value="fair"><span>Fair price</span></label>
+        <label><input type="radio" name="pro" value="expensive"><span>Too expensive</span></label>
+      </div>
+      <div class="err" id="e-pro" role="alert"></div>
+    </div>
+
+    <div class="q" id="q-comments">
+      <label class="ql" for="comments"><span class="n">06</span>Comments or free feedback<span class="opt">Optional</span></label>
+      <textarea id="comments" maxlength="3000"></textarea>
+      <div class="count"><span id="cc">0</span> / 3000</div>
+      <div class="err" id="e-comments" role="alert"></div>
+    </div>
+
+    <div class="hp" aria-hidden="true"><label for="site">Website</label><input id="site" type="text" tabindex="-1" autocomplete="off"></div>
+    <button class="go" id="go" type="submit">Send answers</button>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+    <p class="fine">Your answers go to the Fork team only. We use your email just to follow up on this survey.</p>
+  </form>
+
+  <section class="thanks hidden" id="thanks" tabindex="-1" aria-live="polite">
+    <div class="check" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2>Thank you.</h2>
+    <p>Your answers are in. They help us decide how the Fork Protocol grows.</p>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+// O inquerito do Fork Protocol: so insere em `public.protocol_survey` (migracao 63; RLS: o anon so insere as colunas do
+// formulario; nao se le nada de volta, por isso nada de RETURNING; um email repetido e aceite em silencio pela base).
+const SUPABASE_URL = "https://bxxscrkhcqdxgdhiuuoa.supabase.co";
+const SUPABASE_KEY = "sb_publishable_iHR-1zNUsvPyL1czbALDmA_zCTW8Pd7";  // publishable key: public by design; access is enforced by Supabase row-level security
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
+const $ = id => document.getElementById(id);
+const FREE = ['yes', 'doubts', 'barrier'], PRO = ['great', 'fair', 'expensive'], SPACE = [10, 20, 30, 40];
+const radio = n => { const c = document.querySelector('input[name="' + n + '"]:checked'); return c ? c.value : ''; };
+
+function erro(q, id, texto) { $('q-' + q).classList.toggle('bad', !!texto); $('e-' + id).textContent = texto || ''; }
+function limpa() { ['name', 'email', 'space', 'free', 'pro', 'comments'].forEach(k => erro(k, k, '')); $('status').textContent = ''; }
+document.querySelectorAll('input[type=radio]').forEach(r => r.addEventListener('change', () => erro(r.name, r.name, '')));
+$('name').addEventListener('input', () => erro('name', 'name', ''));
+$('email').addEventListener('input', () => erro('email', 'email', ''));
+$('comments').addEventListener('input', () => { $('cc').textContent = $('comments').value.length; });
+
+// Devolve os valores se tudo estiver certo; senao marca os erros e foca o primeiro.
+function confere() {
+  limpa();
+  const v = { name: $('name').value.trim(), email: $('email').value.trim(), space: radio('space'), free: radio('free'), pro: radio('pro'), comments: $('comments').value.trim() };
+  const maus = [];
+  const mau = (k, t, foco) => { erro(k, k, t); maus.push(foco); };
+  if (!v.name) mau('name', 'Please type your name.', $('name'));
+  else if (v.name.length > 100) mau('name', 'Keep the name under 100 characters.', $('name'));
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email) || v.email.length > 254) mau('email', 'Type a valid email address.', $('email'));
+  if (!SPACE.includes(+v.space)) mau('space', 'Choose how much space you could donate.', document.querySelector('input[name="space"]'));
+  if (!FREE.includes(v.free)) mau('free', 'Choose an answer.', document.querySelector('input[name="free"]'));
+  if (!PRO.includes(v.pro)) mau('pro', 'Choose an answer.', document.querySelector('input[name="pro"]'));
+  if (v.comments.length > 3000) mau('comments', 'Keep the comments under 3000 characters.', $('comments'));
+  if (maus.length) { maus[0].focus(); return null; }
+  return v;
+}
+function feito() {
+  $('f').classList.add('hidden');
+  $('thanks').classList.remove('hidden');
+  $('thanks').focus();
+  scrollTo({ top: 0, behavior: 'smooth' });
+}
+$('f').onsubmit = async e => {
+  e.preventDefault();
+  // isca: so um robo preenche o campo escondido — diz-se que sim e nao se envia nada
+  if ($('site').value) return feito();
+  const v = confere();
+  if (!v) return;
+  $('go').disabled = true; $('go').textContent = 'Sending…';
+  try {
+    const { error } = await sb.from('protocol_survey').insert({
+      name: v.name, email: v.email, space_gb: +v.space, free_offer: v.free, pro_price: v.pro, comments: v.comments || null });
+    if (error) throw error;
+    feito();   // so aqui: a base aceitou a linha (um email repetido tambem e aceite, em silencio, por desenho)
+  } catch (err) {
+    const rede = /fetch|network|load failed/i.test((err && err.message) || '');
+    $('status').textContent = rede ? 'You seem to be offline. Your answers are still here: try again.' : 'Something went wrong and your answers were not sent. Please try again.';
+  } finally { $('go').disabled = false; $('go').textContent = 'Send answers'; }
+};
+</script>
+</body>
+</html>
