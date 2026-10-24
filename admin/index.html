@@ -222,6 +222,14 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 /* ── QA tab (migracao 69): prefixo qa- ── */
 .qa-sev{display:inline-block;font-size:11px;font-weight:650;padding:2px 8px;border-radius:99px;background:var(--grid);text-transform:uppercase;letter-spacing:.03em}
 .qa-sev.critical,.qa-sev.high{background:var(--neg,#d0453a);color:#fff}
+.sg-badge{display:inline-block;min-width:8px;height:8px;margin-left:6px;border-radius:99px;vertical-align:middle;border:1.5px solid var(--card)}
+.sg-badge.red{background:#C5221F}.sg-badge.amber{background:#E8A200}
+.sg-bar{height:10px;background:var(--grid);border-radius:99px;overflow:hidden;margin:4px 0 2px}
+.sg-bar i{display:block;height:100%;background:#2E7D32;border-radius:99px}
+.sg-bar i.amber{background:#E8A200}.sg-bar i.red{background:#C5221F}
+.sg-st{display:inline-block;font-size:12px;font-weight:650;padding:3px 10px;border-radius:99px;color:#fff;background:#2E7D32}
+.sg-st.amber{background:#B26A00}.sg-st.red{background:#C5221F}
+.sg-spark{width:100%;height:auto;display:block}
 .qa-st-fail,.qa-st-error{color:var(--neg,#d0453a);font-weight:600}
 .qa-row{cursor:pointer}
 .qa-row:hover td{background:var(--grid)}
@@ -335,7 +343,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-netcap" id="tab-netcap" type="button">Network capacity</button>
       <button data-tab="t-accounts" id="tab-accounts" type="button">Accounts</button>
       <button data-tab="t-qa" id="tab-qa" type="button">QA</button>
-      <button data-tab="t-signer" id="tab-signer" type="button">Signer</button>
+      <button data-tab="t-signer" id="tab-signer" type="button">Signer<span id="sg-badge"></span></button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -422,6 +430,10 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
     <div id="t-signer" class="hidden">
       <p class="sy-note">The switch the mint signer checks before every mint. It is Off until you turn it on. The network is fixed in the database and cannot be changed here.</p>
       <div id="sg-err" class="msg" role="status" aria-live="polite"></div>
+      <div class="box" id="sg-load">
+        <div class="tabhead"><h2 style="margin:0">Load</h2><span id="sg-load-state"></span></div>
+        <div id="sg-load-body" class="empty">Loading…</div>
+      </div>
       <div id="sg-body" class="hidden">
         <div class="box">
           <div class="tabhead"><h2 style="margin:0">Signer switch</h2><span id="sg-state"></span></div>
@@ -1458,7 +1470,50 @@ const SG = (() => {
     const a = (contas || []).find(x => x.id === by);
     return a && a.email ? a.email : String(by).slice(0, 8);
   }
-  return { valida, contagem, renderJobs, quem, esc };
+  // Percentagem inteira usado/limite; limite 0 = nada pode comecar (100%); sem leitura = null (nao se inventa)
+  function pct(usado, cap) {
+    if (typeof usado !== 'number' || typeof cap !== 'number') return null;
+    if (cap <= 0) return 100;
+    return Math.round(usado / cap * 100);
+  }
+  const nivelPct = p => p === null ? 'ok' : p >= 100 ? 'red' : p >= 80 ? 'amber' : 'ok';
+  // Estado da carga a partir do que signer_load() devolveu: off (desligado com fila), over (travado pelo limite), near, ok
+  function estadoCarga(r) {
+    if (!r) return { k: 'none', cor: '', txt: '' };
+    const q = Number(r.queued) || 0;
+    if (!r.enabled && q > 0) return { k: 'off', cor: 'red', txt: 'Signer off — ' + q + ' waiting' };
+    if (r.blocked_by_cap) return { k: 'over', cor: 'red', txt: 'Over cap — ' + q + ' waiting' };
+    const ph = pct(r.hour_used, r.hour_cap), pd = pct(r.day_used, r.day_cap);
+    if ((ph !== null && ph >= 80) || (pd !== null && pd >= 80)) return { k: 'near', cor: 'amber', txt: 'Near cap' };
+    return { k: 'ok', cor: '', txt: 'OK' };
+  }
+  function idade(iso, agora) {
+    const t = Date.parse(iso); if (!iso || isNaN(t)) return null;
+    const m = Math.max(0, Math.floor(((agora ?? Date.now()) - t) / 6e4));
+    return m < 1 ? 'under 1 min' : m < 60 ? m + ' min' : m < 1440 ? Math.floor(m / 60) + ' h ' + (m % 60) + ' min' : Math.floor(m / 1440) + ' d ' + Math.floor(m % 1440 / 60) + ' h';
+  }
+  // Linha dos arranques por hora (24 pontos) e a linha tracejada do limite horario; escala comum ao maximo dos dois
+  function spark(serie, cap) {
+    const v = (serie || []).map(x => Number(x.started) || 0);
+    if (v.length < 2) return '';
+    const W = 300, H = 60, P = 4, top = Math.max(1, cap || 0, ...v);
+    const X = i => P + i * (W - 2 * P) / (v.length - 1), Y = n => H - P - n * (H - 2 * P) / top;
+    const pts = v.map((n, i) => X(i).toFixed(1) + ',' + Y(n).toFixed(1)).join(' ');
+    const linhaCap = typeof cap === 'number' ? '<line x1="' + P + '" x2="' + (W - P) + '" y1="' + Y(cap).toFixed(1) + '" y2="' + Y(cap).toFixed(1) + '" stroke="#C5221F" stroke-width="1.2" stroke-dasharray="4 3"/>' : '';
+    const tips = v.map((n, i) => '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(n).toFixed(1) + '" r="2.2" fill="var(--blue)"><title>' + esc(new Date(serie[i].hour).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })) + ': ' + n + ' started</title></circle>').join('');
+    return '<svg class="sg-spark" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Mints started per hour, last 24 hours, against the hourly cap of ' + esc(cap) + '">' + linhaCap + '<polyline points="' + pts + '" fill="none" stroke="var(--blue)" stroke-width="1.8"/>' + tips + '</svg>';
+  }
+  function barra(rot, usado, cap) {
+    const p = pct(usado, cap), w = p === null ? 0 : Math.min(100, p);
+    return '<div><div class="tabhead" style="margin:6px 0 0"><span>' + esc(rot) + '</span><span><b>' + esc(usado) + ' / ' + esc(cap) + '</b> · ' + (p === null ? '—' : p + '%') + '</span></div><div class="sg-bar"><i class="' + nivelPct(p) + '" style="width:' + w + '%"></i></div></div>';
+  }
+  function renderCarga(r, agora) {
+    const e = estadoCarga(r), q = Number(r.queued) || 0, ida = q > 0 ? idade(r.oldest_queued_at, agora) : null;
+    return barra('This hour', r.hour_used, r.hour_cap) + barra('Last 24 hours', r.day_used, r.day_cap) +
+      '<table><tbody><tr><td>Waiting to mint</td><td class="n">' + q + '</td></tr><tr><td>Oldest waiting</td><td>' + (q > 0 ? esc(ida ?? '—') : 'none waiting') + '</td></tr></tbody></table>' +
+      '<div style="margin-top:8px;font-size:12.5px;color:var(--muted)">Mints started per hour, last 24 hours (dashed = hourly cap)</div>' + spark(r.hourly_starts, r.hour_cap);
+  }
+  return { valida, contagem, renderJobs, quem, esc, pct, estadoCarga, idade, spark, renderCarga };
 })();
 // SG-PURE-END
 (() => {
@@ -1480,8 +1535,26 @@ const SG = (() => {
     if (error) { el('sg-jobs').textContent = 'Mint activity is not available.'; return; }
     el('sg-jobs').className = ''; el('sg-jobs').innerHTML = SG.renderJobs(data, 'created in the last 24 hours');
   }
+  // Carga (migracao 70): signer_load(); o selo do separador actualiza-se daqui, de qualquer separador
+  const FALTA_RPC = 'Waiting for the database update (supabase db push).';
+  function selo(e) {
+    el('sg-badge').className = e.cor ? 'sg-badge ' + e.cor : '';
+    el('sg-badge').title = e.cor ? e.txt : '';
+  }
+  async function carga() {
+    const { data, error } = await sb.rpc('signer_load');
+    if (error || !data) {
+      selo({ cor: '' }); el('sg-load-state').innerHTML = '';
+      el('sg-load-body').className = 'empty';
+      el('sg-load-body').textContent = error && (falta(error) || error.code === 'PGRST202' || error.code === '42883') ? FALTA_RPC : 'Load is not available' + (error ? ': ' + error.message : '.');
+      return;
+    }
+    const e = SG.estadoCarga(data); selo(e);
+    el('sg-load-state').innerHTML = '<span class="sg-st ' + e.cor + '">' + SG.esc(e.txt) + '</span>';
+    el('sg-load-body').className = ''; el('sg-load-body').innerHTML = SG.renderCarga(data);
+  }
   async function carrega() {
-    el('sg-err').textContent = '';
+    el('sg-err').textContent = ''; carga();
     const { data, error } = await sb.from('signer_switch').select('enabled, hourly_cap, daily_cap, network, updated_at, updated_by').eq('id', true).maybeSingle();
     if (error || !data) { linha = null; el('sg-body').classList.add('hidden');
       el('sg-err').textContent = error ? (falta(error) ? 'Waiting for the database update (supabase db push, migration 17).' : 'Could not load the signer switch: ' + error.message) : 'The signer switch row is missing.'; return; }
@@ -1510,9 +1583,13 @@ const SG = (() => {
     if (!confirm('Change the caps to ' + h.n + ' per hour and ' + d.n + ' per day?')) return;
     grava({ hourly_cap: h.n, daily_cap: d.n }, ev.currentTarget);
   });
-  el('tab-signer').addEventListener('click', () => { if (linha === null) carrega(); });
+  el('tab-signer').addEventListener('click', () => { if (linha === null) carrega(); else carga(); });
+  // Selo visivel em qualquer separador: ao entrar e de 60 em 60 s enquanto ha sessao
+  async function tique() { const { data } = await sb.auth.getSession(); if (data && data.session) carga(); }
+  tique(); setInterval(tique, 60000);
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_IN') tique(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-signer').classList.contains('hidden')) carrega(); else linha = null; });
-  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { linha = null; el('sg-body').classList.add('hidden'); el('sg-jobs').innerHTML = ''; } });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { linha = null; el('sg-body').classList.add('hidden'); el('sg-jobs').innerHTML = ''; selo({ cor: '' }); el('sg-load-body').textContent = ''; el('sg-load-state').innerHTML = ''; } });
 })();
 </script>
 </body>
