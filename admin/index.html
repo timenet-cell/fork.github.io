@@ -219,6 +219,15 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .ac-plano button.on{background:var(--neg,#d0453a);color:#fff}
 .ac-plano button[data-p="free"].on{background:var(--grid);color:inherit}
 .ac-plano button:disabled{cursor:default}
+/* ── QA tab (migracao 69): prefixo qa- ── */
+.qa-sev{display:inline-block;font-size:11px;font-weight:650;padding:2px 8px;border-radius:99px;background:var(--grid);text-transform:uppercase;letter-spacing:.03em}
+.qa-sev.critical,.qa-sev.high{background:var(--neg,#d0453a);color:#fff}
+.qa-st-fail,.qa-st-error{color:var(--neg,#d0453a);font-weight:600}
+.qa-row{cursor:pointer}
+.qa-row:hover td{background:var(--grid)}
+.qa-det{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 ui-monospace,Menlo,monospace;background:var(--grid);border-radius:8px;padding:10px;margin:6px 0}
+.qa-act{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+@media print{#t-qa{display:none!important}}
 /* ── Survey tab (Fork Protocol survey, migracao 63): bloco autonomo, prefixo sy- ── */
 .sy-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
 .sy-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
@@ -325,6 +334,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-survey" id="tab-survey" type="button">Survey</button>
       <button data-tab="t-netcap" id="tab-netcap" type="button">Network capacity</button>
       <button data-tab="t-accounts" id="tab-accounts" type="button">Accounts</button>
+      <button data-tab="t-qa" id="tab-qa" type="button">QA</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -406,6 +416,20 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="box">
         <div class="tabhead"><h2 style="margin:0">Accounts <small id="ac-count"></small></h2></div>
         <div class="scroll"><table><thead><tr><th>Email</th><th>Username</th><th>Created</th><th>Last sign-in</th><th>Plan</th></tr></thead><tbody id="ac-rows"></tbody></table></div>
+      </div>
+    </div>
+    <div id="t-qa" class="hidden">
+      <p class="sy-note">Test-runner reports. Bugs are only recorded here; nothing is triggered automatically from them. Marking a bug fixed, ignored or open only changes its status.</p>
+      <div id="qa-err" class="msg" role="status" aria-live="polite"></div>
+      <div id="qa-empty" class="box empty hidden">No QA runs yet</div>
+      <div id="qa-body">
+        <div class="kpis" id="qa-sum"></div>
+        <div class="box"><div class="tabhead"><h2 style="margin:0">Runs <small id="qa-runs-n"></small></h2><span id="qa-runs-filter" class="sy-n"></span></div>
+          <div class="scroll"><table><thead><tr><th>Time</th><th>Scenario</th><th>App</th><th>Build</th><th>Status</th><th>Duration</th><th>Tokens</th></tr></thead><tbody id="qa-runs"></tbody></table></div></div>
+        <div class="box"><div class="tabhead"><h2 style="margin:0">Bugs <small id="qa-bugs-n"></small></h2></div>
+          <div class="scroll"><table><thead><tr><th>Severity</th><th>Title</th><th>App</th><th>Count</th><th>Last seen</th><th>Status</th></tr></thead><tbody id="qa-bugs"></tbody></table></div></div>
+        <div class="box"><h2>Efficiency per scenario</h2>
+          <div class="scroll"><table><thead><tr><th>Scenario</th><th>App</th><th>Runs</th><th>Pass rate</th><th>Avg duration</th><th>Avg tokens</th><th>Total tokens</th><th>Avg bugs / run</th></tr></thead><tbody id="qa-eff"></tbody></table></div></div>
       </div>
     </div>
     <div id="t-traffic" class="hidden">
@@ -1278,6 +1302,110 @@ entrar();
   el('tab-accounts').addEventListener('click', () => { if (lista === null) carrega(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-accounts').classList.contains('hidden')) carrega(); else lista = null; });
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { lista = null; el('ac-rows').innerHTML = ''; } });
+})();
+// ── QA (migracao 69): corridas, bugs e eficiencia por cenario. So leitura; o admin so muda qa_bugs.status ──
+// QA-PURE-BEGIN (funcoes puras: o teste admin/qa.test.js extrai este bloco e corre-o em node)
+const QA = (() => {
+  const h = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const SEV = { critical: 0, high: 1, medium: 2, low: 3 };
+  const quando = v => { if (!v) return '—'; const d = new Date(v); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+  const dur = ms => ms == null ? '—' : ms < 1000 ? Math.round(ms) + ' ms' : (ms / 1000).toFixed(1) + ' s';
+  const num = n => n == null ? '—' : Number(n).toLocaleString('en-GB');
+  // resumo das ultimas 24h: tudo contado das linhas; sem corridas nao ha taxa
+  function resumo(runs, bugs, agora) {
+    const d = agora - 864e5;
+    const r = runs.filter(x => new Date(x.started_at) >= d);
+    const pass = r.filter(x => x.status === 'pass').length;
+    return { runs: r.length, taxa: r.length ? Math.round(pass / r.length * 100) : null,
+      tokens: r.reduce((a, x) => a + (x.tokens || 0), 0), novos: bugs.filter(b => new Date(b.first_seen) >= d).length };
+  }
+  const kpi = (t, v) => `<div class="kpi"><b>${h(v)}</b><span>${h(t)}</span></div>`;
+  function renderResumo(s) {
+    return kpi('Runs, last 24h', num(s.runs)) + kpi('Pass rate', s.taxa == null ? '—' : s.taxa + '%') + kpi('Tokens spent', num(s.tokens)) + kpi('New bugs', num(s.novos));
+  }
+  function renderRuns(runs, sel) {
+    if (!runs.length) return '<tr><td colspan="7" class="empty">No runs</td></tr>';
+    return runs.map(r => `<tr class="qa-row" data-id="${h(r.id)}"${r.id === sel ? ' style="font-weight:650"' : ''}><td class="d">${quando(r.started_at)}</td><td>${h(r.scenario)}</td><td>${h(r.app)}</td><td>${h(r.build || '—')}</td><td class="qa-st-${h(r.status)}">${h(r.status)}</td><td class="d">${dur(r.duration_ms)}</td><td class="d">${num(r.tokens)}</td></tr>`).join('');
+  }
+  // abertos primeiro, depois gravidade, contagem e ultima vez visto
+  function ordena(bugs) {
+    const o = { open: 0, ignored: 1, fixed: 2 };
+    return [...bugs].sort((a, b) => (o[a.status] - o[b.status]) || ((SEV[a.severity] ?? 9) - (SEV[b.severity] ?? 9)) || (b.count - a.count) || (new Date(b.last_seen) - new Date(a.last_seen)));
+  }
+  function botoes(b) {
+    const x = (st, t) => `<button type="button" class="sec" data-id="${h(b.id)}" data-st="${st}">${t}</button>`;
+    return b.status === 'open' ? x('fixed', 'Mark fixed') + x('ignored', 'Ignore') : x('open', 'Reopen');
+  }
+  function renderBugs(bugs, aberto) {
+    if (!bugs.length) return '<tr><td colspan="6" class="empty">No bugs</td></tr>';
+    return ordena(bugs).map(b => {
+      let t = `<tr class="qa-row" data-bug="${h(b.id)}"><td><span class="qa-sev ${h(b.severity)}">${h(b.severity)}</span></td><td>${h(b.title)}</td><td>${h(b.app)}</td><td class="d">${num(b.count)}</td><td class="d">${quando(b.last_seen)}</td><td>${h(b.status)}</td></tr>`;
+      if (b.id === aberto) t += `<tr><td colspan="6"><b>Scenario:</b> ${h(b.scenario)}<br><b>Steps</b><div class="qa-det">${h(b.steps || 'No steps recorded')}</div><b>Error</b><div class="qa-det">${h(b.error || 'No error recorded')}</div><div class="qa-act">${botoes(b)}</div></td></tr>`;
+      return t;
+    }).join('');
+  }
+  function renderEff(e) {
+    if (!e.length) return '<tr><td colspan="8" class="empty">No data</td></tr>';
+    return e.map(x => `<tr><td>${h(x.scenario)}</td><td>${h(x.app)}</td><td class="d">${num(x.runs)}</td><td class="d">${x.runs ? Math.round(x.pass_runs / x.runs * 100) + '%' : '—'}</td><td class="d">${dur(x.avg_duration_ms)}</td><td class="d">${num(x.avg_tokens)}</td><td class="d">${num(x.total_tokens)}</td><td class="d">${x.avg_bugs_per_run == null ? '—' : Number(x.avg_bugs_per_run)}</td></tr>`).join('');
+  }
+  return { resumo, renderResumo, renderRuns, renderBugs, renderEff, ordena };
+})();
+// QA-PURE-END
+(() => {
+  const el = id => document.getElementById(id);
+  let runs = null, bugs = [], eff = [], sel = null, selBugs = null, aberto = null;
+  const falta = e => /could not find|does not exist|relation/i.test(e.message || '') || e.code === 'PGRST202' || e.code === '42P01' || e.code === 'PGRST205';
+  function desenha() {
+    const vazio = !runs.length && !bugs.length;
+    el('qa-empty').classList.toggle('hidden', !vazio); el('qa-body').classList.toggle('hidden', vazio);
+    if (vazio) return;
+    el('qa-sum').innerHTML = QA.renderResumo(QA.resumo(runs, bugs, Date.now()));
+    el('qa-runs-n').textContent = runs.length + (runs.length >= 200 ? ' (latest 200)' : '');
+    el('qa-runs').innerHTML = QA.renderRuns(runs, sel);
+    el('qa-runs-filter').textContent = sel ? 'Showing bugs of the selected run — click it again to clear' : '';
+    const lista = selBugs ? bugs.filter(b => selBugs.has(b.id)) : bugs;
+    el('qa-bugs-n').textContent = lista.length + (selBugs ? ' in this run' : '') + ' · ' + lista.filter(b => b.status === 'open').length + ' open';
+    el('qa-bugs').innerHTML = QA.renderBugs(lista, aberto);
+    el('qa-eff').innerHTML = QA.renderEff(eff);
+  }
+  async function carrega() {
+    el('qa-err').textContent = '';
+    const desde = new Date(Date.now() - 864e5).toISOString();
+    const cols = 'id, started_at, finished_at, scenario, app, build, status, duration_ms, tokens, notes';
+    const [a, a24, b, c] = await Promise.all([
+      sb.from('qa_runs').select(cols).order('started_at', { ascending: false }).limit(200),
+      sb.from('qa_runs').select(cols).gte('started_at', desde).order('started_at', { ascending: false }).limit(5000),
+      sb.from('qa_bugs').select('id, fingerprint, title, severity, app, scenario, steps, error, first_seen, last_seen, count, status, last_run').limit(2000),
+      sb.rpc('qa_scenario_efficiency')]);
+    const er = a.error || a24.error || b.error || c.error;
+    if (er) { runs = null; el('qa-err').textContent = falta(er) ? 'Waiting for the database update (supabase db push, migration 69).' : 'Could not load QA: ' + er.message; return; }
+    // as 24h podem ter mais corridas do que a lista; junta-se sem duplicar para o resumo ser exacto
+    const ids = new Set(a.data.map(r => r.id));
+    runs = a.data.concat(a24.data.filter(r => !ids.has(r.id)));
+    bugs = b.data || []; eff = c.data || []; desenha();
+  }
+  el('qa-runs').addEventListener('click', async ev => {
+    const tr = ev.target.closest('tr[data-id]'); if (!tr) return;
+    if (sel === tr.dataset.id) { sel = null; selBugs = null; aberto = null; return desenha(); }
+    sel = tr.dataset.id; aberto = null;
+    const { data, error } = await sb.from('qa_run_bugs').select('bug_id').eq('run_id', sel);
+    if (error) { sel = null; el('qa-err').textContent = 'Could not load the bugs of this run: ' + error.message; return; }
+    selBugs = new Set((data || []).map(x => x.bug_id)); desenha();
+  });
+  el('qa-bugs').addEventListener('click', async ev => {
+    const btn = ev.target.closest('button[data-st]');
+    if (btn) {
+      btn.disabled = true; el('qa-err').textContent = '';
+      const { data, error } = await sb.from('qa_bugs').update({ status: btn.dataset.st }).eq('id', btn.dataset.id).select('id, status');
+      if (error || !data || !data.length) { el('qa-err').textContent = 'Not saved: ' + (error ? error.message : 'the database did not allow this change.'); btn.disabled = false; return; }
+      bugs.find(b => b.id === btn.dataset.id).status = data[0].status; return desenha();
+    }
+    const tr = ev.target.closest('tr[data-bug]'); if (!tr) return;
+    aberto = aberto === tr.dataset.bug ? null : tr.dataset.bug; desenha();
+  });
+  el('tab-qa').addEventListener('click', () => { if (runs === null) carrega(); });
+  document.getElementById('refresh').addEventListener('click', () => { if (!el('t-qa').classList.contains('hidden')) carrega(); else runs = null; });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { runs = null; sel = selBugs = aberto = null; el('qa-runs').innerHTML = el('qa-bugs').innerHTML = el('qa-eff').innerHTML = el('qa-sum').innerHTML = ''; } });
 })();
 </script>
 </body>
