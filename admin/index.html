@@ -227,7 +227,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .qa-row:hover td{background:var(--grid)}
 .qa-det{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 ui-monospace,Menlo,monospace;background:var(--grid);border-radius:8px;padding:10px;margin:6px 0}
 .qa-act{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-@media print{#t-qa{display:none!important}}
+@media print{#t-qa,#t-signer{display:none!important}}
 /* ── Survey tab (Fork Protocol survey, migracao 63): bloco autonomo, prefixo sy- ── */
 .sy-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
 .sy-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
@@ -335,6 +335,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-netcap" id="tab-netcap" type="button">Network capacity</button>
       <button data-tab="t-accounts" id="tab-accounts" type="button">Accounts</button>
       <button data-tab="t-qa" id="tab-qa" type="button">QA</button>
+      <button data-tab="t-signer" id="tab-signer" type="button">Signer</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -416,6 +417,27 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="box">
         <div class="tabhead"><h2 style="margin:0">Accounts <small id="ac-count"></small></h2></div>
         <div class="scroll"><table><thead><tr><th>Email</th><th>Username</th><th>Created</th><th>Last sign-in</th><th>Plan</th></tr></thead><tbody id="ac-rows"></tbody></table></div>
+      </div>
+    </div>
+    <div id="t-signer" class="hidden">
+      <p class="sy-note">The switch the mint signer checks before every mint. It is Off until you turn it on. The network is fixed in the database and cannot be changed here.</p>
+      <div id="sg-err" class="msg" role="status" aria-live="polite"></div>
+      <div id="sg-body" class="hidden">
+        <div class="box">
+          <div class="tabhead"><h2 style="margin:0">Signer switch</h2><span id="sg-state"></span></div>
+          <div class="qa-act"><button id="sg-toggle" type="button">Turn on</button></div>
+          <table><tbody>
+            <tr><td>Network</td><td id="sg-net"></td></tr>
+            <tr><td>Hourly cap</td><td><input id="sg-h" type="number" min="0" max="10000" step="1" inputmode="numeric"> <small>0 to 10,000 mints per hour</small></td></tr>
+            <tr><td>Daily cap</td><td><input id="sg-d" type="number" min="0" max="100000" step="1" inputmode="numeric"> <small>0 to 100,000 mints per day</small></td></tr>
+            <tr><td>Last changed</td><td id="sg-last"></td></tr>
+          </tbody></table>
+          <div class="qa-act"><button id="sg-save" type="button">Save caps</button></div>
+        </div>
+        <div class="box">
+          <div class="tabhead"><h2 style="margin:0">Mint activity</h2></div>
+          <div id="sg-jobs" class="empty"></div>
+        </div>
       </div>
     </div>
     <div id="t-qa" class="hidden">
@@ -1406,6 +1428,91 @@ const QA = (() => {
   el('tab-qa').addEventListener('click', () => { if (runs === null) carrega(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-qa').classList.contains('hidden')) carrega(); else runs = null; });
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { runs = null; sel = selBugs = aberto = null; el('qa-runs').innerHTML = el('qa-bugs').innerHTML = el('qa-eff').innerHTML = el('qa-sum').innerHTML = ''; } });
+})();
+
+// ── Signer (migracoes 17 e 18): o interruptor do fork-signer; admins leem e actualizam, a base valida ──
+// SG-PURE-BEGIN (funcoes puras: o teste admin/signer.test.js extrai este bloco e corre-o em node)
+const SG = (() => {
+  const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const LIM = { hourly_cap: 10000, daily_cap: 100000 };
+  // So inteiros decimais simples dentro do intervalo da base; devolve {ok, n} ou {ok:false, msg}
+  function valida(campo, txt) {
+    const t = String(txt ?? '').trim(), nome = campo === 'hourly_cap' ? 'Hourly cap' : 'Daily cap';
+    if (!/^\d+$/.test(t)) return { ok: false, msg: nome + ' must be a whole number.' };
+    const n = Number(t);
+    if (n > LIM[campo]) return { ok: false, msg: nome + ' can be at most ' + LIM[campo].toLocaleString('en-US') + '.' };
+    return { ok: true, n };
+  }
+  // Conta por estado; so mostra o que foi lido (sem linhas, sem numeros inventados)
+  function contagem(jobs) {
+    const m = new Map(); for (const j of jobs || []) m.set(j.status, (m.get(j.status) || 0) + 1);
+    return [...m.entries()].sort((a, b) => b[1] - a[1]);
+  }
+  function renderJobs(jobs, desdeTxt) {
+    const c = contagem(jobs);
+    if (!c.length) return 'No mint jobs ' + esc(desdeTxt) + '.';
+    return '<table><tbody>' + c.map(([st, n]) => '<tr><td>' + esc(st) + '</td><td class="n">' + n + '</td></tr>').join('') + '</tbody></table>';
+  }
+  function quem(by, contas) {
+    if (!by) return 'unknown';
+    const a = (contas || []).find(x => x.id === by);
+    return a && a.email ? a.email : String(by).slice(0, 8);
+  }
+  return { valida, contagem, renderJobs, quem, esc };
+})();
+// SG-PURE-END
+(() => {
+  const el = id => document.getElementById(id);
+  let linha = null;
+  const falta = e => /does not exist|schema cache/i.test(e.message || '') || e.code === '42P01' || e.code === 'PGRST205';
+  async function desenha(contas) {
+    const r = linha;
+    el('sg-state').innerHTML = '<span class="qa-sev' + (r.enabled ? '' : ' critical') + '">' + (r.enabled ? 'On' : 'Off') + '</span>';
+    el('sg-toggle').textContent = r.enabled ? 'Turn off' : 'Turn on';
+    el('sg-net').textContent = r.network;
+    el('sg-h').value = r.hourly_cap; el('sg-d').value = r.daily_cap;
+    el('sg-last').textContent = (r.updated_at ? new Date(r.updated_at).toLocaleString('en-GB') : '—') + ' · by ' + SG.quem(r.updated_by, contas);
+  }
+  async function jobs() {
+    const desde = new Date(Date.now() - 864e5).toISOString();
+    const { data, error } = await sb.from('mint_jobs').select('status').gte('created_at', desde).limit(10000);
+    // sem leitura nao se mostra nada
+    if (error) { el('sg-jobs').textContent = 'Mint activity is not available.'; return; }
+    el('sg-jobs').className = ''; el('sg-jobs').innerHTML = SG.renderJobs(data, 'created in the last 24 hours');
+  }
+  async function carrega() {
+    el('sg-err').textContent = '';
+    const { data, error } = await sb.from('signer_switch').select('enabled, hourly_cap, daily_cap, network, updated_at, updated_by').eq('id', true).maybeSingle();
+    if (error || !data) { linha = null; el('sg-body').classList.add('hidden');
+      el('sg-err').textContent = error ? (falta(error) ? 'Waiting for the database update (supabase db push, migration 17).' : 'Could not load the signer switch: ' + error.message) : 'The signer switch row is missing.'; return; }
+    linha = data; el('sg-body').classList.remove('hidden');
+    const c = await sb.rpc('admin_list_accounts');   // so para mostrar o email de quem mudou; sem ele mostra-se o id curto
+    await desenha(c.error ? null : c.data); jobs();
+  }
+  async function grava(campos, btn) {
+    btn.disabled = true; el('sg-err').textContent = '';
+    const { data, error } = await sb.from('signer_switch').update(campos).eq('id', true).select('enabled, hourly_cap, daily_cap, network, updated_at, updated_by');
+    btn.disabled = false;
+    if (error || !data || !data.length) { el('sg-err').textContent = 'Not saved: ' + (error ? error.message : 'the database did not allow this change.'); return; }
+    linha = data[0]; carrega();
+  }
+  el('sg-toggle').addEventListener('click', ev => {
+    if (!linha) return;
+    const ligar = !linha.enabled;
+    if (!confirm(ligar ? 'Turn the signer ON? It will start minting licences on ' + linha.network + ' within the caps below.' : 'Turn the signer OFF? No new mints will start until it is turned on again.')) return;
+    grava({ enabled: ligar }, ev.currentTarget);
+  });
+  el('sg-save').addEventListener('click', ev => {
+    const h = SG.valida('hourly_cap', el('sg-h').value), d = SG.valida('daily_cap', el('sg-d').value);
+    if (!h.ok || !d.ok) { el('sg-err').textContent = (h.ok ? d : h).msg; return; }
+    if (h.n > d.n) { el('sg-err').textContent = 'The hourly cap cannot be higher than the daily cap.'; return; }
+    if (h.n === linha.hourly_cap && d.n === linha.daily_cap) { el('sg-err').textContent = 'Nothing to save: the caps are unchanged.'; return; }
+    if (!confirm('Change the caps to ' + h.n + ' per hour and ' + d.n + ' per day?')) return;
+    grava({ hourly_cap: h.n, daily_cap: d.n }, ev.currentTarget);
+  });
+  el('tab-signer').addEventListener('click', () => { if (linha === null) carrega(); });
+  document.getElementById('refresh').addEventListener('click', () => { if (!el('t-signer').classList.contains('hidden')) carrega(); else linha = null; });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { linha = null; el('sg-body').classList.add('hidden'); el('sg-jobs').innerHTML = ''; } });
 })();
 </script>
 </body>
