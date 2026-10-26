@@ -274,6 +274,45 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
   .top h1{font-size:22px}
   td,th{padding:6px 5px}
 }
+
+/* ── support (migracao 62): procurar uma conta, ver o estado, agir; responder ao feedback. Bloco proprio. ───────────────── */
+.sp-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#sp-res{margin-top:6px}
+#sp-res td:first-child{min-width:180px}
+#sp-res td:last-child{min-width:64px}
+#sp-acct td{min-width:56px}
+.sp-form input{flex:1 1 260px;width:auto}
+.sp-form .sec{width:auto}
+#sp-res td .sec{white-space:nowrap}
+.sp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.sp-top h2{font:650 18px/1.25 var(--display);margin:0;overflow-wrap:anywhere}
+.sp-sub{font-size:12.5px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.sp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.sp-grid>*{min-width:0}
+.sp-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 14px;font-size:13px;margin:0}
+.sp-kv dt{color:var(--muted)}
+.sp-kv dd{margin:0;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.sp-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:10px}
+.sp-kpis .kpi b{font-size:20px}
+.sp-banner{border:1px solid var(--err);border-radius:10px;padding:10px 12px;margin:12px 0 0;font-size:13px;color:var(--err);background:color-mix(in srgb,var(--err) 9%,transparent)}
+.sp-banner b{display:block;margin-bottom:2px}
+.sp-ok{border-color:var(--line);color:var(--muted);background:none}
+.sp-act textarea,.fb-r textarea{display:block;width:100%;font:13px var(--sans);padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--field);color:var(--text);min-height:58px;resize:vertical;margin:4px 0 8px}
+.sp-act textarea:focus,.fb-r textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--red) 18%,transparent)}
+.sp-act .rp-act{margin-top:0}
+.sec.dng{border-color:var(--err);color:var(--err)}
+.msg.sp-good{color:var(--pos)}
+.fb-det td{background:var(--field)}
+.sp-aud td{font-size:12.5px}
+.sp-h{font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:14px 0 6px}
+.sp-h:first-child{margin-top:0}
+.fb-r{margin-top:8px;font-size:12.5px}
+.fb-rl{border-left:3px solid var(--line);padding:2px 0 2px 10px;margin:6px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.fb-rl small{display:block;color:var(--faint);white-space:normal}
+.fb-r .rp-act{margin-top:0}
+.fb-hint{font-size:12px;color:var(--faint);margin:2px 0 6px}
+@media (max-width:900px){.sp-grid{grid-template-columns:1fr}.sp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{#t-support{display:none!important}}
 </style>
 <script>
 // Aparencia Light / Dark / System, como o menu Appearance das apps (guardada so neste browser; sem escolha = System)
@@ -344,6 +383,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-accounts" id="tab-accounts" type="button">Accounts</button>
       <button data-tab="t-qa" id="tab-qa" type="button">QA</button>
       <button data-tab="t-signer" id="tab-signer" type="button">Signer<span id="sg-badge"></span></button>
+      <button data-tab="t-support" id="tab-support" type="button">Support</button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
@@ -465,6 +505,18 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
         <div class="box"><h2>Efficiency per scenario</h2>
           <div class="scroll"><table><thead><tr><th>Scenario</th><th>App</th><th>Runs</th><th>Pass rate</th><th>Avg duration</th><th>Avg tokens</th><th>Total tokens</th><th>Avg bugs / run</th></tr></thead><tbody id="qa-eff"></tbody></table></div></div>
       </div>
+    </div>
+    <div id="t-support" class="hidden">
+      <p class="ps-note">Find an account by email or username to see its state and to help. Every view and every action is written to an audit log (who, when, what, why). No passwords or keys are ever shown here.</p>
+      <div class="box">
+        <form id="sp-form" class="sp-form" autocomplete="off">
+          <input id="sp-q" type="search" placeholder="Email or username (at least 3 characters)" aria-label="Search accounts by email or username" spellcheck="false" autocapitalize="none">
+          <button class="sec" id="sp-go" type="submit">Search</button>
+        </form>
+        <div id="sp-err" class="msg" role="status" aria-live="polite"></div>
+        <div id="sp-res" class="scroll"></div>
+      </div>
+      <div id="sp-acct"></div>
     </div>
     <div id="t-traffic" class="hidden">
     <div class="kpis" id="kpis"></div>
@@ -601,6 +653,7 @@ function feedback(lista, erro) {
     `<td class="d">${esc(f.app_version || '—')}</td><td class="fe">${f.email ? esc(f.email) : '<span style="color:var(--faint)">—</span>'}</td></tr>`).join('')
     : '<tr><td colspan="5" class="empty">No feedback yet.</td></tr>';
   $('fb-more').textContent = lista.length === 500 ? 'Showing the latest 500.' : '';
+  if (typeof fbReplies === 'function') fbReplies(lista);   // Support (migracao 62): botao Reply em cada linha
 }
 
 // ── definicoes da plataforma (tabela platform_settings; a base decide quem escreve, a pagina nunca) ─────────────
@@ -1590,6 +1643,206 @@ const SG = (() => {
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_IN') tique(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-signer').classList.contains('hidden')) carrega(); else linha = null; });
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { linha = null; el('sg-body').classList.add('hidden'); el('sg-jobs').innerHTML = ''; selo({ cor: '' }); el('sg-load-body').textContent = ''; el('sg-load-state').innerHTML = ''; } });
+})();
+</script>
+<script>
+// ── Support (migracao 62): procurar uma conta, ver o estado, suspender/levantar, reenviar o convite; responder ao feedback ──
+// Bloco proprio e fechado. Tudo vem das RPCs de administrador `support_*` e da tabela `support_replies` (RLS: so administradores);
+// a pagina so mostra e chama. Nunca ha palavras-passe, chaves nem tokens, nem aqui nem na base. Cada ficha aberta e cada acao
+// ficam na auditoria (quem, quando, o que, porque). Usa $, esc, quando, nf, sb, SUPABASE_URL e SUPABASE_KEY do script principal.
+(function () {
+  const ACAO = { suspend: 'Suspended', unsuspend: 'Unsuspended', resend_invite: 'Invite resent', resend_invite_failed: 'Invite could not be sent', feedback_reply: 'Replied to feedback' };
+  const RAZAO = { abuse: 'Abuse report', dispute_lost: 'Lost dispute', support: 'Support' };
+  const eur = (m, c) => (Number(m || 0) / 100).toLocaleString('en-US', { style: 'currency', currency: c || 'EUR' });
+  const ou = t => t ? esc(quando(t)) : '—';
+  const falta = e => !!e && (e.code === 'PGRST202' || e.code === 'PGRST205' || e.code === '42883' || e.code === '42P01' || /could not find|schema cache|does not exist/i.test(e.message || ''));
+  const fraco = e => falta(e) ? 'Waiting for the database update (supabase db push).' : (e.message || 'Something went wrong.');
+  const vazio = t => '<div class="empty">' + esc(t) + '</div>';
+  const kv = pares => '<dl class="sp-kv">' + pares.map(([k, v]) => '<dt>' + esc(k) + '</dt><dd>' + v + '</dd>').join('') + '</dl>';
+  // celulas ja escapadas; `cols` e `rows` de texto simples
+  function tab(cols, rows, nada) {
+    if (!rows.length) return vazio(nada);
+    return '<div class="scroll"><table><thead><tr>' + cols.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead><tbody>' +
+      rows.map(r => '<tr>' + r.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
+  }
+  let atual = null, msgFicha = '', msgBad = false, volta = 0;
+  const erro = t => { $('sp-err').textContent = t || ''; };
+
+  // ── procurar ──
+  $('sp-form').onsubmit = async e => {
+    e.preventDefault();
+    const q = $('sp-q').value.trim(), eu = ++volta;
+    erro(''); atual = null; msgFicha = ''; $('sp-acct').innerHTML = ''; $('sp-res').innerHTML = '';
+    if (q.length < 3) { erro('Type at least 3 characters of an email or username.'); return; }
+    $('sp-go').disabled = true;
+    const { data, error } = await sb.rpc('support_search', { p_query: q });
+    $('sp-go').disabled = false;
+    if (eu !== volta) return;
+    if (error) { erro(fraco(error)); return; }
+    $('sp-res').innerHTML = !data.length ? vazio('No account matches “' + q + '”.') :
+      tab(['Email', 'Username', 'Created', 'Last sign-in', 'State', ''], data.map(u => [
+        '<span style="overflow-wrap:anywhere">' + esc(u.email || '—') + '</span>', u.username ? esc(u.username) : '—', ou(u.created_at), ou(u.last_sign_in_at),
+        (u.suspended ? '<span class="chip">Suspended</span>' : '') + (u.confirmed ? '' : '<span class="chip">Email not confirmed</span>'),
+        '<button class="sec" data-sp="' + esc(u.user_id) + '" aria-label="Open ' + esc(u.email || u.user_id) + '" type="button">Open</button>'])) +
+      (data.length === 20 ? '<div class="note">Showing the first 20 matches. Type more to narrow it down.</div>' : '');
+  };
+  $('sp-res').addEventListener('click', e => { const b = e.target.closest('button[data-sp]'); if (b) abre(b.dataset.sp); });
+
+  // ── a ficha ──
+  async function abre(id) {
+    const eu = ++volta; atual = id;
+    $('sp-acct').innerHTML = '<div class="box">' + vazio('Loading…') + '</div>';
+    const { data, error } = await sb.rpc('support_account', { p_user: id });
+    if (eu !== volta) return;
+    if (error) { $('sp-acct').innerHTML = ''; atual = null; erro(fraco(error)); return; }
+    erro(''); ficha(data);
+  }
+  function ficha(a) {
+    const c = a.account, s = a.store, sus = a.suspension, conf = !!c.email_confirmed_at;
+    const topo = '<div class="box"><div class="sp-top"><div><h2>' + esc(c.email || '—') + '</h2><div class="sp-sub">' + (c.username ? esc('@' + c.username) + ' · ' : '') + esc(c.user_id) + '</div></div>' +
+      '<div>' + (sus ? '<span class="chip">Suspended</span>' : '') + (conf ? '' : '<span class="chip">Email not confirmed</span>') + (c.is_admin ? '<span class="chip">Admin</span>' : '') + '<span class="chip">Plan: ' + esc(c.plan || 'free') + '</span></div></div>' +
+      (sus ? '<div class="sp-banner" role="status"><b>Suspended since ' + esc(quando(sus.at)) + (sus.by_email ? ' by ' + esc(sus.by_email) : '') + '</b>' +
+             esc(RAZAO[sus.reason] || sus.reason) + (sus.note ? ': ' + esc(sus.note) : '') + '. Checkout and new network devices are blocked; the session stays open.</div>'
+           : '<div class="sp-banner sp-ok" role="status">Not suspended.</div>') + '</div>';
+
+    const conta = '<div class="box"><div class="sp-h">Account</div>' + kv([
+      ['Created', ou(c.created_at)], ['Last sign-in', ou(c.last_sign_in_at)], ['Email confirmed', conf ? ou(c.email_confirmed_at) : 'No'],
+      ['Invited', ou(c.invited_at)], ['Display name', c.display_name ? esc(c.display_name) : '—']]) +
+      '<div class="sp-h">Apps enabled</div>' + tab(['App', 'Category', 'State', 'Since'], a.apps.map(p => [esc(p.name || p.app), esc(p.category || '—'), esc(p.status), ou(p.activated_at || p.created_at)]), 'No app registered on this account.') +
+      '<div class="sp-h">Devices <span style="font-weight:500">(latest ' + a.devices.length + ')</span></div>' + tab(['Device', 'Last seen'], a.devices.map(d => ['<span style="font-family:var(--mono)">' + esc(d.peer) + '</span>', ou(d.last_seen)]), 'No device registered.') + '</div>';
+
+    const kp = (v, l) => '<div class="kpi"><b>' + v + '</b><span>' + esc(l) + '</span></div>';
+    const loja = '<div class="box"><div class="sp-h">Store</div><div class="sp-kpis">' + kp(eur(s.balance_minor, s.currency), 'Fork balance') + kp(nf(s.licence_count), 'Licences') + kp(nf(s.order_count), 'Orders') +
+      kp(nf(s.refunds.length) + ' / ' + nf(s.disputes.length), 'Refunds / disputes') + '</div>' +
+      '<div class="sp-h">Licences <span style="font-weight:500">(latest ' + s.licences.length + ')</span></div>' + tab(['Track', 'Serial', 'State', 'Issued'], s.licences.map(l => [esc(l.title || '—'), '#' + esc(l.serial),
+        esc(l.status) + (l.disputed ? ' <span class="chip">disputed</span>' : '') + (l.refund_requested ? ' <span class="chip">refund requested</span>' : ''), ou(l.issued_at)]), 'No licence.') +
+      '<div class="sp-h">Orders <span style="font-weight:500">(latest ' + s.orders.length + ')</span></div>' + tab(['Kind', 'Amount', 'State', 'Paid with', 'Date'], s.orders.map(o => [esc(o.kind), eur(o.amount_minor, s.currency), esc(o.status), esc(o.paid_with || '—'), ou(o.paid_at || o.created_at)]), 'No order.') +
+      '<div class="sp-h">Refunds</div>' + tab(['State', 'Amount', 'Asked', 'Done'], s.refunds.map(r => [esc(r.status) + (r.error ? ' <span class="chip">' + esc(r.error) + '</span>' : ''), r.amount_minor == null ? '—' : eur(r.amount_minor, s.currency), ou(r.created_at), ou(r.done_at)]), 'No refund.') +
+      '<div class="sp-h">Disputes</div>' + tab(['State', 'Opened', 'Closed', 'Fee'], s.disputes.map(d => [esc(d.status), ou(d.created_at), ou(d.closed_at), d.fee_minor == null ? '—' : eur(d.fee_minor, s.currency)]), 'No dispute.') + '</div>';
+
+    const acoes = '<div class="box sp-act"><div class="sp-h">Actions</div>' +
+      '<label for="sp-why">Reason (3 to 500 characters; kept in the audit log)</label><textarea id="sp-why" maxlength="500" spellcheck="true"></textarea>' +
+      '<div class="rp-act">' +
+      (sus ? '<button class="sec" id="sp-un" type="button">Unsuspend</button>' : '<button class="sec dng" id="sp-su" type="button">Suspend</button>') +
+      (conf ? '' : '<button class="sec" id="sp-re" type="button">Resend invite</button>') + '</div>' +
+      '<p class="msg' + (msgBad ? '' : ' sp-good') + '" id="sp-msg" role="status" aria-live="polite">' + esc(msgFicha) + '</p>' +
+      '<div class="note">Suspending blocks checkout and adding devices to the network; it does not sign the person out. Resend invite asks the sign-in service to email the confirmation again.</div></div>';
+
+    const hist = '<div class="box"><div class="sp-h">Audit log <span style="font-weight:500">(latest ' + a.audit.length + ')</span></div>' + tab(['When', 'Admin', 'Action', 'Reason'], a.audit.map(x => [ou(x.at), esc(x.admin_email || '—'),
+      esc(ACAO[x.action] || x.action), esc(x.reason || (x.detail && x.detail.note) || '—')]), 'Nothing recorded yet.') + '</div>';
+
+    $('sp-acct').innerHTML = '<div class="sp-grid" style="grid-template-columns:minmax(0,1fr)">' + topo + '</div><div class="sp-grid">' + conta + loja + '</div>' +
+      '<div class="sp-grid">' + acoes + hist + '</div>';
+    const por = $('sp-why');
+    const motivo = () => { const t = por.value.trim(); if (t.length < 3) { dizer('Write a reason first (at least 3 characters).', true); por.focus(); return null; } return t; };
+    if ($('sp-su')) $('sp-su').onclick = () => { const t = motivo(); if (t && confirm('Suspend ' + (c.email || 'this account') + '?\nThey will not be able to check out or add network devices.')) acao('support_suspend', { p_user: atual, p_reason: t }, 'Account suspended.'); };
+    if ($('sp-un')) $('sp-un').onclick = () => { const t = motivo(); if (t) acao('support_unsuspend', { p_user: atual, p_reason: t }, 'Suspension lifted.'); };
+    if ($('sp-re')) $('sp-re').onclick = () => reenvia(por.value.trim() || null);
+  }
+  function dizer(t, mau) { msgFicha = t; msgBad = !!mau; const m = $('sp-msg'); if (m) { m.textContent = t; m.classList.toggle('sp-good', !mau); } }
+  function ocupado(sim) { for (const id of ['sp-su', 'sp-un', 'sp-re']) if ($(id)) $(id).disabled = sim; }
+
+  async function acao(rpc, args, ok) {
+    ocupado(true); dizer('');
+    const { error } = await sb.rpc(rpc, args);
+    if (error) { ocupado(false); dizer(fraco(error), true); return; }
+    await recarrega(ok);
+  }
+  async function recarrega(ok) {   // volta a ler a ficha (e a auditoria) depois de uma acao; a mensagem fica
+    const id = atual; msgFicha = ok; msgBad = false;
+    const { data, error } = await sb.rpc('support_account', { p_user: id });
+    if (id !== atual) return;
+    if (error) { dizer(ok + ' (the page could not reload the account: ' + fraco(error) + ')', false); return; }
+    ficha(data);
+  }
+  // Reenviar o convite: 1.o a base regista o pedido e confere que a conta ainda nao confirmou; depois o servico de entrada (GoTrue)
+  // envia o email (`/auth/v1/resend`, so com a chave publica, sem servico novo); se falhar, fica registado.
+  async function reenvia(razao) {
+    if (!confirm('Email the confirmation link again to this account?')) return;
+    ocupado(true); dizer('');
+    const id = atual, prep = await sb.rpc('support_resend_prepare', { p_user: id, p_reason: razao });
+    if (prep.error) { ocupado(false); dizer(fraco(prep.error), true); return; }
+    let falha = null;
+    try {
+      const r = await fetch(SUPABASE_URL + '/auth/v1/resend', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+        body: JSON.stringify({ type: 'signup', email: prep.data }) });
+      if (!r.ok) { const j = await r.json().catch(() => ({})); falha = j.msg || j.message || j.error_description || ('The sign-in service answered ' + r.status + '.'); }
+    } catch (e) { falha = 'Could not reach the sign-in service.'; }
+    if (falha) {
+      await sb.rpc('support_resend_failed', { p_user: id, p_note: falha });
+      ocupado(false); dizer('The invite was not sent: ' + falha, true); return;
+    }
+    await recarrega('Invite sent to ' + prep.data + '.');
+  }
+
+  // sair da sessao: nada de dados de uma conta fica no ecra
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { atual = null; ++volta; msgFicha = ''; $('sp-acct').innerHTML = ''; $('sp-res').innerHTML = ''; $('sp-q').value = ''; erro(''); } });
+
+  // ── responder ao feedback (tabela `beta_feedback` do separador Traffic & signups) ──────────────────────────────────────────
+  // `feedback()` chama `fbReplies(lista)` depois de desenhar as linhas: junta um botao "Reply" a cada uma e as respostas ja dadas.
+  // A pessoa le a resposta no sino da app em que escreveu ("Reply from Fork"); o email do feedback e opcional e nao e usado.
+  let FB = { lista: [], resp: new Map(), volta: 0 };
+  async function respostas() {
+    const { data, error } = await sb.from('support_replies').select('id, feedback_id, body, created_at, read_at').order('created_at', { ascending: true }).limit(3000);
+    if (error) return { error };
+    const m = new Map();
+    for (const r of data) { if (!m.has(r.feedback_id)) m.set(r.feedback_id, []); m.get(r.feedback_id).push(r); }
+    return { m };
+  }
+  function chipsResp(id) {
+    const r = FB.resp.get(id) || [];
+    if (!r.length) return '';
+    const por = r.filter(x => !x.read_at).length;
+    return '<span class="chip">' + r.length + (r.length === 1 ? ' reply' : ' replies') + '</span><span class="chip">' + (por ? por + ' not read yet' : 'read') + '</span>';
+  }
+  function linhaResp(f) {
+    const r = FB.resp.get(f.id) || [];
+    return '<div class="fb-r">' +
+      (r.length ? r.map(x => '<div class="fb-rl">' + esc(x.body) + '<small>Sent ' + esc(quando(x.created_at)) + ' · ' + (x.read_at ? 'read ' + esc(quando(x.read_at)) : 'not read yet') + '</small></div>').join('') : '<div class="fb-hint">No reply yet.</div>') +
+      '<label for="fb-t-' + esc(f.id) + '">Reply from Fork</label><textarea id="fb-t-' + esc(f.id) + '" maxlength="2000" placeholder="Write a reply. The person sees it as “Reply from Fork” in the bell of the Fork app they sent this from."></textarea>' +
+      '<div class="fb-hint">Up to 2000 characters. No email is sent.</div>' +
+      '<div class="rp-act"><button class="sec fb-send" data-fb="' + esc(f.id) + '" type="button">Send reply</button></div><p class="msg fb-m" role="status" aria-live="polite"></p></div>';
+  }
+  window.fbReplies = async function (lista) {
+    const eu = ++FB.volta;
+    if (!lista || !lista.length) return;
+    const r = await respostas();
+    if (eu !== FB.volta) return;
+    if (r.error) {
+      if (falta(r.error)) $('fb-more').textContent = ($('fb-more').textContent ? $('fb-more').textContent + ' ' : '') + 'Replies are waiting for the database update (supabase db push).';
+      return;
+    }
+    FB.lista = lista; FB.resp = r.m;
+    [...$('fb-rows').children].forEach((tr, i) => {
+      const f = lista[i], td = tr.querySelector('td.m');
+      if (!f || !td) return;
+      td.insertAdjacentHTML('beforeend', '<div class="fb-ra" style="margin-top:6px"><button class="sec" data-fbr="' + esc(f.id) + '" type="button">Reply</button> <span class="fb-chips">' + chipsResp(f.id) + '</span></div>');
+    });
+  };
+  $('fb-rows').addEventListener('click', async e => {
+    const abrir = e.target.closest('button[data-fbr]'), enviar = e.target.closest('button.fb-send');
+    if (abrir) {
+      const tr = abrir.closest('tr'), seg = tr.nextElementSibling;
+      if (seg && seg.classList.contains('fb-det')) { seg.remove(); return; }
+      const f = FB.lista.find(x => x.id === abrir.dataset.fbr); if (!f) return;
+      const d = document.createElement('tr'); d.className = 'fb-det'; d.innerHTML = '<td colspan="5">' + linhaResp(f) + '</td>';
+      tr.after(d); d.querySelector('textarea').focus();
+    } else if (enviar) {
+      const d = enviar.closest('tr'), m = d.querySelector('.fb-m'), t = d.querySelector('textarea'), id = enviar.dataset.fb, texto = t.value.trim();
+      m.textContent = '';
+      if (!texto) { m.textContent = 'Write the reply first.'; t.focus(); return; }
+      enviar.disabled = true;
+      const { error } = await sb.rpc('support_feedback_reply', { p_feedback: id, p_body: texto });
+      enviar.disabled = false;
+      if (error) { m.textContent = fraco(error); return; }
+      const r = await respostas();
+      if (!r.error) FB.resp = r.m;
+      const f = FB.lista.find(x => x.id === id);
+      d.firstElementChild.innerHTML = linhaResp(f);
+      const mm = d.querySelector('.fb-m'); mm.classList.add('sp-good'); mm.textContent = 'Reply saved. It reaches the person the next time their app checks.';
+      const ant = d.previousElementSibling; if (ant) { const ch = ant.querySelector('.fb-chips'); if (ch) ch.innerHTML = chipsResp(id); }
+    }
+  });
 })();
 </script>
 </body>
