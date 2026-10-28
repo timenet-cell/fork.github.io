@@ -166,7 +166,7 @@
   {
    "t": "P2P upload speed",
    "p": 85,
-   "s": "Large files now go phone→computer in pieces: ~110 Mbit/s on a phone-like link, flat memory for multi-GB files, size + SHA-256 checked before the file appears, cancel/drop cleans up; \"Send a file to your computer\" on the phone · left: test on a real phone; port the faster-tunnel tweaks (gzip, binary frames)",
+   "s": "Large files now go phone→computer in pieces: ~110 Mbit/s on a phone-like link, flat memory for multi-GB files, size + SHA-256 checked before the file appears, cancel/drop cleans up; \"Send a file to your computer\" on the phone · faster-tunnel tweaks (gzip, binary frames, 6 in flight, cache) confirmed in and now tested on their own; 25-request burst ~1 s at 30 ms + 1% loss · left: test on a real phone",
    "prio": 2
   },
   {
