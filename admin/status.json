@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28T16:00:00Z",
+ "updated": "2026-10-28T19:00:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -10,7 +10,7 @@
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 99,
-   "s": "All code merged, receipt page live, signer keys + Stripe/Supabase keys stored, public keys published, Stripe Connect Express live · left: devnet SOL (faucet limit), then one test purchase",
+   "s": "All code merged, receipt page live, signer keys + Stripe/Supabase keys stored, public keys published, Stripe Connect Express live · left: devnet SOL (faucet limit), then one test purchase · read-only pre-flight check for the rehearsal added (28 Oct)",
    "prio": 1
   },
   {
@@ -111,8 +111,8 @@
   },
   {
    "t": "Admin QA tab / QA bench",
-   "p": 90,
-   "s": "QA tab live (runs, bugs with status, efficiency per scenario) · left: bench fails while the test disk is unplugged (fix merging now); bug summaries need a working Claude login on the bench",
+   "p": 93,
+   "s": "QA tab live (runs, bugs with status, efficiency per scenario); bench skips cleanly when the test disk is unplugged (28 Oct) · left: bug summaries need a working Claude login on the bench",
    "prio": 1
   },
   {
@@ -126,6 +126,30 @@
    "p": 95,
    "s": "Merged and pushed 28 Oct (tested) · left: ships in the next build; replies arrive once migration 71 is applied",
    "prio": 1
+  },
+  {
+   "t": "Artist key backup + restore",
+   "p": 95,
+   "s": "Settings › Identity: passphrase backup (Argon2id + AES-256-GCM), restore with account check, reminder until backed up; at-rest encryption stays off until you switch it on · left: ships in the next build",
+   "prio": 1
+  },
+  {
+   "t": "Fork Music: Network tab",
+   "p": 90,
+   "s": "Shared chat zones, private column and empty states; chat itself says 'coming' · left: real chat backend",
+   "prio": 2
+  },
+  {
+   "t": "Bought music in the shared player",
+   "p": 90,
+   "s": "Release page and Library play through the shared player bar (queue, scrub, now playing) · needs you: decide how the native engine plays decrypted audio",
+   "prio": 2
+  },
+  {
+   "t": "No 'Mac' in app text",
+   "p": 100,
+   "s": "All apps say 'computer'; a test blocks regressions (28 Oct)",
+   "prio": 3
   }
  ]
 }
