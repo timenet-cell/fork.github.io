@@ -1,40 +1,40 @@
 {
- "updated": "2026-10-28T23:00:00Z",
+ "updated": "2026-10-28T23:30:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
    "p": 92,
-   "s": "Revocations, keep-alives and shared-project removals signed; database up to date · needs you: switch on with real data",
+   "s": "Signed revocations, keep-alives and removals done · left: switch on with real data (manifest still accepts plain until sealed mode is set)",
    "prio": 1
   },
   {
    "t": "Store: Stripe + Solana licence registry",
    "p": 99,
-   "s": "All code merged, receipt page live, signer keys + Stripe/Supabase keys stored, public keys published, Stripe Connect Express live · left: devnet SOL (faucet limit), then one test purchase · read-only pre-flight check for the rehearsal added (28 Oct)",
+   "s": "All code, keys and pre-flight done · left: devnet SOL, one test purchase · needs you: the rehearsal; for real money also the multisig, mainnet tree and Stripe live mode",
    "prio": 1
   },
   {
    "t": "WIP fan passes (off-chain, revocable)",
    "p": 98,
-   "s": "Fan side done and database updated (57); native buyer path shared · left: one real test (Studio issues a pass, Fork Music opens it)",
+   "s": "Fan side done, database updated · left: one real test: Studio issues a pass, Fork Music opens it",
    "prio": 1
   },
   {
    "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
    "p": 99,
-   "s": "Late joiners serve, slow last block raced, >8 GB fixed, phone reads from the swarm; database updated (60); remote switches read · needs you: relay server, real-router + iPhone test",
+   "s": "Code complete, database updated · left: relay server, real-router test, iPhone test; the phone does not use multi-source yet",
    "prio": 1
   },
   {
    "t": "Fork Music: distribution + streaming",
    "p": 99,
-   "s": "Shared frame incl. 4th blue ball, Settings window, updater, build line, brand icon; database updated; background 404s locked by tests (28 Oct) · left: release feeds (3 GitHub repos), two-computer test",
+   "s": "Frame, settings, updater, build line done · left: release feeds, two-computer test",
    "prio": 2
   },
   {
    "t": "Fork Ledger + credits & creation record",
    "p": 5,
-   "s": "Plan written, 11 decisions waiting for you",
+   "s": "Plan written · left: 11 decisions from you, then build",
    "prio": 1
   },
   {
@@ -58,7 +58,7 @@
   {
    "t": "Terms v0.8 + Welcome tour",
    "p": 95,
-   "s": "Live · lawyer review pending",
+   "s": "Live · left: lawyer review",
    "prio": 3
   },
   {
@@ -94,54 +94,54 @@
   {
    "t": "Terms: softer wording for storage contribution",
    "p": 60,
-   "s": "Left for the end (owner, 19 Oct) · draft v0.9 ready",
-   "prio": 0
+   "s": "Draft v0.9 ready · left for the end by your choice",
+   "prio": 3
   },
   {
    "t": "Support tab (admin)",
    "p": 95,
-   "s": "Account search, suspend, resend invite, feedback replies, audit log · needs you: supabase db push (migration 71)",
+   "s": "Done and merged · left: nothing in code · needs you: apply migration 71",
    "prio": 1
   },
   {
    "t": "Error reports + remote switches",
    "p": 95,
-   "s": "Native + web reporting without personal data, remote toggles, alerts; merged and pushed · needs you: supabase db push (migration 72)",
+   "s": "Native and web reporting, switches and alerts merged · needs you: apply migration 72 and ship a build",
    "prio": 1
   },
   {
    "t": "Admin QA tab / QA bench",
    "p": 93,
-   "s": "QA tab live (runs, bugs with status, efficiency per scenario); bench skips cleanly when the test disk is unplugged (28 Oct) · left: bug summaries need a working Claude login on the bench",
-   "prio": 1
+   "s": "QA tab live, bench skips cleanly · left: bug summaries need a working Claude login on the bench; schedule install is optional",
+   "prio": 2
   },
   {
    "t": "Signer tab (admin)",
    "p": 90,
-   "s": "RPC signer_load live, devnet bootstrap improved · left: UI polish and full coverage",
-   "prio": 1
+   "s": "RPC live · left: UI polish and full coverage (site repo)",
+   "prio": 2
   },
   {
    "t": "Inbox support replies",
    "p": 95,
-   "s": "Merged and pushed 28 Oct (tested) · left: ships in the next build; replies arrive once migration 71 is applied",
+   "s": "Merged · left: ships in next build; replies need migration 71",
    "prio": 1
   },
   {
    "t": "Artist key backup + restore",
    "p": 95,
-   "s": "Settings › Identity: passphrase backup (Argon2id + AES-256-GCM), restore with account check, reminder until backed up; at-rest encryption stays off until you switch it on · left: ships in the next build",
+   "s": "Merged · left: ships in next build; Keychain prompt check on your computer; at-rest encryption stays off until you switch it on",
    "prio": 1
   },
   {
    "t": "Fork Music: Network tab",
-   "p": 90,
+   "p": 100,
    "s": "Shared chat zones, private column and empty states; chat itself says 'coming' · left: real chat backend",
    "prio": 2
   },
   {
    "t": "Bought music in the shared player",
-   "p": 90,
+   "p": 100,
    "s": "Release page and Library play through the shared player bar (queue, scrub, now playing) · needs you: decide how the native engine plays decrypted audio",
    "prio": 2
   },
@@ -154,7 +154,7 @@
   {
    "t": "Phone over P2P: browse, palette, sample search",
    "p": 90,
-   "s": "Projects and renders browse, palette build/record, new: sample search, Samples Library folders, add sounds and rename palette (28 Oct) · left: test on a real phone; deleting a palette from the phone needs a decision",
+   "s": "All features merged · left: test on a real phone",
    "prio": 2
   },
   {
@@ -166,7 +166,7 @@
   {
    "t": "P2P upload speed",
    "p": 85,
-   "s": "Large files now go phone→computer in pieces: ~110 Mbit/s on a phone-like link, flat memory for multi-GB files, size + SHA-256 checked before the file appears, cancel/drop cleans up; \"Send a file to your computer\" on the phone · faster-tunnel tweaks (gzip, binary frames, 6 in flight, cache) confirmed in and now tested on their own; 25-request burst ~1 s at 30 ms + 1% loss · left: test on a real phone",
+   "s": "Chunked upload, tunnel tweaks and speed test merged · left: test on a real phone/real router; phone does not yet use multi-source download",
    "prio": 2
   },
   {
@@ -178,85 +178,85 @@
   {
    "t": "Report a bug (all apps)",
    "p": 95,
-   "s": "\"Report a bug\" row under Navigation Help in every app: short form, optional recent logs (personal data scrubbed like error reports), goes to the beta feedback the Support tab reads; queued offline and resent (28 Oct) · left: try it in the next build",
+   "s": "Merged · left: try in next build",
    "prio": 2
   },
   {
    "t": "Older shared version: newer one flagged",
    "p": 95,
-   "s": "Getting an older version of a project shared with you brings that version as it is, with \"A newer version exists (Version N)\" and a one-click Get latest; nothing shown when it is the newest or unknown (28 Oct) · left: try it with two accounts",
+   "s": "Merged · left: try with two accounts",
    "prio": 2
   },
   {
    "t": "Database: migrations 71 + 72",
    "p": 0,
-   "s": "Support (71) and error reports + switches (72) are written and tested · needs you: supabase db push, then publish",
+   "s": "Both written and tested on integration · left: apply to the real database, then redeploy functions · needs you: supabase db push (I could not check the remote list without login)",
    "prio": 1
   },
   {
    "t": "Relay, SMTP and Apple signing",
-   "p": 0,
-   "s": "Needed for connections outside the home network, invite emails and a signed public app · needs you: accounts and keys",
+   "p": 10,
+   "s": "Relay code exists (fork-relay), signing scripts exist on an unmerged branch · left: merge the release scripts; deploy relay · needs you: VPS account, Resend key, Apple Developer ID and notary profile, Supabase email settings",
    "prio": 1
   },
   {
    "t": "Real-device tests",
    "p": 0,
-   "s": "Two computers with two accounts, and a real phone (uploads, palette, sample search, Get latest) · needs you",
+   "s": "Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
    "prio": 1
   },
   {
    "t": "Phone: uncatalogued pack sounds",
    "p": 0,
-   "s": "Sounds in packs that are not in the catalogue don't show on the phone · needs your decision: show them or not",
+   "s": "Show them or not · needs your decision",
    "prio": 2
   },
   {
    "t": "Studio: details panel while Studio view is open",
    "p": 0,
-   "s": "The details panel hides when the embedded Studio view is open · needs your decision: keep or change",
+   "s": "Keep or change · needs your decision",
    "prio": 2
   },
   {
    "t": "Manager: old public build script",
    "p": 0,
-   "s": "The Manager's public build script is outdated · needs your decision: refresh it or retire it",
+   "s": "Refresh or retire · needs your decision",
    "prio": 2
   },
   {
    "t": "Upload pacing: fixed 1.5 MB or adaptive",
    "p": 0,
-   "s": "Uploads keep 1.5 MB in flight; adaptive could be faster on good links · needs your decision",
+   "s": "Needs your decision",
    "prio": 3
   },
   {
    "t": "After beta: bought music in the native player",
    "p": 0,
-   "s": "Plays in the shared web player today; native engine later (your call, 28 Oct)",
+   "s": "Plays in shared web player today; native engine later",
    "prio": 3
   },
   {
    "t": "After beta: delete a palette from the phone",
    "p": 0,
-   "s": "Decided for after the beta (28 Oct)",
+   "s": "Deferred",
    "prio": 3
   },
   {
    "t": "After beta: protected content in the library",
    "p": 0,
-   "s": "The .forkbase library marker works; encrypted protected content inside it comes later",
+   "s": ".forkbase marker works; encrypted protected content later; design doc is old (3 Oct) and the library layout changed",
    "prio": 3
   },
   {
    "t": "After beta: Fork this version / remixes",
    "p": 0,
-   "s": "Design first, then build (your call)",
+   "s": "Design first, then build; ties into licences and label split role",
    "prio": 3
   },
   {
    "t": "After beta: DJ module",
    "p": 0,
-   "s": "Paused since 26 Oct (phone palette recording works)",
+   "s": "Paused; side-panel waves branch and rekordbox export unfinished",
    "prio": 3
   },
   {
@@ -268,31 +268,139 @@
   {
    "t": "Disks: Fragoso Fast is full",
    "p": 0,
-   "s": "Move Music Library (75 GB) or Media Family (60 GB) to Labels Raid with both disks on the same computer · needs you: which disk goes where",
+   "s": "Needs your choice of which disk goes where",
    "prio": 2
   },
   {
    "t": "Disks: empty Fragoso Fast Trash",
    "p": 0,
-   "s": "47 GB of exact duplicates from Production waiting in its Trash · needs your OK",
+   "s": "47 GB duplicates · needs your OK",
    "prio": 2
   },
   {
    "t": "Disks: Projecto José Castelo Branco",
    "p": 0,
-   "s": "Zip each of the 14 folders and delete the loose files · needs you: room on Labels Raid, or move as-is to Fork Core/Archive",
+   "s": "Needs room or a destination",
    "prio": 3
   },
   {
    "t": "Disks: what is 'Fragoso Fast-1' on the Mini",
    "p": 0,
-   "s": "A second, also full disk shared from the Mini under the same name · needs you to say what it is",
+   "s": "Needs your answer",
    "prio": 3
   },
   {
    "t": "Photos: iCloud Photos from Fragoso Fast",
    "p": 0,
-   "s": "The 60 GB library in iCloud Drive won't upload; use iCloud Photos from the copy on Fragoso Fast · needs you (Photos settings)",
+   "s": "Needs Photos settings on your side",
+   "prio": 3
+  },
+  {
+   "t": "Merge release scripts (sign, publish, roll back)",
+   "p": 80,
+   "s": "Scripts written on a side branch, 4 commits ahead of integration, not merged · left: review and merge · needs you: nothing for the merge; Apple ID to use them",
+   "prio": 2
+  },
+  {
+   "t": "After beta: Network rooms, game and private chat",
+   "p": 10,
+   "s": "Design approved, dev-only preview exists, backend not built · left: tables, realtime chat, 8-bit game, connect requests",
+   "prio": 3
+  },
+  {
+   "t": "Windows version (and later Linux)",
+   "p": 0,
+   "s": "Plan was waiting for your OK; no Windows code or plan doc on integration · left: approve plan, then build platform module with Save Version button and Ctrl+Alt+S",
+   "prio": 3
+  },
+  {
+   "t": "Turn on Free/Pro split at the alpha",
+   "p": 80,
+   "s": "Gating and plan lookup built, beta flags on · left: flip the flags and set plans at alpha · needs you: Stripe subscription for Pro 2.99",
+   "prio": 3
+  },
+  {
+   "t": "Daily encrypted database backup: switch on",
+   "p": 90,
+   "s": "Code merged, migration 28 exists · left: nothing in code · needs you: pg client, read-only database link, recovery phrase, config, first run",
+   "prio": 2
+  },
+  {
+   "t": "Publish device-cert and lease-issuer public keys; deploy functions",
+   "p": 60,
+   "s": "Panel says public keys are published for the Store; swarm certificate steps in INDEX still marked not done · needs you: confirm with supabase migration list and secrets",
+   "prio": 1
+  },
+  {
+   "t": "Intel build: Save Version signal inside the Studio window",
+   "p": 0,
+   "s": "Decided 1 Oct for the older Intel computer; no trace in INDEX on integration · needs confirming it is still wanted",
+   "prio": 3
+  },
+  {
+   "t": "Fork Music: Live Companion in a real Ableton Live",
+   "p": 70,
+   "s": "Built and gated · left: enable the script in Live and test between two computers · needs you",
+   "prio": 3
+  },
+  {
+   "t": "rekordbox USB export: real CDJ check, extended beat grid, phrases, OneLibrary",
+   "p": 60,
+   "s": "Basic export written · left: PQT2/PSSI and OneLibrary, colour approximations · needs you: a real CDJ and stick",
+   "prio": 3
+  },
+  {
+   "t": "Social publishing (Meta, TikTok)",
+   "p": 5,
+   "s": "Signature-only scaffold · left: token vault, callback server, posting · needs you: Meta/TikTok app credentials and posting rules",
+   "prio": 3
+  },
+  {
+   "t": "Certified invoices (Portugal)",
+   "p": 10,
+   "s": "Receipts exist and say they are not invoices · left: choose a certified provider and issue invoices · needs you",
+   "prio": 2
+  },
+  {
+   "t": "Abuse handling: signed tombstones, per-account quotas, legal review",
+   "p": 60,
+   "s": "tombstone_sign function and abuse migration exist · left: quota policy and legal review of receipts/Terms",
+   "prio": 2
+  },
+  {
+   "t": "Timestamp anchor per signed record (RFC 3161)",
+   "p": 0,
+   "s": "Provider and cost not chosen",
+   "prio": 3
+  },
+  {
+   "t": "Library index through the local API; official artwork on cards",
+   "p": 0,
+   "s": "Waits for the swap of the old apps to the Fork apps",
+   "prio": 3
+  },
+  {
+   "t": "One repository for the ecosystem and cleanup of old folders",
+   "p": 0,
+   "s": "Needs your written approval, apps verified first",
+   "prio": 3
+  },
+  {
+   "t": "Cloud backups to Drive, Dropbox, OneDrive, S3",
+   "p": 0,
+   "s": "Requested 5 Oct · left: direct resumable API upload per provider · needs you: OAuth apps",
+   "prio": 3
+  },
+  {
+   "t": "Native drawing of decks, grid, meters and 3D cloud",
+   "p": 0,
+   "s": "Deferred by you on 5 Oct; start with the DJ tab",
+   "prio": 3
+  },
+  {
+   "t": "Helius webhook for wallet changes",
+   "p": 0,
+   "s": "Daily wallet check covers it today",
    "prio": 3
   }
  ]
