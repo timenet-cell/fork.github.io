@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28T19:00:00Z",
+ "updated": "2026-10-28T19:30:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -150,6 +150,12 @@
    "p": 100,
    "s": "All apps say 'computer'; a test blocks regressions (28 Oct)",
    "prio": 3
+  },
+  {
+   "t": "Phone over P2P: browse, palette, sample search",
+   "p": 90,
+   "s": "Projects and renders browse, palette build/record, new: sample search, Samples Library folders, add sounds and rename palette (28 Oct) · left: test on a real phone; deleting a palette from the phone needs a decision",
+   "prio": 2
   }
  ]
 }
