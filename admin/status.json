@@ -9,7 +9,7 @@
   },
   {
    "t": "Store: Stripe + Solana licence registry",
-   "p": 100,
+   "p": 99,
    "s": "All code merged, receipt page live, signer keys + Stripe/Supabase keys stored, public keys published, Stripe Connect Express live · left: devnet SOL (faucet limit), then one test purchase",
    "prio": 1
   },
@@ -28,7 +28,7 @@
   {
    "t": "Fork Music: distribution + streaming",
    "p": 99,
-   "s": "Shared frame incl. 4th blue ball, Settings window, updater, build line, brand icon; /api routes fixed, Studio Logic icon fallback merged and pushed today · left: release feeds (3 GitHub repos), two-computer test",
+   "s": "Shared frame incl. 4th blue ball, Settings window, updater, build line, brand icon; database updated; background 404s locked by tests (28 Oct) · left: release feeds (3 GitHub repos), two-computer test",
    "prio": 2
   },
   {
@@ -100,19 +100,19 @@
   {
    "t": "Support tab (admin)",
    "p": 95,
-   "s": "Migration 71 written but not yet applied to the real database · needs you: supabase db push; account search, suspend, resend invite, feedback replies, audit log",
+   "s": "Account search, suspend, resend invite, feedback replies, audit log · needs you: supabase db push (migration 71)",
    "prio": 1
   },
   {
    "t": "Error reports + remote switches",
    "p": 95,
-   "s": "Migrations written but not yet applied to the real database (71/72) · needs you: supabase db push; native + web reporting, remote toggles, alerts",
+   "s": "Native + web reporting without personal data, remote toggles, alerts; merged and pushed · needs you: supabase db push (migration 72)",
    "prio": 1
   },
   {
    "t": "Admin QA tab / QA bench",
    "p": 90,
-   "s": "QA runs/bugs/reporting, scenarios, fixtures, CLI link, printing · tests wired, UI integration in progress",
+   "s": "QA tab live (runs, bugs with status, efficiency per scenario) · left: bench fails while the test disk is unplugged (fix merging now); bug summaries need a working Claude login on the bench",
    "prio": 1
   },
   {
@@ -123,8 +123,8 @@
   },
   {
    "t": "Inbox support replies",
-   "p": 100,
-   "s": "Merged and pushed today · live in Inbox",
+   "p": 95,
+   "s": "Merged and pushed 28 Oct (tested) · left: ships in the next build; replies arrive once migration 71 is applied",
    "prio": 1
   }
  ]
