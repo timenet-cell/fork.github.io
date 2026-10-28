@@ -180,6 +180,12 @@
    "p": 95,
    "s": "\"Report a bug\" row under Navigation Help in every app: short form, optional recent logs (personal data scrubbed like error reports), goes to the beta feedback the Support tab reads; queued offline and resent (28 Oct) · left: try it in the next build",
    "prio": 2
+  },
+  {
+   "t": "Older shared version: newer one flagged",
+   "p": 95,
+   "s": "Getting an older version of a project shared with you brings that version as it is, with \"A newer version exists (Version N)\" and a one-click Get latest; nothing shown when it is the newest or unknown (28 Oct) · left: try it with two accounts",
+   "prio": 2
   }
  ]
 }
