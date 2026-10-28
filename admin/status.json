@@ -165,8 +165,8 @@
   },
   {
    "t": "P2P upload speed",
-   "p": 70,
-   "s": "Phone→computer upload test added; tuned to ~110 Mbit/s on a phone-like link (was ~86) · left: real large-file uploads still go as single messages and need a chunked upload protocol (decision)",
+   "p": 85,
+   "s": "Large files now go phone→computer in pieces: ~110 Mbit/s on a phone-like link, flat memory for multi-GB files, size + SHA-256 checked before the file appears, cancel/drop cleans up; \"Send a file to your computer\" on the phone · left: test on a real phone; port the faster-tunnel tweaks (gzip, binary frames)",
    "prio": 2
   }
  ]
