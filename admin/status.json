@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28T20:00:00Z",
+ "updated": "2026-10-28T23:00:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -186,6 +186,114 @@
    "p": 95,
    "s": "Getting an older version of a project shared with you brings that version as it is, with \"A newer version exists (Version N)\" and a one-click Get latest; nothing shown when it is the newest or unknown (28 Oct) · left: try it with two accounts",
    "prio": 2
+  },
+  {
+   "t": "Database: migrations 71 + 72",
+   "p": 0,
+   "s": "Support (71) and error reports + switches (72) are written and tested · needs you: supabase db push, then publish",
+   "prio": 1
+  },
+  {
+   "t": "Relay, SMTP and Apple signing",
+   "p": 0,
+   "s": "Needed for connections outside the home network, invite emails and a signed public app · needs you: accounts and keys",
+   "prio": 1
+  },
+  {
+   "t": "Real-device tests",
+   "p": 0,
+   "s": "Two computers with two accounts, and a real phone (uploads, palette, sample search, Get latest) · needs you",
+   "prio": 1
+  },
+  {
+   "t": "Phone: uncatalogued pack sounds",
+   "p": 0,
+   "s": "Sounds in packs that are not in the catalogue don't show on the phone · needs your decision: show them or not",
+   "prio": 2
+  },
+  {
+   "t": "Studio: details panel while Studio view is open",
+   "p": 0,
+   "s": "The details panel hides when the embedded Studio view is open · needs your decision: keep or change",
+   "prio": 2
+  },
+  {
+   "t": "Manager: old public build script",
+   "p": 0,
+   "s": "The Manager's public build script is outdated · needs your decision: refresh it or retire it",
+   "prio": 2
+  },
+  {
+   "t": "Upload pacing: fixed 1.5 MB or adaptive",
+   "p": 0,
+   "s": "Uploads keep 1.5 MB in flight; adaptive could be faster on good links · needs your decision",
+   "prio": 3
+  },
+  {
+   "t": "After beta: bought music in the native player",
+   "p": 0,
+   "s": "Plays in the shared web player today; native engine later (your call, 28 Oct)",
+   "prio": 3
+  },
+  {
+   "t": "After beta: delete a palette from the phone",
+   "p": 0,
+   "s": "Decided for after the beta (28 Oct)",
+   "prio": 3
+  },
+  {
+   "t": "After beta: protected content in the library",
+   "p": 0,
+   "s": "The .forkbase library marker works; encrypted protected content inside it comes later",
+   "prio": 3
+  },
+  {
+   "t": "After beta: Fork this version / remixes",
+   "p": 0,
+   "s": "Design first, then build (your call)",
+   "prio": 3
+  },
+  {
+   "t": "After beta: DJ module",
+   "p": 0,
+   "s": "Paused since 26 Oct (phone palette recording works)",
+   "prio": 3
+  },
+  {
+   "t": "After beta: Rust port (Tauri + pure Rust)",
+   "p": 0,
+   "s": "Plan to be approved before any code",
+   "prio": 3
+  },
+  {
+   "t": "Disks: Fragoso Fast is full",
+   "p": 0,
+   "s": "Move Music Library (75 GB) or Media Family (60 GB) to Labels Raid with both disks on the same computer · needs you: which disk goes where",
+   "prio": 2
+  },
+  {
+   "t": "Disks: empty Fragoso Fast Trash",
+   "p": 0,
+   "s": "47 GB of exact duplicates from Production waiting in its Trash · needs your OK",
+   "prio": 2
+  },
+  {
+   "t": "Disks: Projecto José Castelo Branco",
+   "p": 0,
+   "s": "Zip each of the 14 folders and delete the loose files · needs you: room on Labels Raid, or move as-is to Fork Core/Archive",
+   "prio": 3
+  },
+  {
+   "t": "Disks: what is 'Fragoso Fast-1' on the Mini",
+   "p": 0,
+   "s": "A second, also full disk shared from the Mini under the same name · needs you to say what it is",
+   "prio": 3
+  },
+  {
+   "t": "Photos: iCloud Photos from Fragoso Fast",
+   "p": 0,
+   "s": "The 60 GB library in iCloud Drive won't upload; use iCloud Photos from the copy on Fragoso Fast · needs you (Photos settings)",
+   "prio": 3
   }
  ]
 }
