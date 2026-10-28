@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28T19:30:00Z",
+ "updated": "2026-10-28T20:00:00Z",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -155,6 +155,18 @@
    "t": "Phone over P2P: browse, palette, sample search",
    "p": 90,
    "s": "Projects and renders browse, palette build/record, new: sample search, Samples Library folders, add sounds and rename palette (28 Oct) · left: test on a real phone; deleting a palette from the phone needs a decision",
+   "prio": 2
+  },
+  {
+   "t": "Public version in systemBlue",
+   "p": 100,
+   "s": "Public builds use systemBlue for every accent; your builds keep the Fork red; also fixed a dev-only card leaking into public builds (28 Oct)",
+   "prio": 3
+  },
+  {
+   "t": "P2P upload speed",
+   "p": 70,
+   "s": "Phone→computer upload test added; tuned to ~110 Mbit/s on a phone-like link (was ~86) · left: real large-file uploads still go as single messages and need a chunked upload protocol (decision)",
    "prio": 2
   }
  ]
