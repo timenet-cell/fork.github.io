@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29 07:18",
+  "updated": "2026-10-29 07:21",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
@@ -297,8 +297,8 @@
     },
     {
       "t": "Merge release scripts (sign, publish, roll back)",
-      "p": 80,
-      "s": "Scripts written on a side branch, 4 commits ahead of integration, not merged · left: review and merge · needs you: nothing for the merge; Apple ID to use them",
+      "p": 100,
+      "s": "Merged 29 Oct · scripts stay off until there is an Apple Developer ID (see Relay, SMTP and Apple signing)",
       "prio": 2
     },
     {
