@@ -42,4 +42,69 @@ assert.strictEqual(SG.spark([], 5), '');
 const html = SG.renderCarga({ ...base, hour_used: 60, queued: 3, oldest_queued_at: '2026-10-24T11:50:00Z', blocked_by_cap: true, hourly_starts: serie }, T0);
 assert(html.includes('60 / 60') && html.includes('100%') && html.includes('10 min') && html.includes('class="red"'));
 assert(SG.renderCarga({ ...base, hourly_starts: serie }, T0).includes('none waiting'));
+// Formatadores e estados das novas leituras
+assert.strictEqual(SG.num(1234), '1,234');
+assert.strictEqual(SG.num(null), '—');
+assert.strictEqual(SG.euros(2000), '€20.00');
+assert.strictEqual(SG.euros(undefined), '—');
+assert(SG.dinheiro(1234).includes('1.234'));
+assert.strictEqual(SG.dinheiro(null), '—');
+assert.strictEqual(SG.data(null), '—');
+assert.strictEqual(SG.data('not a date'), '—');
+assert(SG.data('2026-10-24T12:00:00Z').includes('2026'));
+assert.strictEqual(SG.idCurto('abcdef123456'), 'abcdef12');
+assert.strictEqual(SG.idCurto(null), '—');
+
+// Interruptor da loja (platform_settings store.checkout_enabled)
+assert.deepStrictEqual(SG.estadoCheckout({ value: true }), { k: 'on', txt: 'On', msg: '' });
+assert.strictEqual(SG.estadoCheckout({ value: false }).k, 'off');
+assert.strictEqual(SG.estadoCheckout({ value: 'true' }).k, 'on');
+const semLoja = SG.estadoCheckout(null);
+assert.strictEqual(semLoja.k, 'none');
+assert(semLoja.msg.includes('migration 19'));
+
+// Congelamento
+assert.strictEqual(SG.estadoFrio(2, 3).k, 'wait');
+assert(SG.estadoFrio(2, 3).txt.includes('2'));
+assert.strictEqual(SG.estadoFrio(0, 3).k, 'ok');
+assert(SG.estadoFrio(0, 3).txt.includes('3'));
+assert(SG.estadoFrio(0, 0).txt.includes('Nothing'));
+assert.strictEqual(SG.estadoFrio(null, null).k, 'none');
+
+// Pedidos de chave
+assert.strictEqual(SG.estadoChaves([{ status: 'pending' }, { status: 'delivered' }]).k, 'wait');
+assert.strictEqual(SG.estadoChaves([{ status: 'delivered' }]).txt, 'No pending');
+assert(SG.estadoChaves([]).txt.includes('visible'));
+assert.strictEqual(SG.estadoChaves(null).k, 'none');
+
+// Liquidacao
+assert.strictEqual(SG.estadoLiquidacao([{ status: 'minted' }]).k, 'wait');
+assert.strictEqual(SG.estadoLiquidacao([{ status: 'failed' }]).k, 'bad');
+assert.strictEqual(SG.estadoLiquidacao([]).txt, 'Nothing waiting');
+assert.strictEqual(SG.estadoLiquidacao(null).k, 'none');
+
+// Reserva da cadeia
+assert.strictEqual(SG.estadoReserva({ below_floor: true }).k, 'bad');
+assert.strictEqual(SG.estadoReserva({ below_floor: false }).k, 'ok');
+assert.strictEqual(SG.estadoReserva(null).k, 'none');
+
+// Tabelas compactas (sempre escapadas)
+assert(SG.linhas([], [], 'Nothing here.').includes('Nothing here.'));
+const jobRow = { id: 'abcdef123456', status: '<b>', kind: 'mint', attempts: 2, tx_error: '<i>', created_at: '2026-10-24T12:00:00Z' };
+const jobsHtml = SG.renderMintRows([jobRow], 'today');
+assert(jobsHtml.includes('&lt;b&gt;') && jobsHtml.includes('&lt;i&gt;') && jobsHtml.includes('abcdef12'));
+assert(SG.renderJobs([jobRow], 'today').includes('&lt;b&gt;'));
+assert(SG.renderJobs([], 'today').includes('No mint jobs'));
+const freezeHtml = SG.renderFrio([{ id: '123456789', asset_id: 'asset1234', issued_at: '2026-10-24T12:00:00Z' }], []);
+assert(freezeHtml.includes('12345678') && freezeHtml.includes('No frozen licences yet.'));
+assert(SG.renderFrio([], []).includes('No licences waiting to freeze.'));
+const keysHtml = SG.renderChaves([{ id: 'x', status: 'pending', kind: 'master', reason: '<x>', created_at: '2026-10-24T12:00:00Z' }]);
+assert(keysHtml.includes('&lt;x&gt;'));
+assert(SG.renderChaves([]).includes('No key requests visible'));
+const settleHtml = SG.renderLiquidacao([{ id: 'abcdef123', status: 'minted', kind: 'primary', amount_minor: 2000, paid_at: '2026-10-24T12:00:00Z' }]);
+assert(settleHtml.includes('€20.00') && settleHtml.includes('abcdef12'));
+assert(SG.renderLiquidacao([]).includes('No orders waiting to settle.'));
+const reserveHtml = SG.renderReserva({ reserve_milli: 1234, floor_milli: 1000, surplus_milli: 234, collected_milli: 5000, chain_spent_milli: 3766, below_floor: false, open_alerts: [{ message: '<b>alert</b>' }] });
+assert(reserveHtml.includes('€1.234') && reserveHtml.includes('&lt;b&gt;alert'));
+assert(SG.renderReserva(null).includes('Not loaded.'));
 console.log('signer.test.js: ok');
