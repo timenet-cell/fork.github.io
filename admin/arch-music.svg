@@ -1,0 +1,396 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1433" viewBox="0 0 1200 1433" role="img" aria-labelledby="ar-title ar-desc">
+<title id="ar-title">Fork Music inside</title>
+<desc id="ar-desc">Native shell, local server and views, shared buying UI, Rust core, encrypted library and the store flows. 35 components and 32 flows.</desc>
+<defs>
+<marker id="ar-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" fill="#8A96A5"/></marker>
+</defs>
+<rect width="1200" height="1433" fill="#EEF3F8"/>
+<rect x="70" y="23" width="4" height="23" rx="2" fill="#E5342B"/>
+<text x="84" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="21" font-weight="700" fill="#141A22">Fork Music inside</text>
+<text x="84" y="61" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5B6675">Native shell, local server and views, shared buying UI, Rust core, encrypted library and the store flows</text>
+<rect x="864" y="37.5" width="12" height="3" rx="1.5" fill="#1E8E3E"/>
+<text x="881" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Built</text>
+<rect x="919.1" y="37.5" width="12" height="3" rx="1.5" fill="#C77700"/>
+<text x="936.1" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Building</text>
+<line x1="988.6" y1="39" x2="1000.6" y2="39" stroke="#8A96A5" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 3"/>
+<text x="1005.6" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Planned</text>
+<rect x="1057.8" y="37.5" width="12" height="3" rx="1.5" fill="#5B6675"/>
+<text x="1074.8" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">After beta</text>
+<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-10-29</text>
+<rect x="70" y="96" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<g>
+<title>Fork Music window — Built — Tauri window, single instance and updater; starts the bundled server and closes it on exit.</title>
+<rect x="270" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="271" y="134" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="345" y="153.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Fork Music window</text>
+<text x="345" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Bundled Music server — Built — Frozen Flask server inside the app; never reads the repository in a release build.</title>
+<rect x="440" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="441" y="134" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="515" y="145.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Bundled Music</text>
+<text x="515" y="160.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">server</text>
+<text x="515" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Lease enforcement — Built — Checks leases on start and every 10 minutes; purges keys, blocks and leases on expiry or revocation.</title>
+<rect x="610" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="611" y="134" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="685" y="145.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Lease</text>
+<text x="685" y="160.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">enforcement</text>
+<text x="685" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Native heartbeat — Built — Every 5 minutes: keep-alive, seed announce, session refresh and device certificate.</title>
+<rect x="780" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="781" y="134" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="855" y="153.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Native heartbeat</text>
+<text x="855" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<rect x="70" y="275" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<g>
+<title>Music server (Flask) — Built — Local server on port 5021 with the session in memory and the refresh token in the Keychain.</title>
+<rect x="104" y="303" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="105" y="313" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="179" y="324.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Music server</text>
+<text x="179" y="339.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">(Flask)</text>
+<text x="179" y="357" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Store — Built — Browse and search releases, open a release page and show the preview.</title>
+<rect x="274" y="303" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="275" y="313" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="349" y="332.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Store</text>
+<text x="349" y="357" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Library — Built — Owned licences, encrypted downloads, receipts and play buttons.</title>
+<rect x="444" y="303" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="445" y="313" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="519" y="332.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Library</text>
+<text x="519" y="357" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Passes — Built — WIP passes: verify the artist signature, create the lease and purge on a signed revocation.</title>
+<rect x="614" y="303" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="615" y="313" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="689" y="332.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Passes</text>
+<text x="689" y="357" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Network settings — Built — Upload, download, storage and reach; chat is a placeholder until the backend exists.</title>
+<rect x="784" y="303" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="785" y="313" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="859" y="332.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Network settings</text>
+<text x="859" y="357" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Settings — Built — Account, terms, appearance and network in the shared Settings window.</title>
+<rect x="954" y="303" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="955" y="313" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="1029" y="332.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Settings</text>
+<text x="1029" y="357" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<rect x="70" y="487" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<g>
+<title>Release page — Built — Release details, edition terms, preview and the Buy or Coming soon action.</title>
+<rect x="97" y="515" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="98" y="525" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="172" y="544.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Release page</text>
+<text x="172" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Checkout — Building — Stripe Checkout through store_checkout; the switch is off and Buy says Coming soon.</title>
+<rect x="267" y="515" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="268" y="525" width="3" height="44" rx="1.5" fill="#C77700"/>
+<text x="342" y="544.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Checkout</text>
+<text x="342" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+</g>
+<g>
+<title>Player — Built — Decrypted audio from memory through the shared player bar; the native engine is later.</title>
+<rect x="437" y="515" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="438" y="525" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="512" y="544.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Player</text>
+<text x="512" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Wallet and resale — Building — SIWS connect wallet, paid move back to Fork and resale only from custody.</title>
+<rect x="607" y="515" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="608" y="525" width="3" height="44" rx="1.5" fill="#C77700"/>
+<text x="682" y="544.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Wallet and resale</text>
+<text x="682" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+</g>
+<g>
+<title>Receipts — Built — Printable proof of acquisition with a QR code to forkgate.io/verify.</title>
+<rect x="777" y="515" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="778" y="525" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="852" y="544.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Receipts</text>
+<text x="852" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Session restore — Built — Reopens without a login by restoring the refresh token from the Keychain.</title>
+<rect x="947" y="515" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="948" y="525" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="1022" y="544.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Session restore</text>
+<text x="1022" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<rect x="70" y="688" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<g>
+<title>fork-ui-py — Built — Shared Python shell, legal, account, network limits and the player bar.</title>
+<rect x="191" y="716" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="192" y="726" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="266" y="745.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">fork-ui-py</text>
+<text x="266" y="770" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Shared buying UI — Built — Store, library, checkout, receipts, wallet and playback fragments.</title>
+<rect x="361" y="716" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="362" y="726" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="436" y="745.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Shared buying UI</text>
+<text x="436" y="770" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Shared footer and player — Built — Footer and player bar: queue, scrub, now playing and the update button.</title>
+<rect x="531" y="716" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="532" y="726" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="606" y="737.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Shared footer and</text>
+<text x="606" y="752.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">player</text>
+<text x="606" y="770" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Fork account login — Built — Fork account login with the token only in memory and the refresh token in the Keychain.</title>
+<rect x="701" y="716" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="702" y="726" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="776" y="745.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Fork account login</text>
+<text x="776" y="770" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Native bridge — Built — Local HTTP bridge with a random port and a secret per launch; keys, state and decrypted audio.</title>
+<rect x="871" y="716" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="872" y="726" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="946" y="745.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Native bridge</text>
+<text x="946" y="770" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<rect x="70" y="856" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<g>
+<title>fan-delivery — Built — Buyer-side device key, leases, passes, native bridge and heartbeat.</title>
+<rect x="180" y="884" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="181" y="894" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="255" y="913.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">fan-delivery</text>
+<text x="255" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>core-p2p — Building — Rolling leases, chunker, block store, encrypted swarm and release protocol.</title>
+<rect x="350" y="884" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="351" y="894" width="3" height="44" rx="1.5" fill="#C77700"/>
+<text x="425" y="913.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-p2p</text>
+<text x="425" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+</g>
+<g>
+<title>core-crypto — Built — Authorship, catalog, keys, AES-256 at rest and artist key backup.</title>
+<rect x="520" y="884" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="521" y="894" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="595" y="913.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-crypto</text>
+<text x="595" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>core-cloud — Built — Supabase REST/RPC client, auth session and the buyer bridge.</title>
+<rect x="690" y="884" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="691" y="894" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="765" y="913.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-cloud</text>
+<text x="765" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>core-chain — Building — Licence and edition terms plus Solana Bubblegum v2 transaction builders; devnet.</title>
+<rect x="860" y="884" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="861" y="894" width="3" height="44" rx="1.5" fill="#C77700"/>
+<text x="935" y="913.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-chain</text>
+<text x="935" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+</g>
+<rect x="70" y="1079" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<g>
+<title>Supabase — Built — Postgres, Auth, Storage and Realtime: accounts, projects, versions, store and swarm records.</title>
+<rect x="187" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="188" y="1117" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="262" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Supabase</text>
+<text x="262" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>fork-signer — Built — Hot licence signer: Stripe queue, serials, Solana mint/transfer/freeze and key release; off by default.</title>
+<rect x="357" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="358" y="1117" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="432" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">fork-signer</text>
+<text x="432" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>P2P swarm — Building — Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding.</title>
+<rect x="527" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="528" y="1117" width="3" height="44" rx="1.5" fill="#C77700"/>
+<text x="602" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">P2P swarm</text>
+<text x="602" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+</g>
+<g>
+<title>Stripe — Building — Checkout, Tax and Connect Express payouts; test mode and the checkout switch is off.</title>
+<rect x="697" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="698" y="1117" width="3" height="44" rx="1.5" fill="#C77700"/>
+<text x="772" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Stripe</text>
+<text x="772" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+</g>
+<g>
+<title>Solana devnet — Building — Bubblegum v2 licences in one MPL Core collection; devnet only, no mainnet.</title>
+<rect x="867" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="868" y="1117" width="3" height="44" rx="1.5" fill="#C77700"/>
+<text x="942" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Solana devnet</text>
+<text x="942" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+</g>
+<rect x="70" y="1269" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<g>
+<title>ForkMusicKeys — Built — Device seed and refresh tokens in one Keychain item.</title>
+<rect x="264" y="1297" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="265" y="1307" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="339" y="1326.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">ForkMusicKeys</text>
+<text x="339" y="1351" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Encrypted library — Built — FKR1 keys, FKB2 blocks, leases and terms; audio is decrypted only in memory.</title>
+<rect x="434" y="1297" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="435" y="1307" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="509" y="1326.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Encrypted library</text>
+<text x="509" y="1351" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>Music data folder — Built — account.json, network.json, licences and the terms served to other fans.</title>
+<rect x="604" y="1297" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="605" y="1307" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="679" y="1326.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Music data folder</text>
+<text x="679" y="1351" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<g>
+<title>P2P downloads — Built — Incoming release blocks from the artist, hosts and other fans, checked by cid.</title>
+<rect x="774" y="1297" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="775" y="1307" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="849" y="1326.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">P2P downloads</text>
+<text x="849" y="1351" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
+</g>
+<path d="M313.5 188 L313.5 209.4 L483.5 209.4 L483.5 188" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M546.5 188 L546.5 235 L179 235 L179 303" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M376.5 188 L376.5 222.2 L685 222.2 L685 188" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M823.5 188 L823.5 247.8 L1159 247.8 L1159 661.6 L946 661.6 L946 716" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M131.8 367 L131.8 388.1 L317.5 388.1 L317.5 367" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M163.3 367 L163.3 400.2 L477 400.2 L477 367" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M194.8 367 L194.8 412.3 L689 412.3 L689 367" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M226.3 367 L226.3 424.4 L827.5 424.4 L827.5 367" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M380.5 367 L380.5 436.6 L172 436.6 L172 515" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M519 367 L519 448.7 L512 448.7 L512 515" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M172 579 L172 600.1 L310.5 600.1 L310.5 579" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M373.5 579 L373.5 612.4 L394 612.4 L394 716" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M512 579 L512 624.7 L606 624.7 L606 716" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M682 579 L682 637 L436 637 L436 716" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M852 579 L852 649.3 L478 649.3 L478 716" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M1022 579 L1022 673.9 L776 673.9 L776 716" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M436 780 L436 814.9 L223.5 814.9 L223.5 884" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M946 780 L946 841.4 L286.5 841.4 L286.5 884" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M776 780 L776 828.1 L765 828.1 L765 884" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M223.5 948 L223.5 969 L58 969 L58 1204.8 L339 1204.8 L339 1297" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M286.5 948 L286.5 981 L1142 981 L1142 1242.3 L477.5 1242.3 L477.5 1297" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M595 948 L595 1017 L49.5 1017 L49.5 1254.8 L540.5 1254.8 L540.5 1297" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M425 948 L425 1005 L570.5 1005 L570.5 1107" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M733.5 948 L733.5 1041 L230.5 1041 L230.5 1107" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M935 948 L935 1065 L400.5 1065 L400.5 1107" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M796.5 948 L796.5 1053 L463.5 1053 L463.5 1107" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M262 1171 L262 1192.3 L390 1192.3 L390 1171" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M432 1171 L432 1217.3 L772 1217.3 L772 1171" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M474 1171 L474 1229.8 L942 1229.8 L942 1171" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M561 367 L561 460.8 L41 460.8 L41 1029 L633.5 1029 L633.5 1107" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M890.5 367 L890.5 472.9 L32.5 472.9 L32.5 801.6 L425 801.6 L425 884" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M886.5 188 L886.5 260.6 L1150.5 260.6 L1150.5 993 L293.5 993 L293.5 1107" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<rect x="363.4" y="203.7" width="70.2" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="398.5" y="212.5" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">starts server</text>
+<rect x="322.7" y="229.3" width="80.1" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="362.8" y="238.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">serves 127.0.0.1</text>
+<rect x="489.4" y="216.5" width="82.7" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="530.8" y="225.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">enforce on start</text>
+<rect x="1011.6" y="655.8" width="81.8" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="1052.5" y="664.7" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">keep-alive · seed</text>
+<rect x="183.1" y="382.3" width="83.1" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="224.6" y="391.2" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">store fragments</text>
+<rect x="276" y="394.4" width="88.2" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="320.1" y="403.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">library fragments</text>
+<rect x="423" y="406.6" width="37.8" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="441.9" y="415.4" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">passes</text>
+<rect x="484.1" y="418.7" width="85.6" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="526.9" y="427.6" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">network settings</text>
+<rect x="244.8" y="430.8" width="62.8" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="276.3" y="439.7" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">release page</text>
+<rect x="500.3" y="442.9" width="30.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="515.5" y="451.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">plays</text>
+<rect x="210.5" y="594.4" width="61.5" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="241.3" y="603.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">Buy · Stripe</text>
+<rect x="354.3" y="606.7" width="59" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="383.8" y="615.6" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">checkout UI</text>
+<rect x="520.1" y="619" width="77.7" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="559" y="627.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">decrypted audio</text>
+<rect x="516.5" y="631.3" width="84.9" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="559" y="640.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">SIWS · move back</text>
+<rect x="633.6" y="643.5" width="62.8" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="665" y="652.4" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">receipt page</text>
+<rect x="860.1" y="668.1" width="77.7" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="899" y="677" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">restore session</text>
+<rect x="297" y="809.1" width="65.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="329.8" y="818" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">native bridge</text>
+<rect x="572.1" y="835.6" width="88.2" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="616.3" y="844.5" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">key · state · audio</text>
+<rect x="735.4" y="822.4" width="70.2" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="770.5" y="831.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">refresh token</text>
+<rect x="153.8" y="1199" width="89.3" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="198.5" y="1207.9" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">device key · leases</text>
+<rect x="775.8" y="1236.5" width="68" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="809.8" y="1245.4" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">FKR1 · blocks</text>
+<rect x="245.7" y="1249" width="98.5" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="295" y="1257.9" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">FKB2 · FKM1 · FKR1</text>
+<rect x="457.6" y="999.3" width="80.3" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="497.8" y="1008.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">release protocol</text>
+<rect x="428.2" y="1035.3" width="107.5" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="482" y="1044.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">REST · RPC · Realtime</text>
+<rect x="621.8" y="1059.3" width="91.9" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="667.8" y="1068.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">tx layouts · licence</text>
+<rect x="597.4" y="1047.3" width="65.2" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="630" y="1056.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">key requests</text>
+<rect x="267.4" y="1186.5" width="117.1" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="326" y="1195.4" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">mint jobs · key requests</text>
+<rect x="554.8" y="1211.5" width="94.5" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="602" y="1220.4" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">payments · payouts</text>
+<rect x="650" y="1224" width="116" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="708" y="1232.9" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">mint · transfer · freeze</text>
+<rect x="298.1" y="1023.3" width="78.3" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="337.3" y="1032.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">download blocks</text>
+<rect x="195" y="795.9" width="67.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="228.8" y="804.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">limits · reach</text>
+<rect x="686.9" y="987.3" width="70.2" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="722" y="996.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">seed announce</text>
+<rect x="79" y="101" width="163" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="109" width="4" height="4" rx="1" fill="#E5342B"/>
+<text x="94" y="114" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">NATIVE SHELL (TAURI)</text>
+<rect x="79" y="280" width="183.7" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="288" width="4" height="4" rx="1" fill="#E5342B"/>
+<text x="94" y="293" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">LOCAL SERVER AND VIEWS</text>
+<rect x="79" y="492" width="203.9" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="500" width="4" height="4" rx="1" fill="#E5342B"/>
+<text x="94" y="505" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">BUYING, PLAYING AND OWNING</text>
+<rect x="79" y="693" width="282.2" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="701" width="4" height="4" rx="1" fill="#E5342B"/>
+<text x="94" y="706" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">SHARED UI, LOGIN AND THE NATIVE BRIDGE</text>
+<rect x="79" y="861" width="352.5" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="869" width="4" height="4" rx="1" fill="#E5342B"/>
+<text x="94" y="874" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">RUST CORE: DELIVERY, CRYPTO, NETWORK AND CLOUD</text>
+<rect x="79" y="1084" width="151.5" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="1092" width="4" height="4" rx="1" fill="#E5342B"/>
+<text x="94" y="1097" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">STORE AND NETWORK</text>
+<rect x="79" y="1274" width="253.9" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="1282" width="4" height="4" rx="1" fill="#E5342B"/>
+<text x="94" y="1287" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">KEYS, ENCRYPTED LIBRARY AND DATA</text>
+<line x1="70" y1="1405" x2="1130" y2="1405" stroke="#DCE5EE"/>
+<text x="70" y="1422" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-10-29</text>
+<text x="1130" y="1422" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5" text-anchor="end">35 components · 32 flows</text>
+</svg>
