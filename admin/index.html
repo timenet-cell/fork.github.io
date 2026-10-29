@@ -224,6 +224,18 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .qa-sev.critical,.qa-sev.high{background:var(--neg,#d0453a);color:#fff}
 .sg-badge{display:inline-block;min-width:8px;height:8px;margin-left:6px;border-radius:99px;vertical-align:middle;border:1.5px solid var(--card)}
 .sg-badge.red{background:#C5221F}.sg-badge.amber{background:#E8A200}
+.sg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sg-switches{display:flex;gap:18px;flex-wrap:wrap;margin:2px 0 10px}
+.sg-sw{display:grid;gap:4px;min-width:150px}
+.sg-lbl{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.sg-link{all:unset;cursor:pointer;color:var(--red);font-size:12.5px;text-decoration:underline;text-underline-offset:2px}
+.sg-link:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:3px}
+.sg-kpis{grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 8px}
+.sg-sub{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin:10px 0 4px}
+.sg-sub:first-child{margin-top:0}
+.sg-cnt{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 8px}
+.sg-cnt .chip{margin:0}
+@media (max-width:800px){.sg-grid{grid-template-columns:1fr}.sg-kpis{grid-template-columns:1fr}}
 .sg-bar{height:10px;background:var(--grid);border-radius:99px;overflow:hidden;margin:4px 0 2px}
 .sg-bar i{display:block;height:100%;background:#2E7D32;border-radius:99px}
 .sg-bar i.amber{background:#E8A200}.sg-bar i.red{background:#C5221F}
@@ -428,7 +440,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       </div>
     </div>
     <div id="t-signer" class="hidden">
-      <p class="sy-note">The switch the mint signer checks before every mint. It is Off until you turn it on. The network is fixed in the database and cannot be changed here.</p>
+      <p class="sy-note">The switch the mint signer checks before every mint. It is Off until you turn it on. The network is fixed in the database and cannot be changed here. The cards below the switch are read-only; they show what the database lets an administrator read.</p>
       <div id="sg-err" class="msg" role="status" aria-live="polite"></div>
       <div class="box" id="sg-load">
         <div class="tabhead"><h2 style="margin:0">Load</h2><span id="sg-load-state"></span></div>
@@ -436,7 +448,13 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       </div>
       <div id="sg-body" class="hidden">
         <div class="box">
-          <div class="tabhead"><h2 style="margin:0">Signer switch</h2><span id="sg-state"></span></div>
+          <div class="tabhead"><h2 style="margin:0">Signer switch</h2></div>
+          <div class="sg-switches">
+            <div class="sg-sw"><span class="sg-lbl">Signer</span><span id="sg-state"></span></div>
+            <div class="sg-sw"><span class="sg-lbl">Store checkout</span><span id="sg-checkout"></span>
+              <button class="sg-link" id="sg-checkout-link" type="button">Edit in Platform settings</button>
+              <span class="note" id="sg-checkout-note"></span></div>
+          </div>
           <div class="qa-act"><button id="sg-toggle" type="button">Turn on</button></div>
           <table><tbody>
             <tr><td>Network</td><td id="sg-net"></td></tr>
@@ -447,8 +465,30 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
           <div class="qa-act"><button id="sg-save" type="button">Save caps</button></div>
         </div>
         <div class="box">
-          <div class="tabhead"><h2 style="margin:0">Mint activity</h2></div>
+          <div class="tabhead"><h2 style="margin:0">Mint jobs</h2><span class="note">Last 24 hours</span></div>
           <div id="sg-jobs" class="empty"></div>
+        </div>
+        <div class="sg-grid">
+          <div class="box">
+            <div class="tabhead"><h2 style="margin:0">Freezing</h2><span id="sg-freeze-state"></span></div>
+            <p class="note">Licences from releases with resale off are frozen on chain after minting. Waiting means minted, still in custody and not frozen yet.</p>
+            <div id="sg-freeze" class="empty">Loading…</div>
+          </div>
+          <div class="box">
+            <div class="tabhead"><h2 style="margin:0">Settlement</h2><span id="sg-settle-state"></span></div>
+            <p class="note">After a mint, the signer asks the settlement function to pay the artist and the store. Failures are retried by the 10-minute cron; the database does not store them separately, so this shows orders still waiting (minted) and failed orders.</p>
+            <div id="sg-settle" class="empty">Loading…</div>
+          </div>
+          <div class="box">
+            <div class="tabhead"><h2 style="margin:0">Key requests</h2><span id="sg-keys-state"></span></div>
+            <p class="note">Devices ask the signer for a release key. The database only shows a key request to the account that made it, so this lists the ones this admin account can see.</p>
+            <div id="sg-keys" class="empty">Loading…</div>
+          </div>
+          <div class="box">
+            <div class="tabhead"><h2 style="margin:0">Chain reserve</h2><span id="sg-reserve-state"></span></div>
+            <p class="note">Money collected for chain costs against what the signer spent. The fee payer balance itself is not stored in the database; the signer reads it from the chain.</p>
+            <div id="sg-reserve" class="empty">Loading…</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1463,7 +1503,7 @@ const SG = (() => {
   function renderJobs(jobs, desdeTxt) {
     const c = contagem(jobs);
     if (!c.length) return 'No mint jobs ' + esc(desdeTxt) + '.';
-    return '<table><tbody>' + c.map(([st, n]) => '<tr><td>' + esc(st) + '</td><td class="n">' + n + '</td></tr>').join('') + '</tbody></table>';
+    return '<div class="sg-cnt">' + c.map(([st, n]) => '<span class="chip">' + esc(st) + ' · ' + n + '</span>').join('') + '</div>' + renderMintRows((jobs || []).slice(0, 8), desdeTxt);
   }
   function quem(by, contas) {
     if (!by) return 'unknown';
@@ -1513,16 +1553,129 @@ const SG = (() => {
       '<table><tbody><tr><td>Waiting to mint</td><td class="n">' + q + '</td></tr><tr><td>Oldest waiting</td><td>' + (q > 0 ? esc(ida ?? '—') : 'none waiting') + '</td></tr></tbody></table>' +
       '<div style="margin-top:8px;font-size:12.5px;color:var(--muted)">Mints started per hour, last 24 hours (dashed = hourly cap)</div>' + spark(r.hourly_starts, r.hour_cap);
   }
-  return { valida, contagem, renderJobs, quem, esc, pct, estadoCarga, idade, spark, renderCarga };
+  // Formatadores: nunca inventam um valor; sem leitura mostram um traco.
+  const num = n => typeof n === 'number' && isFinite(n) ? n.toLocaleString('en-US') : '—';
+  const euros = c => typeof c === 'number' && isFinite(c) ? (c / 100).toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—';
+  const dinheiro = m => typeof m === 'number' && isFinite(m) ? (m / 1000).toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 3 }) : '—';
+  function data(iso) {
+    const t = Date.parse(iso);
+    if (!iso || isNaN(t)) return '—';
+    return new Date(t).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+  function idCurto(id) { return id ? String(id).slice(0, 8) : '—'; }
+  // Tabela compacta: as colunas trazem o proprio HTML ja escapado.
+  function linhas(rows, cols, vazio) {
+    if (!rows || !rows.length) return '<div class="empty">' + esc(vazio) + '</div>';
+    return '<div class="scroll"><table><thead><tr>' + cols.map(c => '<th>' + esc(c.t) + '</th>').join('') +
+      '</tr></thead><tbody>' + rows.map(r => '<tr>' + cols.map(c => '<td' + (c.cls ? ' class="' + c.cls + '"' : '') + '>' + c.f(r) + '</td>').join('') + '</tr>').join('') +
+      '</tbody></table></div>';
+  }
+  function renderMintRows(rows, desdeTxt) {
+    return linhas(rows, [
+      { t: 'Job', cls: 'cid', f: r => esc(idCurto(r.id)) },
+      { t: 'Time', cls: 'd', f: r => esc(data(r.created_at)) },
+      { t: 'Status', f: r => '<span class="chip">' + esc(r.status) + '</span>' },
+      { t: 'Kind', f: r => esc(r.kind || 'mint') },
+      { t: 'Attempts', cls: 'n', f: r => esc(num(Number(r.attempts) || 0)) },
+      { t: 'Last error', f: r => r.tx_error ? esc(r.tx_error) : '—' },
+    ], 'No mint jobs ' + desdeTxt + '.');
+  }
+  // O interruptor da loja e outra linha de platform_settings (migracao 19); a pagina so o mostra.
+  function estadoCheckout(row) {
+    if (!row) return { k: 'none', txt: 'Not set', msg: 'Waiting for the database update (migration 19).' };
+    const on = row.value === true || row.value === 'true';
+    return { k: on ? 'on' : 'off', txt: on ? 'On' : 'Off', msg: '' };
+  }
+  // Contagens do congelamento (migracao 32): pendentes primeiro, depois as ja congeladas.
+  function estadoFrio(pend, frozen) {
+    if (pend == null && frozen == null) return { k: 'none', txt: 'Not loaded' };
+    const p = Number(pend) || 0, f = Number(frozen) || 0;
+    if (p && f) return { k: 'wait', txt: p + ' waiting · ' + f + ' frozen' };
+    if (p) return { k: 'wait', txt: p + ' waiting' };
+    if (f) return { k: 'ok', txt: f + ' frozen' };
+    return { k: 'ok', txt: 'Nothing to freeze' };
+  }
+  function estadoChaves(rows) {
+    if (!rows) return { k: 'none', txt: 'Not loaded' };
+    const pend = rows.filter(r => r.status === 'pending').length;
+    if (pend) return { k: 'wait', txt: pend + ' pending' };
+    return { k: 'ok', txt: rows.length ? 'No pending' : 'Nothing visible' };
+  }
+  // A base nao guarda falhas de liquidacao: mostra o que ainda espera (minted) e o que falhou (failed).
+  function estadoLiquidacao(rows) {
+    if (!rows) return { k: 'none', txt: 'Not loaded' };
+    const failed = rows.filter(r => r.status === 'failed').length;
+    const minted = rows.filter(r => r.status === 'minted').length;
+    if (failed && minted) return { k: 'bad', txt: failed + ' failed · ' + minted + ' waiting' };
+    if (failed) return { k: 'bad', txt: failed + ' failed' };
+    if (minted) return { k: 'wait', txt: minted + ' waiting' };
+    return { k: 'ok', txt: 'Nothing waiting' };
+  }
+  function estadoReserva(f) {
+    if (!f) return { k: 'none', txt: 'Not loaded' };
+    if (f.below_floor) return { k: 'bad', txt: 'Below floor' };
+    return { k: 'ok', txt: 'Above floor' };
+  }
+  function renderFrio(pendRows, frozenRows) {
+    const pendCols = [
+      { t: 'Licence', cls: 'cid', f: r => esc(idCurto(r.id)) },
+      { t: 'Asset', cls: 'cid', f: r => esc(idCurto(r.asset_id)) },
+      { t: 'Issued', cls: 'd', f: r => esc(data(r.issued_at)) },
+    ];
+    const frozenCols = [
+      { t: 'Licence', cls: 'cid', f: r => esc(idCurto(r.id)) },
+      { t: 'Asset', cls: 'cid', f: r => esc(idCurto(r.asset_id)) },
+      { t: 'Frozen', cls: 'd', f: r => esc(data(r.frozen_at)) },
+    ];
+    return '<div class="sg-sub">Waiting to freeze</div>' + linhas(pendRows, pendCols, 'No licences waiting to freeze.') +
+      '<div class="sg-sub">Frozen</div>' + linhas(frozenRows, frozenCols, 'No frozen licences yet.');
+  }
+  function renderChaves(rows) {
+    return linhas((rows || []).slice(0, 8), [
+      { t: 'Requested', cls: 'd', f: r => esc(data(r.created_at)) },
+      { t: 'Status', f: r => '<span class="chip">' + esc(r.status) + '</span>' },
+      { t: 'Kind', f: r => esc(r.kind || '—') },
+      { t: 'Reason', f: r => r.reason ? esc(r.reason) : '—' },
+    ], 'No key requests visible to this admin account.');
+  }
+  function renderLiquidacao(rows) {
+    return linhas((rows || []).slice(0, 8), [
+      { t: 'Order', cls: 'cid', f: r => esc(idCurto(r.id)) },
+      { t: 'Status', f: r => '<span class="chip">' + esc(r.status) + '</span>' },
+      { t: 'Kind', f: r => esc(r.kind || 'primary') },
+      { t: 'Amount', cls: 'n', f: r => esc(euros(r.amount_minor)) },
+      { t: 'Paid', cls: 'd', f: r => esc(data(r.paid_at || r.created_at)) },
+    ], 'No orders waiting to settle.');
+  }
+  function renderReserva(f) {
+    if (!f) return '<div class="empty">Not loaded.</div>';
+    const k = (v, t, cls) => '<div class="kpi' + (cls ? ' ' + cls : '') + '"><b>' + esc(v) + '</b><span>' + esc(t) + '</span></div>';
+    const alertas = (f.open_alerts || []).map(a => '<div class="msg cr-alert">' + esc(a.message) + '</div>').join('');
+    return '<div class="kpis sg-kpis">' +
+      k(dinheiro(f.reserve_milli), 'Reserve', f.reserve_milli < 0 ? 'cr-neg' : 'cr-pos') +
+      k(dinheiro(f.floor_milli), 'Floor: 3 months of chain spend') +
+      k(dinheiro(f.surplus_milli), 'Surplus for promos', Number(f.surplus_milli) > 0 ? 'cr-promo' : '') +
+      '</div>' +
+      '<div class="note">Collected ' + esc(dinheiro(f.collected_milli)) + ' · spent on chain ' + esc(dinheiro(f.chain_spent_milli)) + '.</div>' +
+      (f.below_floor ? '<div class="cr-note">The reserve is below its 3-month floor.</div>' : '') + alertas;
+  }
+  return { valida, contagem, renderJobs, quem, esc, pct, estadoCarga, idade, spark, renderCarga,
+    num, euros, dinheiro, data, idCurto, linhas, renderMintRows, estadoCheckout, estadoFrio, estadoChaves,
+    estadoLiquidacao, estadoReserva, renderFrio, renderChaves, renderLiquidacao, renderReserva };
 })();
 // SG-PURE-END
 (() => {
   const el = id => document.getElementById(id);
   let linha = null;
   const falta = e => /does not exist|schema cache/i.test(e.message || '') || e.code === '42P01' || e.code === 'PGRST205';
+  const semColuna = e => !!e && (e.code === '42703' || /column .* does not exist/i.test(e.message || ''));
+  const FALTA = n => 'Waiting for the database update (migration ' + n + ').';
+  const chip = e => e.k === 'none'
+    ? '<span class="qa-sev">' + SG.esc(e.txt) + '</span>'
+    : '<span class="sg-st' + (e.k === 'bad' || e.k === 'off' ? ' red' : e.k === 'wait' ? ' amber' : '') + '">' + SG.esc(e.txt) + '</span>';
   async function desenha(contas) {
     const r = linha;
-    el('sg-state').innerHTML = '<span class="qa-sev' + (r.enabled ? '' : ' critical') + '">' + (r.enabled ? 'On' : 'Off') + '</span>';
+    el('sg-state').innerHTML = chip({ k: r.enabled ? 'ok' : 'off', txt: r.enabled ? 'On' : 'Off' });
     el('sg-toggle').textContent = r.enabled ? 'Turn off' : 'Turn on';
     el('sg-net').textContent = r.network;
     el('sg-h').value = r.hourly_cap; el('sg-d').value = r.daily_cap;
@@ -1530,13 +1683,19 @@ const SG = (() => {
   }
   async function jobs() {
     const desde = new Date(Date.now() - 864e5).toISOString();
-    const { data, error } = await sb.from('mint_jobs').select('status').gte('created_at', desde).limit(10000);
-    // sem leitura nao se mostra nada
-    if (error) { el('sg-jobs').textContent = 'Mint activity is not available.'; return; }
-    el('sg-jobs').className = ''; el('sg-jobs').innerHTML = SG.renderJobs(data, 'created in the last 24 hours');
+    const { data, error } = await sb.from('mint_jobs')
+      .select('id, status, kind, attempts, tx_error, created_at')
+      .gte('created_at', desde).order('created_at', { ascending: false }).limit(10000);
+    if (error) {
+      el('sg-jobs').className = 'empty';
+      el('sg-jobs').textContent = falta(error) ? FALTA(17) : semColuna(error) ? FALTA(19) : 'Mint jobs are not available.';
+      return;
+    }
+    el('sg-jobs').className = '';
+    el('sg-jobs').innerHTML = SG.renderJobs(data, 'created in the last 24 hours');
   }
   // Carga (migracao 70): signer_load(); o selo do separador actualiza-se daqui, de qualquer separador
-  const FALTA_RPC = 'Waiting for the database update (supabase db push).';
+  const FALTA_RPC = FALTA(70);
   function selo(e) {
     el('sg-badge').className = e.cor ? 'sg-badge ' + e.cor : '';
     el('sg-badge').title = e.cor ? e.txt : '';
@@ -1546,27 +1705,113 @@ const SG = (() => {
     if (error || !data) {
       selo({ cor: '' }); el('sg-load-state').innerHTML = '';
       el('sg-load-body').className = 'empty';
-      el('sg-load-body').textContent = error && (falta(error) || error.code === 'PGRST202' || error.code === '42883') ? FALTA_RPC : 'Load is not available' + (error ? ': ' + error.message : '.');
+      el('sg-load-body').textContent = error && (falta(error) || error.code === 'PGRST202' || error.code === '42883') ? FALTA_RPC : 'Could not load the signer load.';
       return;
     }
     const e = SG.estadoCarga(data); selo(e);
     el('sg-load-state').innerHTML = '<span class="sg-st ' + e.cor + '">' + SG.esc(e.txt) + '</span>';
     el('sg-load-body').className = ''; el('sg-load-body').innerHTML = SG.renderCarga(data);
   }
+  // A loja tem o seu proprio interruptor em platform_settings; mostra-se ao lado do signer, sem o editar aqui.
+  async function interruptorLoja() {
+    const box = el('sg-checkout'), note = el('sg-checkout-note');
+    const { data, error } = await sb.from('platform_settings').select('key, value').eq('key', 'store.checkout_enabled').maybeSingle();
+    if (error) {
+      box.innerHTML = chip({ k: 'none', txt: 'Not loaded' });
+      note.textContent = falta(error) ? FALTA(17) : 'Could not load the checkout switch.';
+      return;
+    }
+    const e = SG.estadoCheckout(data);
+    box.innerHTML = chip(e);
+    note.textContent = e.msg || '';
+  }
+  // Congelamento (migracao 32): licencas de edicoes sem revenda, ja cunhadas e ainda na custodia.
+  async function frio() {
+    if (!linha) return;
+    const body = el('sg-freeze'), state = el('sg-freeze-state');
+    const cols = 'id, asset_id, issued_at, frozen_at, status, editions!inner(resale_allowed, store_releases!inner(network, collection_address))';
+    const pend = sb.from('licences').select(cols, { count: 'exact' })
+      .eq('status', 'custodial').is('wallet', null).is('frozen_at', null).not('asset_id', 'is', null)
+      .eq('editions.resale_allowed', false).eq('editions.store_releases.network', linha.network)
+      .not('editions.store_releases.collection_address', 'is', null)
+      .order('issued_at', { ascending: true }).limit(5);
+    const frozen = sb.from('licences').select(cols, { count: 'exact' })
+      .eq('status', 'frozen').eq('editions.store_releases.network', linha.network)
+      .order('frozen_at', { ascending: false }).limit(5);
+    const [p, f] = await Promise.all([pend, frozen]);
+    const err = p.error || f.error;
+    if (err) {
+      body.className = 'empty';
+      body.textContent = falta(err) ? FALTA(32) : semColuna(err) ? FALTA(22) : 'Freezing is not available.';
+      state.innerHTML = ''; return;
+    }
+    const e = SG.estadoFrio(p.count, f.count);
+    state.innerHTML = chip(e);
+    body.className = '';
+    body.innerHTML = SG.renderFrio(p.data, f.data);
+  }
+  // Pedidos de chave (migracao 20): a RLS so mostra a um administrador os pedidos da propria conta.
+  async function chaves() {
+    const body = el('sg-keys'), state = el('sg-keys-state');
+    const { data, error } = await sb.from('key_requests')
+      .select('id, status, kind, reason, created_at, release_id')
+      .order('created_at', { ascending: false }).limit(20);
+    if (error) {
+      body.className = 'empty';
+      body.textContent = falta(error) ? FALTA(20) : 'Key requests are not available.';
+      state.innerHTML = ''; return;
+    }
+    const e = SG.estadoChaves(data);
+    state.innerHTML = chip(e);
+    body.className = '';
+    body.innerHTML = SG.renderChaves(data);
+  }
+  // Liquidacao: a base nao guarda as falhas do signer; guarda as ordens minted (a espera) e failed.
+  async function liquidacao() {
+    const body = el('sg-settle'), state = el('sg-settle-state');
+    const { data, error } = await sb.from('orders')
+      .select('id, status, kind, amount_minor, created_at, paid_at')
+      .in('status', ['minted', 'failed'])
+      .order('created_at', { ascending: false }).limit(20);
+    if (error) {
+      body.className = 'empty';
+      body.textContent = falta(error) ? FALTA(17) : 'Settlement is not available.';
+      state.innerHTML = ''; return;
+    }
+    const e = SG.estadoLiquidacao(data);
+    state.innerHTML = chip(e);
+    body.className = '';
+    body.innerHTML = SG.renderLiquidacao(data);
+  }
+  // Reserva da cadeia (migracao 47): o saldo do fee payer nao esta na base; o signer le-o da cadeia.
+  async function cadeia() {
+    const body = el('sg-reserve'), state = el('sg-reserve-state');
+    const { data, error } = await sb.rpc('chain_reserve');
+    if (error || !data) {
+      body.className = 'empty';
+      body.textContent = error && (falta(error) || error.code === 'PGRST202' || error.code === '42883') ? FALTA(47) : 'Could not load the chain reserve.';
+      state.innerHTML = ''; return;
+    }
+    const e = SG.estadoReserva(data);
+    state.innerHTML = chip(e);
+    body.className = '';
+    body.innerHTML = SG.renderReserva(data);
+  }
   async function carrega() {
     el('sg-err').textContent = ''; carga();
     const { data, error } = await sb.from('signer_switch').select('enabled, hourly_cap, daily_cap, network, updated_at, updated_by').eq('id', true).maybeSingle();
     if (error || !data) { linha = null; el('sg-body').classList.add('hidden');
-      el('sg-err').textContent = error ? (falta(error) ? 'Waiting for the database update (supabase db push, migration 17).' : 'Could not load the signer switch: ' + error.message) : 'The signer switch row is missing.'; return; }
+      el('sg-err').textContent = error ? (falta(error) ? FALTA(17) : 'Could not load the signer switch.') : 'The signer switch row is missing.'; return; }
     linha = data; el('sg-body').classList.remove('hidden');
     const c = await sb.rpc('admin_list_accounts');   // so para mostrar o email de quem mudou; sem ele mostra-se o id curto
-    await desenha(c.error ? null : c.data); jobs();
+    await desenha(c.error ? null : c.data);
+    await Promise.all([interruptorLoja(), jobs(), frio(), chaves(), liquidacao(), cadeia()]);
   }
   async function grava(campos, btn) {
     btn.disabled = true; el('sg-err').textContent = '';
     const { data, error } = await sb.from('signer_switch').update(campos).eq('id', true).select('enabled, hourly_cap, daily_cap, network, updated_at, updated_by');
     btn.disabled = false;
-    if (error || !data || !data.length) { el('sg-err').textContent = 'Not saved: ' + (error ? error.message : 'the database did not allow this change.'); return; }
+    if (error || !data || !data.length) { el('sg-err').textContent = 'Not saved. The database did not allow this change.'; return; }
     linha = data[0]; carrega();
   }
   el('sg-toggle').addEventListener('click', ev => {
@@ -1583,13 +1828,27 @@ const SG = (() => {
     if (!confirm('Change the caps to ' + h.n + ' per hour and ' + d.n + ' per day?')) return;
     grava({ hourly_cap: h.n, daily_cap: d.n }, ev.currentTarget);
   });
+  el('sg-checkout-link').addEventListener('click', () => {
+    const b = document.querySelector('.tabs button[data-tab="t-settings"]');
+    if (b) b.click();
+    setTimeout(() => {
+      const row = el('ps-store_checkout_enabled');
+      if (row) { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (row.focus) row.focus(); }
+    }, 50);
+  });
   el('tab-signer').addEventListener('click', () => { if (linha === null) carrega(); else carga(); });
   // Selo visivel em qualquer separador: ao entrar e de 60 em 60 s enquanto ha sessao
   async function tique() { const { data } = await sb.auth.getSession(); if (data && data.session) carga(); }
   tique(); setInterval(tique, 60000);
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_IN') tique(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-signer').classList.contains('hidden')) carrega(); else linha = null; });
-  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { linha = null; el('sg-body').classList.add('hidden'); el('sg-jobs').innerHTML = ''; selo({ cor: '' }); el('sg-load-body').textContent = ''; el('sg-load-state').innerHTML = ''; } });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') {
+    linha = null; el('sg-body').classList.add('hidden'); selo({ cor: '' });
+    el('sg-load-body').textContent = ''; el('sg-load-state').innerHTML = '';
+    el('sg-checkout').innerHTML = ''; el('sg-checkout-note').textContent = '';
+    for (const id of ['sg-jobs', 'sg-freeze', 'sg-keys', 'sg-settle', 'sg-reserve']) { el(id).className = 'empty'; el(id).textContent = ''; }
+    for (const id of ['sg-freeze-state', 'sg-keys-state', 'sg-settle-state', 'sg-reserve-state']) el(id).innerHTML = '';
+  } });
 })();
 </script>
 </body>
