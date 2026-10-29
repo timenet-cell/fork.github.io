@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29 07:37",
+  "updated": "2026-10-29 07:47",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
@@ -22,7 +22,7 @@
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
       "p": 99,
-      "s": "Code complete, database updated · left: relay server, real-router test, iPhone test; the phone does not use multi-source yet",
+      "s": "Code complete, database updated; phone now downloads from up to 4 computers at once · left: relay server, real-router test, iPhone test",
       "prio": 1
     },
     {
@@ -165,8 +165,8 @@
     },
     {
       "t": "P2P upload speed",
-      "p": 85,
-      "s": "Chunked upload, tunnel tweaks and speed test merged · left: test on a real phone/real router; phone does not yet use multi-source download",
+      "p": 90,
+      "s": "Chunked upload, tunnel tweaks, speed test and phone multi-source download merged · left: test on a real phone/real router with 2+ computers online",
       "prio": 2
     },
     {
