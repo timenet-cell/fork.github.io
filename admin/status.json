@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29 07:47",
+  "updated": "2026-10-29 16:37",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
@@ -10,7 +10,7 @@
     {
       "t": "Store: Stripe + Solana licence registry",
       "p": 99,
-      "s": "All code, keys and pre-flight done · left: devnet SOL, one test purchase · needs you: the rehearsal; for real money also the multisig, mainnet tree and Stripe live mode",
+      "s": "Devnet ready (registry, collection, 2.25 test SOL, keys published); signing service running on the MacBook Pro · left: turn on the signer and checkout switches, one test purchase · for real money later: multisig, mainnet registry (~0.3 SOL), Stripe live",
       "prio": 1
     },
     {
@@ -117,8 +117,8 @@
     },
     {
       "t": "Signer tab (admin)",
-      "p": 90,
-      "s": "RPC live · left: UI polish and full coverage (site repo)",
+      "p": 100,
+      "s": "Live 29 Oct: switch and caps, mint jobs, freezing, settlement, key requests, chain reserve, and the store checkout switch beside it",
       "prio": 2
     },
     {
