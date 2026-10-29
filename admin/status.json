@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29 07:21",
+  "updated": "2026-10-29 07:37",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
@@ -333,8 +333,8 @@
     },
     {
       "t": "Save Version blue ball identical on Intel and Apple silicon",
-      "p": 0,
-      "s": "Decided 29 Oct: both builds behave the same · left: check and fix the Intel build, then test on the Intel computer",
+      "p": 90,
+      "s": "Merged 29 Oct: same click, double click, tooltip and unsaved dot (now pulses and blinks on both); Intel build compiles · left: check by eye on the Intel computer in the next build",
       "prio": 2
     },
     {
