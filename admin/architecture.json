@@ -1,0 +1,1988 @@
+{
+  "updated": "2026-10-29",
+  "brand": {
+    "background": "#EEF3F8",
+    "card": "#F8FAFC",
+    "line": "#DCE5EE",
+    "text": "#141A22",
+    "muted": "#5B6675",
+    "accent": "#E5342B"
+  },
+  "views": {
+    "overview": {
+      "title": "Fork ecosystem",
+      "subtitle": "Fork Studio, Fork Music, the cloud, the P2P network and the phone",
+      "rows": [
+        {
+          "id": "devices",
+          "groups": [
+            {
+              "id": "apps",
+              "title": "On the computer and the phone",
+              "nodes": [
+                "studio",
+                "music",
+                "labels",
+                "manager",
+                "events",
+                "phone"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cloud",
+          "groups": [
+            {
+              "id": "cloud-and-site",
+              "title": "Fork cloud, site and swarm",
+              "nodes": [
+                "supabase",
+                "edge-functions",
+                "site",
+                "admin",
+                "connect",
+                "swarm"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "network",
+          "groups": [
+            {
+              "id": "network-and-money",
+              "title": "Relay, licences and money",
+              "nodes": [
+                "relay",
+                "signer",
+                "stripe",
+                "solana",
+                "github",
+                "backup"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "studio": {
+      "title": "Fork Studio inside",
+      "subtitle": "Native shell, local server and modules, shared UI, Rust core, data and the flows out",
+      "rows": [
+        {
+          "id": "native",
+          "groups": [
+            {
+              "id": "native-shell",
+              "title": "Native shell (Tauri)",
+              "nodes": [
+                "studio-shell",
+                "studio-sidecar",
+                "studio-native",
+                "studio-updater",
+                "studio-windows"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "server",
+          "groups": [
+            {
+              "id": "local-server",
+              "title": "Local server and data model",
+              "nodes": [
+                "studio-server",
+                "studio-library",
+                "studio-versions",
+                "studio-structure",
+                "studio-store",
+                "studio-music"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "screens",
+          "groups": [
+            {
+              "id": "studio-screens",
+              "title": "Studio screens",
+              "nodes": [
+                "studio-samples",
+                "studio-dj",
+                "studio-network",
+                "studio-rooms",
+                "studio-live",
+                "studio-mobile"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "modules",
+          "groups": [
+            {
+              "id": "studio-modules",
+              "title": "Studio modules",
+              "nodes": [
+                "studio-settings",
+                "studio-feedback",
+                "studio-backup",
+                "studio-calendar",
+                "studio-assistant",
+                "f909-bridge"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "shared",
+          "groups": [
+            {
+              "id": "shared-ui",
+              "title": "Shared UI and the local API",
+              "nodes": [
+                "fork-ui-py",
+                "ui-kit",
+                "fork-barra",
+                "fork-ui-compra",
+                "studio-api",
+                "studio-ipc"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rust-content",
+          "groups": [
+            {
+              "id": "rust-core-content",
+              "title": "Rust core: authorship, audio and versions",
+              "nodes": [
+                "core-crypto",
+                "core-audio",
+                "core-daw",
+                "core-version",
+                "core-rbexport",
+                "fork-daw-cli"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rust-delivery",
+          "groups": [
+            {
+              "id": "rust-core-delivery",
+              "title": "Rust core: network, cloud and platform",
+              "nodes": [
+                "core-p2p",
+                "core-rtc",
+                "core-cloud",
+                "core-chain",
+                "fan-delivery",
+                "desktop"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "outside",
+          "groups": [
+            {
+              "id": "outside",
+              "title": "Outside Fork Studio",
+              "nodes": [
+                "supabase",
+                "signer",
+                "swarm",
+                "phone",
+                "site"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "data",
+          "groups": [
+            {
+              "id": "data",
+              "title": "Data and disks",
+              "nodes": [
+                "catalog-db",
+                "block-store",
+                "keychain",
+                "data-local"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "music": {
+      "title": "Fork Music inside",
+      "subtitle": "Native shell, local server and views, shared buying UI, Rust core, encrypted library and the store flows",
+      "rows": [
+        {
+          "id": "native",
+          "groups": [
+            {
+              "id": "music-native",
+              "title": "Native shell (Tauri)",
+              "nodes": [
+                "music-shell",
+                "music-sidecar",
+                "music-leases",
+                "music-heartbeat"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "local",
+          "groups": [
+            {
+              "id": "music-server",
+              "title": "Local server and views",
+              "nodes": [
+                "music-server",
+                "music-store",
+                "music-library",
+                "music-passes",
+                "music-network",
+                "music-settings"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "buyer",
+          "groups": [
+            {
+              "id": "buyer-flows",
+              "title": "Buying, playing and owning",
+              "nodes": [
+                "music-release",
+                "music-checkout",
+                "music-player",
+                "music-wallet",
+                "music-receipts",
+                "music-session"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "shared",
+          "groups": [
+            {
+              "id": "music-shared",
+              "title": "Shared UI, login and the native bridge",
+              "nodes": [
+                "fork-ui-py",
+                "fork-ui-compra",
+                "fork-barra",
+                "music-login",
+                "music-bridge"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rust",
+          "groups": [
+            {
+              "id": "music-rust",
+              "title": "Rust core: delivery, crypto, network and cloud",
+              "nodes": [
+                "fan-delivery",
+                "core-p2p",
+                "core-crypto",
+                "core-cloud",
+                "core-chain"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "outside",
+          "groups": [
+            {
+              "id": "music-outside",
+              "title": "Store and network",
+              "nodes": [
+                "supabase",
+                "signer",
+                "swarm",
+                "stripe",
+                "solana"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "data",
+          "groups": [
+            {
+              "id": "music-data",
+              "title": "Keys, encrypted library and data",
+              "nodes": [
+                "music-keychain",
+                "music-encrypted-lib",
+                "music-data",
+                "music-downloads"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "studio",
+      "label": "Fork Studio",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Producer app: projects, samples, signed versions, store, network and phone access.",
+      "source": "apps/fork-studio",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "music",
+      "label": "Fork Music",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Fan app: store, library, passes, encrypted delivery and the shared player.",
+      "source": "apps/fork-music",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "labels",
+      "label": "Fork Labels",
+      "area": "Other apps",
+      "status": "built",
+      "description": "Label management app: releases, submissions, contracts and payouts.",
+      "source": "apps/fork-labels",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "manager",
+      "label": "Fork Manager",
+      "area": "Other apps",
+      "status": "built",
+      "description": "Management app: gigs, invoices, press, riders, social and accounts.",
+      "source": "apps/fork-manager",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "events",
+      "label": "Fork Events",
+      "area": "Other apps",
+      "status": "planned",
+      "description": "Event manager app; only the shared shell and an empty page exist.",
+      "source": "apps/fork-events",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "phone",
+      "label": "Phone browser",
+      "area": "Phone",
+      "status": "built",
+      "description": "Connect PWA and Studio /m: browse projects, palette, samples and send files over P2P.",
+      "source": "apps/fork-p2p-web, apps/fork-studio/server/apps/studio/mobile.py",
+      "views": [
+        "overview",
+        "studio"
+      ]
+    },
+    {
+      "id": "supabase",
+      "label": "Supabase",
+      "area": "Cloud",
+      "status": "built",
+      "description": "Postgres, Auth, Storage and Realtime: accounts, projects, versions, store and swarm records.",
+      "source": "supabase/migrations, supabase/functions",
+      "views": [
+        "overview",
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "edge-functions",
+      "label": "Edge Functions",
+      "area": "Cloud",
+      "status": "built",
+      "description": "Server-side functions: checkout, webhook, settle, certs, invites, verify and wallet.",
+      "source": "supabase/functions",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "site",
+      "label": "forkgate.io site",
+      "area": "Site",
+      "status": "built",
+      "description": "Landing, beta signup, protocol survey, verify and licence pages, admin and /download.",
+      "source": "index.html, protocol/, verify/, r/, admin/",
+      "views": [
+        "overview",
+        "studio"
+      ]
+    },
+    {
+      "id": "admin",
+      "label": "Fork Admin",
+      "area": "Site",
+      "status": "built",
+      "description": "Admin dashboard: development status, architecture, traffic, reports, signer, QA and support.",
+      "source": "admin/index.html",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "connect",
+      "label": "/connect PWA",
+      "area": "Site",
+      "status": "built",
+      "description": "Installable phone web app: Studio tunnel, swarm reader and file upload.",
+      "source": "apps/fork-p2p-web, connect/",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "swarm",
+      "label": "P2P swarm",
+      "area": "Network",
+      "status": "building",
+      "description": "Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding.",
+      "source": "packages/core-p2p/src/swarm, apps/fork-studio/src-tauri/src/enxame.rs",
+      "views": [
+        "overview",
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "relay",
+      "label": "fork-relay",
+      "area": "Network",
+      "status": "building",
+      "description": "Circuit relay and rendezvous for NAT traversal; code exists, no server deployed.",
+      "source": "apps/fork-relay",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "signer",
+      "label": "fork-signer",
+      "area": "Store",
+      "status": "built",
+      "description": "Hot licence signer: Stripe queue, serials, Solana mint/transfer/freeze and key release; off by default.",
+      "source": "apps/fork-signer",
+      "views": [
+        "overview",
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "stripe",
+      "label": "Stripe",
+      "area": "Store",
+      "status": "building",
+      "description": "Checkout, Tax and Connect Express payouts; test mode and the checkout switch is off.",
+      "source": "supabase/functions/store_checkout, apps/fork-signer/src/stripe.rs",
+      "views": [
+        "overview",
+        "music"
+      ]
+    },
+    {
+      "id": "solana",
+      "label": "Solana devnet",
+      "area": "Store",
+      "status": "building",
+      "description": "Bubblegum v2 licences in one MPL Core collection; devnet only, no mainnet.",
+      "source": "packages/core-chain/src/solana",
+      "views": [
+        "overview",
+        "music"
+      ]
+    },
+    {
+      "id": "github",
+      "label": "GitHub release feeds",
+      "area": "Site",
+      "status": "building",
+      "description": "Signed updater feeds and installers; the public feed repositories are still to create.",
+      "source": "scripts/publish_release.sh, packages/desktop/src/atualizar.rs",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "backup",
+      "label": "fork-backup",
+      "area": "Cloud",
+      "status": "building",
+      "description": "Daily encrypted database dump spread over the swarm and a local folder; off by default.",
+      "source": "apps/fork-backup",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "id": "studio-shell",
+      "label": "Fork Studio window",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Tauri v2 window, native title bar, single instance and Dev/Freeze builds.",
+      "source": "apps/fork-studio/src-tauri",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-sidecar",
+      "label": "Sidecar supervisor",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Starts the bundled Flask server on a free 127.0.0.1 port and stops it with the app.",
+      "source": "apps/fork-studio/src-tauri/src/sidecar.rs, apps/fork-studio/sidecar",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-native",
+      "label": "Menus and permissions",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Tray, Save Version ball, global shortcut, Settings window, folder picker and permissions.",
+      "source": "apps/fork-studio/src-tauri/src/{icone,barra_mac,atalho,definicoes,seletor,permissoes}.rs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-updater",
+      "label": "Updater",
+      "area": "Fork Studio",
+      "status": "building",
+      "description": "Signed Tauri updater, hourly check and GitHub release feed; feed repositories to create.",
+      "source": "apps/fork-studio/src-tauri/src/atualizar.rs, packages/desktop/src/atualizar.rs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-windows",
+      "label": "Windows build",
+      "area": "Fork Studio",
+      "status": "after-beta",
+      "description": "Windows installer, tray and updater; the beta ships on the computer first, Windows comes after beta.",
+      "source": "apps/fork-studio/src-tauri, packages/desktop/src",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-server",
+      "label": "Studio server (Flask)",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Local single-user server: SQLite, API v1, sessions and background jobs.",
+      "source": "apps/fork-studio/server/apps/studio/app.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-library",
+      "label": "Library and import",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Projects, Palette Creator, Samples, Archives, whole packs, onboarding import and disk remap.",
+      "source": "apps/fork-studio/server/apps/studio/{app,sons,packs}.py, packages/core/volumes.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-versions",
+      "label": "Versions and signed catalog",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Save Version, incremental block store, signed manifests and catalog.db.",
+      "source": "apps/fork-studio/src-tauri/src/{versao,guardar}.rs, packages/core-crypto, apps/fork-studio/server/apps/studio/versoes_delta.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-structure",
+      "label": "Structure and report",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "ALS tracks, clips and chains, loudness and an HTML/JSON/MIDI report.",
+      "source": "apps/fork-studio/server/apps/studio/{vista_set,exporta}.py, packages/core-daw",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-store",
+      "label": "Store (seller)",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Releases, editions, licences, receipts, payouts and WIP passes; checkout is off.",
+      "source": "apps/fork-studio/server/apps/studio/loja.py, apps/fork-studio/src-tauri/src/loja.rs, packages/fork-ui-py/fork_ui/compra",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-music",
+      "label": "Music (buyer in Studio)",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Browse, buy and play other artists' releases with the same Fork account.",
+      "source": "apps/fork-studio/server/apps/studio/musica.py, apps/fork-studio/src-tauri/src/compra.rs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-samples",
+      "label": "Samples and Loops",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Short-sound portraits, t-SNE map, Palette Creator and phone sample search.",
+      "source": "apps/fork-studio/server/apps/studio/sons.py, packages/core-audio/src/{analise,mapa}.rs, apps/fork-daw-cli",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-dj",
+      "label": "DJ / Simulation Booth",
+      "area": "Fork Studio",
+      "status": "after-beta",
+      "description": "Four decks, EQ, loops and hot cues; built and gated, not in the beta.",
+      "source": "apps/fork-studio/src-tauri/src/dj.rs, apps/fork-studio/server/apps/studio/{djlib,djsub}.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-network",
+      "label": "Network",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Sharing, invitations, presence, swarm status, Signals and network limits.",
+      "source": "apps/fork-studio/server/apps/studio/{online,nuvem,rede_limites}.py, static/rede.js",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-rooms",
+      "label": "Network rooms / Playzone",
+      "area": "Fork Studio",
+      "status": "after-beta",
+      "description": "Rooms, private chat and the 8-bit Playzone; dev preview, no backend yet.",
+      "source": "apps/fork-studio/server/apps/studio/static/rede.js",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-live",
+      "label": "Live Companion",
+      "area": "Fork Studio",
+      "status": "after-beta",
+      "description": "Remote view and control of an Ableton Live set; built and gated, not in the beta.",
+      "source": "apps/fork-studio/src-tauri/src/companion.rs, apps/fork-studio/src-tauri/live/ForkCompanion",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-mobile",
+      "label": "Studio on the phone (/m)",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Remote Studio: projects, renders, palette and sample search over the P2P tunnel.",
+      "source": "apps/fork-studio/server/apps/studio/mobile.py, apps/fork-p2p-web",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-settings",
+      "label": "Settings and identity",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Preferences, artist key backup, shortcuts, appearance and network limits.",
+      "source": "apps/fork-studio/src-tauri/src/{definicoes,chave_backup}.rs, packages/fork-ui-py/fork_ui/prefs.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-feedback",
+      "label": "Feedback and error reports",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Beta feedback card, queued sends, error reports and remote switches.",
+      "source": "apps/fork-studio/server/apps/studio/feedback.py, packages/fork-ui-py/fork_ui/ops.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-backup",
+      "label": "Library backup",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Backup to iCloud Drive or a disk, verified before saying the library is safe.",
+      "source": "apps/fork-studio/server/apps/studio/backup.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-calendar",
+      "label": "Calendar",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Sessions and events linked to projects.",
+      "source": "apps/fork-studio/server/packages/core/calendario.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-assistant",
+      "label": "Assistant",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Optional Claude agent in dev builds; not shipped in the public build.",
+      "source": "apps/fork-studio/server/packages/core/agente.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "f909-bridge",
+      "label": "F909 index bridge",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Read-only bridge to the legacy F909 index in databases/f909.db.",
+      "source": "apps/fork-studio/src-tauri/src/f909.rs, apps/fork-studio/src/f909.ts",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "fork-ui-py",
+      "label": "fork-ui-py",
+      "area": "Shared",
+      "status": "built",
+      "description": "Shared Python shell, legal, account, network limits and the player bar.",
+      "source": "packages/fork-ui-py",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "ui-kit",
+      "label": "ui-kit",
+      "area": "Shared",
+      "status": "built",
+      "description": "React tokens, AppShell, sidebar, dropdowns and tab group.",
+      "source": "packages/ui-kit",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "fork-barra",
+      "label": "Shared footer and player",
+      "area": "Shared",
+      "status": "built",
+      "description": "Footer and player bar: queue, scrub, now playing and the update button.",
+      "source": "packages/fork-ui-py/fork_ui/static/{fork-barra,player}.js",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "fork-ui-compra",
+      "label": "Shared buying UI",
+      "area": "Shared",
+      "status": "built",
+      "description": "Store, library, checkout, receipts, wallet and playback fragments.",
+      "source": "packages/fork-ui-py/fork_ui/compra",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "studio-api",
+      "label": "Studio API v1",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Local HTTP contract between the page/.app and the Python server, with a service token.",
+      "source": "apps/fork-studio/server/packages/core/apiv1.py, apps/fork-studio/src-tauri/src/studio_api.rs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "studio-ipc",
+      "label": "Native IPC",
+      "area": "Fork Studio",
+      "status": "built",
+      "description": "Tauri commands for audio, store, cloud, sharing, phone and updates.",
+      "source": "apps/fork-studio/src-tauri/src/lib.rs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "core-crypto",
+      "label": "core-crypto",
+      "area": "Rust core",
+      "status": "built",
+      "description": "Authorship, catalog, keys, AES-256 at rest and artist key backup.",
+      "source": "packages/core-crypto",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "core-audio",
+      "label": "core-audio",
+      "area": "Rust core",
+      "status": "built",
+      "description": "Native audio engine, DSP, loudness and the DJ booth.",
+      "source": "packages/core-audio",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "core-daw",
+      "label": "core-daw",
+      "area": "Rust core",
+      "status": "built",
+      "description": "Read-only ALS parser, chains, MIDI and analysis.",
+      "source": "packages/core-daw",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "core-version",
+      "label": "core-version",
+      "area": "Rust core",
+      "status": "built",
+      "description": "Version diff for the project timeline.",
+      "source": "packages/core-version",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "core-rbexport",
+      "label": "core-rbexport",
+      "area": "Rust core",
+      "status": "after-beta",
+      "description": "Rekordbox USB export; basic export written, real CDJ check left.",
+      "source": "packages/core-rbexport",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "core-p2p",
+      "label": "core-p2p",
+      "area": "Rust core",
+      "status": "building",
+      "description": "Rolling leases, chunker, block store, encrypted swarm and release protocol.",
+      "source": "packages/core-p2p",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "core-rtc",
+      "label": "core-rtc",
+      "area": "Rust core",
+      "status": "built",
+      "description": "WebRTC tunnel and tuned SCTP for the phone, with an ICE-lite host.",
+      "source": "packages/core-rtc, vendor/webrtc-sctp",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "core-cloud",
+      "label": "core-cloud",
+      "area": "Rust core",
+      "status": "built",
+      "description": "Supabase REST/RPC client, auth session and the buyer bridge.",
+      "source": "packages/core-cloud",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "core-chain",
+      "label": "core-chain",
+      "area": "Rust core",
+      "status": "building",
+      "description": "Licence and edition terms plus Solana Bubblegum v2 transaction builders; devnet.",
+      "source": "packages/core-chain",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "fan-delivery",
+      "label": "fan-delivery",
+      "area": "Rust core",
+      "status": "built",
+      "description": "Buyer-side device key, leases, passes, native bridge and heartbeat.",
+      "source": "packages/fan-delivery",
+      "views": [
+        "studio",
+        "music"
+      ]
+    },
+    {
+      "id": "desktop",
+      "label": "desktop",
+      "area": "Rust core",
+      "status": "built",
+      "description": "Shared window chrome, Settings window, updater and sidecar launcher.",
+      "source": "packages/desktop",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "fork-daw-cli",
+      "label": "fork-daw-cli",
+      "area": "Rust core",
+      "status": "built",
+      "description": "CLI for sample analysis and the t-SNE map.",
+      "source": "apps/fork-daw-cli",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "catalog-db",
+      "label": "catalog.db",
+      "area": "Local data",
+      "status": "built",
+      "description": "Append-only signed catalog of authorship records.",
+      "source": "Application Support/Fork Studio/catalog.db, packages/core-crypto/src/catalog.rs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "block-store",
+      "label": "Block store and releases",
+      "area": "Local data",
+      "status": "built",
+      "description": "Encrypted blocks, manifests, GC and sealed release keys.",
+      "source": "apps/fork-studio/src-tauri/src/{cifra,gc,partilha}.rs, Application Support/Fork Studio/{share,releases}",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "keychain",
+      "label": "Keychain",
+      "area": "Local data",
+      "status": "built",
+      "description": "Artist key and device keys in the system Keychain; they never leave the computer.",
+      "source": "packages/core-crypto/src/keys.rs, apps/fork-studio/src-tauri/src/keychain_tool.rs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "data-local",
+      "label": "Local data and disks",
+      "area": "Local data",
+      "status": "built",
+      "description": "Application Support, config, f909.db, project and sample disks with VolumeUUID remap.",
+      "source": "Application Support/Fork Studio, apps/fork-studio/server/packages/core/{volumes,estrutura_fs}.py",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "id": "music-shell",
+      "label": "Fork Music window",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Tauri window, single instance and updater; starts the bundled server and closes it on exit.",
+      "source": "apps/fork-music/src-tauri",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-sidecar",
+      "label": "Bundled Music server",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Frozen Flask server inside the app; never reads the repository in a release build.",
+      "source": "apps/fork-music/release.sh, packages/desktop/servidor",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-leases",
+      "label": "Lease enforcement",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Checks leases on start and every 10 minutes; purges keys, blocks and leases on expiry or revocation.",
+      "source": "packages/fan-delivery/src/delivery.rs, apps/fork-music/src-tauri/src/lib.rs",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-heartbeat",
+      "label": "Native heartbeat",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Every 5 minutes: keep-alive, seed announce, session refresh and device certificate.",
+      "source": "packages/fan-delivery/src/batimento.rs",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-bridge",
+      "label": "Native bridge",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Local HTTP bridge with a random port and a secret per launch; keys, state and decrypted audio.",
+      "source": "packages/fan-delivery/src/bridge.rs, apps/fork-music/server/native.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-server",
+      "label": "Music server (Flask)",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Local server on port 5021 with the session in memory and the refresh token in the Keychain.",
+      "source": "apps/fork-music/server/app.py, apps/fork-music/server/sessao.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-store",
+      "label": "Store",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Browse and search releases, open a release page and show the preview.",
+      "source": "packages/fork-ui-py/fork_ui/compra/store.py, apps/fork-music/server/templates/index.html",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-library",
+      "label": "Library",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Owned licences, encrypted downloads, receipts and play buttons.",
+      "source": "packages/fork-ui-py/fork_ui/compra, apps/fork-music/server/templates/parts",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-passes",
+      "label": "Passes",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "WIP passes: verify the artist signature, create the lease and purge on a signed revocation.",
+      "source": "packages/fan-delivery/src/passes.rs, apps/fork-music/server/app.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-network",
+      "label": "Network settings",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Upload, download, storage and reach; chat is a placeholder until the backend exists.",
+      "source": "packages/fork-ui-py/fork_ui/rede_limites.py, apps/fork-music/server/static/rede.js",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-settings",
+      "label": "Settings",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Account, terms, appearance and network in the shared Settings window.",
+      "source": "apps/fork-music/server/app.py, packages/fork-ui-py/fork_ui/prefs.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-release",
+      "label": "Release page",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Release details, edition terms, preview and the Buy or Coming soon action.",
+      "source": "packages/fork-ui-py/fork_ui/compra, apps/fork-music/server/static/music.js",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-checkout",
+      "label": "Checkout",
+      "area": "Fork Music",
+      "status": "building",
+      "description": "Stripe Checkout through store_checkout; the switch is off and Buy says Coming soon.",
+      "source": "supabase/functions/store_checkout, apps/fork-music/server/app.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-player",
+      "label": "Player",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Decrypted audio from memory through the shared player bar; the native engine is later.",
+      "source": "packages/fork-ui-py/fork_ui/static/compra/play.js, static/player.js",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-wallet",
+      "label": "Wallet and resale",
+      "area": "Fork Music",
+      "status": "building",
+      "description": "SIWS connect wallet, paid move back to Fork and resale only from custody.",
+      "source": "apps/fork-music/server/static/wallet.js, supabase/functions/{wallet_link,move_back_plan}",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-receipts",
+      "label": "Receipts",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Printable proof of acquisition with a QR code to forkgate.io/verify.",
+      "source": "packages/fork-ui-py/fork_ui/compra/recibo.py, qr.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-session",
+      "label": "Session restore",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Reopens without a login by restoring the refresh token from the Keychain.",
+      "source": "apps/fork-music/server/sessao.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-login",
+      "label": "Fork account login",
+      "area": "Fork Music",
+      "status": "built",
+      "description": "Fork account login with the token only in memory and the refresh token in the Keychain.",
+      "source": "packages/fork-ui-py/fork_ui/conta.py, apps/fork-music/server/app.py",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-keychain",
+      "label": "ForkMusicKeys",
+      "area": "Local data",
+      "status": "built",
+      "description": "Device seed and refresh tokens in one Keychain item.",
+      "source": "packages/fan-delivery/src/keychain.rs",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-encrypted-lib",
+      "label": "Encrypted library",
+      "area": "Local data",
+      "status": "built",
+      "description": "FKR1 keys, FKB2 blocks, leases and terms; audio is decrypted only in memory.",
+      "source": "packages/fan-delivery/src/delivery.rs, Application Support/Fork Music",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-data",
+      "label": "Music data folder",
+      "area": "Local data",
+      "status": "built",
+      "description": "account.json, network.json, licences and the terms served to other fans.",
+      "source": "Application Support/Fork Music",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "id": "music-downloads",
+      "label": "P2P downloads",
+      "area": "Local data",
+      "status": "built",
+      "description": "Incoming release blocks from the artist, hosts and other fans, checked by cid.",
+      "source": "packages/fan-delivery/src/net.rs, packages/core-p2p/src/swarm/release.rs",
+      "views": [
+        "music"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "studio",
+      "to": "supabase",
+      "label": "account · projects · versions",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "music",
+      "to": "supabase",
+      "label": "store · licences · passes",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "studio",
+      "to": "swarm",
+      "label": "encrypted blocks",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "music",
+      "to": "swarm",
+      "label": "release blocks",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "phone",
+      "to": "studio",
+      "label": "WebRTC tunnel · /m",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "phone",
+      "to": "connect",
+      "label": "opens the PWA",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "phone",
+      "to": "swarm",
+      "label": "reads the account catalog",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "studio",
+      "to": "site",
+      "label": "licence · verify pages",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "site",
+      "to": "supabase",
+      "label": "signup · survey · verify",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "admin",
+      "to": "supabase",
+      "label": "admin RPCs · reads",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "connect",
+      "to": "swarm",
+      "label": "swarm reader",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "supabase",
+      "to": "signer",
+      "label": "mint jobs · key requests",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "signer",
+      "to": "stripe",
+      "label": "payments · payouts",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "signer",
+      "to": "solana",
+      "label": "mint · transfer · freeze",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "swarm",
+      "to": "relay",
+      "label": "rendezvous · NAT traversal",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "site",
+      "to": "github",
+      "label": "release feed · /download",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "backup",
+      "to": "swarm",
+      "label": "encrypted database shards",
+      "views": [
+        "overview"
+      ]
+    },
+    {
+      "from": "studio-shell",
+      "to": "studio-sidecar",
+      "label": "starts and stops",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-sidecar",
+      "to": "studio-server",
+      "label": "serves 127.0.0.1",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-shell",
+      "to": "studio-native",
+      "label": "menus · tray · shortcut",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-shell",
+      "to": "studio-windows",
+      "label": "Windows target",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-native",
+      "to": "studio-settings",
+      "label": "opens Settings",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-server",
+      "to": "studio-samples",
+      "label": "palette · sample search",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-server",
+      "to": "studio-network",
+      "label": "sharing · Signals",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-server",
+      "to": "studio-mobile",
+      "label": "serves /m",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-library",
+      "to": "studio-dj",
+      "label": "decks · playlists",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-settings",
+      "to": "studio-api",
+      "label": "local API",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-feedback",
+      "to": "studio-api",
+      "label": "queued reports",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-backup",
+      "to": "studio-api",
+      "label": "backup jobs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "f909-bridge",
+      "to": "studio-api",
+      "label": "read-only index",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "fork-ui-py",
+      "to": "studio-api",
+      "label": "shell · account",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "fork-barra",
+      "to": "core-audio",
+      "label": "player commands",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "fork-ui-compra",
+      "to": "studio-ipc",
+      "label": "buying bridge",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-api",
+      "to": "studio-ipc",
+      "label": "HTTP · service token",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-ipc",
+      "to": "core-audio",
+      "label": "audio_* commands",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-ipc",
+      "to": "core-crypto",
+      "label": "keys · signatures",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-ipc",
+      "to": "core-cloud",
+      "label": "cloud_* commands",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-ipc",
+      "to": "fan-delivery",
+      "label": "buyer bridge",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-crypto",
+      "to": "core-p2p",
+      "label": "block keys",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-daw",
+      "to": "core-version",
+      "label": "version diffs",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "fork-daw-cli",
+      "to": "core-daw",
+      "label": "ALS · analysis",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-rbexport",
+      "to": "core-daw",
+      "label": "playlist export",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-crypto",
+      "to": "core-cloud",
+      "label": "auth · metadata",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-p2p",
+      "to": "swarm",
+      "label": "blocks · leases",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-rtc",
+      "to": "phone",
+      "label": "WebRTC tunnel",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-cloud",
+      "to": "supabase",
+      "label": "REST · RPC · Realtime",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-chain",
+      "to": "signer",
+      "label": "licence terms · Solana",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "desktop",
+      "to": "site",
+      "label": "updater feed · links",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "fan-delivery",
+      "to": "swarm",
+      "label": "release blocks",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-cloud",
+      "to": "signer",
+      "label": "mint jobs · keys",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-library",
+      "to": "data-local",
+      "label": "index · files",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-versions",
+      "to": "block-store",
+      "label": "versions · blocks",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "studio-settings",
+      "to": "keychain",
+      "label": "artist key",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "core-crypto",
+      "to": "block-store",
+      "label": "encrypt blocks",
+      "views": [
+        "studio"
+      ]
+    },
+    {
+      "from": "music-shell",
+      "to": "music-sidecar",
+      "label": "starts server",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-sidecar",
+      "to": "music-server",
+      "label": "serves 127.0.0.1",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-shell",
+      "to": "music-leases",
+      "label": "enforce on start",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-heartbeat",
+      "to": "music-bridge",
+      "label": "keep-alive · seed",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-server",
+      "to": "music-store",
+      "label": "store fragments",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-server",
+      "to": "music-library",
+      "label": "library fragments",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-server",
+      "to": "music-passes",
+      "label": "passes",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-server",
+      "to": "music-network",
+      "label": "network settings",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-store",
+      "to": "music-release",
+      "label": "release page",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-library",
+      "to": "music-player",
+      "label": "plays",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-release",
+      "to": "music-checkout",
+      "label": "Buy · Stripe",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-checkout",
+      "to": "fork-ui-compra",
+      "label": "checkout UI",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-player",
+      "to": "fork-barra",
+      "label": "decrypted audio",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-wallet",
+      "to": "fork-ui-compra",
+      "label": "SIWS · move back",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-receipts",
+      "to": "fork-ui-compra",
+      "label": "receipt page",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-session",
+      "to": "music-login",
+      "label": "restore session",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "fork-ui-compra",
+      "to": "fan-delivery",
+      "label": "native bridge",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-bridge",
+      "to": "fan-delivery",
+      "label": "key · state · audio",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-login",
+      "to": "core-cloud",
+      "label": "refresh token",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "fan-delivery",
+      "to": "music-keychain",
+      "label": "device key · leases",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "fan-delivery",
+      "to": "music-encrypted-lib",
+      "label": "FKR1 · blocks",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "core-crypto",
+      "to": "music-encrypted-lib",
+      "label": "FKB2 · FKM1 · FKR1",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "core-p2p",
+      "to": "swarm",
+      "label": "release protocol",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "core-cloud",
+      "to": "supabase",
+      "label": "REST · RPC · Realtime",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "core-chain",
+      "to": "signer",
+      "label": "tx layouts · licence",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "core-cloud",
+      "to": "signer",
+      "label": "key requests",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "supabase",
+      "to": "signer",
+      "label": "mint jobs · key requests",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "signer",
+      "to": "stripe",
+      "label": "payments · payouts",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "signer",
+      "to": "solana",
+      "label": "mint · transfer · freeze",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-library",
+      "to": "swarm",
+      "label": "download blocks",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-network",
+      "to": "core-p2p",
+      "label": "limits · reach",
+      "views": [
+        "music"
+      ]
+    },
+    {
+      "from": "music-heartbeat",
+      "to": "supabase",
+      "label": "seed announce",
+      "views": [
+        "music"
+      ]
+    }
+  ]
+}

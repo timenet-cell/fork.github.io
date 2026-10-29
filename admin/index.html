@@ -76,8 +76,24 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .st .bar i.ok{background:#2E7D32}
 .st .sub,#st-upd{font:12.5px/1.4 var(--sans)!important;letter-spacing:0!important;text-transform:none!important;color:var(--muted)}
 .st .pri{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-right:6px}
-.arch{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:auto}
-.arch img{display:block;width:100%;min-width:900px;height:auto}
+.ar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.ar-seg{display:inline-flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.ar-seg button{font:600 12.5px/1 var(--sans);padding:7px 13px;border:0;border-radius:999px;background:transparent;color:var(--muted);cursor:pointer}
+.ar-seg button:hover{color:var(--text)}
+.ar-seg button.on{background:var(--red);color:var(--red-ink)}
+.ar-search{flex:1;min-width:210px;max-width:340px}
+.ar-search input{margin:0;font-size:13px;padding:8px 11px}
+.ar-stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px;overflow:auto}
+.ar-stage a{display:block;line-height:0}
+.ar-stage img{display:block;width:100%;height:auto;border-radius:8px}
+.ar-note{display:flex;gap:14px;flex-wrap:wrap;align-items:baseline;font-size:12.5px;color:var(--muted);margin:8px 0 14px}
+.ar-note b{color:var(--text);font-weight:600}
+.ar-table td:first-child{font-weight:600}
+.ar-src{font:11px/1.35 var(--mono);color:var(--muted);overflow-wrap:anywhere;min-width:190px}
+.ar-st{display:inline-flex;align-items:center;gap:5px;font:600 11px/1 var(--sans);padding:3px 7px;border-radius:999px;border:1px solid var(--line);background:var(--field);white-space:nowrap}
+.ar-st:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.ar-st.built{color:#1E8E3E}.ar-st.building{color:#C77700}.ar-st.planned{color:#8A96A5}.ar-st.after-beta{color:#5B6675}
+@media (max-width:640px){.ar-top{align-items:stretch}.ar-search{max-width:none}.ar-stage{padding:3px}}
 .box h2{font:600 13px/1.2 var(--sans);margin:0 0 10px;color:var(--text)}
 .box h2 small{font-weight:500;color:var(--faint);margin-left:6px}
 .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:-4px 0 6px}
@@ -358,8 +374,27 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-signer" id="tab-signer" type="button">Signer<span id="sg-badge"></span></button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
-    <div id="t-arch" class="hidden"><div class="arch"><a href="architecture.svg" target="_blank" rel="noopener"><img src="architecture.svg" alt="Fork architecture: modules and flows"></a></div>
-      <div style="font-size:12.5px;color:var(--muted);margin-top:8px">Green = built and running · yellow = being built · dashed = planned. Click to open full size.</div></div>
+    <div id="t-arch" class="hidden">
+      <div class="ar-top">
+        <div class="ar-seg" role="tablist" aria-label="Architecture view">
+          <button class="on" data-ar="overview" type="button" role="tab" aria-selected="true">Overview</button>
+          <button data-ar="studio" type="button" role="tab" aria-selected="false">Fork Studio</button>
+          <button data-ar="music" type="button" role="tab" aria-selected="false">Fork Music</button>
+        </div>
+        <label class="ar-search"><input id="ar-q" type="search" placeholder="Search components, status or source" aria-label="Search architecture" autocomplete="off" spellcheck="false"></label>
+      </div>
+      <div id="ar-err" class="msg" role="status" aria-live="polite"></div>
+      <div class="ar-stage" id="ar-stage"><div class="empty">Loading architecture…</div></div>
+      <div class="ar-note">
+        <span><b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>After beta</b> held for after the beta.</span>
+        <span>Click the diagram to open it full size.</span>
+      </div>
+      <div class="box ar-table">
+        <div class="tabhead"><h2 style="margin:0">Components <small id="ar-count"></small></h2></div>
+        <div class="scroll"><table><thead><tr><th>Component</th><th>Status</th><th>What it does</th><th>Source</th></tr></thead><tbody id="ar-rows"></tbody></table></div>
+        <div id="ar-empty" class="empty hidden">No components match that search.</div>
+      </div>
+    </div>
     <div id="t-settings" class="hidden"><div id="cr"></div><div id="ps"></div></div>
     <div id="t-reports" class="hidden">
       <p class="ps-note">Reports name a block or manifest by its cid, never its content: encrypted blocks can’t be read by hosts or by Fork. A valid report tombstones the cid (cooperating devices delete it and refuse it again). If a host’s upload receipt is attached, it names the account that sent it, which can then be suspended. A modified client can keep a copy.</p>
@@ -822,7 +857,58 @@ for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
   if (b.id === 'tab-manual') manualAbre();
   if (b.id === 'tab-services') servicosAbre();
   else if (location.hash.startsWith('#manual')) history.replaceState(null, '', location.pathname + location.search);
+  if (b.dataset.tab === 't-arch') arAbre();
 };
+
+// ── arquitetura (admin/architecture.json + admin/arch-*.svg) ─────────────────────────────────────────────────────────
+let arData = null, arView = 'overview', arLoading = false;
+const AR_STATUS = { built: 'Built', building: 'Building', planned: 'Planned', 'after-beta': 'After beta' };
+const AR_LABEL = { overview: 'Overview', studio: 'Fork Studio', music: 'Fork Music' };
+function arBadge(s) { return '<span class="ar-st ' + esc(s) + '">' + esc(AR_STATUS[s] || s) + '</span>'; }
+async function arAbre() {
+  if (arData) { arDesenha(); return; }
+  if (arLoading) return;
+  arLoading = true; $('ar-err').textContent = '';
+  $('ar-stage').innerHTML = '<div class="empty">Loading architecture…</div>';
+  try {
+    const r = await fetch('architecture.json?v=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    arData = await r.json();
+    arDesenha();
+  } catch (e) {
+    $('ar-err').textContent = 'Could not load the architecture: ' + e.message;
+    $('ar-stage').innerHTML = '<div class="empty">No diagram.</div>';
+  } finally { arLoading = false; }
+}
+function arDesenha() {
+  if (!arData) return;
+  const view = arData.views[arView];
+  const label = view ? view.title : (AR_LABEL[arView] || arView);
+  $('ar-stage').innerHTML = '<a href="arch-' + esc(arView) + '.svg" target="_blank" rel="noopener" aria-label="Open the ' + esc(label) + ' diagram full size"><img src="arch-' + esc(arView) + '.svg" alt="' + esc(label) + ' architecture diagram" loading="lazy"></a>';
+  for (const b of document.querySelectorAll('.ar-seg button')) {
+    const on = b.dataset.ar === arView;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  }
+  arTabela();
+}
+function arTabela() {
+  if (!arData) return;
+  const q = ($('ar-q').value || '').trim().toLowerCase();
+  const byId = new Map(arData.nodes.map(n => [n.id, n]));
+  const all = arData.views[arView].rows.flatMap(r => r.groups.flatMap(g => g.nodes)).map(id => byId.get(id)).filter(Boolean);
+  const rows = all.filter(n => !q || [n.label, n.area, n.status, AR_STATUS[n.status], n.description, n.source].join(' ').toLowerCase().includes(q));
+  $('ar-count').textContent = rows.length + ' of ' + all.length;
+  $('ar-rows').innerHTML = rows.map(n => '<tr><td>' + esc(n.label) + '</td><td>' + arBadge(n.status) + '</td><td>' + esc(n.description) + '</td><td class="ar-src">' + esc(n.source) + '</td></tr>').join('');
+  $('ar-empty').classList.toggle('hidden', rows.length > 0);
+}
+for (const b of document.querySelectorAll('.ar-seg button')) b.addEventListener('click', () => {
+  arView = b.dataset.ar;
+  $('ar-q').value = '';
+  arDesenha();
+});
+$('ar-q').addEventListener('input', arTabela);
+
 async function estado() {
   $('st-err').textContent = '';
   try {
