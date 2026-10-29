@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29 16:37",
+  "updated": "2026-10-29 22:19",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
@@ -401,6 +401,12 @@
       "t": "Helius webhook for wallet changes",
       "p": 0,
       "s": "Daily wallet check covers it today",
+      "prio": 3
+    },
+    {
+      "t": "Admin: full architecture of Fork Studio and Fork Music",
+      "p": 100,
+      "s": "Live 29 Oct: Overview, Fork Studio and Fork Music views with a searchable list of 85 components",
       "prio": 3
     }
   ]
