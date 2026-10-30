@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29 22:19",
+  "updated": "2026-10-30 07:00",
   "tasks": [
     {
       "t": "Encryption: AES-256 fragments",
@@ -111,8 +111,8 @@
     },
     {
       "t": "Admin QA tab / QA bench",
-      "p": 93,
-      "s": "QA tab live, bench skips cleanly · left: bug summaries need a working Claude login on the bench; schedule install is optional",
+      "p": 95,
+      "s": "Full pass 30 Oct: 27 of 27 scenarios pass (Studio and Fork Music), one outdated test fixed, no app bugs · left: a pass on your real library when Fragoso Fast is connected to the computer running it",
       "prio": 2
     },
     {
