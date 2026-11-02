@@ -124,13 +124,13 @@
   {
    "t": "Inbox support replies",
    "p": 95,
-   "s": "Merged · left: ships in next build; replies need migration 71",
+   "s": "Merged · left: in the fork-app build since 31 Oct; replies need migration 71",
    "prio": 1
   },
   {
    "t": "Artist key backup + restore",
    "p": 95,
-   "s": "Merged · left: ships in next build; Keychain prompt check on your computer; at-rest encryption stays off until you switch it on",
+   "s": "Merged · left: in the fork-app build since 31 Oct; Keychain prompt check on your computer; at-rest encryption stays off until you switch it on",
    "prio": 1
   },
   {
@@ -195,8 +195,8 @@
   },
   {
    "t": "Relay, SMTP and Apple signing",
-   "p": 10,
-   "s": "Relay code exists (fork-relay), signing scripts exist on an unmerged branch · left: merge the release scripts; deploy relay · needs you: VPS account, Resend key, Apple Developer ID and notary profile, Supabase email settings",
+   "p": 30,
+   "s": "Relay code exists (fork-relay); sign/notarize, publish and rollback scripts merged (off until Developer ID) · left: deploy relay · needs you: VPS account, Resend key, Apple Developer ID and notary profile, Supabase email settings",
    "prio": 1
   },
   {
