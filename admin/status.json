@@ -339,7 +339,7 @@
   {
    "t": "Save Version blue ball identical on Intel and Apple silicon",
    "p": 90,
-   "s": "Merged 29 Oct: same click, double click, tooltip and unsaved dot (now pulses and blinks on both); Intel build compiles · left: check by eye on the Intel computer in the next build",
+   "s": "Merged 29 Oct: same click, double click, tooltip and unsaved dot (now pulses and blinks on both); Intel build compiles · left: check by eye on Intel — after the beta (your call, 2 Nov)",
    "prio": 2
   },
   {
@@ -433,12 +433,6 @@
    "t": "Import: 'Import everything' no longer stops when there are no new packs; lists packs without audio",
    "p": 100,
    "s": "Done · 139 of 149 packs imported; 4 have no audio (2 are .rar, need unpacking — your call)"
-  },
-  {
-   "t": "Universal build (Intel + Apple silicon) for the Mini",
-   "p": 30,
-   "s": "Building now (OpenCode agent)",
-   "prio": 1
   }
  ]
 }
