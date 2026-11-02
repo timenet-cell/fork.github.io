@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-30 14:14",
+ "updated": "2026-11-02 16:02",
  "tasks": [
   {
    "t": "Encryption: AES-256 fragments",
@@ -224,7 +224,7 @@
    "prio": 2
   },
   {
-   "t": "Studio: your own standalone build keeps the red and owner tabs (public build stays blue)",
+   "t": "Studio: your own standalone build keeps owner colours and tabs (public build stays blue)",
    "p": 100,
    "s": "Done · in fork-app"
   },
@@ -271,9 +271,9 @@
    "prio": 3
   },
   {
-   "t": "Disks: Fragoso Fast is full",
-   "p": 0,
-   "s": "Needs your choice of which disk goes where",
+   "t": "Disks: Fragoso Fast space",
+   "p": 50,
+   "s": "59 GB free of 466 after the 2 Nov cleanup (6,710 duplicate pack copies, 4.84 GB, moved to Fork Trash) · left: your choice of which disk goes where",
    "prio": 2
   },
   {
@@ -413,6 +413,32 @@
    "p": 100,
    "s": "Live 29 Oct: Overview, Fork Studio and Fork Music views with a searchable list of 85 components",
    "prio": 3
+  },
+  {
+   "t": "Brand accent: Jade green by default, Forest selectable (profile ball → Appearance); Save Version ball stays blue",
+   "p": 100,
+   "s": "Done · in fork-app"
+  },
+  {
+   "t": "Library tab: size cards for Projects Library and Samples Library (Finder units)",
+   "p": 100,
+   "s": "Done · in fork-app"
+  },
+  {
+   "t": "Palette Creator maps Samples Library pack sounds, with a coverage line",
+   "p": 95,
+   "s": "Merged, in fork-app · left: background analysis of the pack sounds finishes on its own"
+  },
+  {
+   "t": "Import: 'Import everything' no longer stops when there are no new packs; lists packs without audio",
+   "p": 100,
+   "s": "Done · 139 of 149 packs imported; 4 have no audio (2 are .rar, need unpacking — your call)"
+  },
+  {
+   "t": "Universal build (Intel + Apple silicon) for the Mini",
+   "p": 30,
+   "s": "Building now (OpenCode agent)",
+   "prio": 1
   }
  ]
 }
