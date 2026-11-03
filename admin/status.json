@@ -8,9 +8,9 @@
    "prio": "high"
   },
   {
-   "t": "Daily backup: migrations 78-86 applied; dump fixed (storage internals out); owner: bypassrls on reader, rerun setup.sh",
-   "p": 90,
-   "s": "in progress",
+   "t": "Daily backup: live — first real backup OK 3 Nov (758 KB dump, 4-of-10 shards); daily 04:00 LaunchAgent installed; swarm hosts 0 yet",
+   "p": 100,
+   "s": "done",
    "prio": "high"
   },
   {
