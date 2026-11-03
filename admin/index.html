@@ -383,7 +383,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-qa" id="tab-qa" type="button">QA</button>
       <button data-tab="t-signer" id="tab-signer" type="button">Signer<span id="sg-badge"></span></button>
     </div>
-    <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="st" id="st"></div></div>
+    <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="ar-seg" id="st-seg" role="tablist" aria-label="App" style="margin-bottom:14px;flex-wrap:wrap"></div><div class="st" id="st"></div></div>
     <div id="t-arch" class="hidden">
       <div class="ar-top">
         <div class="ar-seg" role="tablist" aria-label="Architecture view">
@@ -946,15 +946,35 @@ for (const b of document.querySelectorAll('.ar-seg button')) b.addEventListener(
 });
 $('ar-q').addEventListener('input', arTabela);
 
+const ST_APPS = ['Fork Studio', 'Fork Music', 'Fork Network', 'Fork Labels', 'Platform', 'Fork Manager', 'Your computers'];
+let stData = null, stApp = 'All';
+function stLinha(x) {
+  return `<div class="row"><div class="hd"><span class="nm">${x.prio === 1 ? '<span class="pri">Top priority</span>' : ''}${esc(x.t)}</span><span class="pc">${Math.max(0, Math.min(100, x.p))}%</span></div>` +
+    `<span class="bar"><i class="${x.p >= 100 ? 'ok' : ''}" style="width:${Math.max(2, Math.min(100, x.p))}%"></i></span><div class="sub">${esc(x.s)}</div></div>`;
+}
+function stDesenha() {
+  if (!stData) return;
+  const ord = (a, b) => ((a.prio ?? 9) - (b.prio ?? 9)) || (a.p - b.p);
+  const apps = ST_APPS.filter(a => stData.tasks.some(t => (t.app || 'Fork Studio') === a));
+  const aberto = t => t.p < 100;
+  $('st-seg').innerHTML = ['All', ...apps].map(a => {
+    const n = (a === 'All' ? stData.tasks : stData.tasks.filter(t => (t.app || 'Fork Studio') === a)).filter(aberto).length;
+    return `<button type="button" role="tab" data-app="${esc(a)}" class="${a === stApp ? 'on' : ''}" aria-selected="${a === stApp}">${esc(a)} <small>${n}</small></button>`;
+  }).join('');
+  for (const b of $('st-seg').querySelectorAll('button')) b.onclick = () => { stApp = b.dataset.app; stDesenha(); };
+  const grupos = stApp === 'All' ? apps : [stApp];
+  $('st').innerHTML = grupos.map(a => {
+    const t = stData.tasks.filter(x => (x.app || 'Fork Studio') === a).sort(ord);
+    return (stApp === 'All' ? `<h2 style="margin:18px 0 8px">${esc(a)} <small>${t.filter(aberto).length} open</small></h2>` : '') + t.map(stLinha).join('');
+  }).join('');
+}
 async function estado() {
   $('st-err').textContent = '';
   try {
     const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
-    const d = await r.json();
-    const t = [...d.tasks].sort((a, b) => (a.prio - b.prio) || (a.p - b.p));
-    $('st-upd').textContent = 'Updated ' + new Date(d.updated).toLocaleString();
-    $('st').innerHTML = t.map(x => `<div class="row"><div class="hd"><span class="nm">${x.prio === 1 ? '<span class="pri">Top priority</span>' : ''}${esc(x.t)}</span><span class="pc">${Math.max(0, Math.min(100, x.p))}%</span></div>` +
-      `<span class="bar"><i class="${x.p >= 100 ? 'ok' : ''}" style="width:${Math.max(2, Math.min(100, x.p))}%"></i></span><div class="sub">${esc(x.s)}</div></div>`).join('');
+    stData = await r.json();
+    $('st-upd').textContent = 'Updated ' + new Date(stData.updated).toLocaleString();
+    stDesenha();
   } catch (e) { $('st-err').textContent = 'Could not load the status: ' + e.message; }
 }
 
