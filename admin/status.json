@@ -2,6 +2,12 @@
  "updated": "2026-11-03",
  "tasks": [
   {
+   "t": "Ledger: waves L1-L5 + L11 merged (core-ledger Rust+TS, kind rules, tables, account key 12 words); L6 + L16 running",
+   "p": 30,
+   "s": "in progress",
+   "prio": "high"
+  },
+  {
    "t": "Daily backup: auth mirror fix merged (migration 79); owner: supabase db push + rerun setup.sh",
    "p": 80,
    "s": "in progress",
