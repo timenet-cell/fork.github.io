@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EEF3F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F141B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Fork Pro · Fork</title>
+<meta name="description" content="Fork Pro: Structure and Chain Preview, version diffs, auto-render and more, for 2.99 euros a month.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EEF3F8'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%23e0312a' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#EEF3F8;--card:#F8FAFC;--text:#141A22;--muted:#5B6675;--faint:#8A96A5;--line:#DCE4EC;
+  --blue:#007AFF;--blue-ink:#fff;--ok:#1d7a46;--ok-bg:#e6f4ec;--red:#e0312a;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+}
+:root[data-theme="dark"]{--bg:#0F141B;--card:#161D26;--text:#E8EDF3;--muted:#9AA6B4;--faint:#6F7B89;--line:#26303C;--blue:#0A84FF;--ok:#5cd08f;--ok-bg:#12291d;--red:#ff5a4f;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F141B;--card:#161D26;--text:#E8EDF3;--muted:#9AA6B4;--faint:#6F7B89;--line:#26303C;--blue:#0A84FF;--ok:#5cd08f;--ok-bg:#12291d;--red:#ff5a4f;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;display:flex;flex-direction:column}
+a{color:var(--blue)}
+.hidden{display:none!important}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:600 15px/1 var(--display);letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo svg{width:28px;height:28px}
+.tema-linha{display:inline-flex;gap:4px}
+.tema-modo{font:600 12px/1 var(--sans);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.tema-modo.on{background:var(--blue);border-color:var(--blue);color:var(--blue-ink)}
+main{flex:1;min-width:0;display:flex;justify-content:center;padding:32px 16px max(32px,env(safe-area-inset-bottom))}
+.card{width:100%;min-width:0;max-width:720px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;box-shadow:0 10px 30px rgba(20,40,70,.07);align-self:flex-start}
+h1{font:700 30px/1.15 var(--display);letter-spacing:-.025em;margin:0 0 8px}
+h2{font:650 17px/1.3 var(--display);margin:28px 0 10px}
+p{margin:0 0 12px}
+.sub{color:var(--muted);font-size:16px}
+.price{font:700 40px/1 var(--display);letter-spacing:-.03em;margin:22px 0 4px}
+.price small{font:500 16px/1 var(--sans);color:var(--muted);letter-spacing:0}
+.beta{display:flex;gap:10px;align-items:center;background:var(--ok-bg);color:var(--ok);border-radius:12px;padding:12px 14px;margin:14px 0;font-weight:600}
+.btn{display:inline-block;background:var(--blue);color:var(--blue-ink);text-decoration:none;font:600 16px/1 var(--sans);padding:14px 22px;border-radius:12px;margin-top:8px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.col{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--bg)}
+.col h3{font:650 15px/1.3 var(--display);margin:0 0 8px}
+.col.pro{border-color:var(--blue)}
+ul{margin:0;padding-left:18px;color:var(--muted);font-size:14.5px}
+li{margin:5px 0}
+li b{color:var(--text);font-weight:600}
+.note{margin:24px 0 0;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+@media (max-width:560px){.cols{grid-template-columns:1fr}.card{padding:24px 16px;border-radius:14px}h1{font-size:25px}}
+</style>
+<script>
+(function(){
+  const root=document.documentElement;
+  let m='system'; try{ m=localStorage.getItem('fork-admin-theme')||'system'; }catch(e){}
+  const aplica=k=>{ if(k==='light'||k==='dark') root.dataset.theme=k; else delete root.dataset.theme;
+    document.querySelectorAll('.tema-modo').forEach(b=>b.classList.toggle('on',b.dataset.modo===k)); };
+  aplica(m);
+  document.addEventListener('DOMContentLoaded',()=>{
+    aplica(m);
+    document.querySelectorAll('.tema-modo').forEach(b=>b.addEventListener('click',()=>{
+      m=b.dataset.modo; try{ localStorage.setItem('fork-admin-theme',m); }catch(e){}
+      aplica(m);
+    }));
+  });
+})();
+</script>
+</head>
+<body>
+<header class="bar">
+  <a class="logo" href="/"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v16" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>Fork</a>
+  <span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span>
+</header>
+<main><article class="card">
+  <h1>Fork Pro</h1>
+  <p class="sub">The extra tools for producers who finish a lot of music: see the shape of a project, compare versions, and render it without opening it.</p>
+  <div class="price">2.99 € <small>/ month</small></div>
+  <div class="beta hidden" id="beta">Free during the beta. Nothing to pay while the beta runs.</div>
+  <p><b>Came back from checkout without subscribing?</b> Nothing was charged. Fork Pro is still one tap away in Fork Studio.</p>
+  <p>Subscribe from Fork Studio: open <b>Account settings</b> and choose <b>Upgrade</b>. Cancel any time from the same place; Pro stays on until the end of the period you paid for.</p>
+
+  <h2>Free and Pro</h2>
+  <div class="cols">
+    <div class="col"><h3>Free</h3><ul>
+      <li>Collaboration</li><li>Fork and merge</li><li>Simple versions</li></ul></div>
+    <div class="col pro"><h3>Pro</h3><ul>
+      <li><b>Everything in Free</b></li>
+      <li><b>Structure Preview</b> of a project</li>
+      <li><b>Chain Preview</b> of its signal chains</li>
+      <li><b>Versioning with a diff report</b> between versions</li>
+      <li><b>Auto-render</b> of a project, with a report of missing plugins</li>
+      <li><b>Loudness</b> measurement</li>
+      <li><b>Palette Creator</b>, including recording a palette with your phone</li>
+      <li><b>Rendering library</b></li></ul></div>
+  </div>
+  <p class="note">Prices include applicable tax, calculated at checkout. Payments are handled by Stripe; Fork never sees your card.</p>
+<script>
+const BETA = true; // beta ligada: a pagina diz «Free during the beta»; pôr false quando a venda abrir (junto com o FORK_BETA do Studio)
+if (BETA) document.getElementById('beta').classList.remove('hidden');
+</script>
+</article></main>
+</body>
+</html>

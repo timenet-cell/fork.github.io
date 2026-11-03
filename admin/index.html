@@ -485,6 +485,11 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
         <div class="tabhead"><h2 style="margin:0">Accounts <small id="ac-count"></small></h2></div>
         <div class="scroll"><table><thead><tr><th>Email</th><th>Username</th><th>Created</th><th>Last sign-in</th><th>Plan</th></tr></thead><tbody id="ac-rows"></tbody></table></div>
       </div>
+      <div class="box">
+        <div class="tabhead"><h2 style="margin:0">Subscriptions <small id="sb-count"></small></h2></div>
+        <div id="sb-err" class="msg" role="status" aria-live="polite"></div>
+        <div class="scroll"><table><thead><tr><th>Email</th><th>Status</th><th>Period end</th></tr></thead><tbody id="sb-rows"></tbody></table></div>
+      </div>
     </div>
     <div id="t-signer" class="hidden">
       <p class="sy-note">The switch the mint signer checks before every mint. It is Off until you turn it on. The network is fixed in the database and cannot be changed here. The cards below the switch are read-only; they show what the database lets an administrator read.</p>
@@ -1527,7 +1532,21 @@ entrar();
     const { data: d, error } = await sb.rpc('admin_list_accounts');
     if (error) { lista = null; el('ac-rows').innerHTML = ''; el('ac-err').textContent = /could not find the function/i.test(error.message || '') || error.code === 'PGRST202'
       ? 'Waiting for the database update (supabase db push, migration 66).' : 'Could not load the accounts: ' + error.message; return; }
-    lista = d || []; desenha();
+    lista = d || []; desenha(); subs();
+  }
+  // Fork Pro (migracao 93): `subscriptions` le-se pela RLS dos admins; o email vem da lista de contas
+  async function subs() {
+    el('sb-err').textContent = '';
+    const { data: d, error } = await sb.from('subscriptions').select('user_id,status,current_period_end,cancel_at_period_end').order('current_period_end', { ascending: false });
+    if (error) { el('sb-count').textContent = ''; el('sb-rows').innerHTML = ''; el('sb-err').textContent = error.code === '42P01' || error.code === 'PGRST205'
+      ? 'Waiting for the database update (supabase db push, migration 93).' : 'Could not load the subscriptions: ' + error.message; return; }
+    const mail = Object.fromEntries(lista.map(a => [a.id, a.email]));
+    const ativas = (d || []).filter(x => ['active', 'trialing'].includes(x.status) && !x.cancel_at_period_end).length;
+    const aCancelar = (d || []).filter(x => ['active', 'trialing'].includes(x.status) && x.cancel_at_period_end).length;
+    const graca = (d || []).filter(x => x.status === 'past_due').length;
+    el('sb-count').textContent = ativas + ' active · ' + graca + ' past due (grace) · ' + aCancelar + ' cancelling';
+    el('sb-rows').innerHTML = (d || []).map(x => `<tr><td>${h(mail[x.user_id] || x.user_id)}</td><td>${h(x.status)}${x.cancel_at_period_end ? ' · cancelling' : ''}</td><td>${data(x.current_period_end)}</td></tr>`).join('')
+      || '<tr><td colspan="3" class="empty">No subscriptions yet</td></tr>';
   }
   el('ac-rows').addEventListener('click', async ev => {
     const b = ev.target.closest('button[data-p]'); if (!b || b.classList.contains('on')) return;
@@ -1539,7 +1558,7 @@ entrar();
   });
   el('tab-accounts').addEventListener('click', () => { if (lista === null) carrega(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-accounts').classList.contains('hidden')) carrega(); else lista = null; });
-  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { lista = null; el('ac-rows').innerHTML = ''; } });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { lista = null; el('ac-rows').innerHTML = ''; el('sb-rows').innerHTML = ''; } });
 })();
 // ── QA (migracao 69): corridas, bugs e eficiencia por cenario. So leitura; o admin so muda qa_bugs.status ──
 // QA-PURE-BEGIN (funcoes puras: o teste admin/qa.test.js extrai este bloco e corre-o em node)

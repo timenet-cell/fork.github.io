@@ -1,10 +1,17 @@
 {
- "updated": "2026-11-03T17:45:00Z",
+ "updated": "2026-11-03T22:30:00Z",
  "tasks": [
   {
    "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
-   "p": 80,
-   "s": "code done · left: Stripe account, forkgate.io /pro pages",
+   "p": 90,
+   "s": "code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script",
+   "prio": 1,
+   "app": "Platform"
+  },
+  {
+   "t": "forkgate.io /pro and /pro/done pages + admin Subscriptions list (Accounts tab)",
+   "p": 100,
+   "s": "built, awaiting push",
    "prio": 1,
    "app": "Platform"
   },

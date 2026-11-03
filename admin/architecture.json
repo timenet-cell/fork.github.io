@@ -1484,6 +1484,7 @@
       ],
       "used_by": [
         "Edge Functions store_checkout, stripe_webhook, connect_onboard, store_refund",
+        "Pro subscriptions (pro_checkout, pro_portal, stripe_webhook)",
         "signer"
       ],
       "limits": "Test mode only; going live needs business verification and a payout bank account; disputes can claw money back for months",
