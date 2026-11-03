@@ -2,9 +2,9 @@
  "updated": "2026-11-03",
  "tasks": [
   {
-   "t": "Ledger: 21 of 22 waves merged (+L21 registry page and proof verifier); L22 terms/privacy running",
-   "p": 95,
-   "s": "in progress",
+   "t": "Ledger: all 22 waves merged (+L22 terms 0.9 and privacy notice, drafts for the lawyer); owner: devnet deploy steps in INDEX",
+   "p": 100,
+   "s": "code done",
    "prio": "high"
   },
   {
@@ -57,8 +57,8 @@
   },
   {
    "t": "Fork Ledger + credits & creation record",
-   "p": 95,
-   "s": "21 of 22 waves merged · L22 running · /l/ page to copy into the site",
+   "p": 100,
+   "s": "22 of 22 waves merged · left: devnet deploy (owner), /l/ page into site, legal review",
    "prio": 1
   },
   {
