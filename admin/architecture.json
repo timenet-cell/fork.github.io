@@ -1419,7 +1419,7 @@
       "purpose": "The cloud heart: accounts, database, Edge Functions, secret vault and timers; the licence validator and the Store signer run here.",
       "cost": "Free plan (0 EUR); upgrade to Pro (25 USD/month) only if limits bite",
       "paid": false,
-      "account": "unknown (project bxxscrkhcqdxgdhiuuoa; login not recorded in the repo)",
+      "account": "Supabase org timenet-cell's Org (Free), project bxxscrkhcqdxgdhiuuoa, region eu-west-1",
       "secrets": [
         "SUPABASE_URL",
         "SUPABASE_ANON_KEY (public)",
@@ -1448,11 +1448,11 @@
       "label": "Resend",
       "area": "External services",
       "kind": "service",
-      "status": "planned",
+      "status": "live",
       "purpose": "Sends the beta invites and registration emails from the Fork domain.",
       "cost": "Free plan (0 EUR) for the beta",
       "paid": false,
-      "account": "unknown (no account yet)",
+      "account": "Resend account fragosomail (signed in 2 Nov 2026); domain forkgate.io, region Ireland eu-west-1",
       "secrets": [
         "none yet; will be a Supabase secret (suggested name RESEND_API_KEY)"
       ],
@@ -1460,7 +1460,7 @@
         "Edge Functions invite and accept_invite",
         "beta signup"
       ],
-      "limits": "3,000 emails/month and 100/day on the free plan; the sending domain needs DNS records (SPF, DKIM)",
+      "limits": "3,000 emails/month and 100/day on the free plan; the sending domain needs DNS records (SPF, DKIM) Setup 2-3 Nov: DNS records added at Spaceship (DKIM, send/rsend CNAME, DMARC); Supabase custom SMTP still to be set by the owner.",
       "source": "supabase/functions/invite",
       "views": [
         "services"
@@ -1741,7 +1741,7 @@
       "purpose": "The public address of the site and of every link in the apps.",
       "cost": "Not zero-cost: yearly domain renewal (price and renewal date not recorded)",
       "paid": true,
-      "account": "unknown (registrar not recorded in the repo)",
+      "account": "Spaceship (registrar and DNS), domain forkgate.io, expires 2027-10-15",
       "secrets": [
         "none in the repo (registrar login and DNS)"
       ],

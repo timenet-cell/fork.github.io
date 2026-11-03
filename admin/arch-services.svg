@@ -133,11 +133,11 @@
 </g>
 <rect x="70" y="743" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
-<title>Resend — Planned — Sends the beta invites and registration emails from the Fork domain.</title>
-<rect x="106" y="771" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE" stroke-dasharray="4 3"/>
-<rect x="107" y="781" width="3" height="44" rx="1.5" fill="#8A96A5"/>
+<title>Resend — Live — Sends the beta invites and registration emails from the Fork domain.</title>
+<rect x="106" y="771" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="107" y="781" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="181" y="800.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Resend</text>
-<text x="181" y="825" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#8A96A5" text-anchor="middle" letter-spacing="0.5">PLANNED</text>
+<text x="181" y="825" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">LIVE</text>
 </g>
 <g>
 <title>Stripe — Planned — not zero-cost — Takes payments for licences and pays artists out; money is held back to cover disputes.</title>
