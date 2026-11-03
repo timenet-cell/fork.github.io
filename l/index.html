@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fork registry</title>
+<link rel="stylesheet" href="registry.css">
+</head>
+<body>
+<main>
+  <h1 id="title">Fork registry</h1>
+  <p id="note" class="muted">Loading…</p>
+
+  <section id="pub" hidden><h2>Publication</h2><div id="pubBody"></div></section>
+  <section id="credits" hidden><h2>Credits</h2><ul id="creditList"></ul></section>
+  <section id="ms" hidden><h2 id="msHead">Creation milestones</h2><ul id="msList"></ul></section>
+
+  <section id="check">
+    <h2>Check a proof</h2>
+    <p class="muted">Runs in this page. Nothing you load here leaves your browser, apart from the one Solana lookup.</p>
+    <label class="btn">Check a proof file <input id="file" type="file" accept=".json,application/json" hidden></label>
+    <div id="result" role="status" aria-live="polite"></div>
+  </section>
+</main>
+<script type="module" src="registry.js"></script>
+</body>
+</html>
