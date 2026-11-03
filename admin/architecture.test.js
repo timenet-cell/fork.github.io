@@ -81,7 +81,7 @@ for (const e of data.edges) {
 
 // The services view names every service the owner depends on, and the decisions already taken.
 const svc = id => byId.get('svc-' + id);
-for (const [id, status] of [['supabase', 'live'], ['resend', 'planned'], ['stripe', 'planned'], ['solana-devnet', 'live'], ['solana-mainnet', 'planned'],
+for (const [id, status] of [['supabase', 'live'], ['resend', 'live'], ['stripe', 'planned'], ['solana-devnet', 'live'], ['solana-mainnet', 'planned'],
   ['apple', 'postponed'], ['relay', 'not-used'], ['github-pages', 'live'], ['github-actions', 'planned']]) {
   assert.ok(svc(id), `services: missing ${id}`);
   assert.equal(svc(id).status, status, `services: ${id} must be ${status}`);
