@@ -14,9 +14,9 @@
    "prio": "high"
   },
   {
-   "t": "Resend emails: domain forkgate.io added, DNS set at Spaceship; owner: API key into Supabase SMTP",
-   "p": 70,
-   "s": "in progress",
+   "t": "Resend emails: domain verified, Supabase Auth custom SMTP set (noreply@forkgate.io)",
+   "p": 100,
+   "s": "done",
    "prio": "high"
   },
   {

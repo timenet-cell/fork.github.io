@@ -1449,12 +1449,12 @@
       "area": "External services",
       "kind": "service",
       "status": "live",
-      "purpose": "Sends the beta invites and registration emails from the Fork domain.",
+      "purpose": "Sends all Supabase Auth emails (sign-up, magic link, reset) and beta invites from noreply@forkgate.io via smtp.resend.com:465.",
       "cost": "Free plan (0 EUR) for the beta",
       "paid": false,
-      "account": "Resend account fragosomail (signed in 2 Nov 2026); domain forkgate.io, region Ireland eu-west-1",
+      "account": "Resend account fragosomail; domain forkgate.io Verified (3 Nov 2026), region Ireland eu-west-1",
       "secrets": [
-        "none yet; will be a Supabase secret (suggested name RESEND_API_KEY)"
+        "API key \"supabase\" (sending access, forkgate.io), stored only in Supabase Auth custom SMTP"
       ],
       "used_by": [
         "Edge Functions invite and accept_invite",
