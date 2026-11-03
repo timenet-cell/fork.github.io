@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-// Draws the three architecture diagrams from architecture.json.
+// Draws the four architecture diagrams from architecture.json.
 // Plain Node, no dependencies, deterministic output.
 
 const fs = require('node:fs');
@@ -12,6 +12,7 @@ const OUT = {
   overview: path.join(__dirname, 'arch-overview.svg'),
   studio: path.join(__dirname, 'arch-studio.svg'),
   music: path.join(__dirname, 'arch-music.svg'),
+  services: path.join(__dirname, 'arch-services.svg'),
 };
 
 const W = 1200;
@@ -48,7 +49,12 @@ const STATUS = {
   building: { label: 'Building', color: '#C77700', dash: null },
   planned: { label: 'Planned', color: '#8A96A5', dash: '4 3' },
   'after-beta': { label: 'After beta', color: '#5B6675', dash: null },
+  // External services view
+  live: { label: 'Live', color: '#1E8E3E', dash: null },
+  postponed: { label: 'Postponed', color: '#3F6EA8', dash: null },
+  'not-used': { label: 'Not used', color: '#8A96A5', dash: '1 3' },
 };
+const LEGEND_DEFAULT = ['built', 'building', 'planned', 'after-beta'];
 
 function r1(n) {
   const v = Math.round(n * 10) / 10;
@@ -356,12 +362,14 @@ function renderView(data, viewId) {
   text(MARGIN + 14, 61, view.subtitle, { size: 11.5, fill: MUTED, kind: 'subtitle' });
 
   // Legend
-  const legend = Object.values(STATUS);
+  const legend = (view.legend || LEGEND_DEFAULT).map(k => (k === 'paid' ? { label: 'Not zero-cost', color: ACCENT, dot: true } : STATUS[k]));
   const itemW = s => 17 + textWidth(s.label, 10.5);
   const legendW = legend.reduce((a, s) => a + itemW(s), 0) + 14 * (legend.length - 1);
   let lx = W - MARGIN - legendW;
   for (const s of legend) {
-    if (s.dash) {
+    if (s.dot) {
+      out.push('<circle cx="' + fmt(lx + 6) + '" cy="39" r="3.5" fill="' + s.color + '"/>');
+    } else if (s.dash) {
       out.push('<line x1="' + fmt(lx) + '" y1="39" x2="' + fmt(lx + 12) + '" y2="39" stroke="' + s.color + '" stroke-width="3" stroke-linecap="round" stroke-dasharray="' + s.dash + '"/>');
     } else {
       out.push('<rect x="' + fmt(lx) + '" y="37.5" width="12" height="3" rx="1.5" fill="' + s.color + '"/>');
@@ -386,8 +394,9 @@ function renderView(data, viewId) {
         const st = statusOf(n);
         nodeBoxes.push({ id: n.id, x: p.x, y: p.y, w: p.w, h: p.h });
         out.push('<g>');
-        out.push('<title>' + xesc(n.label + ' — ' + st.label + ' — ' + n.description) + '</title>');
+        out.push('<title>' + xesc(n.label + ' — ' + st.label + (n.paid ? ' — not zero-cost' : '') + ' — ' + (n.description || n.purpose)) + '</title>');
         out.push('<rect x="' + fmt(p.x) + '" y="' + fmt(p.y) + '" width="' + CARD_W + '" height="' + CARD_H + '" rx="8" fill="#FFFFFF" stroke="' + LINE + '"' + (st.dash ? ' stroke-dasharray="' + st.dash + '"' : '') + '/>');
+        if (n.paid) out.push('<circle cx="' + fmt(p.x + CARD_W - 9) + '" cy="' + fmt(p.y + 9) + '" r="3.5" fill="' + ACCENT + '"/>');
         out.push('<rect x="' + fmt(p.x + 1) + '" y="' + fmt(p.y + 10) + '" width="3" height="' + (CARD_H - 20) + '" rx="1.5" fill="' + st.color + '"/>');
         const fit = fitLabel(n.label);
         const total = fit.lines.length * LINE_H;

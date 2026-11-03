@@ -16,7 +16,7 @@
 <text x="1005.6" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Planned</text>
 <rect x="1057.8" y="37.5" width="12" height="3" rx="1.5" fill="#5B6675"/>
 <text x="1074.8" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">After beta</text>
-<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-10-29</text>
+<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-03</text>
 <rect x="70" y="96" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
 <title>Fork Studio window — Built — Tauri v2 window, native title bar, single instance and Dev/Freeze builds.</title>
@@ -529,6 +529,6 @@
 <rect x="84" y="1600" width="4" height="4" rx="1" fill="#E5342B"/>
 <text x="94" y="1605" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">DATA AND DISKS</text>
 <line x1="70" y1="1723" x2="1130" y2="1723" stroke="#DCE5EE"/>
-<text x="70" y="1740" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-10-29</text>
+<text x="70" y="1740" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-03</text>
 <text x="1130" y="1740" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5" text-anchor="end">50 components · 37 flows</text>
 </svg>

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29",
+  "updated": "2026-11-03",
   "brand": {
     "background": "#EEF3F8",
     "card": "#F8FAFC",
@@ -338,6 +338,113 @@
           ]
         }
       ]
+    },
+    "services": {
+      "title": "External services",
+      "subtitle": "Every outside service Fork depends on: what it costs, whose account it is and what it holds",
+      "legend": [
+        "live",
+        "planned",
+        "postponed",
+        "not-used",
+        "paid"
+      ],
+      "rows": [
+        {
+          "id": "apps",
+          "groups": [
+            {
+              "id": "apps",
+              "title": "Apps",
+              "nodes": [
+                "studio",
+                "music",
+                "labels",
+                "manager"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "artist",
+          "groups": [
+            {
+              "id": "svc-artist",
+              "title": "Artist accounts and releases",
+              "nodes": [
+                "svc-meta",
+                "svc-soundcloud",
+                "svc-google",
+                "svc-tunnels",
+                "svc-github-releases",
+                "svc-apple"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cloud",
+          "groups": [
+            {
+              "id": "svc-cloud",
+              "title": "Cloud and site",
+              "nodes": [
+                "svc-supabase",
+                "svc-packages",
+                "site",
+                "connect",
+                "edge-functions"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "money",
+          "groups": [
+            {
+              "id": "svc-money",
+              "title": "Mail, money and hosting",
+              "nodes": [
+                "svc-resend",
+                "svc-stripe",
+                "svc-github-pages",
+                "svc-github-actions",
+                "svc-domain",
+                "svc-jsdelivr"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "signer",
+          "groups": [
+            {
+              "id": "platform",
+              "title": "Signer and swarm",
+              "nodes": [
+                "signer",
+                "swarm"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "chain",
+          "groups": [
+            {
+              "id": "svc-chain",
+              "title": "Chain and network",
+              "nodes": [
+                "svc-solana-devnet",
+                "svc-solana-mainnet",
+                "svc-helius",
+                "svc-relay",
+                "svc-stun"
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "nodes": [
@@ -349,7 +456,8 @@
       "description": "Producer app: projects, samples, signed versions, store, network and phone access.",
       "source": "apps/fork-studio",
       "views": [
-        "overview"
+        "overview",
+        "services"
       ]
     },
     {
@@ -360,7 +468,8 @@
       "description": "Fan app: store, library, passes, encrypted delivery and the shared player.",
       "source": "apps/fork-music",
       "views": [
-        "overview"
+        "overview",
+        "services"
       ]
     },
     {
@@ -371,7 +480,8 @@
       "description": "Label management app: releases, submissions, contracts and payouts.",
       "source": "apps/fork-labels",
       "views": [
-        "overview"
+        "overview",
+        "services"
       ]
     },
     {
@@ -382,7 +492,8 @@
       "description": "Management app: gigs, invoices, press, riders, social and accounts.",
       "source": "apps/fork-manager",
       "views": [
-        "overview"
+        "overview",
+        "services"
       ]
     },
     {
@@ -429,7 +540,8 @@
       "description": "Server-side functions: checkout, webhook, settle, certs, invites, verify and wallet.",
       "source": "supabase/functions",
       "views": [
-        "overview"
+        "overview",
+        "services"
       ]
     },
     {
@@ -441,7 +553,8 @@
       "source": "index.html, protocol/, verify/, r/, admin/",
       "views": [
         "overview",
-        "studio"
+        "studio",
+        "services"
       ]
     },
     {
@@ -463,7 +576,8 @@
       "description": "Installable phone web app: Studio tunnel, swarm reader and file upload.",
       "source": "apps/fork-p2p-web, connect/",
       "views": [
-        "overview"
+        "overview",
+        "services"
       ]
     },
     {
@@ -476,7 +590,8 @@
       "views": [
         "overview",
         "studio",
-        "music"
+        "music",
+        "services"
       ]
     },
     {
@@ -500,7 +615,8 @@
       "views": [
         "overview",
         "studio",
-        "music"
+        "music",
+        "services"
       ]
     },
     {
@@ -1293,6 +1409,465 @@
       "views": [
         "music"
       ]
+    },
+    {
+      "id": "svc-supabase",
+      "label": "Supabase",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "The cloud heart: accounts, database, Edge Functions, secret vault and timers; the licence validator and the Store signer run here.",
+      "cost": "Free plan (0 EUR); upgrade to Pro (25 USD/month) only if limits bite",
+      "paid": false,
+      "account": "unknown (project bxxscrkhcqdxgdhiuuoa; login not recorded in the repo)",
+      "secrets": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY (public)",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_SECRET_KEYS",
+        "Vault: fork_signer_fee_payer, fork_signer_tree_delegate, fork_signer_collection_delegate, fork_signer_freeze_delegate, fork_signer_lease_issuer, fork_signer_escrow, fork_signer_devnet_authority",
+        "FORK_DEVICE_CERT_KEY"
+      ],
+      "used_by": [
+        "Fork Studio",
+        "Fork Music",
+        "site",
+        "Fork Admin",
+        "/connect",
+        "all Edge Functions",
+        "signer"
+      ],
+      "limits": "Project pauses after 7 days without activity (the 30 s signer timer keeps it awake); free database and storage caps; a pause would stop sign-in, store and signer at once",
+      "source": "supabase/migrations, supabase/functions, docs/SIGNER_TO_SUPABASE_PLAN.md",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-resend",
+      "label": "Resend",
+      "area": "External services",
+      "kind": "service",
+      "status": "planned",
+      "purpose": "Sends the beta invites and registration emails from the Fork domain.",
+      "cost": "Free plan (0 EUR) for the beta",
+      "paid": false,
+      "account": "unknown (no account yet)",
+      "secrets": [
+        "none yet; will be a Supabase secret (suggested name RESEND_API_KEY)"
+      ],
+      "used_by": [
+        "Edge Functions invite and accept_invite",
+        "beta signup"
+      ],
+      "limits": "3,000 emails/month and 100/day on the free plan; the sending domain needs DNS records (SPF, DKIM)",
+      "source": "supabase/functions/invite",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-stripe",
+      "label": "Stripe",
+      "area": "External services",
+      "kind": "service",
+      "status": "planned",
+      "purpose": "Takes payments for licences and pays artists out; money is held back to cover disputes.",
+      "cost": "No monthly fee; per-sale fee (about 1.5% + 0.25 EUR in Europe) and Connect payout fees, so not zero-cost once sales start",
+      "paid": true,
+      "account": "unknown (test mode only, switch is off)",
+      "secrets": [
+        "STRIPE_SECRET_KEY",
+        "STRIPE_WEBHOOK_SECRET",
+        "STRIPE_CONNECT_WEBHOOK_SECRET",
+        "STRIPE_SIGNER_KEY (restricted rk_ key)"
+      ],
+      "used_by": [
+        "Edge Functions store_checkout, stripe_webhook, connect_onboard, store_refund",
+        "signer"
+      ],
+      "limits": "Test mode only; going live needs business verification and a payout bank account; disputes can claw money back for months",
+      "source": "supabase/functions/store_checkout, supabase/functions/stripe_webhook, apps/fork-signer/src/stripe.rs",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-solana-devnet",
+      "label": "Solana devnet",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Beta licence seals: every licence is recorded on a practice blockchain, free to test the real code.",
+      "cost": "Free (faucet SOL, no value)",
+      "paid": false,
+      "account": "unknown (devnet authority wallet; its key is disposable)",
+      "secrets": [
+        "Vault: fork_signer_devnet_authority",
+        "FORK_SOLANA_NETWORK",
+        "FORK_MERKLE_TREE, FORK_COLLECTION, FORK_LOOKUP_TABLE (public addresses)"
+      ],
+      "used_by": [
+        "signer",
+        "Fork Music",
+        "licence_verify"
+      ],
+      "limits": "Public devnet RPC is rate-limited and can be reset; the faucet caps airdrops",
+      "source": "packages/core-chain/src/solana, apps/fork-signer/src/bootstrap.rs",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-solana-mainnet",
+      "label": "Solana mainnet",
+      "area": "External services",
+      "kind": "service",
+      "status": "planned",
+      "purpose": "Real licence seals from alpha: the permanent public record that a licence exists.",
+      "cost": "Not zero-cost: about 0.02 SOL (about 3 USD) covers years of seals, plus the fee-payer balance and a 0.3 SOL registry",
+      "paid": true,
+      "account": "unknown (multisig owner wallet to be created)",
+      "secrets": [
+        "Vault: fork_signer_fee_payer, fork_signer_tree_delegate, fork_signer_collection_delegate, fork_signer_freeze_delegate",
+        "database flag signer_mainnet_enabled (off) and a signer_mainnet_approval row"
+      ],
+      "used_by": [
+        "signer"
+      ],
+      "limits": "Blocked by code until the owner signs a separate decision; the fee payer is the only hot key that can lose money (balance is capped)",
+      "source": "docs/SIGNER_TO_SUPABASE_PLAN.md, docs/LEDGER_DECISOES_2NOV.md",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-helius",
+      "label": "Helius RPC",
+      "area": "External services",
+      "kind": "service",
+      "status": "planned",
+      "purpose": "A reliable line into the blockchain that can also list a wallet's licences (DAS).",
+      "cost": "Free plan (0 EUR) covers the beta; paid tiers from about 49 USD/month if traffic grows",
+      "paid": false,
+      "account": "unknown (no account yet)",
+      "secrets": [
+        "FORK_DAS_URL (contains the API key)",
+        "HELIUS_API_KEY (Supabase secret)"
+      ],
+      "used_by": [
+        "signer",
+        "Edge Functions licence_verify and move_back_plan"
+      ],
+      "limits": "Free plan has monthly request credits and a requests-per-second cap; the public Solana RPC has no DAS",
+      "source": "docs/CNFT_DESIGN.md, supabase/functions/licence_verify",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-github-pages",
+      "label": "GitHub Pages",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Hosts forkgate.io: landing, beta signup, verify pages, /connect and this admin.",
+      "cost": "Free (public repository)",
+      "paid": false,
+      "account": "GitHub account timenet-cell",
+      "secrets": [
+        "none (GitHub login and 2FA)"
+      ],
+      "used_by": [
+        "site",
+        "Fork Admin",
+        "/connect"
+      ],
+      "limits": "Soft limits: 1 GB site, 100 GB/month traffic; static files only; the repository is public, so nothing secret may be committed",
+      "source": "CNAME, index.html, admin/, connect/",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-github-actions",
+      "label": "GitHub Actions",
+      "area": "External services",
+      "kind": "service",
+      "status": "planned",
+      "purpose": "A scheduled job that touches Supabase so it never pauses from idleness.",
+      "cost": "Free (public repository)",
+      "paid": false,
+      "account": "GitHub account timenet-cell",
+      "secrets": [
+        "planned: repository secret for the Supabase URL and anon key (names to be set)"
+      ],
+      "used_by": [
+        "keep-alive for Supabase"
+      ],
+      "limits": "No workflow is committed in the site repository yet; scheduled workflows are disabled after 60 days without commits",
+      "source": "docs/SIGNER_TO_SUPABASE_PLAN.md (keep-alive CI)",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-github-releases",
+      "label": "GitHub release feeds",
+      "area": "External services",
+      "kind": "service",
+      "status": "planned",
+      "purpose": "Delivers app installers and signed automatic updates to testers.",
+      "cost": "Free (public repositories)",
+      "paid": false,
+      "account": "GitHub account timenet-cell",
+      "secrets": [
+        "FORK_UPDATER_KEY / FORK_UPDATER_KEYCHAIN (updater signing key, Keychain)",
+        "GitHub login used by gh"
+      ],
+      "used_by": [
+        "Fork Studio",
+        "Fork Music",
+        "Fork Labels",
+        "Fork Manager"
+      ],
+      "limits": "Feed repositories fork-studio-releases, fork-music-releases, fork-labels-releases, fork-manager-releases are still to create; release asset size limit 2 GB per file",
+      "source": "scripts/release_apps.sh, scripts/publish_release.sh",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-apple",
+      "label": "Apple Developer Program",
+      "area": "External services",
+      "kind": "service",
+      "status": "postponed",
+      "purpose": "Lets the apps open on other computers without the security warning (signing and notarisation).",
+      "cost": "Not zero-cost: 99 EUR/year, postponed to after the beta",
+      "paid": true,
+      "account": "unknown (no enrolment)",
+      "secrets": [
+        "FORK_SIGN_IDENTITY (Keychain identity)",
+        "FORK_NOTARY_PROFILE (notarytool profile in Keychain)"
+      ],
+      "used_by": [
+        "Fork Studio",
+        "Fork Music",
+        "Fork Labels",
+        "Fork Manager"
+      ],
+      "limits": "Until then testers open the apps with a one-time right-click, and builds use the local Fork Studio Dev certificate",
+      "source": "scripts/sign_notarize.sh, scripts/fork-entitlements.plist",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-relay",
+      "label": "VPS relay",
+      "area": "External services",
+      "kind": "service",
+      "status": "not-used",
+      "purpose": "A small always-on server that would help two computers behind strict routers reach each other.",
+      "cost": "Not used in beta (a VPS would be roughly 4-6 EUR/month)",
+      "paid": false,
+      "account": "none (no server rented)",
+      "secrets": [
+        "none"
+      ],
+      "used_by": [
+        "P2P swarm (code exists, nothing deployed)"
+      ],
+      "limits": "Direct connections and hole punching already work; revisit if testers on strict networks cannot connect",
+      "source": "apps/fork-relay",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-stun",
+      "label": "Public STUN servers",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Lets the phone and the computer find each other for the direct tunnel.",
+      "cost": "Free (Google and Cloudflare public servers)",
+      "paid": false,
+      "account": "none (no account)",
+      "secrets": [
+        "none"
+      ],
+      "used_by": [
+        "/connect PWA",
+        "phone tunnel"
+      ],
+      "limits": "No uptime promise; STUN only helps discover addresses, no TURN relay is deployed, so strict networks can fail",
+      "source": "apps/fork-p2p-web/index.html",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-jsdelivr",
+      "label": "jsDelivr CDN",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Serves the Supabase browser library to the site, admin and /connect.",
+      "cost": "Free",
+      "paid": false,
+      "account": "none (no account)",
+      "secrets": [
+        "none"
+      ],
+      "used_by": [
+        "site",
+        "Fork Admin",
+        "/connect PWA"
+      ],
+      "limits": "Pinned to supabase-js 2.45.4; if the CDN is down those pages cannot sign in",
+      "source": "index.html, admin/index.html, connect/index.html",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-domain",
+      "label": "forkgate.io domain",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "The public address of the site and of every link in the apps.",
+      "cost": "Not zero-cost: yearly domain renewal (price and renewal date not recorded)",
+      "paid": true,
+      "account": "unknown (registrar not recorded in the repo)",
+      "secrets": [
+        "none in the repo (registrar login and DNS)"
+      ],
+      "used_by": [
+        "site",
+        "Fork Admin",
+        "/connect",
+        "every licence and verify link"
+      ],
+      "limits": "If the domain lapses, the site, verify links and the PWA all break; keep auto-renew on",
+      "source": "CNAME",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-packages",
+      "label": "npm and crates.io",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Download the open-source building blocks when the apps are built.",
+      "cost": "Free",
+      "paid": false,
+      "account": "none (read-only)",
+      "secrets": [
+        "none"
+      ],
+      "used_by": [
+        "all builds"
+      ],
+      "limits": "Build-time only; vendored copies live in the monorepo vendor folder",
+      "source": "package.json, Cargo.toml",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-meta",
+      "label": "Meta Graph API",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Posts videos and photos to Instagram and Facebook for the artist.",
+      "cost": "Free (Meta developer app)",
+      "paid": false,
+      "account": "unknown (Meta developer app and the artist's own Instagram/Facebook pages)",
+      "secrets": [
+        "access tokens kept locally by Fork Manager; names not in the repo"
+      ],
+      "used_by": [
+        "Fork Manager"
+      ],
+      "limits": "Needs a public media URL, so it depends on the tunnel chain; Meta app review limits who can use it",
+      "source": "apps/fork-manager/server/modulos_privados.py, apps/fork-manager/src-tauri/src/social_publisher.rs",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-soundcloud",
+      "label": "SoundCloud API",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Uploads and reads releases on the label's SoundCloud account.",
+      "cost": "Free API (needs the account's own plan for uploads)",
+      "paid": false,
+      "account": "unknown (label account and API app)",
+      "secrets": [
+        "SoundCloud client id and secret, kept locally by Fork Labels"
+      ],
+      "used_by": [
+        "Fork Labels"
+      ],
+      "limits": "API access by approval; per-app request limits",
+      "source": "apps/fork-labels/server/sc_api.py",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-google",
+      "label": "Google (Gmail, YouTube)",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Sends label emails and publishes to YouTube with the artist's own Google account.",
+      "cost": "Free (Google Cloud project)",
+      "paid": false,
+      "account": "unknown (Google Cloud project and the artist's own account)",
+      "secrets": [
+        "GOOGLE_TOKEN (local token file)",
+        "SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM"
+      ],
+      "used_by": [
+        "Fork Labels",
+        "Fork Manager"
+      ],
+      "limits": "Gmail daily sending cap; YouTube Data API daily quota; OAuth consent screen in testing mode expires tokens after 7 days",
+      "source": "apps/fork-labels/server/mailer.py, apps/fork-manager/server/publicar.py",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "id": "svc-tunnels",
+      "label": "Tunnel providers",
+      "area": "External services",
+      "kind": "service",
+      "status": "live",
+      "purpose": "Give Fork Manager a temporary public address so Instagram can fetch a video.",
+      "cost": "Free (Tailscale Funnel, Cloudflare quick tunnel, Pinggy, Serveo)",
+      "paid": false,
+      "account": "unknown (Tailscale account)",
+      "secrets": [
+        "none in the repo (Tailscale login)"
+      ],
+      "used_by": [
+        "Fork Manager"
+      ],
+      "limits": "Fallback chain, in order: Tailscale Funnel, Cloudflare, Pinggy, Serveo; the last two were unreliable in tests",
+      "source": "apps/fork-manager/server/CHANGELOG.md",
+      "views": [
+        "services"
+      ]
     }
   ],
   "edges": [
@@ -1982,6 +2557,214 @@
       "label": "seed announce",
       "views": [
         "music"
+      ]
+    },
+    {
+      "from": "studio",
+      "to": "svc-supabase",
+      "label": "account · projects",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "music",
+      "to": "svc-supabase",
+      "label": "store · licences",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "site",
+      "to": "svc-supabase",
+      "label": "signup · verify",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "edge-functions",
+      "to": "svc-supabase",
+      "label": "runs on",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "edge-functions",
+      "to": "svc-resend",
+      "label": "invite emails",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "edge-functions",
+      "to": "svc-stripe",
+      "label": "checkout · webhook",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "signer",
+      "to": "svc-solana-devnet",
+      "label": "beta seals",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "signer",
+      "to": "svc-solana-mainnet",
+      "label": "alpha seals",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "signer",
+      "to": "svc-helius",
+      "label": "RPC · DAS",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "site",
+      "to": "svc-github-pages",
+      "label": "hosting",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "site",
+      "to": "svc-domain",
+      "label": "forkgate.io",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "site",
+      "to": "svc-github-actions",
+      "label": "keep-alive job",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "site",
+      "to": "svc-jsdelivr",
+      "label": "supabase-js",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "studio",
+      "to": "svc-github-releases",
+      "label": "updates",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "music",
+      "to": "svc-github-releases",
+      "label": "updates",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "studio",
+      "to": "svc-apple",
+      "label": "signing later",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "manager",
+      "to": "svc-github-releases",
+      "label": "updates",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "labels",
+      "to": "svc-github-releases",
+      "label": "updates",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "swarm",
+      "to": "svc-relay",
+      "label": "not used in beta",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "connect",
+      "to": "svc-stun",
+      "label": "WebRTC",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "manager",
+      "to": "svc-meta",
+      "label": "social posts",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "manager",
+      "to": "svc-tunnels",
+      "label": "public media URL",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "manager",
+      "to": "svc-google",
+      "label": "YouTube",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "labels",
+      "to": "svc-soundcloud",
+      "label": "releases",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "labels",
+      "to": "svc-google",
+      "label": "Gmail",
+      "views": [
+        "services"
+      ]
+    },
+    {
+      "from": "music",
+      "to": "svc-packages",
+      "label": "build",
+      "views": [
+        "services"
       ]
     }
   ]

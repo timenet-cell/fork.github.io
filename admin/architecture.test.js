@@ -1,4 +1,4 @@
-// Test the architecture inventory and the three generated diagrams (node admin/architecture.test.js).
+// Test the architecture inventory and the four generated diagrams (node admin/architecture.test.js).
 const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
@@ -6,12 +6,15 @@ const gen = require('./architecture_gen.js');
 
 const dir = __dirname;
 const data = JSON.parse(fs.readFileSync(path.join(dir, 'architecture.json'), 'utf8'));
-const VIEWS = ['overview', 'studio', 'music'];
-const STATUS = new Set(['built', 'building', 'planned', 'after-beta']);
+const VIEWS = ['overview', 'studio', 'music', 'services'];
+const STATUS = new Set(['built', 'building', 'planned', 'after-beta', 'live', 'postponed', 'not-used']);
+const SERVICE_STATUS = new Set(['live', 'planned', 'postponed', 'not-used']);
+const SERVICE_TEXT = ['label', 'status', 'purpose', 'cost', 'account', 'limits', 'source'];
+const SERVICE_LIST = ['secrets', 'used_by'];
 
 // ── inventory ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 assert.match(data.updated, /^\d{4}-\d{2}-\d{2}$/, 'updated must be a date');
-assert.deepEqual(Object.keys(data.views), VIEWS, 'exactly the three views');
+assert.deepEqual(Object.keys(data.views), VIEWS, 'exactly the four views');
 assert.equal(data.brand.background, '#EEF3F8');
 assert.equal(data.brand.card, '#F8FAFC');
 assert.equal(data.brand.line, '#DCE5EE');
@@ -22,8 +25,22 @@ assert.equal(data.brand.accent, '#E5342B');
 const ids = new Set();
 const byId = new Map();
 for (const n of data.nodes) {
-  for (const k of ['id', 'label', 'area', 'status', 'description', 'source']) {
+  const service = n.kind === 'service';
+  for (const k of ['id', 'label', 'area', 'status', 'source', ...(service ? ['purpose'] : ['description'])]) {
     assert.ok(typeof n[k] === 'string' && n[k].trim(), `${n.id || '?'}: ${k} is required`);
+  }
+  if (service) {
+    assert.ok(n.id.startsWith('svc-'), `${n.id}: service ids start with svc-`);
+    assert.deepEqual(n.views, ['services'], `${n.id}: a service lives only in the services view`);
+    assert.ok(SERVICE_STATUS.has(n.status), `${n.id}: service status must be live, planned, postponed or not-used`);
+    for (const k of SERVICE_TEXT) assert.ok(typeof n[k] === 'string' && n[k].trim(), `${n.id}: ${k} is required`);
+    for (const k of SERVICE_LIST) {
+      assert.ok(Array.isArray(n[k]) && n[k].length && n[k].every(x => typeof x === 'string' && x.trim()), `${n.id}: ${k} needs at least one entry`);
+    }
+    assert.equal(typeof n.paid, 'boolean', `${n.id}: paid must be true or false`);
+    assert.equal(n.paid, !/^(free|not used)/i.test(n.cost), `${n.id}: paid flag disagrees with the cost text`);
+    // Secrets are names only: no value-looking strings.
+    for (const x of n.secrets) assert.ok(!/(\b(sk|rk)_(live|test)_|whsec_[A-Za-z0-9]|\beyJ|[A-Za-z0-9+/]{40,})/.test(x), `${n.id}: secrets must be names, not values`);
   }
   assert.ok(!ids.has(n.id), 'duplicate node id ' + n.id);
   ids.add(n.id);
@@ -60,6 +77,19 @@ for (const e of data.edges) {
   const key = e.from + '\0' + e.to + '\0' + e.label + '\0' + e.views.join(',');
   assert.ok(!seenEdges.has(key), 'duplicate edge ' + e.from + ' -> ' + e.to);
   seenEdges.add(key);
+}
+
+// The services view names every service the owner depends on, and the decisions already taken.
+const svc = id => byId.get('svc-' + id);
+for (const [id, status] of [['supabase', 'live'], ['resend', 'planned'], ['stripe', 'planned'], ['solana-devnet', 'live'], ['solana-mainnet', 'planned'],
+  ['apple', 'postponed'], ['relay', 'not-used'], ['github-pages', 'live'], ['github-actions', 'planned']]) {
+  assert.ok(svc(id), `services: missing ${id}`);
+  assert.equal(svc(id).status, status, `services: ${id} must be ${status}`);
+}
+for (const id of ['solana-mainnet', 'apple']) assert.equal(svc(id).paid, true, `services: ${id} is not zero-cost`);
+const serviceNodes = data.nodes.filter(n => n.kind === 'service');
+for (const n of serviceNodes) {
+  assert.ok(data.edges.some(e => e.to === n.id && e.views.includes('services')), `${n.id}: no app or function points at this service`);
 }
 
 // The status must match the plan: these four are held for after the beta.
@@ -107,7 +137,9 @@ for (const v of VIEWS) {
   for (const color of ['#EEF3F8', '#F8FAFC', '#DCE5EE', '#141A22', '#5B6675', '#E5342B']) {
     assert.ok(repo.includes(color), `${v}: missing brand colour ${color}`);
   }
-  for (const label of ['Built', 'Building', 'Planned', 'After beta']) {
+  const legendKeys = data.views[v].legend || ['built', 'building', 'planned', 'after-beta'];
+  const legendLabels = { built: 'Built', building: 'Building', planned: 'Planned', 'after-beta': 'After beta', live: 'Live', postponed: 'Postponed', 'not-used': 'Not used', paid: 'Not zero-cost' };
+  for (const label of legendKeys.map(k => legendLabels[k])) {
     assert.ok(repo.includes('>' + label + '</text>'), `${v}: missing legend ${label}`);
   }
   assert.ok(repo.includes('>' + data.views[v].title + '</text>'), v + ': missing title');
@@ -146,6 +178,8 @@ const html = fs.readFileSync(path.join(dir, 'index.html'), 'utf8');
 assert.ok(html.includes('architecture.json'), 'admin page must load architecture.json');
 assert.ok(html.includes("arch-' + esc(arView) + '.svg"), 'admin page must switch between the three SVGs');
 assert.ok(html.includes('id="ar-stage"') && html.includes('id="ar-q"') && html.includes('id="ar-rows"'), 'admin page needs diagram, search and table');
+assert.ok(html.includes('data-ar="services"') && html.includes('id="ar-svc"'), 'admin page needs the External services tab and list');
+for (const k of ['cost', 'account', 'secrets', 'used_by', 'limits']) assert.ok(html.includes('n.' + k), `admin page must show ${k} of a service`);
 assert.ok(!html.includes('architecture.svg'), 'admin page must not reference the old diagram');
 assert.ok(!fs.existsSync(path.join(dir, 'architecture.svg')), 'old architecture.svg must be gone');
 
