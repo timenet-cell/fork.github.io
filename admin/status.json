@@ -1,6 +1,24 @@
 {
- "updated": "2026-11-02 16:02",
+ "updated": "2026-11-03",
  "tasks": [
+  {
+   "t": "Daily backup: auth mirror fix merged (migration 79); owner: supabase db push + rerun setup.sh",
+   "p": 80,
+   "s": "in progress",
+   "prio": "high"
+  },
+  {
+   "t": "Resend emails: domain forkgate.io added, DNS set at Spaceship; owner: API key into Supabase SMTP",
+   "p": 70,
+   "s": "in progress",
+   "prio": "high"
+  },
+  {
+   "t": "Signer in Supabase: wave 5 merged (custody seed in Vault, migration 78); waves 6-7 left",
+   "p": 70,
+   "s": "in progress",
+   "prio": "high"
+  },
   {
    "t": "Encryption: AES-256 fragments",
    "p": 92,
