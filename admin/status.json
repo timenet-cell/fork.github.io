@@ -17,8 +17,8 @@
   },
   {
    "t": "Multi-user Fork and Merge (track versions grouped on merge)",
-   "p": 15,
-   "s": "design written (docs/FORK_MERGE_DESIGN.md) · waiting for your 5 answers",
+   "p": 40,
+   "s": "5 answers in · waves 1, 4, 5 merged (track Ids + duplicates, sample copy, branches migration 94) · next: merge plan, .als writer, Studio sheet",
    "prio": 1,
    "app": "Fork Studio"
   },
