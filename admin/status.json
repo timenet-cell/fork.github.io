@@ -2,14 +2,14 @@
  "updated": "2026-11-03",
  "tasks": [
   {
-   "t": "Ledger: 16 of 22 waves merged (+L14 credits UI, L19 DDEX import); L9, L17, L20 at 10:25",
-   "p": 72,
+   "t": "Ledger: 19 of 22 waves merged (+L9 swarm batches, L17 agreements, L20 DDEX in apps); left L10, L21, L22",
+   "p": 86,
    "s": "in progress",
    "prio": "high"
   },
   {
-   "t": "Daily backup: auth mirror fix merged (migration 79); owner: supabase db push + rerun setup.sh",
-   "p": 80,
+   "t": "Daily backup: migrations 78-86 applied; dump fixed (storage internals out); owner: bypassrls on reader, rerun setup.sh",
+   "p": 90,
    "s": "in progress",
    "prio": "high"
   },
@@ -57,8 +57,8 @@
   },
   {
    "t": "Fork Ledger + credits & creation record",
-   "p": 5,
-   "s": "Plan written · left: 11 decisions from you, then build",
+   "p": 86,
+   "s": "19 of 22 waves merged · left L10, L21, L22",
    "prio": 1
   },
   {
