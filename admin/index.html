@@ -963,13 +963,34 @@ function stDesenha() {
   }).join('');
   for (const b of $('st-seg').querySelectorAll('button')) b.onclick = () => { stApp = b.dataset.app; stDesenha(); };
   const grupos = stApp === 'All' ? apps : [stApp];
-  $('st').innerHTML = grupos.map(a => {
+  $('st').innerHTML = stModulos() + grupos.map(a => {
     const t = stData.tasks.filter(x => (x.app || 'Fork Studio') === a).sort(ord);
     return (stApp === 'All' ? `<h2 style="margin:18px 0 8px">${esc(a)} <small>${t.filter(aberto).length} open</small></h2>` : '') + t.map(stLinha).join('');
   }).join('');
 }
+// Os modulos de cada app vêm do architecture.json (a mesma fonte do separador Architecture) e reagem ao filtro.
+const ST_VISTA = { 'All': 'overview', 'Fork Studio': 'studio', 'Fork Music': 'music', 'Platform': 'services' };
+let stArq = null;
+function stModulos() {
+  if (!stArq) return '';
+  const byId = new Map(stArq.nodes.map(n => [n.id, n]));
+  let blocos;
+  const v = ST_VISTA[stApp] && stArq.views[ST_VISTA[stApp]];
+  if (v) blocos = v.rows.flatMap(r => r.groups).map(g => [g.title || g.label || '', g.nodes.map(id => byId.get(id)).filter(Boolean)]);
+  else if (stApp === 'Fork Network') blocos = [['Network', stArq.nodes.filter(n => ['Network', 'Phone'].includes(n.area) || /p2p|swarm|relay|seed/i.test(n.label + ' ' + n.id))]];
+  else return '';
+  blocos = blocos.filter(b => b[1].length);
+  if (!blocos.length) return '';
+  const feito = new Set(['built', 'live']);
+  const todos = blocos.flatMap(b => b[1]);
+  return `<details class="st-mod" open><summary><h2 style="display:inline;margin:0">Modules</h2> <small>${todos.filter(n => feito.has(n.status)).length} of ${todos.length} built or live</small></summary>` +
+    blocos.map(([t, ns]) => `<div style="margin:10px 0 4px;font:600 12.5px/1.3 var(--sans);color:var(--muted)">${esc(t)}</div>` +
+      `<div style="display:flex;flex-wrap:wrap;gap:6px">${ns.map(n => `<span title="${esc(n.description || n.purpose || '')}" style="display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);font:13px/1.2 var(--sans)">${esc(n.label)} ${arBadge(n.status)}</span>`).join('')}</div>`).join('') +
+    '</details><h2 style="margin:22px 0 8px">Tasks</h2>';
+}
 async function estado() {
   $('st-err').textContent = '';
+  if (!stArq) fetch('architecture.json?v=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).then(j => { stArq = j; stDesenha(); }).catch(() => {});
   try {
     const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
     stData = await r.json();
