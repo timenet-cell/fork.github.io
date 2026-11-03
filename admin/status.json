@@ -2,8 +2,8 @@
  "updated": "2026-11-03",
  "tasks": [
   {
-   "t": "Ledger: waves L1-L5 + L11 merged (core-ledger Rust+TS, kind rules, tables, account key 12 words); L6 + L16 running",
-   "p": 30,
+   "t": "Ledger: 10 of 22 waves merged (L1-L7, L11, L13, L16: core, submit, daily close, account key, credits+invites, creation record); next at 05:25: L8, L12, L15, L18",
+   "p": 45,
    "s": "in progress",
    "prio": "high"
   },
