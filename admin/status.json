@@ -2,8 +2,8 @@
  "updated": "2026-11-03",
  "tasks": [
   {
-   "t": "Ledger: 14 of 22 waves merged (+L8 batches, L12 store link, L15 dispute freeze/settlement, L18 DDEX export); running L9, L14, L17, L19",
-   "p": 62,
+   "t": "Ledger: 16 of 22 waves merged (+L14 credits UI, L19 DDEX import); L9, L17, L20 at 10:25",
+   "p": 72,
    "s": "in progress",
    "prio": "high"
   },
