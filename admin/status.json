@@ -2,8 +2,8 @@
  "updated": "2026-11-03",
  "tasks": [
   {
-   "t": "Ledger: 10 of 22 waves merged (L1-L7, L11, L13, L16: core, submit, daily close, account key, credits+invites, creation record); next at 05:25: L8, L12, L15, L18",
-   "p": 45,
+   "t": "Ledger: 14 of 22 waves merged (+L8 batches, L12 store link, L15 dispute freeze/settlement, L18 DDEX export); running L9, L14, L17, L19",
+   "p": 62,
    "s": "in progress",
    "prio": "high"
   },
