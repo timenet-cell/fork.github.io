@@ -983,7 +983,7 @@ function stModulos() {
   if (!blocos.length) return '';
   const feito = new Set(['built', 'live']);
   const todos = blocos.flatMap(b => b[1]);
-  return `<details class="st-mod" open><summary><h2 style="display:inline;margin:0">Modules</h2> <small>${todos.filter(n => feito.has(n.status)).length} of ${todos.length} built or live</small></summary>` +
+  return `<details class="st-mod"><summary><h2 style="display:inline;margin:0">Modules</h2> <small>${todos.filter(n => feito.has(n.status)).length} of ${todos.length} built or live</small></summary>` +
     blocos.map(([t, ns]) => `<div style="margin:10px 0 4px;font:600 12.5px/1.3 var(--sans);color:var(--muted)">${esc(t)}</div>` +
       `<div style="display:flex;flex-wrap:wrap;gap:6px">${ns.map(n => `<span title="${esc(n.description || n.purpose || '')}" style="display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);font:13px/1.2 var(--sans)">${esc(n.label)} ${arBadge(n.status)}</span>`).join('')}</div>`).join('') +
     '</details><h2 style="margin:22px 0 8px">Tasks</h2>';

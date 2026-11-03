@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T17:20:00Z",
+ "updated": "2026-11-03T17:45:00Z",
  "tasks": [
   {
    "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -10,22 +10,22 @@
   },
   {
    "t": "Auto-render via Ableton with missing-plugin report (Pro)",
-   "p": 10,
-   "s": "agent building",
+   "p": 85,
+   "s": "built and merged · left: first run in a real Live (allow Accessibility)",
    "prio": 1,
    "app": "Fork Studio"
   },
   {
    "t": "Multi-user Fork and Merge (track versions grouped on merge)",
-   "p": 5,
-   "s": "design being written, then your OK",
+   "p": 15,
+   "s": "design written (docs/FORK_MERGE_DESIGN.md) · waiting for your 5 answers",
    "prio": 1,
    "app": "Fork Studio"
   },
   {
    "t": "Beta: seed ratio 10:1 for everyone; all features only when signed in",
-   "p": 30,
-   "s": "agents building",
+   "p": 100,
+   "s": "done: 10:1 for everyone in the beta; Pro features need a signed-in session",
    "prio": 1,
    "app": "Fork Studio"
   },
