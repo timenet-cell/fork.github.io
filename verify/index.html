@@ -60,6 +60,11 @@ dd.mono{font:13px/1.45 var(--mono)}
 @media (prefers-reduced-motion: reduce){.spin{animation:none}}
 @media (max-width:480px){.card{padding:22px 16px;border-radius:14px} dl{grid-template-columns:1fr;gap:2px} dd{margin-bottom:10px} h1{font-size:21px}}
 </style>
+<style>:root[data-beta]{--red:#00a36c!important}.beta-pill{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;font:600 12px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;background:#00a36c;color:#fff;padding:8px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18)}.beta-pill a{color:#fff;margin-left:8px;text-decoration:underline}</style>
+<script>
+// Pre-visualizacao da beta (o verde Jade das builds): ?beta liga, ?beta=0 desliga; fica na sessao deste separador.
+(function(){try{var q=new URLSearchParams(location.search),s=sessionStorage;if(q.has('beta'))q.get('beta')==='0'?s.removeItem('fork-beta'):s.setItem('fork-beta','1');if(s.getItem('fork-beta')){document.documentElement.setAttribute('data-beta','');document.addEventListener('DOMContentLoaded',function(){var p=document.createElement('div');p.className='beta-pill';p.innerHTML='Beta preview<a href="?beta=0">Exit</a>';document.body.appendChild(p);});}}catch(e){}})();
+</script>
 </head>
 <body>
 <header class="bar"><a class="logo" href="/"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--bg)"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v16" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>Fork</a></header>
