@@ -304,8 +304,8 @@
   },
   {
    "t": "Phone: uncatalogued pack sounds",
-   "p": 20,
-   "s": "Decided 4 Nov: show them in a 'Not catalogued yet' group · building",
+   "p": 100,
+   "s": "Done 4 Nov: 'Not catalogued yet' group on the phone, searchable",
    "prio": 2,
    "app": "Fork Network"
   },
@@ -318,8 +318,8 @@
   },
   {
    "t": "Manager: old public build script",
-   "p": 20,
-   "s": "Decided 4 Nov: retire · building",
+   "p": 100,
+   "s": "Done 4 Nov: retired",
    "prio": 2,
    "app": "Fork Manager"
   },
@@ -331,8 +331,8 @@
   },
   {
    "t": "Upload pacing: fixed 1.5 MB or adaptive",
-   "p": 20,
-   "s": "Decided 4 Nov: adaptive (start 1.5 MB) · building",
+   "p": 100,
+   "s": "Done 4 Nov: adaptive window (1.5 MB start, 256 KB–8 MB); real-network check with the phone test",
    "prio": 3,
    "app": "Fork Network"
   },
