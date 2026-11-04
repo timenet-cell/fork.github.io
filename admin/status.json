@@ -59,8 +59,8 @@
   },
   {
    "t": "Signer in Supabase: live on devnet since 4 Nov (keys in Vault, 16 functions, cron every 30 s, Rust signer stopped); wave 7 after 30 days",
-   "p": 95,
-   "s": "live on devnet · ticks OK · left: fund the ledger sealer (faucet), one devnet purchase smoke test",
+   "p": 99,
+   "s": "live on devnet · first devnet purchase delivered end to end on 4 Nov (licence minted, settlement 100% to the artist, held until payouts are set up)",
    "prio": "high",
    "app": "Platform"
   },
@@ -178,15 +178,15 @@
   },
   {
    "t": "Support tab (admin)",
-   "p": 95,
-   "s": "Done and merged · left: nothing in code · needs you: apply migration 71",
+   "p": 100,
+   "s": "done · migration 71 applied",
    "prio": 1,
    "app": "Platform"
   },
   {
    "t": "Error reports + remote switches",
-   "p": 95,
-   "s": "Native and web reporting, switches and alerts merged · needs you: apply migration 72 and ship a build",
+   "p": 98,
+   "s": "migration 72 applied · left: try in the next build",
    "prio": 1,
    "app": "Platform"
   },
@@ -291,7 +291,7 @@
   {
    "t": "Relay, SMTP and Apple signing",
    "p": 30,
-   "s": "Relay code exists (fork-relay); sign/notarize, publish and rollback scripts merged (off until Developer ID) · left: deploy relay · needs you: VPS account, Resend key, Apple Developer ID and notary profile, Supabase email settings",
+   "s": "Not in the beta (decided 4 Nov): no Developer ID, no public distribution feeds; relay later",
    "prio": 1,
    "app": "Platform"
   },
@@ -304,22 +304,22 @@
   },
   {
    "t": "Phone: uncatalogued pack sounds",
-   "p": 0,
-   "s": "Show them or not · needs your decision",
+   "p": 20,
+   "s": "Decided 4 Nov: show them in a 'Not catalogued yet' group · building",
    "prio": 2,
    "app": "Fork Network"
   },
   {
    "t": "Studio: details panel while Studio view is open",
-   "p": 0,
-   "s": "Keep or change · needs your decision",
+   "p": 100,
+   "s": "Decided 4 Nov: keep as is",
    "prio": 2,
    "app": "Fork Studio"
   },
   {
    "t": "Manager: old public build script",
-   "p": 0,
-   "s": "Refresh or retire · needs your decision",
+   "p": 20,
+   "s": "Decided 4 Nov: retire · building",
    "prio": 2,
    "app": "Fork Manager"
   },
@@ -331,8 +331,8 @@
   },
   {
    "t": "Upload pacing: fixed 1.5 MB or adaptive",
-   "p": 0,
-   "s": "Needs your decision",
+   "p": 20,
+   "s": "Decided 4 Nov: adaptive (start 1.5 MB) · building",
    "prio": 3,
    "app": "Fork Network"
   },
