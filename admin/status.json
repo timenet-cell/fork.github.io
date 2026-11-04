@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T00:10:00Z",
+ "updated": "2026-11-04T08:00:00Z",
  "tasks": [
   {
    "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -25,7 +25,7 @@
   {
    "t": "Multi-user Fork and Merge (track versions grouped on merge)",
    "p": 85,
-   "s": "waves 1-6 merged (track Ids + duplicates, merge plan, .als writer, sample copy, branches migration 94, Studio branch + merge sheet) · left: you open the test set in Live (wave 7), db push 94",
+   "s": "waves 1-6 merged (track Ids + duplicates, merge plan, .als writer, sample copy, branches migration 94, Studio branch + merge sheet) · left: you open the test set in Live (wave 7) · migrations 87-94 live",
    "prio": 1,
    "app": "Fork Studio"
   },
