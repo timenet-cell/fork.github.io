@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T08:00:00Z",
+ "updated": "2026-11-04T11:50:00Z",
  "tasks": [
   {
    "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -58,9 +58,9 @@
    "app": "Platform"
   },
   {
-   "t": "Signer in Supabase: waves 1-6 merged; one owner command to go live on devnet (scripts/owner/go-live-devnet.sh); wave 7 after 30 days",
-   "p": 90,
-   "s": "in progress",
+   "t": "Signer in Supabase: live on devnet since 4 Nov (keys in Vault, 16 functions, cron every 30 s, Rust signer stopped); wave 7 after 30 days",
+   "p": 95,
+   "s": "live on devnet · ticks OK · left: fund the ledger sealer (faucet), one devnet purchase smoke test",
    "prio": "high",
    "app": "Platform"
   },
