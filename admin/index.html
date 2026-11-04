@@ -27,6 +27,8 @@
   --field:#0F141A;--err:#ff6b62;--blue:#9AA6B4;--pos:#5BD27A;--neg:#FF6B62;--promo:#6EA8FF;color-scheme:dark;
 }}
 .tema-linha{display:inline-flex;gap:4px;align-items:center}
+:root[data-accent="forest"]{--red:#1f8a5b}
+.tema-cor .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
 .tema-modo{font:600 12px/1 var(--sans);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
 .tema-modo:hover{color:var(--text)}
 .tema-modo.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
@@ -321,8 +323,17 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
   const aplica=k=>{ if(k==='light'||k==='dark') root.dataset.theme=k; else delete root.dataset.theme;
     document.querySelectorAll('.tema-modo').forEach(b=>b.classList.toggle('on',b.dataset.modo===k)); };
   aplica(m);
+  // Cor de realce da marca: Jade (por omissao) ou Forest, como o Appearance das apps
+  let c='jade'; try{ c=localStorage.getItem('fork-admin-accent')||'jade'; }catch(e){}
+  const cor=k=>{ if(k==='forest') root.dataset.accent='forest'; else delete root.dataset.accent;
+    document.querySelectorAll('.tema-cor').forEach(b=>b.classList.toggle('on',b.dataset.cor===k)); };
+  cor(c);
   document.addEventListener('DOMContentLoaded',()=>{
-    aplica(m);
+    aplica(m); cor(c);
+    document.querySelectorAll('.tema-cor').forEach(b=>b.addEventListener('click',()=>{
+      c=b.dataset.cor; try{ localStorage.setItem('fork-admin-accent',c); }catch(e){}
+      cor(c);
+    }));
     document.querySelectorAll('.tema-modo').forEach(b=>b.addEventListener('click',()=>{
       m=b.dataset.modo; try{ localStorage.setItem('fork-admin-theme',m); }catch(e){}
       aplica(m);
@@ -334,7 +345,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 <body>
 <header class="bar">
   <a class="logo" href="./" aria-label="Fork admin">
-    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#DCE5EE"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="#00a36c" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="#00a36c" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="#00a36c"/></svg>
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#DCE5EE"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="var(--red)" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="var(--red)"/></svg>
     Fork
   </a>
   <span class="tag">Admin</span>
@@ -358,14 +369,14 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
     <span class="tag">Admin</span>
     <h1>No access</h1>
     <p style="font-size:14px;color:var(--muted);margin:0 0 12px">This account isn’t an admin.</p>
-    <span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span>
+    <span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span><span class="tema-linha" role="group" aria-label="Accent colour"><button type="button" class="tema-modo tema-cor" data-cor="jade"><span class="dot" style="background:#00a36c"></span>Jade</button><button type="button" class="tema-modo tema-cor" data-cor="forest"><span class="dot" style="background:#1f8a5b"></span>Forest</button></span>
     <button class="lnk" id="out2" type="button">Sign out</button>
   </section>
 
   <section id="v-dash" class="hidden">
     <div class="top">
       <h1>Dashboard</h1>
-      <div class="who"><span id="who"></span><span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span><button class="lnk" id="refresh" type="button">Refresh</button><button class="lnk" id="out" type="button">Sign out</button></div>
+      <div class="who"><span id="who"></span><span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span><span class="tema-linha" role="group" aria-label="Accent colour"><button type="button" class="tema-modo tema-cor" data-cor="jade"><span class="dot" style="background:#00a36c"></span>Jade</button><button type="button" class="tema-modo tema-cor" data-cor="forest"><span class="dot" style="background:#1f8a5b"></span>Forest</button></span><button class="lnk" id="refresh" type="button">Refresh</button><button class="lnk" id="out" type="button">Sign out</button></div>
     </div>
     <div id="err" class="msg" role="status" aria-live="polite"></div>
 
