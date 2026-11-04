@@ -5,7 +5,7 @@
 <marker id="ar-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" fill="#8A96A5"/></marker>
 </defs>
 <rect width="1200" height="695" fill="#EEF3F8"/>
-<rect x="70" y="23" width="4" height="23" rx="2" fill="#E5342B"/>
+<rect x="70" y="23" width="4" height="23" rx="2" fill="#00A36C"/>
 <text x="84" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="21" font-weight="700" fill="#141A22">Fork ecosystem</text>
 <text x="84" y="61" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5B6675">Fork Studio, Fork Music, the cloud, the P2P network and the phone</text>
 <rect x="864" y="37.5" width="12" height="3" rx="1.5" fill="#1E8E3E"/>
@@ -16,7 +16,7 @@
 <text x="1005.6" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Planned</text>
 <rect x="1057.8" y="37.5" width="12" height="3" rx="1.5" fill="#5B6675"/>
 <text x="1074.8" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">After beta</text>
-<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-03</text>
+<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-04</text>
 <rect x="70" y="96" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
 <title>Fork Studio — Built — Producer app: projects, samples, signed versions, store, network and phone access.</title>
@@ -47,11 +47,11 @@
 <text x="685" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>Fork Events — Planned — Event manager app; only the shared shell and an empty page exist.</title>
-<rect x="780" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE" stroke-dasharray="4 3"/>
-<rect x="781" y="134" width="3" height="44" rx="1.5" fill="#8A96A5"/>
+<title>Fork Events — After beta — Event manager app; only the shared shell and an empty page exist. Not in the beta.</title>
+<rect x="780" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="781" y="134" width="3" height="44" rx="1.5" fill="#5B6675"/>
 <text x="855" y="153.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Fork Events</text>
-<text x="855" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#8A96A5" text-anchor="middle" letter-spacing="0.5">PLANNED</text>
+<text x="855" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#5B6675" text-anchor="middle" letter-spacing="0.5">AFTER BETA</text>
 </g>
 <g>
 <title>Phone browser — Built — Connect PWA and Studio /m: browse projects, palette, samples and send files over P2P.</title>
@@ -105,11 +105,11 @@
 </g>
 <rect x="70" y="531" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
-<title>fork-relay — Building — Circuit relay and rendezvous for NAT traversal; code exists, no server deployed.</title>
+<title>fork-relay — After beta — Circuit relay and rendezvous for NAT traversal; code exists. Not in the beta (decided 4 Nov).</title>
 <rect x="97" y="559" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="98" y="569" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="98" y="569" width="3" height="44" rx="1.5" fill="#5B6675"/>
 <text x="172" y="588.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">fork-relay</text>
-<text x="172" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="172" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#5B6675" text-anchor="middle" letter-spacing="0.5">AFTER BETA</text>
 </g>
 <g>
 <title>fork-signer — Built — Hot licence signer: Stripe queue, serials, Solana mint/transfer/freeze and key release; off by default.</title>
@@ -119,26 +119,26 @@
 <text x="342" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>Stripe — Building — Checkout, Tax and Connect Express payouts; test mode and the checkout switch is off.</title>
+<title>Stripe — Building — Checkout, Tax and Connect Express payouts. Test mode: checkout switch on, first devnet sale paid and settled 4 Nov. Left: the owner activates the live account.</title>
 <rect x="437" y="559" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
 <rect x="438" y="569" width="3" height="44" rx="1.5" fill="#C77700"/>
 <text x="512" y="588.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Stripe</text>
 <text x="512" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
 </g>
 <g>
-<title>Solana devnet — Building — Bubblegum v2 licences in one MPL Core collection; devnet only, no mainnet.</title>
+<title>Solana devnet — Built — Bubblegum v2 licences in one MPL Core collection. Devnet: first licence minted and recorded end to end on 4 Nov. Mainnet only from alpha.</title>
 <rect x="607" y="559" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="608" y="569" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="608" y="569" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="682" y="588.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Solana devnet</text>
-<text x="682" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="682" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>GitHub release feeds — Building — Signed updater feeds and installers; the public feed repositories are still to create.</title>
+<title>GitHub release feeds — After beta — Signed updater feeds and installers for testers. Not in the beta (no Developer ID, decided 4 Nov).</title>
 <rect x="777" y="559" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="778" y="569" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="778" y="569" width="3" height="44" rx="1.5" fill="#5B6675"/>
 <text x="852" y="580.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">GitHub release</text>
 <text x="852" y="595.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">feeds</text>
-<text x="852" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="852" y="613" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#5B6675" text-anchor="middle" letter-spacing="0.5">AFTER BETA</text>
 </g>
 <g>
 <title>fork-backup — Building — Daily encrypted database dump spread over the swarm and a local folder; off by default.</title>
@@ -199,15 +199,15 @@
 <rect x="982.8" y="511.3" width="127.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
 <text x="1046.5" y="520.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">encrypted database shards</text>
 <rect x="79" y="101" width="235.9" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="109" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="109" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="114" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">ON THE COMPUTER AND THE PHONE</text>
 <rect x="79" y="313" width="209.9" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="321" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="321" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="326" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">FORK CLOUD, SITE AND SWARM</text>
 <rect x="79" y="536" width="203.8" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="544" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="544" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="549" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">RELAY, LICENCES AND MONEY</text>
 <line x1="70" y1="667" x2="1130" y2="667" stroke="#DCE5EE"/>
-<text x="70" y="684" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-03</text>
+<text x="70" y="684" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-04</text>
 <text x="1130" y="684" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5" text-anchor="end">18 components · 17 flows</text>
 </svg>

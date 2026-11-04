@@ -1,12 +1,12 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "brand": {
     "background": "#EEF3F8",
     "card": "#F8FAFC",
     "line": "#DCE5EE",
     "text": "#141A22",
     "muted": "#5B6675",
-    "accent": "#E5342B"
+    "accent": "#00A36C"
   },
   "views": {
     "overview": {
@@ -500,8 +500,8 @@
       "id": "events",
       "label": "Fork Events",
       "area": "Other apps",
-      "status": "planned",
-      "description": "Event manager app; only the shared shell and an empty page exist.",
+      "status": "after-beta",
+      "description": "Event manager app; only the shared shell and an empty page exist. Not in the beta.",
       "source": "apps/fork-events",
       "views": [
         "overview"
@@ -598,8 +598,8 @@
       "id": "relay",
       "label": "fork-relay",
       "area": "Network",
-      "status": "building",
-      "description": "Circuit relay and rendezvous for NAT traversal; code exists, no server deployed.",
+      "status": "after-beta",
+      "description": "Circuit relay and rendezvous for NAT traversal; code exists. Not in the beta (decided 4 Nov).",
       "source": "apps/fork-relay",
       "views": [
         "overview"
@@ -624,7 +624,7 @@
       "label": "Stripe",
       "area": "Store",
       "status": "building",
-      "description": "Checkout, Tax and Connect Express payouts; test mode and the checkout switch is off.",
+      "description": "Checkout, Tax and Connect Express payouts. Test mode: checkout switch on, first devnet sale paid and settled 4 Nov. Left: the owner activates the live account.",
       "source": "supabase/functions/store_checkout, apps/fork-signer/src/stripe.rs",
       "views": [
         "overview",
@@ -635,8 +635,8 @@
       "id": "solana",
       "label": "Solana devnet",
       "area": "Store",
-      "status": "building",
-      "description": "Bubblegum v2 licences in one MPL Core collection; devnet only, no mainnet.",
+      "status": "built",
+      "description": "Bubblegum v2 licences in one MPL Core collection. Devnet: first licence minted and recorded end to end on 4 Nov. Mainnet only from alpha.",
       "source": "packages/core-chain/src/solana",
       "views": [
         "overview",
@@ -647,8 +647,8 @@
       "id": "github",
       "label": "GitHub release feeds",
       "area": "Site",
-      "status": "building",
-      "description": "Signed updater feeds and installers; the public feed repositories are still to create.",
+      "status": "after-beta",
+      "description": "Signed updater feeds and installers for testers. Not in the beta (no Developer ID, decided 4 Nov).",
       "source": "scripts/publish_release.sh, packages/desktop/src/atualizar.rs",
       "views": [
         "overview"
@@ -702,8 +702,8 @@
       "id": "studio-updater",
       "label": "Updater",
       "area": "Fork Studio",
-      "status": "building",
-      "description": "Signed Tauri updater, hourly check and GitHub release feed; feed repositories to create.",
+      "status": "after-beta",
+      "description": "Signed Tauri updater with hourly check and GitHub release feed. Not in the beta (decided 4 Nov).",
       "source": "apps/fork-studio/src-tauri/src/atualizar.rs, packages/desktop/src/atualizar.rs",
       "views": [
         "studio"
@@ -1082,8 +1082,8 @@
       "id": "core-chain",
       "label": "core-chain",
       "area": "Rust core",
-      "status": "building",
-      "description": "Licence and edition terms plus Solana Bubblegum v2 transaction builders; devnet.",
+      "status": "built",
+      "description": "Licence and edition terms plus Solana Bubblegum v2 transaction builders; proven on devnet 4 Nov.",
       "source": "packages/core-chain",
       "views": [
         "studio",
@@ -1304,8 +1304,8 @@
       "id": "music-checkout",
       "label": "Checkout",
       "area": "Fork Music",
-      "status": "building",
-      "description": "Stripe Checkout through store_checkout; the switch is off and Buy says Coming soon.",
+      "status": "built",
+      "description": "Stripe Checkout through store_checkout. One Buy button, 14-day returns (listing, sending or master download ends them); devnet purchase delivered 4 Nov.",
       "source": "supabase/functions/store_checkout, apps/fork-music/server/app.py",
       "views": [
         "music"
@@ -1617,7 +1617,7 @@
       "label": "GitHub release feeds",
       "area": "External services",
       "kind": "service",
-      "status": "planned",
+      "status": "postponed",
       "purpose": "Delivers app installers and signed automatic updates to testers.",
       "cost": "Free (public repositories)",
       "paid": false,

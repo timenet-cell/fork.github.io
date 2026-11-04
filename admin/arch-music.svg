@@ -5,7 +5,7 @@
 <marker id="ar-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" fill="#8A96A5"/></marker>
 </defs>
 <rect width="1200" height="1433" fill="#EEF3F8"/>
-<rect x="70" y="23" width="4" height="23" rx="2" fill="#E5342B"/>
+<rect x="70" y="23" width="4" height="23" rx="2" fill="#00A36C"/>
 <text x="84" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="21" font-weight="700" fill="#141A22">Fork Music inside</text>
 <text x="84" y="61" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5B6675">Native shell, local server and views, shared buying UI, Rust core, encrypted library and the store flows</text>
 <rect x="864" y="37.5" width="12" height="3" rx="1.5" fill="#1E8E3E"/>
@@ -16,7 +16,7 @@
 <text x="1005.6" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Planned</text>
 <rect x="1057.8" y="37.5" width="12" height="3" rx="1.5" fill="#5B6675"/>
 <text x="1074.8" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">After beta</text>
-<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-03</text>
+<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-04</text>
 <rect x="70" y="96" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
 <title>Fork Music window — Built — Tauri window, single instance and updater; starts the bundled server and closes it on exit.</title>
@@ -101,11 +101,11 @@
 <text x="172" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>Checkout — Building — Stripe Checkout through store_checkout; the switch is off and Buy says Coming soon.</title>
+<title>Checkout — Built — Stripe Checkout through store_checkout. One Buy button, 14-day returns (listing, sending or master download ends them); devnet purchase delivered 4 Nov.</title>
 <rect x="267" y="515" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="268" y="525" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="268" y="525" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="342" y="544.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Checkout</text>
-<text x="342" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="342" y="569" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
 <title>Player — Built — Decrypted audio from memory through the shared player bar; the native engine is later.</title>
@@ -202,11 +202,11 @@
 <text x="765" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>core-chain — Building — Licence and edition terms plus Solana Bubblegum v2 transaction builders; devnet.</title>
+<title>core-chain — Built — Licence and edition terms plus Solana Bubblegum v2 transaction builders; proven on devnet 4 Nov.</title>
 <rect x="860" y="884" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="861" y="894" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="861" y="894" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="935" y="913.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-chain</text>
-<text x="935" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="935" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <rect x="70" y="1079" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
@@ -231,18 +231,18 @@
 <text x="602" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
 </g>
 <g>
-<title>Stripe — Building — Checkout, Tax and Connect Express payouts; test mode and the checkout switch is off.</title>
+<title>Stripe — Building — Checkout, Tax and Connect Express payouts. Test mode: checkout switch on, first devnet sale paid and settled 4 Nov. Left: the owner activates the live account.</title>
 <rect x="697" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
 <rect x="698" y="1117" width="3" height="44" rx="1.5" fill="#C77700"/>
 <text x="772" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Stripe</text>
 <text x="772" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
 </g>
 <g>
-<title>Solana devnet — Building — Bubblegum v2 licences in one MPL Core collection; devnet only, no mainnet.</title>
+<title>Solana devnet — Built — Bubblegum v2 licences in one MPL Core collection. Devnet: first licence minted and recorded end to end on 4 Nov. Mainnet only from alpha.</title>
 <rect x="867" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="868" y="1117" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="868" y="1117" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="942" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Solana devnet</text>
-<text x="942" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="942" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <rect x="70" y="1269" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
@@ -370,27 +370,27 @@
 <rect x="686.9" y="987.3" width="70.2" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
 <text x="722" y="996.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">seed announce</text>
 <rect x="79" y="101" width="163" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="109" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="109" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="114" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">NATIVE SHELL (TAURI)</text>
 <rect x="79" y="280" width="183.7" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="288" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="288" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="293" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">LOCAL SERVER AND VIEWS</text>
 <rect x="79" y="492" width="203.9" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="500" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="500" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="505" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">BUYING, PLAYING AND OWNING</text>
 <rect x="79" y="693" width="282.2" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="701" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="701" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="706" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">SHARED UI, LOGIN AND THE NATIVE BRIDGE</text>
 <rect x="79" y="861" width="352.5" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="869" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="869" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="874" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">RUST CORE: DELIVERY, CRYPTO, NETWORK AND CLOUD</text>
 <rect x="79" y="1084" width="151.5" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="1092" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="1092" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="1097" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">STORE AND NETWORK</text>
 <rect x="79" y="1274" width="253.9" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="1282" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="1282" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="1287" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">KEYS, ENCRYPTED LIBRARY AND DATA</text>
 <line x1="70" y1="1405" x2="1130" y2="1405" stroke="#DCE5EE"/>
-<text x="70" y="1422" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-03</text>
+<text x="70" y="1422" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-04</text>
 <text x="1130" y="1422" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5" text-anchor="end">35 components · 32 flows</text>
 </svg>

@@ -5,7 +5,7 @@
 <marker id="ar-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" fill="#8A96A5"/></marker>
 </defs>
 <rect width="1200" height="1751" fill="#EEF3F8"/>
-<rect x="70" y="23" width="4" height="23" rx="2" fill="#E5342B"/>
+<rect x="70" y="23" width="4" height="23" rx="2" fill="#00A36C"/>
 <text x="84" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="21" font-weight="700" fill="#141A22">Fork Studio inside</text>
 <text x="84" y="61" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5B6675">Native shell, local server and modules, shared UI, Rust core, data and the flows out</text>
 <rect x="864" y="37.5" width="12" height="3" rx="1.5" fill="#1E8E3E"/>
@@ -16,7 +16,7 @@
 <text x="1005.6" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Planned</text>
 <rect x="1057.8" y="37.5" width="12" height="3" rx="1.5" fill="#5B6675"/>
 <text x="1074.8" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">After beta</text>
-<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-03</text>
+<text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-04</text>
 <rect x="70" y="96" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
 <title>Fork Studio window — Built — Tauri v2 window, native title bar, single instance and Dev/Freeze builds.</title>
@@ -42,11 +42,11 @@
 <text x="600" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>Updater — Building — Signed Tauri updater, hourly check and GitHub release feed; feed repositories to create.</title>
+<title>Updater — After beta — Signed Tauri updater with hourly check and GitHub release feed. Not in the beta (decided 4 Nov).</title>
 <rect x="695" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="696" y="134" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="696" y="134" width="3" height="44" rx="1.5" fill="#5B6675"/>
 <text x="770" y="153.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Updater</text>
-<text x="770" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="770" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#5B6675" text-anchor="middle" letter-spacing="0.5">AFTER BETA</text>
 </g>
 <g>
 <title>Windows build — After beta — Windows installer, tray and updater; the beta ships on the computer first, Windows comes after beta.</title>
@@ -303,11 +303,11 @@
 <text x="509" y="1300" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>core-chain — Building — Licence and edition terms plus Solana Bubblegum v2 transaction builders; devnet.</title>
+<title>core-chain — Built — Licence and edition terms plus Solana Bubblegum v2 transaction builders; proven on devnet 4 Nov.</title>
 <rect x="604" y="1246" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="605" y="1256" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="605" y="1256" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="679" y="1275.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-chain</text>
-<text x="679" y="1300" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="679" y="1300" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
 <title>fan-delivery — Built — Buyer-side device key, leases, passes, native bridge and heartbeat.</title>
@@ -502,33 +502,33 @@
 <rect x="264.9" y="1540.1" width="72.8" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
 <text x="301.3" y="1549" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">encrypt blocks</text>
 <rect x="79" y="101" width="163" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="109" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="109" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="114" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">NATIVE SHELL (TAURI)</text>
 <rect x="79" y="280" width="223.9" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="288" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="288" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="293" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">LOCAL SERVER AND DATA MODEL</text>
 <rect x="79" y="470" width="125.3" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="478" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="478" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="483" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">STUDIO SCREENS</text>
 <rect x="79" y="620" width="127.4" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="628" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="628" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="633" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">STUDIO MODULES</text>
 <rect x="79" y="799" width="209.8" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="807" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="807" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="812" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">SHARED UI AND THE LOCAL API</text>
 <rect x="79" y="1011" width="310.2" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="1019" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="1019" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="1024" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">RUST CORE: AUTHORSHIP, AUDIO AND VERSIONS</text>
 <rect x="79" y="1223" width="302.3" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="1231" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="1231" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="1236" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">RUST CORE: NETWORK, CLOUD AND PLATFORM</text>
 <rect x="79" y="1424" width="157.5" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="1432" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="1432" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="1437" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">OUTSIDE FORK STUDIO</text>
 <rect x="79" y="1592" width="121.4" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="1600" width="4" height="4" rx="1" fill="#E5342B"/>
+<rect x="84" y="1600" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="1605" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">DATA AND DISKS</text>
 <line x1="70" y1="1723" x2="1130" y2="1723" stroke="#DCE5EE"/>
-<text x="70" y="1740" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-03</text>
+<text x="70" y="1740" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-04</text>
 <text x="1130" y="1740" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5" text-anchor="end">50 components · 37 flows</text>
 </svg>

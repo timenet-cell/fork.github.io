@@ -38,7 +38,7 @@ const LINE = '#DCE5EE';
 const TEXT = '#141A22';
 const MUTED = '#5B6675';
 const FAINT = '#8A96A5';
-const ACCENT = '#E5342B';
+const ACCENT = '#00A36C';
 const EDGE = '#93A1B1';
 
 const FONT = '-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif';

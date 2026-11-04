@@ -20,7 +20,7 @@ assert.equal(data.brand.card, '#F8FAFC');
 assert.equal(data.brand.line, '#DCE5EE');
 assert.equal(data.brand.text, '#141A22');
 assert.equal(data.brand.muted, '#5B6675');
-assert.equal(data.brand.accent, '#E5342B');
+assert.equal(data.brand.accent, '#00A36C');
 
 const ids = new Set();
 const byId = new Map();
@@ -134,7 +134,7 @@ for (const v of VIEWS) {
   const repo = fs.readFileSync(gen.OUT[v], 'utf8');
   assert.equal(repo, fresh[v], v + ': the committed SVG is stale; run node admin/architecture_gen.js');
   assert.ok(repo.length > 1000, v + ': SVG is empty');
-  for (const color of ['#EEF3F8', '#F8FAFC', '#DCE5EE', '#141A22', '#5B6675', '#E5342B']) {
+  for (const color of ['#EEF3F8', '#F8FAFC', '#DCE5EE', '#141A22', '#5B6675', '#00A36C']) {
     assert.ok(repo.includes(color), `${v}: missing brand colour ${color}`);
   }
   const legendKeys = data.views[v].legend || ['built', 'building', 'planned', 'after-beta'];
