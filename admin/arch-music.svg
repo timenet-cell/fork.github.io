@@ -8,14 +8,14 @@
 <rect x="70" y="23" width="4" height="23" rx="2" fill="#00A36C"/>
 <text x="84" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="21" font-weight="700" fill="#141A22">Fork Music inside</text>
 <text x="84" y="61" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5B6675">Native shell, local server and views, shared buying UI, Rust core, encrypted library and the store flows</text>
-<rect x="864" y="37.5" width="12" height="3" rx="1.5" fill="#1E8E3E"/>
-<text x="881" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Built</text>
-<rect x="919.1" y="37.5" width="12" height="3" rx="1.5" fill="#C77700"/>
-<text x="936.1" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Building</text>
-<line x1="988.6" y1="39" x2="1000.6" y2="39" stroke="#8A96A5" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 3"/>
-<text x="1005.6" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Planned</text>
-<rect x="1057.8" y="37.5" width="12" height="3" rx="1.5" fill="#5B6675"/>
-<text x="1074.8" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">After beta</text>
+<rect x="892.3" y="37.5" width="12" height="3" rx="1.5" fill="#1E8E3E"/>
+<text x="909.3" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Built</text>
+<rect x="947.5" y="37.5" width="12" height="3" rx="1.5" fill="#C77700"/>
+<text x="964.5" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Building</text>
+<line x1="1016.9" y1="39" x2="1028.9" y2="39" stroke="#8A96A5" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 3"/>
+<text x="1033.9" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Planned</text>
+<rect x="1086.1" y="37.5" width="12" height="3" rx="1.5" fill="#5B6675"/>
+<text x="1103.1" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5B6675">Alpha</text>
 <text x="1130" y="61" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#8A96A5" text-anchor="end">Updated 2026-11-04</text>
 <rect x="70" y="96" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>

@@ -94,7 +94,7 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .ar-src{font:11px/1.35 var(--mono);color:var(--muted);overflow-wrap:anywhere;min-width:190px}
 .ar-st{display:inline-flex;align-items:center;gap:5px;font:600 11px/1 var(--sans);padding:3px 7px;border-radius:999px;border:1px solid var(--line);background:var(--field);white-space:nowrap}
 .ar-st:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.ar-st.built,.ar-st.live{color:#1E8E3E}.ar-st.building{color:#C77700}.ar-st.planned{color:#8A96A5}.ar-st.after-beta{color:#5B6675}.ar-st.postponed{color:#3F6EA8}.ar-st.not-used{color:#8A96A5}
+.ar-st.built,.ar-st.live{color:#1E8E3E}.ar-st.building{color:#C77700}.ar-st.planned{color:#8A96A5}.ar-st.alpha{color:#5B6675}.ar-st.postponed{color:#3F6EA8}.ar-st.not-used{color:#8A96A5}
 .ar-svc{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:10px;padding:2px 14px 14px}
 .ar-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.45}
 .ar-card h3{margin:0 0 6px;font:650 14px/1.2 var(--display);display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -323,6 +323,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
   td,th{padding:6px 5px}
 }
 </style>
+<script src="phase.js"></script>
 <script>
 // Aparencia Light / Dark / System, como o menu Appearance das apps (guardada so neste browser; sem escolha = System)
 (function(){
@@ -417,7 +418,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div id="ar-err" class="msg" role="status" aria-live="polite"></div>
       <div class="ar-stage" id="ar-stage"><div class="empty">Loading architecture…</div></div>
       <div class="ar-note">
-        <span id="ar-legend"><b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>After beta</b> held for after the beta.</span>
+        <span id="ar-legend"><b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>Alpha</b> held for the alpha, after the beta.</span>
         <span>Click the diagram to open it full size.</span>
       </div>
       <div class="box ar-table">
@@ -905,9 +906,9 @@ for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
 
 // ── arquitetura (admin/architecture.json + admin/arch-*.svg) ─────────────────────────────────────────────────────────
 let arData = null, arView = 'overview', arLoading = false;
-const AR_STATUS = { built: 'Built', building: 'Building', planned: 'Planned', 'after-beta': 'After beta', live: 'Live', postponed: 'Postponed', 'not-used': 'Not used' };
+const AR_STATUS = { built: 'Built', building: 'Building', planned: 'Planned', alpha: 'Alpha', live: 'Live', postponed: 'Postponed', 'not-used': 'Not used' };
 const AR_LABEL = { overview: 'Overview', studio: 'Fork Studio', music: 'Fork Music', services: 'External services' };
-const AR_LEGEND = '<b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>After beta</b> held for after the beta.';
+const AR_LEGEND = '<b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>Alpha</b> held for the alpha, after the beta.';
 const AR_LEGEND_SVC = '<b>Live</b> in use now · <b>Planned</b> needed, not set up · <b>Postponed</b> held until after the beta · <b>Not used</b> deliberately off · a red dot or red cost means it is not zero-cost.';
 function arLista(a) { return '<ul>' + (a || []).map(x => '<li><code>' + esc(x) + '</code></li>').join('') + '</ul>'; }
 function arCartao(n) {
@@ -994,10 +995,20 @@ function stDesenha() {
   }).join('');
   for (const b of $('st-seg').querySelectorAll('button')) b.onclick = () => { stApp = b.dataset.app; stDesenha(); };
   const grupos = stApp === 'All' ? apps : [stApp];
-  $('st').innerHTML = stModulos() + grupos.map(a => {
-    const t = stData.tasks.filter(x => (x.app || 'Fork Studio') === a).sort(ord);
-    return (stApp === 'All' ? `<h2 style="margin:18px 0 8px">${esc(a)} <small>${t.filter(aberto).length} open</small></h2>` : '') + t.map(stLinha).join('');
-  }).join('');
+  const fases = StPhase.split(stData.tasks); // progress is always over every app, never the filtered view
+  const nomes = { beta: 'Beta', alpha: 'Alpha' };
+  const secao = ph => {
+    const pr = StPhase.progress(fases[ph]);
+    const corpo = grupos.map(a => {
+      const t = fases[ph].filter(x => (x.app || 'Fork Studio') === a).sort(ord);
+      if (!t.length) return '';
+      return (stApp === 'All' ? `<h3 style="margin:14px 0 6px;font:600 13px/1.3 var(--sans);color:var(--muted)">${esc(a)} <small>${t.filter(aberto).length} open</small></h3>` : '') + t.map(stLinha).join('');
+    }).join('');
+    return `<section class="st-phase" data-phase="${ph}"><h2 style="margin:22px 0 4px">${nomes[ph]} <small>${pr.done} of ${pr.total} done</small></h2>` +
+      `<span class="bar" style="margin-bottom:8px"><i class="${pr.total && pr.done === pr.total ? 'ok' : ''}" style="width:${Math.max(2, pr.pct)}%"></i></span>` +
+      `<div class="sub" style="margin-bottom:6px">${pr.pct}% of the ${nomes[ph]} tasks done${ph === 'beta' ? ' (counts only Beta tasks)' : ' (not counted in Beta)'}</div>` + (corpo || '<div class="sub">No tasks.</div>') + '</section>';
+  };
+  $('st').innerHTML = stModulos() + StPhase.PHASES.map(secao).join('');
 }
 // Os modulos de cada app vêm do architecture.json (a mesma fonte do separador Architecture) e reagem ao filtro.
 const ST_VISTA = { 'All': 'overview', 'Fork Studio': 'studio', 'Fork Music': 'music', 'Platform': 'services' };
@@ -1017,7 +1028,7 @@ function stModulos() {
   return `<details class="st-mod"><summary><h2 style="display:inline;margin:0">Modules</h2> <small>${todos.filter(n => feito.has(n.status)).length} of ${todos.length} built or live</small></summary>` +
     blocos.map(([t, ns]) => `<div style="margin:10px 0 4px;font:600 12.5px/1.3 var(--sans);color:var(--muted)">${esc(t)}</div>` +
       `<div style="display:flex;flex-wrap:wrap;gap:6px">${ns.map(n => `<span title="${esc(n.description || n.purpose || '')}" style="display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);font:13px/1.2 var(--sans)">${esc(n.label)} ${arBadge(n.status)}</span>`).join('')}</div>`).join('') +
-    '</details><h2 style="margin:22px 0 8px">Tasks</h2>';
+    '</details>';
 }
 async function estado() {
   $('st-err').textContent = '';

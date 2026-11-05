@@ -7,7 +7,7 @@ const gen = require('./architecture_gen.js');
 const dir = __dirname;
 const data = JSON.parse(fs.readFileSync(path.join(dir, 'architecture.json'), 'utf8'));
 const VIEWS = ['overview', 'studio', 'music', 'services'];
-const STATUS = new Set(['built', 'building', 'planned', 'after-beta', 'live', 'postponed', 'not-used']);
+const STATUS = new Set(['built', 'building', 'planned', 'alpha', 'live', 'postponed', 'not-used']);
 const SERVICE_STATUS = new Set(['live', 'planned', 'postponed', 'not-used']);
 const SERVICE_TEXT = ['label', 'status', 'purpose', 'cost', 'account', 'limits', 'source'];
 const SERVICE_LIST = ['secrets', 'used_by'];
@@ -92,9 +92,9 @@ for (const n of serviceNodes) {
   assert.ok(data.edges.some(e => e.to === n.id && e.views.includes('services')), `${n.id}: no app or function points at this service`);
 }
 
-// The status must match the plan: these four are held for after the beta.
+// The status must match the plan: these four are held for the alpha.
 for (const id of ['studio-dj', 'studio-live', 'studio-rooms', 'studio-windows']) {
-  assert.equal(byId.get(id) && byId.get(id).status, 'after-beta', `${id} must be after-beta`);
+  assert.equal(byId.get(id) && byId.get(id).status, 'alpha', `${id} must be alpha`);
 }
 
 // UI prose never calls the computer a Mac.
@@ -137,8 +137,8 @@ for (const v of VIEWS) {
   for (const color of ['#EEF3F8', '#F8FAFC', '#DCE5EE', '#141A22', '#5B6675', '#00A36C']) {
     assert.ok(repo.includes(color), `${v}: missing brand colour ${color}`);
   }
-  const legendKeys = data.views[v].legend || ['built', 'building', 'planned', 'after-beta'];
-  const legendLabels = { built: 'Built', building: 'Building', planned: 'Planned', 'after-beta': 'After beta', live: 'Live', postponed: 'Postponed', 'not-used': 'Not used', paid: 'Not zero-cost' };
+  const legendKeys = data.views[v].legend || ['built', 'building', 'planned', 'alpha'];
+  const legendLabels = { built: 'Built', building: 'Building', planned: 'Planned', alpha: 'Alpha', live: 'Live', postponed: 'Postponed', 'not-used': 'Not used', paid: 'Not zero-cost' };
   for (const label of legendKeys.map(k => legendLabels[k])) {
     assert.ok(repo.includes('>' + label + '</text>'), `${v}: missing legend ${label}`);
   }

@@ -500,7 +500,7 @@
       "id": "events",
       "label": "Fork Events",
       "area": "Other apps",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Event manager app; only the shared shell and an empty page exist. Not in the beta.",
       "source": "apps/fork-events",
       "views": [
@@ -598,7 +598,7 @@
       "id": "relay",
       "label": "fork-relay",
       "area": "Network",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Circuit relay and rendezvous for NAT traversal; code exists. Not in the beta (decided 4 Nov).",
       "source": "apps/fork-relay",
       "views": [
@@ -647,7 +647,7 @@
       "id": "github",
       "label": "GitHub release feeds",
       "area": "Site",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Signed updater feeds and installers for testers. Not in the beta (no Developer ID, decided 4 Nov).",
       "source": "scripts/publish_release.sh, packages/desktop/src/atualizar.rs",
       "views": [
@@ -702,7 +702,7 @@
       "id": "studio-updater",
       "label": "Updater",
       "area": "Fork Studio",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Signed Tauri updater with hourly check and GitHub release feed. Not in the beta (decided 4 Nov).",
       "source": "apps/fork-studio/src-tauri/src/atualizar.rs, packages/desktop/src/atualizar.rs",
       "views": [
@@ -713,8 +713,8 @@
       "id": "studio-windows",
       "label": "Windows build",
       "area": "Fork Studio",
-      "status": "after-beta",
-      "description": "Windows installer, tray and updater; the beta ships on the computer first, Windows comes after beta.",
+      "status": "alpha",
+      "description": "Windows installer, tray and updater; the beta ships on the computer first, Windows comes at alpha.",
       "source": "apps/fork-studio/src-tauri, packages/desktop/src",
       "views": [
         "studio"
@@ -801,7 +801,7 @@
       "id": "studio-dj",
       "label": "DJ / Simulation Booth",
       "area": "Fork Studio",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Four decks, EQ, loops and hot cues; built and gated, not in the beta.",
       "source": "apps/fork-studio/src-tauri/src/dj.rs, apps/fork-studio/server/apps/studio/{djlib,djsub}.py",
       "views": [
@@ -823,7 +823,7 @@
       "id": "studio-rooms",
       "label": "Network rooms / Playzone",
       "area": "Fork Studio",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Rooms, private chat and the 8-bit Playzone; dev preview, no backend yet.",
       "source": "apps/fork-studio/server/apps/studio/static/rede.js",
       "views": [
@@ -834,7 +834,7 @@
       "id": "studio-live",
       "label": "Live Companion",
       "area": "Fork Studio",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Remote view and control of an Ableton Live set; built and gated, not in the beta.",
       "source": "apps/fork-studio/src-tauri/src/companion.rs, apps/fork-studio/src-tauri/live/ForkCompanion",
       "views": [
@@ -1036,7 +1036,7 @@
       "id": "core-rbexport",
       "label": "core-rbexport",
       "area": "Rust core",
-      "status": "after-beta",
+      "status": "alpha",
       "description": "Rekordbox USB export; basic export written, real CDJ check left.",
       "source": "packages/core-rbexport",
       "views": [

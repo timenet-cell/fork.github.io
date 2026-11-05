@@ -48,13 +48,13 @@ const STATUS = {
   built: { label: 'Built', color: '#1E8E3E', dash: null },
   building: { label: 'Building', color: '#C77700', dash: null },
   planned: { label: 'Planned', color: '#8A96A5', dash: '4 3' },
-  'after-beta': { label: 'After beta', color: '#5B6675', dash: null },
+  alpha: { label: 'Alpha', color: '#5B6675', dash: null },
   // External services view
   live: { label: 'Live', color: '#1E8E3E', dash: null },
   postponed: { label: 'Postponed', color: '#3F6EA8', dash: null },
   'not-used': { label: 'Not used', color: '#8A96A5', dash: '1 3' },
 };
-const LEGEND_DEFAULT = ['built', 'building', 'planned', 'after-beta'];
+const LEGEND_DEFAULT = ['built', 'building', 'planned', 'alpha'];
 
 function r1(n) {
   const v = Math.round(n * 10) / 10;
