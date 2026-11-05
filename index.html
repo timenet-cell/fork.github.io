@@ -113,7 +113,7 @@ h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;ma
 <style>:root[data-beta]{--red:#00a36c!important}.beta-pill{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;font:600 12px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;background:#00a36c;color:#fff;padding:8px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18)}.beta-pill a{color:#fff;margin-left:8px;text-decoration:underline}</style>
 <script>
 // Pre-visualizacao da beta (o verde Jade das builds): ?beta liga, ?beta=0 desliga; fica na sessao deste separador.
-(function(){try{var q=new URLSearchParams(location.search),s=sessionStorage;if(q.has('beta'))q.get('beta')==='0'?s.removeItem('fork-beta'):s.setItem('fork-beta','1');if(s.getItem('fork-beta')){document.documentElement.setAttribute('data-beta','');document.addEventListener('DOMContentLoaded',function(){var p=document.createElement('div');p.className='beta-pill';p.innerHTML='Beta preview<a href="?beta=0">Exit</a>';document.body.appendChild(p);});}}catch(e){}})();
+(function(){try{var q=new URLSearchParams(location.search),s=sessionStorage;if(q.has('beta'))q.get('beta')==='0'?s.removeItem('fork-beta'):s.setItem('fork-beta','1');if(s.getItem('fork-beta')){document.documentElement.setAttribute('data-beta','');var l=document.querySelector('link[rel=icon]');if(l)l.href=l.href.replace(/%23e0312a/gi,'%2300a36c');document.addEventListener('DOMContentLoaded',function(){var p=document.createElement('div');p.className='beta-pill';p.innerHTML='Beta preview<a href="?beta=0">Exit</a>';document.body.appendChild(p);});}}catch(e){}})();
 </script>
 </head>
 <body>
