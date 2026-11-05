@@ -161,13 +161,33 @@ h1{font:700 clamp(34px,6.2vw,72px)/1.02 var(--display);letter-spacing:-.035em;ma
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 // ── o grafo: cinco apps, cada uma com as suas funcoes, ligadas a uma conta ao centro ─────────────────────────────────
-const APPS = [
-  ['ForkStudio', ['Projects', 'Versions', 'Library', 'Samples', 'DJ', 'Collab']],
-  ['ForkLabels', ['Releases', 'Catalog', 'Demos', 'Artists', 'Submissions', 'Accounting', 'Smart contracts']],
-  ['ForkEvents', ['Events', 'Tickets', 'Line-ups', 'Planning', 'Team Management', 'Social']],
-  ['ForkMusic', ['Listen', 'Collect', 'Support', 'Curate']],
-  ['ForkManager', ['Gigs', 'Invoices', 'Press', 'Riders', 'Social']],
+// SITE-CONTENT-BEGIN (puro; testado em admin/sitecontent.test.js). Texto de origem: serve de reserva se a base nao responder.
+const DEFAULT_TABS = [
+  ['beta', 'Beta submission', null],
+  ['studio', 'ForkStudio', ['Projects', 'Versions', 'Library', 'Samples', 'DJ', 'Collab']],
+  ['labels', 'ForkLabels', ['Releases', 'Catalog', 'Demos', 'Artists', 'Submissions', 'Accounting', 'Smart contracts']],
+  ['events', 'ForkEvents', ['Events', 'Line-ups', 'Planning', 'Team Management', 'Social']],
+  ['music', 'ForkMusic', ['Listen', 'Collect', 'Support', 'Curate']],
+  ['manager', 'ForkManager', ['Gigs', 'Invoices', 'Press', 'Riders', 'Social']],
 ];
+function limpaItens(v) {
+  return (Array.isArray(v) ? v : []).filter(x => typeof x === 'string').map(x => x.trim().slice(0, 40)).filter(Boolean).slice(0, 20);
+}
+// rows: linhas de site_content (ou null). Devolve as apps visiveis por ordem e se o cartao da beta aparece.
+function conteudoSite(rows) {
+  const por = {};
+  if (Array.isArray(rows)) for (const r of rows) if (r && typeof r.tab === 'string') por[r.tab] = r;
+  const lista = DEFAULT_TABS.map(([tab, nome, itens], i) => {
+    const r = por[tab], it = r && itens ? limpaItens(r.items) : null;
+    return { tab, nome, itens: itens && (it && it.length ? it : itens), visivel: r ? r.visible !== false : true, ordem: r && Number.isFinite(r.sort) ? r.sort : i };
+  });
+  return {
+    beta: lista[0].visivel,
+    apps: lista.slice(1).filter(x => x.visivel).sort((a, b) => a.ordem - b.ordem).map(x => [x.nome, x.itens]),
+  };
+}
+// SITE-CONTENT-END
+let APPS = conteudoSite(null).apps;
 const NS = 'http://www.w3.org/2000/svg';
 const net = document.getElementById('net');
 const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -185,10 +205,11 @@ function desenha() {
   if (!W || !H) return;
   const compacto = W < 760 || matchMedia('(max-width:1079px)').matches;
   net.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  net.setAttribute('aria-label', APPS.map(a => a[0]).join(', ') + ' with their features');
   net.textContent = '';
   const cx = W / 2, cy = H / 2;
   // Ancoras: um pentagono com um vertice em cima; no painel largo os de baixo abrem para os lados (os cartoes estao ao centro).
-  const angs = [270, 342, 54, 126, 198];
+  const angs = APPS.map((_, i) => 270 + i * 360 / APPS.length);
   const rx = compacto ? W * 0.31 : W / 2 - 200, ry = compacto ? H * 0.31 : H / 2 - 115;
   const raio = compacto ? Math.max(28, W * 0.085) : 82;
   const lks = el('g', {}, net);
@@ -264,7 +285,7 @@ function anima(t) {
       p.ln.setAttribute('x2', x); p.ln.setAttribute('y2', y);
       p.t.setAttribute('x', x + p.dir * 9); p.t.setAttribute('y', y + 4);
     }
-    if (t - ultimoPulso > 1100) {
+    if (t - ultimoPulso > 1100 && G.nos.length) {
       ultimoPulso = t;
       const ci = ativo >= 0 ? ativo : Math.floor(Math.random() * G.nos.length), c = G.nos[ci], p = c.ps[Math.floor(Math.random() * c.ps.length)];
       G.vivos.push({ c, p, t0: t, d: el('circle', { r: 2.6, class: 'pulse' }, G.pulsos) });
@@ -336,6 +357,14 @@ function visita(event) {
   } catch {}
 }
 visita('view');
+// Conteudo editavel no admin (Site tabs): lido ao abrir; se a base nao responder fica o texto de origem (acima).
+sb.from('site_content').select('tab, visible, sort, items').then(({ data, error }) => {
+  if (error || !Array.isArray(data) || !data.length) return;
+  const c = conteudoSite(data);
+  APPS = c.apps; ativo = -1;
+  $('card').classList.toggle('hidden', !c.beta);
+  desenha();
+}, () => {});
 $('f-beta').onsubmit = async e => {
   e.preventDefault();
   diz('');

@@ -151,6 +151,14 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 /* platform settings */
 .ps-note{font-size:12.5px;color:var(--muted);margin:0 0 12px}
 .ps-grp{margin-bottom:16px}
+.stb-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px 16px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.stb-row .nm{font-weight:600;font-size:14px}.stb-row .nm small{font-weight:400;color:var(--muted);margin-left:6px}
+.stb-vis{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted);margin:0}.stb-vis input{width:auto}
+.stb-ord{display:flex;gap:4px}
+.stb-items{grid-column:1/-1;margin:2px 0 4px}
+.stb-it{display:flex;gap:6px;margin:0 0 6px}.stb-it input{flex:1}
+.stb-actions{margin-top:14px;display:flex;gap:12px;align-items:center}
+@media (max-width:560px){.stb-row{grid-template-columns:1fr}}
 .ps-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
 .ps-row:last-child{border-bottom:0}
 .ps-row .nm{font-weight:600;font-size:14px}
@@ -292,7 +300,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 
 @media print{
   html,body{background:#fff!important;color:#000!important;font-size:11pt}
-  .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,#t-services,.mn-side,.mn-tools,#mn-status{display:none!important}
+  .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,#t-services,#t-sitetabs,.mn-side,.mn-tools,#mn-status{display:none!important}
   main{padding:0;max-width:none}
   .mn{display:block}
   .box{border:0;padding:0;background:none}
@@ -392,6 +400,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-netcap" id="tab-netcap" type="button">Network capacity</button>
       <button data-tab="t-accounts" id="tab-accounts" type="button">Accounts</button>
       <button data-tab="t-qa" id="tab-qa" type="button">QA</button>
+      <button data-tab="t-sitetabs" id="tab-sitetabs" type="button">Site tabs</button>
       <button data-tab="t-signer" id="tab-signer" type="button">Signer<span id="sg-badge"></span></button>
     </div>
     <div id="t-status"><div class="msg" id="st-err"></div><div class="sub" id="st-upd" style="font-size:12.5px;color:var(--muted);margin-bottom:10px"></div><div class="ar-seg" id="st-seg" role="tablist" aria-label="App" style="margin-bottom:14px;flex-wrap:wrap"></div><div class="st" id="st"></div></div>
@@ -444,6 +453,12 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
           <article class="mn-doc" id="mn-doc"></article>
         </div>
       </div>
+    </div>
+    <div id="t-sitetabs" class="hidden">
+      <p class="sv-note">What forkgate.io shows. One row per tab: turn it on or off, change the order, and for each app edit the features listed around the ring. Changes go live on the next page load of the site, no deploy needed.</p>
+      <div id="stb-err" class="msg" role="status" aria-live="polite"></div>
+      <div id="stb-list"></div>
+      <div class="stb-actions"><button class="btn" id="stb-save" type="button" style="width:auto;display:inline-block;margin:0" disabled>Save changes</button> <span id="stb-fb" class="ps-fb" role="status" aria-live="polite"></span></div>
     </div>
     <div id="t-services" class="hidden">
       <p class="sv-note">Every service and dependency Fork uses, from manual chapter 21. A directory only: no passwords, keys or seed phrases are kept here.</p>
@@ -2043,6 +2058,86 @@ const SG = (() => {
     for (const id of ['sg-jobs', 'sg-freeze', 'sg-keys', 'sg-settle', 'sg-reserve']) { el(id).className = 'empty'; el(id).textContent = ''; }
     for (const id of ['sg-freeze-state', 'sg-keys-state', 'sg-settle-state', 'sg-reserve-state']) el(id).innerHTML = '';
   } });
+})();
+// ── Site tabs (migration 100: public.site_content; leitura publica, escrita so is_admin()) ─────────────────────────
+// SC-PURE-BEGIN (puro; testado em admin/sitecontent.test.js)
+const SC = (() => {
+  const TABS = [['beta', 'Beta submission', null], ['studio', 'ForkStudio', ['Projects', 'Versions', 'Library', 'Samples', 'DJ', 'Collab']],
+    ['labels', 'ForkLabels', ['Releases', 'Catalog', 'Demos', 'Artists', 'Submissions', 'Accounting', 'Smart contracts']],
+    ['events', 'ForkEvents', ['Events', 'Line-ups', 'Planning', 'Team Management', 'Social']],
+    ['music', 'ForkMusic', ['Listen', 'Collect', 'Support', 'Curate']], ['manager', 'ForkManager', ['Gigs', 'Invoices', 'Press', 'Riders', 'Social']]];
+  const limpa = v => (Array.isArray(v) ? v : []).filter(x => typeof x === 'string').map(x => x.trim().slice(0, 40)).filter(Boolean).slice(0, 20);
+  function modelo(rows) {
+    const por = {}; for (const r of rows || []) if (r && r.tab) por[r.tab] = r;
+    return TABS.map(([tab, nome, itens], i) => {
+      const r = por[tab], it = itens ? limpa(r ? r.items : null) : null;
+      return { tab, nome, app: !!itens, visible: r ? r.visible !== false : true, sort: r && Number.isFinite(r.sort) ? r.sort : i, items: itens ? (r && it.length ? it : itens.slice()) : [] };
+    }).sort((a, b) => a.sort - b.sort);
+  }
+  const renumera = m => { m.forEach((x, i) => { x.sort = i; }); return m; };
+  function move(m, i, d) { const j = i + d; if (j < 0 || j >= m.length) return m; [m[i], m[j]] = [m[j], m[i]]; return renumera(m); }
+  function itensMove(l, i, d) { const j = i + d; if (j < 0 || j >= l.length) return l; [l[i], l[j]] = [l[j], l[i]]; return l; }
+  function paraGravar(m) {
+    for (const x of m) if (x.app) {
+      if (x.items.some(t => typeof t !== 'string' || t.trim().length < 1 || t.trim().length > 40)) return { erro: x.nome + ': each feature needs 1 to 40 characters.' };
+      if (x.items.length > 20) return { erro: x.nome + ': at most 20 features.' };
+    }
+    return { rows: m.map((x, i) => ({ tab: x.tab, visible: !!x.visible, sort: i, items: x.app ? limpa(x.items) : [] })) };
+  }
+  return { TABS, limpa, modelo, move, itensMove, paraGravar };
+})();
+// SC-PURE-END
+(function () {
+  let mod = null, sujo = false;
+  const fb = (t, mau) => { const e = $('stb-fb'); e.textContent = t || ''; e.classList.toggle('bad', !!mau); };
+  const marca = v => { sujo = v; $('stb-save').disabled = !v || !mod; };
+  function desenha() {
+    $('stb-list').innerHTML = mod.map((x, i) => `<div class="stb-row" data-i="${i}">` +
+      `<div class="nm">${esc(x.nome)}<small>${x.app ? x.items.length + ' features' : 'sign-up card'}</small></div>` +
+      `<label class="stb-vis"><input type="checkbox" data-a="vis"${x.visible ? ' checked' : ''}> Visible</label>` +
+      `<div class="stb-ord"><button class="sec" type="button" data-a="up" aria-label="Move ${esc(x.nome)} up"${i === 0 ? ' disabled' : ''}>↑</button>` +
+      `<button class="sec" type="button" data-a="down" aria-label="Move ${esc(x.nome)} down"${i === mod.length - 1 ? ' disabled' : ''}>↓</button></div>` +
+      (x.app ? `<div class="stb-items">` + x.items.map((t, k) => `<div class="stb-it" data-k="${k}"><input type="text" maxlength="40" aria-label="Feature ${k + 1} of ${esc(x.nome)}" value="${esc(t)}">` +
+        `<button class="sec" type="button" data-a="iup" aria-label="Move feature up"${k === 0 ? ' disabled' : ''}>↑</button><button class="sec" type="button" data-a="idown" aria-label="Move feature down"${k === x.items.length - 1 ? ' disabled' : ''}>↓</button>` +
+        `<button class="sec" type="button" data-a="idel" aria-label="Remove feature">Remove</button></div>`).join('') +
+        `<button class="sec" type="button" data-a="iadd"${x.items.length >= 20 ? ' disabled' : ''}>Add feature</button></div>` : '') + `</div>`).join('');
+  }
+  async function abre() {
+    if (mod) return;
+    $('stb-err').textContent = '';
+    const { data, error } = await sb.from('site_content').select('tab, visible, sort, items');
+    if (error) { const falta = /does not exist|schema cache/i.test(error.message || '') || error.code === '42P01' || error.code === 'PGRST205';
+      $('stb-err').textContent = falta ? 'Waiting for the database update (supabase db push, migration 100).' : 'Could not load the site tabs: ' + error.message; return; }
+    mod = SC.modelo(data); desenha(); marca(false);
+  }
+  $('stb-list').addEventListener('click', e => {
+    const b = e.target.closest('button[data-a]'); if (!b || !mod) return;
+    const i = +b.closest('.stb-row').dataset.i, x = mod[i], k = b.closest('.stb-it') ? +b.closest('.stb-it').dataset.k : -1, a = b.dataset.a;
+    if (a === 'up' || a === 'down') SC.move(mod, i, a === 'up' ? -1 : 1);
+    else if (a === 'iup' || a === 'idown') SC.itensMove(x.items, k, a === 'iup' ? -1 : 1);
+    else if (a === 'idel') x.items.splice(k, 1);
+    else if (a === 'iadd') x.items.push('');
+    desenha(); marca(true); fb('');
+    if (a === 'iadd') { const r = $('stb-list').querySelectorAll('.stb-row')[i].querySelectorAll('.stb-it input'); r[r.length - 1].focus(); }
+  });
+  $('stb-list').addEventListener('input', e => {
+    if (!mod || e.target.type !== 'text') return;
+    mod[+e.target.closest('.stb-row').dataset.i].items[+e.target.closest('.stb-it').dataset.k] = e.target.value; marca(true); fb('');
+  });
+  $('stb-list').addEventListener('change', e => {
+    if (!mod || e.target.dataset.a !== 'vis') return;
+    mod[+e.target.closest('.stb-row').dataset.i].visible = e.target.checked; marca(true); fb('');
+  });
+  $('stb-save').onclick = async () => {
+    const p = SC.paraGravar(mod); if (p.erro) return fb(p.erro, true);
+    $('stb-save').disabled = true; fb('Saving…');
+    const { error } = await sb.from('site_content').upsert(p.rows, { onConflict: 'tab' });
+    if (error) { marca(true); return fb('Could not save: ' + error.message, true); }
+    mod = SC.modelo(p.rows); desenha(); marca(false); fb('Saved. The site shows it on its next load.');
+  };
+  $('tab-sitetabs').addEventListener('click', abre);
+  document.getElementById('refresh').addEventListener('click', () => { if (!$('t-sitetabs').classList.contains('hidden') && !sujo) { mod = null; abre(); } });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { mod = null; sujo = false; $('stb-list').innerHTML = ''; fb(''); } });
 })();
 </script>
 </body>
