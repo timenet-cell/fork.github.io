@@ -822,9 +822,9 @@
     }
   ],
   "native": {
-    "pct": 0.4,
+    "pct": 6.5,
     "phase": "Phase 1: shell, Library grid, player",
-    "phase_pct": 1.7,
-    "updated": "2026-11-10T14:42:30+00:00"
+    "phase_pct": 26.7,
+    "updated": "2026-11-10T14:52:33+00:00"
   }
 }
