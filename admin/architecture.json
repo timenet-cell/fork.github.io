@@ -702,8 +702,8 @@
       "id": "studio-updater",
       "label": "Updater",
       "area": "Fork Studio",
-      "status": "alpha",
-      "description": "Signed Tauri updater with hourly check and GitHub release feed. Not in the beta (decided 4 Nov).",
+      "status": "building",
+      "description": "Automatic updates in the beta: signed updater (minisign), checks every hour, updates and restarts by itself. Built and signed; goes live with the first beta release on the GitHub release feed.",
       "source": "apps/fork-studio/src-tauri/src/atualizar.rs, packages/desktop/src/atualizar.rs",
       "views": [
         "studio"
