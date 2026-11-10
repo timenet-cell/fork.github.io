@@ -66,6 +66,12 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .grid{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.nv-conv{margin:0 0 14px}
+.nv-conv-top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px}
+.nv-conv-top span{font:600 20px/1 var(--display);font-variant-numeric:tabular-nums}
+.nv-conv-bar{height:8px;border-radius:4px;background:var(--line);margin:10px 0 8px;overflow:hidden}
+.nv-conv-bar i{display:block;height:100%;width:0;background:var(--red);border-radius:4px;transition:width .6s ease}
+.nv-conv-sub{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--muted)}
 .tabs{display:flex;gap:6px;margin:6px 0 16px;flex-wrap:wrap}
 .tabs button{font:600 13px/1 var(--sans);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
 .tabs button.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
@@ -388,6 +394,11 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="who"><span id="who"></span><span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span><span class="tema-linha" role="group" aria-label="Accent colour"><button type="button" class="tema-modo tema-cor" data-cor="jade"><span class="dot" style="background:#00a36c"></span>Jade</button><button type="button" class="tema-modo tema-cor" data-cor="forest"><span class="dot" style="background:#1f8a5b"></span>Forest</button></span><a class="lnk" href="/?beta" target="_blank" rel="noopener">View site as beta</a><button class="lnk" id="refresh" type="button">Refresh</button><button class="lnk" id="out" type="button">Sign out</button></div>
     </div>
     <div id="err" class="msg" role="status" aria-live="polite"></div>
+    <div class="box nv-conv" id="nv-conv" hidden>
+      <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
+      <div class="nv-conv-bar"><i id="nv-conv-fill"></i></div>
+      <div class="nv-conv-sub"><span id="nv-conv-fase"></span><span id="nv-conv-upd"></span></div>
+    </div>
 
     <div class="tabs" role="tablist">
       <button class="on" data-tab="t-status" type="button">Development status</button>
@@ -1030,12 +1041,24 @@ function stModulos() {
       `<div style="display:flex;flex-wrap:wrap;gap:6px">${ns.map(n => `<span title="${esc(n.description || n.purpose || '')}" style="display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);font:13px/1.2 var(--sans)">${esc(n.label)} ${arBadge(n.status)}</span>`).join('')}</div>`).join('') +
     '</details>';
 }
+// A conversao para app nativa (Rust + GPUI): status.json.native, escrito a cada 10 min pelo CEO; a pagina rele a cada 10 min.
+function nvConvDesenha(n) {
+  const el = $('nv-conv'); if (!el) return;
+  if (!n || typeof n.pct !== 'number') { el.hidden = true; return; }
+  el.hidden = false;
+  $('nv-conv-pct').textContent = Math.round(n.pct) + '%';
+  $('nv-conv-fill').style.width = Math.max(0, Math.min(100, n.pct)) + '%';
+  $('nv-conv-fase').textContent = n.phase ? n.phase + (typeof n.phase_pct === 'number' ? ' - ' + Math.round(n.phase_pct) + '%' : '') : '';
+  $('nv-conv-upd').textContent = n.updated ? 'Updated ' + new Date(n.updated).toLocaleString() : '';
+}
+setInterval(() => { if (!document.hidden && !$('v-dash').classList.contains('hidden')) estado(); }, 600000);
 async function estado() {
   $('st-err').textContent = '';
   if (!stArq) fetch('architecture.json?v=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).then(j => { stArq = j; stDesenha(); }).catch(() => {});
   try {
     const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
     stData = await r.json();
+    nvConvDesenha(stData.native);
     $('st-upd').textContent = 'Updated ' + new Date(stData.updated).toLocaleString();
     stDesenha();
   } catch (e) { $('st-err').textContent = 'Could not load the status: ' + e.message; }
