@@ -482,11 +482,11 @@
     },
     {
       "t": "Windows version (and later Linux)",
-      "p": 0,
-      "s": "Part of the native app conversion (phase 5): same Rust code, drawn with DirectX on Windows and Vulkan on Linux; Save Version button with Ctrl+Alt+S",
+      "p": 5,
+      "s": "In the beta (owner, 10 Nov): port of the current app, a few Mac-only features capped; queued on the other account (starts 19:00)",
       "prio": 3,
       "app": "Fork Studio",
-      "phase": "alpha"
+      "phase": "beta"
     },
     {
       "t": "Turn on Free/Pro split after the beta",

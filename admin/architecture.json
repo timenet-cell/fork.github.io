@@ -713,8 +713,8 @@
       "id": "studio-windows",
       "label": "Windows build",
       "area": "Fork Studio",
-      "status": "alpha",
-      "description": "Windows installer, tray and updater; the beta ships on the computer first, Windows comes at alpha.",
+      "status": "building",
+      "description": "In the beta: port of the current app to Windows (installer + automatic updates), built on GitHub Actions; Mac-only automation (Ableton auto-render) capped for now.",
       "source": "apps/fork-studio/src-tauri, packages/desktop/src",
       "views": [
         "studio"
