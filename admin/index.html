@@ -1006,10 +1006,14 @@ function stDesenha() {
   }).join('');
   for (const b of $('st-seg').querySelectorAll('button')) b.onclick = () => { stApp = b.dataset.app; stDesenha(); };
   const grupos = stApp === 'All' ? apps : [stApp];
-  const fases = StPhase.split(stData.tasks); // progress is always over every app, never the filtered view
+  // O progresso segue o filtro: em "Fork Studio" conta so as tarefas do Fork Studio (pedido dele, 10-11).
+  const doFiltro = stApp === 'All' ? stData.tasks : stData.tasks.filter(t => (t.app || 'Fork Studio') === stApp);
+  const fases = StPhase.split(doFiltro);
   const nomes = { beta: 'Beta', alpha: 'Alpha' };
   const secao = ph => {
     const pr = StPhase.progress(fases[ph]);
+    const media = fases[ph].length ? Math.round(fases[ph].reduce((n, x) => n + Math.max(0, Math.min(100, x.p)), 0) / fases[ph].length) : 0;
+    const quem = stApp === 'All' ? 'all apps' : stApp;
     const corpo = grupos.map(a => {
       const t = fases[ph].filter(x => (x.app || 'Fork Studio') === a).sort(ord);
       if (!t.length) return '';
@@ -1017,7 +1021,7 @@ function stDesenha() {
     }).join('');
     return `<section class="st-phase" data-phase="${ph}"><h2 style="margin:22px 0 4px">${nomes[ph]} <small>${pr.done} of ${pr.total} done</small></h2>` +
       `<span class="bar" style="margin-bottom:8px"><i class="${pr.total && pr.done === pr.total ? 'ok' : ''}" style="width:${Math.max(2, pr.pct)}%"></i></span>` +
-      `<div class="sub" style="margin-bottom:6px">${pr.pct}% of the ${nomes[ph]} tasks done${ph === 'beta' ? ' (counts only Beta tasks)' : ' (not counted in Beta)'}</div>` + (corpo || '<div class="sub">No tasks.</div>') + '</section>';
+      `<div class="sub" style="margin-bottom:6px">${quem}: ${pr.done} of ${pr.total} ${nomes[ph]} tasks finished · ${media}% of the work done (average of the tasks)</div>` + (corpo || '<div class="sub">No tasks.</div>') + '</section>';
   };
   $('st').innerHTML = stModulos() + StPhase.PHASES.map(secao).join('');
 }
