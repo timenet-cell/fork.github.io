@@ -211,8 +211,8 @@
     },
     {
       "t": "Error reports + remote switches",
-      "p": 98,
-      "s": "migration 72 applied · left: try in the next build",
+      "p": 100,
+      "s": "Verified 10 Nov on B554: the app sends its error reports to the cloud (queue empty, 13 kinds received) and reads the remote switches (swarm, publish); the last real errors (timeline dot, disk speed thread) are fixed since B542",
       "prio": 1,
       "app": "Platform",
       "phase": "beta"
