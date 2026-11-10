@@ -181,11 +181,11 @@
 <text x="255" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>core-p2p — Building — Rolling leases, chunker, block store, encrypted swarm and release protocol.</title>
+<title>core-p2p — Built — Rolling leases, chunker, block store, encrypted swarm and release protocol; all tests pass. The relay for blocked networks comes after the beta.</title>
 <rect x="350" y="884" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="351" y="894" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="351" y="894" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="425" y="913.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-p2p</text>
-<text x="425" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="425" y="938" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
 <title>core-crypto — Built — Authorship, catalog, keys, AES-256 at rest and artist key backup.</title>
@@ -224,11 +224,11 @@
 <text x="432" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>P2P swarm — Building — Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding.</title>
+<title>P2P swarm — Built — Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding; the phone downloads from up to 4 computers at once. The relay server for blocked networks comes after the beta (zero cost in the beta).</title>
 <rect x="527" y="1107" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="528" y="1117" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="528" y="1117" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="602" y="1136.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">P2P swarm</text>
-<text x="602" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="602" y="1161" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
 <title>Stripe — Building — Checkout, Tax and Connect Express payouts. Test mode: checkout switch on, first devnet sale paid and settled 4 Nov. Left: the owner activates the live account.</title>

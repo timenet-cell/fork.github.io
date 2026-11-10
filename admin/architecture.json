@@ -584,8 +584,8 @@
       "id": "swarm",
       "label": "P2P swarm",
       "area": "Network",
-      "status": "building",
-      "description": "Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding.",
+      "status": "built",
+      "description": "Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding; the phone downloads from up to 4 computers at once. The relay server for blocked networks comes after the beta (zero cost in the beta).",
       "source": "packages/core-p2p/src/swarm, apps/fork-studio/src-tauri/src/enxame.rs",
       "views": [
         "overview",
@@ -1047,8 +1047,8 @@
       "id": "core-p2p",
       "label": "core-p2p",
       "area": "Rust core",
-      "status": "building",
-      "description": "Rolling leases, chunker, block store, encrypted swarm and release protocol.",
+      "status": "built",
+      "description": "Rolling leases, chunker, block store, encrypted swarm and release protocol; all tests pass. The relay for blocked networks comes after the beta.",
       "source": "packages/core-p2p",
       "views": [
         "studio",

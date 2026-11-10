@@ -282,11 +282,11 @@
 </g>
 <rect x="70" y="1218" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
-<title>core-p2p — Building — Rolling leases, chunker, block store, encrypted swarm and release protocol.</title>
+<title>core-p2p — Built — Rolling leases, chunker, block store, encrypted swarm and release protocol; all tests pass. The relay for blocked networks comes after the beta.</title>
 <rect x="94" y="1246" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="95" y="1256" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="95" y="1256" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="169" y="1275.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">core-p2p</text>
-<text x="169" y="1300" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="169" y="1300" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
 <title>core-rtc — Built — WebRTC tunnel and tuned SCTP for the phone, with an ICE-lite host.</title>
@@ -339,11 +339,11 @@
 <text x="435" y="1501" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>P2P swarm — Building — Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding.</title>
+<title>P2P swarm — Built — Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding; the phone downloads from up to 4 computers at once. The relay server for blocked networks comes after the beta (zero cost in the beta).</title>
 <rect x="530" y="1447" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="531" y="1457" width="3" height="44" rx="1.5" fill="#C77700"/>
+<rect x="531" y="1457" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="605" y="1476.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">P2P swarm</text>
-<text x="605" y="1501" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
+<text x="605" y="1501" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
 <title>Phone browser — Built — Connect PWA and Studio /m: browse projects, palette, samples and send files over P2P.</title>
