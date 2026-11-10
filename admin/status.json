@@ -19,8 +19,8 @@
     },
     {
       "t": "Auto-render via Ableton with missing-plugin report (Pro)",
-      "p": 96,
-      "s": "B471-B535: runs in a real Live and handles the Export, Save and Go to Folder windows, locked screen, missing freezes, full arrangement + 2 bars tail · left: a long batch on your whole library",
+      "p": 100,
+      "s": "Done 10 Nov (B558): batch of 20 real projects rendered in Live, all 20 files in their project folders (full arrangement + 2 bars); always from a hidden copy, frozen tracks with missing samples unfrozen in the copy, a saved set open in Live no longer blocks, the owner's sets never changed",
       "prio": 1,
       "app": "Fork Studio",
       "phase": "beta"
