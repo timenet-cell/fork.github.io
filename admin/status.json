@@ -332,7 +332,7 @@
     {
       "t": "Relay, SMTP and Apple signing",
       "p": 30,
-      "s": "Alpha (decided 4 Nov): no Developer ID, no public distribution feeds; relay later",
+      "s": "After the beta (decided 4 Nov): no Developer ID, no public distribution feeds; relay later",
       "prio": 1,
       "app": "Platform",
       "phase": "alpha"
@@ -419,7 +419,7 @@
     {
       "t": "DJ module",
       "p": 0,
-      "s": "Alpha (your call, 29 Oct) · paused; side-panel waves branch and rekordbox export unfinished",
+      "s": "After the beta (your call, 29 Oct) · paused; side-panel waves branch and rekordbox export unfinished",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -489,9 +489,9 @@
       "phase": "alpha"
     },
     {
-      "t": "Turn on Free/Pro split at the alpha",
+      "t": "Turn on Free/Pro split after the beta",
       "p": 80,
-      "s": "Gating and plan lookup built, beta flags on · left: flip the flags and set plans at alpha · needs you: Stripe subscription for Pro 2.99",
+      "s": "Gating and plan lookup built, beta flags on · left: flip the flags and set plans after the beta · needs you: Stripe subscription for Pro 2.99",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -523,7 +523,7 @@
     {
       "t": "Live Companion in a real Ableton Live",
       "p": 70,
-      "s": "Alpha (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers",
+      "s": "After the beta (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
