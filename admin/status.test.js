@@ -33,6 +33,6 @@ test('the four new beta tasks exist, in progress', () => {
     const t = data.tasks.find(x => x.t === n);
     assert.ok(t, n);
     assert.equal(t.phase, 'beta');
-    assert.ok(t.p > 0 && t.p < 100);
+    assert.ok(t.p > 0 && t.p <= 100);
   }
 });

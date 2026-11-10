@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T12:00:00Z",
+  "updated": "2026-11-10T14:24:13Z",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -19,8 +19,8 @@
     },
     {
       "t": "Auto-render via Ableton with missing-plugin report (Pro)",
-      "p": 85,
-      "s": "built and merged · left: first run in a real Live (allow Accessibility)",
+      "p": 96,
+      "s": "B471-B535: runs in a real Live and handles the Export, Save and Go to Folder windows, locked screen, missing freezes, full arrangement + 2 bars tail · left: a long batch on your whole library",
       "prio": 1,
       "app": "Fork Studio",
       "phase": "beta"
@@ -50,7 +50,7 @@
       "phase": "beta"
     },
     {
-      "t": "Daily backup: live — first real backup OK 3 Nov (758 KB dump, 4-of-10 shards); daily 04:00 LaunchAgent installed; swarm hosts 0 yet",
+      "t": "Daily backup: live · first real backup OK 3 Nov (758 KB dump, 4-of-10 shards); daily 04:00 LaunchAgent installed; swarm hosts 0 yet",
       "p": 100,
       "s": "done",
       "prio": "high",
@@ -84,7 +84,7 @@
     {
       "t": "Store: Stripe + Solana licence registry",
       "p": 99,
-      "s": "Devnet ready (registry, collection, 2.25 test SOL, keys published); signing service running on the MacBook Pro · left: turn on the signer and checkout switches, one test purchase · for real money later: multisig, mainnet registry (~0.3 SOL), Stripe live",
+      "s": "Devnet ready (registry, collection, 2.25 test SOL, keys published); signing service running on the computerBook Pro · left: turn on the signer and checkout switches, one test purchase · for real money later: multisig, mainnet registry (~0.3 SOL), Stripe live",
       "prio": 1,
       "app": "Fork Music",
       "phase": "beta"
@@ -219,8 +219,8 @@
     },
     {
       "t": "Admin QA tab / QA bench",
-      "p": 95,
-      "s": "Full pass 30 Oct: 27 of 27 scenarios pass (Studio and Fork Music), one outdated test fixed, no app bugs · left: a pass on your real library when Fragoso Fast is connected to the computer running it",
+      "p": 97,
+      "s": "Full pass 30 Oct (27 of 27) plus QA2 on 10 Nov: 30 findings, 11 fixed and tested, the rest are suspected text issues or need your decision (blank artist seeds, Classify '&', unsaved Notes on Esc) · left: your calls on those",
       "prio": 2,
       "app": "Platform",
       "phase": "beta"
@@ -266,7 +266,7 @@
       "phase": "beta"
     },
     {
-      "t": "No 'Mac' in app text",
+      "t": "No 'computer' in app text",
       "p": 100,
       "s": "All apps say 'computer'; a test blocks regressions (28 Oct)",
       "prio": 3,
@@ -379,7 +379,7 @@
     {
       "t": "Upload pacing: fixed 1.5 MB or adaptive",
       "p": 100,
-      "s": "Done 4 Nov: adaptive window (1.5 MB start, 256 KB–8 MB); real-network check with the phone test",
+      "s": "Done 4 Nov: adaptive window (1.5 MB start, 256 KB-8 MB); real-network check with the phone test",
       "prio": 3,
       "app": "Fork Network",
       "phase": "beta"
@@ -426,8 +426,8 @@
     },
     {
       "t": "Rust port (Tauri + pure Rust)",
-      "p": 0,
-      "s": "Plan to be approved before any code",
+      "p": 5,
+      "s": "Decision changed: native Rust app with GPUI instead of Tauri; plan written, fork-native crate skeleton started (see Native app conversion)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -523,7 +523,7 @@
     {
       "t": "Save Version blue ball identical on Intel and Apple silicon",
       "p": 90,
-      "s": "Merged 29 Oct: same click, double click, tooltip and unsaved dot (now pulses and blinks on both); Intel build compiles · left: check by eye on Intel — after the beta (your call, 2 Nov)",
+      "s": "Merged 29 Oct: same click, double click, tooltip and unsaved dot (now pulses and blinks on both); Intel build compiles · left: check by eye on Intel · after the beta (your call, 2 Nov)",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -627,7 +627,7 @@
     {
       "t": "Brand accent: Jade green by default, Forest selectable (profile ball → Appearance); Save Version ball stays blue",
       "p": 100,
-      "s": "Done · in fork-app",
+      "s": "Done · Jade by default, Forest selectable; highlights, chips and type tags follow the accent everywhere (B552)",
       "app": "Fork Studio",
       "phase": "beta"
     },
@@ -648,41 +648,177 @@
     {
       "t": "Import: 'Import everything' no longer stops when there are no new packs; lists packs without audio",
       "p": 100,
-      "s": "Done · 139 of 149 packs imported; 4 have no audio (2 are .rar, need unpacking — your call)",
+      "s": "Done · 139 of 149 packs imported; 4 have no audio (2 are .rar, need unpacking · your call)",
       "app": "Fork Studio",
       "phase": "beta"
     },
     {
       "t": "Projects always open complete (Relinked version)",
-      "p": 50,
-      "s": "In progress",
+      "p": 60,
+      "s": "Relink sees Drum Rack samples and the whole Library (B393) · left: finish the Relinked version rule",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
     },
     {
       "t": "Samples vs project-audio storage rule",
-      "p": 50,
-      "s": "In progress",
+      "p": 60,
+      "s": "Samples Library and project-audio split in place (project Samples/ never counts as a render, B469-B470) · left: final storage rule",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
     },
     {
       "t": "Optimize for playback",
-      "p": 50,
-      "s": "In progress",
+      "p": 90,
+      "s": "Optimize for playback shipped: free-space warning, defragment project audio, clones to real files, plain-language wording (B383, B523) · left: check on a real slow disk",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
     },
     {
       "t": "Admin Site tabs",
-      "p": 50,
-      "s": "In progress",
+      "p": 100,
+      "s": "Done · Site tabs (visibility, order, per-app features) backed by site_content with built-in fallback; tests added",
       "prio": 2,
       "app": "Platform",
       "phase": "beta"
+    },
+    {
+      "t": "Render Now and Custom Render in the bar menu",
+      "p": 100,
+      "s": "Done (B535): render covers the whole song + 2 bars, works on branches, another set of the same project open in Live no longer blocks; Render Now no longer returns a queued Custom Render",
+      "prio": 1,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Renders: new render lands in the list at once; 'Render this version?' after Save Version",
+      "p": 100,
+      "s": "Done (B527, B539): the list reads the project folder after a render; the ask can be turned off in settings",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Duplicates review (pill on Projects, Keep one / Keep both)",
+      "p": 100,
+      "s": "Done (B546-B547): a folder with other projects inside never goes to the Trash; names with quotes and accents tested; Finder copies ' (2)' count as the same track (B518)",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Versions timeline, vertical",
+      "p": 100,
+      "s": "Done (B539-B542): newest on top, one column per branch, diff on each card, Compact / Detailed / Stacked views, sticky headers",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Project page layout: art, info and tabs in a left column",
+      "p": 100,
+      "s": "Done (B536-B540): actions in the title row, one info line, 200 px column; Previous layout still available",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Library > Samples: Dual list, tuning row, sound type chips",
+      "p": 100,
+      "s": "Done (B549-B552): two columns with Single/Dual list, drag line between lists, type chips with arrows and more contrast",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Renders page: filters like Projects",
+      "p": 100,
+      "s": "Done (B551): same filters, plus a duplicate-merge fix so only the project's own folder is listed",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Renders page: playlists card on the left",
+      "p": 85,
+      "s": "Built in the playlists branch (list, new, rename, delete, drag to add, reorder, play in queue; app DB tables + API) · left: merge into the integration branch and a real-use check",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Jade / Forest accent everywhere",
+      "p": 100,
+      "s": "Done (B552, W-acento): every highlight follows the chosen accent in light and dark",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Projects list: sticky filters, multi-select Edit, never clipped columns",
+      "p": 100,
+      "s": "Done (B519-B526): sticky top, Shift/Cmd drag selection, Edit for several projects, columns drop by width (checked 820 to 1600 px)",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Progress: stage, to-do, notes, voice notes, checklists, project analytics (app and phone)",
+      "p": 100,
+      "s": "Done (B475-B488): percent follows the stage, Released = 100",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Digi: glass jewel case, 8-bit and abstract smoke art, finishes",
+      "p": 100,
+      "s": "Done (B481-B528, 10 Nov): sharp art at any size, no noise texture",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Window opens as last time; first run maximized; page notifications",
+      "p": 100,
+      "s": "Done (B545, B548): double click on the title strip is native only",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Beta night and QA2 bug fixes (search, scan, profile photo, 500 errors, auto-render stuck, signed-out noise)",
+      "p": 95,
+      "s": "Done: about 30 fixes with tests (B544, B548-B550) · left: decisions on owner-name seeds, Classify '&', unsaved Notes",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Beta release B548: packages built, feed and site page staged",
+      "p": 80,
+      "s": "Zips (arm64, universal), updater manifest and signature built; the server started inside each app · left: create the releases repo, publish, install test from the download page (steps in beta-publicar)",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Server shipped as a compiled binary (Nuitka), no readable Python",
+      "p": 55,
+      "s": "Nuitka build path behind FORK_SERVER_NUITKA in the working branch (build script, sidecar and Rust launcher edited, not committed) · left: starts and prints ready, tests, size and startup check, make it the default",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Native app conversion (Rust + GPUI)",
+      "p": 5,
+      "s": "fork-native crate skeleton committed (GPUI pinned to Zed v0.233.10) · left: phase 1 shell and Library grid, then project page, library pages, Rust engine, settings, Windows and Linux",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
     }
   ],
   "native": {
