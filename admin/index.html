@@ -429,7 +429,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div id="ar-err" class="msg" role="status" aria-live="polite"></div>
       <div class="ar-stage" id="ar-stage"><div class="empty">Loading architecture…</div></div>
       <div class="ar-note">
-        <span id="ar-legend"><b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>Alpha</b> held for the alpha, after the beta.</span>
+        <span id="ar-legend"><b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>After the beta</b> held until the beta ships.</span>
         <span>Click the diagram to open it full size.</span>
       </div>
       <div class="box ar-table">
@@ -917,9 +917,9 @@ for (const b of document.querySelectorAll('.tabs button')) b.onclick = () => {
 
 // ── arquitetura (admin/architecture.json + admin/arch-*.svg) ─────────────────────────────────────────────────────────
 let arData = null, arView = 'overview', arLoading = false;
-const AR_STATUS = { built: 'Built', building: 'Building', planned: 'Planned', alpha: 'Alpha', live: 'Live', postponed: 'Postponed', 'not-used': 'Not used' };
+const AR_STATUS = { built: 'Built', building: 'Building', planned: 'Planned', alpha: 'After the beta', live: 'Live', postponed: 'Postponed', 'not-used': 'Not used' };
 const AR_LABEL = { overview: 'Overview', studio: 'Fork Studio', music: 'Fork Music', services: 'External services' };
-const AR_LEGEND = '<b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>Alpha</b> held for the alpha, after the beta.';
+const AR_LEGEND = '<b>Built</b> shipped · <b>Building</b> in progress · <b>Planned</b> not started · <b>After the beta</b> held until the beta ships.';
 const AR_LEGEND_SVC = '<b>Live</b> in use now · <b>Planned</b> needed, not set up · <b>Postponed</b> held until after the beta · <b>Not used</b> deliberately off · a red dot or red cost means it is not zero-cost.';
 function arLista(a) { return '<ul>' + (a || []).map(x => '<li><code>' + esc(x) + '</code></li>').join('') + '</ul>'; }
 function arCartao(n) {
@@ -1009,7 +1009,7 @@ function stDesenha() {
   // O progresso segue o filtro: em "Fork Studio" conta so as tarefas do Fork Studio (pedido dele, 10-11).
   const doFiltro = stApp === 'All' ? stData.tasks : stData.tasks.filter(t => (t.app || 'Fork Studio') === stApp);
   const fases = StPhase.split(doFiltro);
-  const nomes = { beta: 'Beta', alpha: 'Alpha' };
+  const nomes = { beta: 'Beta', alpha: 'After the beta' };
   const secao = ph => {
     const pr = StPhase.progress(fases[ph]);
     const media = fases[ph].length ? Math.round(fases[ph].reduce((n, x) => n + Math.max(0, Math.min(100, x.p)), 0) / fases[ph].length) : 0;
