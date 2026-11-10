@@ -483,7 +483,7 @@
     {
       "t": "Windows version (and later Linux)",
       "p": 5,
-      "s": "In the beta (owner, 10 Nov): port of the current app, a few Mac-only features capped; queued on the other account (starts 19:00)",
+      "s": "In the beta (owner, 10 Nov): port of the current app, a few features that only work on Apple computers capped; queued on the other account (starts 19:00)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "beta"

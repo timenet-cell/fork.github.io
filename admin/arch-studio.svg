@@ -49,7 +49,7 @@
 <text x="770" y="178" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#C77700" text-anchor="middle" letter-spacing="0.5">BUILDING</text>
 </g>
 <g>
-<title>Windows build — Building — In the beta: port of the current app to Windows (installer + automatic updates), built on GitHub Actions; Mac-only automation (Ableton auto-render) capped for now.</title>
+<title>Windows build — Building — In the beta: port of the current app to Windows (installer + automatic updates), built on GitHub Actions; the Ableton auto-render (it drives Live through the Apple accessibility API) capped for now.</title>
 <rect x="865" y="124" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
 <rect x="866" y="134" width="3" height="44" rx="1.5" fill="#C77700"/>
 <text x="940" y="153.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Windows build</text>
