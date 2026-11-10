@@ -1055,7 +1055,10 @@ function nvConvDesenha(n) {
   $('nv-conv-fase').textContent = n.phase ? n.phase + (typeof n.phase_pct === 'number' ? ' - ' + Math.round(n.phase_pct) + '%' : '') : '';
   $('nv-conv-upd').textContent = n.updated ? 'Updated ' + new Date(n.updated).toLocaleString() : '';
 }
-setInterval(() => { if (!document.hidden && !$('v-dash').classList.contains('hidden')) estado(); }, 600000);
+const nvRele = () => { if (!document.hidden && !$('v-dash').classList.contains('hidden')) estado(); };
+setInterval(nvRele, 600000);
+// No telefone a pagina fica parada em segundo plano (o intervalo nao corre): ao voltar a ela, rele logo.
+document.addEventListener('visibilitychange', nvRele); window.addEventListener('focus', nvRele); window.addEventListener('pageshow', nvRele);
 async function estado() {
   $('st-err').textContent = '';
   if (!stArq) fetch('architecture.json?v=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).then(j => { stArq = j; stDesenha(); }).catch(() => {});
