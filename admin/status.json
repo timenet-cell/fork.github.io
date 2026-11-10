@@ -515,7 +515,7 @@
     {
       "t": "Save Version blue ball identical on Intel and Apple silicon",
       "p": 90,
-      "s": "Merged 29 Oct: same click, double click, tooltip and unsaved dot (now pulses and blinks on both); Intel build compiles · left: check by eye on Intel · after the beta (your call, 2 Nov)",
+      "s": "Merged 29 Oct, same click, double click, tooltip and unsaved dot on both; Intel build compiles · left: check by eye on an Intel computer, done with the Windows and Linux ports once the app is at 100%",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -646,16 +646,16 @@
     },
     {
       "t": "Projects always open complete (Relinked version)",
-      "p": 60,
-      "s": "Relink sees Drum Rack samples and the whole Library (B393) · left: finish the Relinked version rule",
+      "p": 100,
+      "s": "Done 5 Nov: samples are relinked before a set opens (Drum Rack and the whole Library), and the automatic version is labelled \"Relinked · N\"; tests relink_antes_de_abrir, originais_nos_projetos pass",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
     },
     {
       "t": "Samples vs project-audio storage rule",
-      "p": 60,
-      "s": "Samples Library and project-audio split in place (project Samples/ never counts as a render, B469-B470) · left: final storage rule",
+      "p": 100,
+      "s": "Done 5 Nov: two rules - samples keep their source in the library or pack with a clone per project; project audio stays real in the project (project Samples/ never counts as a render); tests pass",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -734,8 +734,8 @@
     },
     {
       "t": "Renders page: playlists card on the left",
-      "p": 85,
-      "s": "Built in the playlists branch (list, new, rename, delete, drag to add, reorder, play in queue; app DB tables + API) · left: merge into the integration branch and a real-use check",
+      "p": 100,
+      "s": "Done 10 Nov (B553): playlists card on the left (All renders + your playlists), new, rename, delete, add from the row menu, play in queue; checked in the real app",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
