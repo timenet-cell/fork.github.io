@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T22:52:36+00:00",
+  "updated": "2026-11-10T23:02:39+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -806,17 +806,17 @@
     },
     {
       "t": "Native app conversion (Rust + GPUI)",
-      "p": 20,
-      "s": "Phase 1: shell, Library grid, player: 82% · total 19.9% (updated every 10 min)",
+      "p": 31,
+      "s": "Phase 1: shell, Library grid, player: 82% · total 30.8% (updated every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
     }
   ],
   "native": {
-    "pct": 19.9,
+    "pct": 30.8,
     "phase": "Phase 1: shell, Library grid, player",
     "phase_pct": 81.7,
-    "updated": "2026-11-10T22:52:36+00:00"
+    "updated": "2026-11-10T23:02:39+00:00"
   }
 }
