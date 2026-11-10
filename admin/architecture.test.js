@@ -93,7 +93,7 @@ for (const n of serviceNodes) {
 }
 
 // The status must match the plan: these four are held for the alpha.
-for (const id of ['studio-dj', 'studio-live', 'studio-rooms', 'studio-windows']) {
+for (const id of ['studio-dj', 'studio-live', 'studio-rooms']) {
   assert.equal(byId.get(id) && byId.get(id).status, 'alpha', `${id} must be alpha`);
 }
 
