@@ -425,14 +425,6 @@
       "phase": "alpha"
     },
     {
-      "t": "Rust port (Tauri + pure Rust)",
-      "p": 5,
-      "s": "Decision changed: native Rust app with GPUI instead of Tauri; plan written, fork-native crate skeleton started (see Native app conversion)",
-      "prio": 3,
-      "app": "Fork Studio",
-      "phase": "alpha"
-    },
-    {
       "t": "Disks: Fragoso Fast space",
       "p": 50,
       "s": "59 GB free of 466 after the 2 Nov cleanup (6,710 duplicate pack copies, 4.84 GB, moved to Fork Trash) · left: your choice of which disk goes where",
@@ -491,7 +483,7 @@
     {
       "t": "Windows version (and later Linux)",
       "p": 0,
-      "s": "Starts at alpha, after the beta, so nothing is built twice · then: platform module with Save Version button and Ctrl+Alt+S",
+      "s": "Part of the native app conversion (phase 5): same Rust code, drawn with DirectX on Windows and Vulkan on Linux; Save Version button with Ctrl+Alt+S",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -603,7 +595,7 @@
     {
       "t": "Native drawing of decks, grid, meters and 3D cloud",
       "p": 0,
-      "s": "Deferred by you on 5 Oct; start with the DJ tab",
+      "s": "DJ module paused (26 Oct); when it resumes it is built straight in the native app (Rust + GPUI)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -815,7 +807,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 5,
-      "s": "fork-native crate skeleton committed (GPUI pinned to Zed v0.233.10) · left: phase 1 shell and Library grid, then project page, library pages, Rust engine, settings, Windows and Linux",
+      "s": "Phase 1 running: native window, sidebar, Library grid with covers and discs, player (live % in the bar at the top)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
