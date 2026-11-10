@@ -219,8 +219,8 @@
     },
     {
       "t": "Admin QA tab / QA bench",
-      "p": 97,
-      "s": "Full pass 30 Oct (27 of 27) plus QA2 on 10 Nov: 30 findings, 11 fixed and tested, the rest are suspected text issues or need your decision (blank artist seeds, Classify '&', unsaved Notes on Esc) · left: your calls on those",
+      "p": 100,
+      "s": "Done 10 Nov: QA2 found 30 issues; all confirmed bugs fixed and tested (last 10 in QA3: Classify &, unsaved drafts, missing folder message, fresh-install texts, header at 1280, Calendar, branch names, counts)",
       "prio": 2,
       "app": "Platform",
       "phase": "beta"
