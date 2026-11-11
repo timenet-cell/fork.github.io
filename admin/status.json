@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T21:06:31+00:00",
+  "updated": "2026-11-11T21:16:34+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -817,6 +817,6 @@
     "pct": 79.9,
     "phase": "Phase 4: engine in Rust",
     "phase_pct": 61.7,
-    "updated": "2026-11-11T21:06:31+00:00"
+    "updated": "2026-11-11T21:16:34+00:00"
   }
 }
