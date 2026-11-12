@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T20:44:52+00:00",
+  "updated": "2026-11-12T20:54:55+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -806,8 +806,8 @@
     },
     {
       "t": "Native app conversion (Rust + GPUI)",
-      "p": 92,
-      "s": "Phase 4: engine in Rust: 97% · total 92.1% · smooth 22 of 22 screens measured, worst frame None ms · agents: running on the app account (w-nativo6 Online and phase 5, since 19:59); terminal account paused until Nov 17 22:00 (checked every 10 min)",
+      "p": 93,
+      "s": "Phase 4: engine in Rust: 97% · total 92.6% · smooth 24 of 24 screens measured, worst frame None ms · agents: running on the app account (w-nativo6 Online and phase 5, since 19:59); terminal account paused until Nov 17 22:00 (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -830,15 +830,15 @@
     }
   ],
   "native": {
-    "pct": 92.1,
+    "pct": 92.6,
     "phase": "Phase 4: engine in Rust",
     "phase_pct": 97.3,
     "agents": "running on the app account (w-nativo6 Online and phase 5, since 19:59); terminal account paused until Nov 17 22:00",
     "smooth": {
-      "measured": 22,
-      "passed": 22,
+      "measured": 24,
+      "passed": 24,
       "worst_ms": null
     },
-    "updated": "2026-11-12T20:44:52+00:00"
+    "updated": "2026-11-12T20:54:55+00:00"
   }
 }
