@@ -1,822 +1,822 @@
 {
- "updated": "2026-11-12T07:39:29+00:00",
- "tasks": [
-  {
-   "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
-   "p": 90,
-   "s": "code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "forkgate.io /pro and /pro/done pages + admin Subscriptions list (Accounts tab)",
-   "p": 100,
-   "s": "built, awaiting push",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Auto-render via Ableton with missing-plugin report (Pro)",
-   "p": 100,
-   "s": "Done 10 Nov (B558): batch of 20 real projects rendered in Live, all 20 files in their project folders (full arrangement + 2 bars); always from a hidden copy, frozen tracks with missing samples unfrozen in the copy, a saved set open in Live no longer blocks, the owner's sets never changed",
-   "prio": 1,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Multi-user Fork and Merge (track versions grouped on merge)",
-   "p": 85,
-   "s": "waves 1-6 merged (track Ids + duplicates, merge plan, .als writer, sample copy, branches migration 94, Studio branch + merge sheet) · left: you open the test set in Live (wave 7) · migrations 87-94 live",
-   "prio": 1,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Beta: seed ratio 10:1 for everyone; all features only when signed in",
-   "p": 100,
-   "s": "done: 10:1 for everyone in the beta; Pro features need a signed-in session",
-   "prio": 1,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Ledger: all 22 waves merged (+L22 terms 0.9 and privacy notice, drafts for the lawyer); owner: devnet deploy steps in INDEX",
-   "p": 100,
-   "s": "code done",
-   "prio": "high",
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Daily backup: live · first real backup OK 3 Nov (758 KB dump, 4-of-10 shards); daily 04:00 LaunchAgent installed; swarm hosts 0 yet",
-   "p": 100,
-   "s": "done",
-   "prio": "high",
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Resend emails: domain verified, Supabase Auth custom SMTP set (noreply@forkgate.io)",
-   "p": 100,
-   "s": "done",
-   "prio": "high",
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Signer in Supabase: live on devnet since 4 Nov (keys in Vault, 16 functions, cron every 30 s, Rust signer stopped); wave 7 after 30 days",
-   "p": 99,
-   "s": "live on devnet · first devnet purchase delivered end to end on 4 Nov (licence minted, settlement 100% to the artist, held until payouts are set up)",
-   "prio": "high",
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Encryption: AES-256 fragments",
-   "p": 92,
-   "s": "Signed revocations, keep-alives and removals done · left: switch on with real data (manifest still accepts plain until sealed mode is set)",
-   "prio": 1,
-   "app": "Fork Network",
-   "phase": "beta"
-  },
-  {
-   "t": "Store: Stripe + Solana licence registry",
-   "p": 99,
-   "s": "Devnet ready (registry, collection, 2.25 test SOL, keys published); signing service running on the computerBook Pro · left: turn on the signer and checkout switches, one test purchase · for real money later: multisig, mainnet registry (~0.3 SOL), Stripe live",
-   "prio": 1,
-   "app": "Fork Music",
-   "phase": "beta"
-  },
-  {
-   "t": "WIP fan passes (off-chain, revocable)",
-   "p": 98,
-   "s": "Fan side done, database updated · left: one real test: Studio issues a pass, Fork Music opens it",
-   "prio": 1,
-   "app": "Fork Music",
-   "phase": "beta"
-  },
-  {
-   "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-   "p": 99,
-   "s": "Code complete, database updated; phone now downloads from up to 4 computers at once · left: relay server, real-router test, iPhone test",
-   "prio": 1,
-   "app": "Fork Network",
-   "phase": "beta"
-  },
-  {
-   "t": "Fork Music: distribution + streaming",
-   "p": 99,
-   "s": "Frame, settings, updater, build line done · left: release feeds, two-computer test",
-   "prio": 2,
-   "app": "Fork Music",
-   "phase": "beta"
-  },
-  {
-   "t": "Fork Ledger + credits & creation record",
-   "p": 100,
-   "s": "22 of 22 waves merged · registry page live at forkgate.io/l/ · left: deploy functions + devnet (owner), legal review",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Operations Manual (admin Guide)",
-   "p": 100,
-   "s": "Done: all chapters current to 28 Oct, decision log, Services tab, open questions moved to \"Waiting for the owner\" (ch. 18)",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Beta feedback (card, Help menu, admin list)",
-   "p": 100,
-   "s": "Live (database ready)",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Settings › Network (upload/download/storage)",
-   "p": 100,
-   "s": "Live · applies when swarm launches",
-   "prio": 3,
-   "app": "Fork Network",
-   "phase": "beta"
-  },
-  {
-   "t": "Terms v0.8 + Welcome tour",
-   "p": 95,
-   "s": "Live · left: lawyer review",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Update feed + first beta release B371",
-   "p": 100,
-   "s": "Live",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Developer gates: DJ, Network Evo, Live Companion",
-   "p": 100,
-   "s": "Live",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Analytics cards on desktop",
-   "p": 100,
-   "s": "Live",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Drive rename fix + no personal defaults",
-   "p": 100,
-   "s": "Live",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Merges: integration → master, PR #1, PR #3",
-   "p": 100,
-   "s": "Done",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Terms: softer wording for storage contribution",
-   "p": 60,
-   "s": "Draft v0.9 ready · left for the end by your choice",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Support tab (admin)",
-   "p": 100,
-   "s": "done · migration 71 applied",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Error reports + remote switches",
-   "p": 100,
-   "s": "Verified 10 Nov on B554: the app sends its error reports to the cloud (queue empty, 13 kinds received) and reads the remote switches (swarm, publish); the last real errors (timeline dot, disk speed thread) are fixed since B542",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Admin QA tab / QA bench",
-   "p": 100,
-   "s": "Done 10 Nov: QA2 found 30 issues; all confirmed bugs fixed and tested (last 10 in QA3: Classify &, unsaved drafts, missing folder message, fresh-install texts, header at 1280, Calendar, branch names, counts)",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Signer tab (admin)",
-   "p": 100,
-   "s": "Live 29 Oct: switch and caps, mint jobs, freezing, settlement, key requests, chain reserve, and the store checkout switch beside it",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Inbox support replies",
-   "p": 95,
-   "s": "Merged · left: in the fork-app build since 31 Oct; replies need migration 71",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Artist key backup + restore",
-   "p": 95,
-   "s": "Merged · left: in the fork-app build since 31 Oct; Keychain prompt check on your computer; at-rest encryption stays off until you switch it on",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Fork Music: Network tab",
-   "p": 100,
-   "s": "Shared chat zones, private column and empty states; chat itself says 'coming' · left: real chat backend",
-   "prio": 2,
-   "app": "Fork Music",
-   "phase": "beta"
-  },
-  {
-   "t": "Bought music in the shared player",
-   "p": 100,
-   "s": "Release page and Library play through the shared player bar (queue, scrub, now playing) · needs you: decide how the native engine plays decrypted audio",
-   "prio": 2,
-   "app": "Fork Music",
-   "phase": "beta"
-  },
-  {
-   "t": "No 'computer' in app text",
-   "p": 100,
-   "s": "All apps say 'computer'; a test blocks regressions (28 Oct)",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Phone over P2P: browse, palette, sample search",
-   "p": 90,
-   "s": "All features merged · left: test on a real phone",
-   "prio": 2,
-   "app": "Fork Network",
-   "phase": "beta"
-  },
-  {
-   "t": "Public version in systemBlue",
-   "p": 100,
-   "s": "Public builds use systemBlue for every accent; your builds keep the Fork red; also fixed a dev-only card leaking into public builds (28 Oct)",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "P2P upload speed",
-   "p": 90,
-   "s": "Chunked upload, tunnel tweaks, speed test and phone multi-source download merged · left: test on a real phone/real router with 2+ computers online",
-   "prio": 2,
-   "app": "Fork Network",
-   "phase": "beta"
-  },
-  {
-   "t": "Cold white brand",
-   "p": 100,
-   "s": "Light theme and app icons moved to the cold bluish white (#EEF3F8 family) in every app; dark theme, brand red and public systemBlue untouched; text contrast checked ≥ 4.5:1 (28 Oct)",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Report a bug (all apps)",
-   "p": 95,
-   "s": "Merged · left: try in next build",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Older shared version: newer one flagged",
-   "p": 95,
-   "s": "Merged · left: try with two accounts",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Database: migrations 71 + 72",
-   "p": 100,
-   "s": "applied (now up to 86 in production)",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Relay, SMTP and Apple signing",
-   "p": 30,
-   "s": "After the beta (decided 4 Nov): no Developer ID, no public distribution feeds; relay later",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "alpha"
-  },
-  {
-   "t": "Real-device tests",
-   "p": 0,
-   "s": "Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Phone: uncatalogued pack sounds",
-   "p": 100,
-   "s": "Done 4 Nov: 'Not catalogued yet' group on the phone, searchable",
-   "prio": 2,
-   "app": "Fork Network",
-   "phase": "beta"
-  },
-  {
-   "t": "Studio: details panel while Studio view is open",
-   "p": 100,
-   "s": "Decided 4 Nov: keep as is",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Manager: old public build script",
-   "p": 100,
-   "s": "Done 4 Nov: retired",
-   "prio": 2,
-   "app": "Fork Manager",
-   "phase": "beta"
-  },
-  {
-   "t": "Studio: your own standalone build keeps owner colours and tabs (public build stays blue)",
-   "p": 100,
-   "s": "Done · in fork-app",
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Upload pacing: fixed 1.5 MB or adaptive",
-   "p": 100,
-   "s": "Done 4 Nov: adaptive window (1.5 MB start, 256 KB-8 MB); real-network check with the phone test",
-   "prio": 3,
-   "app": "Fork Network",
-   "phase": "beta"
-  },
-  {
-   "t": "Bought music in the native player",
-   "p": 0,
-   "s": "Plays in shared web player today; native engine later",
-   "prio": 3,
-   "app": "Fork Music",
-   "phase": "alpha"
-  },
-  {
-   "t": "Delete a palette from the phone",
-   "p": 0,
-   "s": "Deferred",
-   "prio": 3,
-   "app": "Fork Network",
-   "phase": "alpha"
-  },
-  {
-   "t": "Protected content in the library",
-   "p": 0,
-   "s": ".forkbase marker works; encrypted protected content later; design doc is old (3 Oct) and the library layout changed",
-   "prio": 3,
-   "app": "Fork Music",
-   "phase": "alpha"
-  },
-  {
-   "t": "Fork this version / remixes",
-   "p": 0,
-   "s": "Design first, then build; ties into licences and label split role",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "alpha"
-  },
-  {
-   "t": "DJ module",
-   "p": 0,
-   "s": "After the beta (your call, 29 Oct) · paused; side-panel waves branch and rekordbox export unfinished",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "alpha"
-  },
-  {
-   "t": "Disks: Fragoso Fast space",
-   "p": 50,
-   "s": "59 GB free of 466 after the 2 Nov cleanup (6,710 duplicate pack copies, 4.84 GB, moved to Fork Trash) · left: your choice of which disk goes where",
-   "prio": 2,
-   "app": "Your computers",
-   "phase": "beta"
-  },
-  {
-   "t": "Disks: empty Fragoso Fast Trash",
-   "p": 0,
-   "s": "47 GB duplicates · needs your OK",
-   "prio": 2,
-   "app": "Your computers",
-   "phase": "beta"
-  },
-  {
-   "t": "Disks: Projecto José Castelo Branco",
-   "p": 0,
-   "s": "Needs room or a destination",
-   "prio": 3,
-   "app": "Your computers",
-   "phase": "beta"
-  },
-  {
-   "t": "Disks: what is 'Fragoso Fast-1' on the Mini",
-   "p": 0,
-   "s": "Needs your answer",
-   "prio": 3,
-   "app": "Your computers",
-   "phase": "beta"
-  },
-  {
-   "t": "Photos: iCloud Photos from Fragoso Fast",
-   "p": 0,
-   "s": "Needs Photos settings on your side",
-   "prio": 3,
-   "app": "Your computers",
-   "phase": "beta"
-  },
-  {
-   "t": "Merge release scripts (sign, publish, roll back)",
-   "p": 100,
-   "s": "Merged 29 Oct · scripts stay off until there is an Apple Developer ID (see Relay, SMTP and Apple signing)",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Network rooms, game and private chat",
-   "p": 10,
-   "s": "Design approved, dev-only preview exists, backend not built · left: tables, realtime chat, 8-bit game, connect requests",
-   "prio": 3,
-   "app": "Fork Network",
-   "phase": "alpha"
-  },
-  {
-   "t": "Windows version (and later Linux)",
-   "p": 5,
-   "s": "In the beta (owner, 10 Nov): port of the current app, a few features that only work on Apple computers capped; compiled only once the app is at 100% (owner, 10 Nov), task on hold until then",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Turn on Free/Pro split after the beta",
-   "p": 80,
-   "s": "Gating and plan lookup built, beta flags on · left: flip the flags and set plans after the beta · needs you: Stripe subscription for Pro 2.99",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "alpha"
-  },
-  {
-   "t": "Daily encrypted database backup: switch on",
-   "p": 100,
-   "s": "done 3 Nov (first real backup OK)",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Publish device-cert and lease-issuer public keys; deploy functions",
-   "p": 60,
-   "s": "Panel says public keys are published for the Store; swarm certificate steps in INDEX still marked not done · needs you: confirm with supabase migration list and secrets",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Save Version blue ball identical on Intel and Apple silicon",
-   "p": 90,
-   "s": "Merged 29 Oct, same click, double click, tooltip and unsaved dot on both; Intel build compiles · left: check by eye on an Intel computer, done with the Windows and Linux ports once the app is at 100%",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Live Companion in a real Ableton Live",
-   "p": 70,
-   "s": "After the beta (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "alpha"
-  },
-  {
-   "t": "Rekordbox USB export: real CDJ check, extended beat grid, phrases, OneLibrary",
-   "p": 60,
-   "s": "Basic export written · left: PQT2/PSSI and OneLibrary, colour approximations · needs you: a real CDJ and stick",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "alpha"
-  },
-  {
-   "t": "Social publishing (Meta, TikTok)",
-   "p": 5,
-   "s": "Signature-only scaffold · left: token vault, callback server, posting · needs you: Meta/TikTok app credentials and posting rules",
-   "prio": 3,
-   "app": "Fork Manager",
-   "phase": "beta"
-  },
-  {
-   "t": "Certified invoices (Portugal)",
-   "p": 10,
-   "s": "Receipts exist and say they are not invoices · left: choose a certified provider and issue invoices · needs you",
-   "prio": 2,
-   "app": "Fork Manager",
-   "phase": "beta"
-  },
-  {
-   "t": "Abuse handling: signed tombstones, per-account quotas, legal review",
-   "p": 60,
-   "s": "tombstone_sign function and abuse migration exist · left: quota policy and legal review of receipts/Terms",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Timestamp anchor per signed record (RFC 3161)",
-   "p": 0,
-   "s": "Provider and cost not chosen",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Library index through the local API; official artwork on cards",
-   "p": 0,
-   "s": "Waits for the swap of the old apps to the Fork apps",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "One repository for the ecosystem and cleanup of old folders",
-   "p": 0,
-   "s": "Needs your written approval, apps verified first",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Cloud backups to Drive, Dropbox, OneDrive, S3",
-   "p": 0,
-   "s": "Requested 5 Oct · left: direct resumable API upload per provider · needs you: OAuth apps",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Native drawing of decks, grid, meters and 3D cloud",
-   "p": 0,
-   "s": "DJ module paused (26 Oct); when it resumes it is built straight in the native app (Rust + GPUI)",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "alpha"
-  },
-  {
-   "t": "Helius webhook for wallet changes",
-   "p": 0,
-   "s": "Daily wallet check covers it today",
-   "prio": 3,
-   "app": "Fork Music",
-   "phase": "beta"
-  },
-  {
-   "t": "Admin: full architecture of Fork Studio and Fork Music",
-   "p": 100,
-   "s": "Live 29 Oct: Overview, Fork Studio and Fork Music views with a searchable list of 85 components",
-   "prio": 3,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Brand accent: Jade green by default, Forest selectable (profile ball → Appearance); Save Version ball stays blue",
-   "p": 100,
-   "s": "Done · Jade by default, Forest selectable; highlights, chips and type tags follow the accent everywhere (B552)",
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Library tab: size cards for Projects Library and Samples Library (Finder units)",
-   "p": 100,
-   "s": "Done · in fork-app",
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Palette Creator maps Samples Library pack sounds, with a coverage line",
-   "p": 95,
-   "s": "Merged, in fork-app · left: background analysis of the pack sounds finishes on its own",
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Import: 'Import everything' no longer stops when there are no new packs; lists packs without audio",
-   "p": 100,
-   "s": "Done · 139 of 149 packs imported; 4 have no audio (2 are .rar, need unpacking · your call)",
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Projects always open complete (Relinked version)",
-   "p": 100,
-   "s": "Done 5 Nov: samples are relinked before a set opens (Drum Rack and the whole Library), and the automatic version is labelled \"Relinked · N\"; tests relink_antes_de_abrir, originais_nos_projetos pass",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Samples vs project-audio storage rule",
-   "p": 100,
-   "s": "Done 5 Nov: two rules - samples keep their source in the library or pack with a clone per project; project audio stays real in the project (project Samples/ never counts as a render); tests pass",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Optimize for playback",
-   "p": 90,
-   "s": "Optimize for playback shipped: free-space warning, defragment project audio, clones to real files, plain-language wording (B383, B523) · left: check on a real slow disk",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Admin Site tabs",
-   "p": 100,
-   "s": "Done · Site tabs (visibility, order, per-app features) backed by site_content with built-in fallback; tests added",
-   "prio": 2,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Render Now and Custom Render in the bar menu",
-   "p": 100,
-   "s": "Done (B535): render covers the whole song + 2 bars, works on branches, another set of the same project open in Live no longer blocks; Render Now no longer returns a queued Custom Render",
-   "prio": 1,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Renders: new render lands in the list at once; 'Render this version?' after Save Version",
-   "p": 100,
-   "s": "Done (B527, B539): the list reads the project folder after a render; the ask can be turned off in settings",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Duplicates review (pill on Projects, Keep one / Keep both)",
-   "p": 100,
-   "s": "Done (B546-B547): a folder with other projects inside never goes to the Trash; names with quotes and accents tested; Finder copies ' (2)' count as the same track (B518)",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Versions timeline, vertical",
-   "p": 100,
-   "s": "Done (B539-B542): newest on top, one column per branch, diff on each card, Compact / Detailed / Stacked views, sticky headers",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Project page layout: art, info and tabs in a left column",
-   "p": 100,
-   "s": "Done (B536-B540): actions in the title row, one info line, 200 px column; Previous layout still available",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Library > Samples: Dual list, tuning row, sound type chips",
-   "p": 100,
-   "s": "Done (B549-B552): two columns with Single/Dual list, drag line between lists, type chips with arrows and more contrast",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Renders page: filters like Projects",
-   "p": 100,
-   "s": "Done (B551): same filters, plus a duplicate-merge fix so only the project's own folder is listed",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Renders page: playlists card on the left",
-   "p": 100,
-   "s": "Done 10 Nov (B553): playlists card on the left (All renders + your playlists), new, rename, delete, add from the row menu, play in queue; checked in the real app",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Jade / Forest accent everywhere",
-   "p": 100,
-   "s": "Done (B552, W-acento): every highlight follows the chosen accent in light and dark",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Projects list: sticky filters, multi-select Edit, never clipped columns",
-   "p": 100,
-   "s": "Done (B519-B526): sticky top, Shift/Cmd drag selection, Edit for several projects, columns drop by width (checked 820 to 1600 px)",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Progress: stage, to-do, notes, voice notes, checklists, project analytics (app and phone)",
-   "p": 100,
-   "s": "Done (B475-B488): percent follows the stage, Released = 100",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Digi: glass jewel case, 8-bit and abstract smoke art, finishes",
-   "p": 100,
-   "s": "Done (B481-B528, 10 Nov): sharp art at any size, no noise texture",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Window opens as last time; first run maximized; page notifications",
-   "p": 100,
-   "s": "Done (B545, B548): double click on the title strip is native only",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Beta night and QA2 bug fixes (search, scan, profile photo, 500 errors, auto-render stuck, signed-out noise)",
-   "p": 95,
-   "s": "Done: about 30 fixes with tests (B544, B548-B550) · left: decisions on owner-name seeds, Classify '&', unsaved Notes",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Beta release B548: packages built, feed and site page staged",
-   "p": 80,
-   "s": "Zips (arm64, universal), updater manifest and signature built; the server started inside each app · left: create the releases repo, publish, install test from the download page (steps in beta-publicar)",
-   "prio": 1,
-   "app": "Platform",
-   "phase": "beta"
-  },
-  {
-   "t": "Server shipped as a compiled binary (Nuitka), no readable Python",
-   "p": 100,
-   "s": "Done (B559): Nuitka is the default build; the installed app runs the compiled server and ships zero readable Python files (checked 12 Nov)",
-   "prio": 2,
-   "app": "Fork Studio",
-   "phase": "beta"
-  },
-  {
-   "t": "Native app conversion (Rust + GPUI)",
-   "p": 89,
-   "s": "Phase 4: engine in Rust: 92% · total 89.1% (updated every 10 min)",
-   "prio": 3,
-   "app": "Fork Studio",
-   "phase": "alpha"
+  "updated": "2026-11-12T07:49:46+00:00",
+  "tasks": [
+    {
+      "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
+      "p": 90,
+      "s": "code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "forkgate.io /pro and /pro/done pages + admin Subscriptions list (Accounts tab)",
+      "p": 100,
+      "s": "built, awaiting push",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Auto-render via Ableton with missing-plugin report (Pro)",
+      "p": 100,
+      "s": "Done 10 Nov (B558): batch of 20 real projects rendered in Live, all 20 files in their project folders (full arrangement + 2 bars); always from a hidden copy, frozen tracks with missing samples unfrozen in the copy, a saved set open in Live no longer blocks, the owner's sets never changed",
+      "prio": 1,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Multi-user Fork and Merge (track versions grouped on merge)",
+      "p": 85,
+      "s": "waves 1-6 merged (track Ids + duplicates, merge plan, .als writer, sample copy, branches migration 94, Studio branch + merge sheet) · left: you open the test set in Live (wave 7) · migrations 87-94 live",
+      "prio": 1,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Beta: seed ratio 10:1 for everyone; all features only when signed in",
+      "p": 100,
+      "s": "done: 10:1 for everyone in the beta; Pro features need a signed-in session",
+      "prio": 1,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Ledger: all 22 waves merged (+L22 terms 0.9 and privacy notice, drafts for the lawyer); owner: devnet deploy steps in INDEX",
+      "p": 100,
+      "s": "code done",
+      "prio": "high",
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Daily backup: live · first real backup OK 3 Nov (758 KB dump, 4-of-10 shards); daily 04:00 LaunchAgent installed; swarm hosts 0 yet",
+      "p": 100,
+      "s": "done",
+      "prio": "high",
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Resend emails: domain verified, Supabase Auth custom SMTP set (noreply@forkgate.io)",
+      "p": 100,
+      "s": "done",
+      "prio": "high",
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Signer in Supabase: live on devnet since 4 Nov (keys in Vault, 16 functions, cron every 30 s, Rust signer stopped); wave 7 after 30 days",
+      "p": 99,
+      "s": "live on devnet · first devnet purchase delivered end to end on 4 Nov (licence minted, settlement 100% to the artist, held until payouts are set up)",
+      "prio": "high",
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Encryption: AES-256 fragments",
+      "p": 92,
+      "s": "Signed revocations, keep-alives and removals done · left: switch on with real data (manifest still accepts plain until sealed mode is set)",
+      "prio": 1,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
+      "t": "Store: Stripe + Solana licence registry",
+      "p": 99,
+      "s": "Devnet ready (registry, collection, 2.25 test SOL, keys published); signing service running on the computerBook Pro · left: turn on the signer and checkout switches, one test purchase · for real money later: multisig, mainnet registry (~0.3 SOL), Stripe live",
+      "prio": 1,
+      "app": "Fork Music",
+      "phase": "beta"
+    },
+    {
+      "t": "WIP fan passes (off-chain, revocable)",
+      "p": 98,
+      "s": "Fan side done, database updated · left: one real test: Studio issues a pass, Fork Music opens it",
+      "prio": 1,
+      "app": "Fork Music",
+      "phase": "beta"
+    },
+    {
+      "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
+      "p": 99,
+      "s": "Code complete, database updated; phone now downloads from up to 4 computers at once · left: relay server, real-router test, iPhone test",
+      "prio": 1,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
+      "t": "Fork Music: distribution + streaming",
+      "p": 99,
+      "s": "Frame, settings, updater, build line done · left: release feeds, two-computer test",
+      "prio": 2,
+      "app": "Fork Music",
+      "phase": "beta"
+    },
+    {
+      "t": "Fork Ledger + credits & creation record",
+      "p": 100,
+      "s": "22 of 22 waves merged · registry page live at forkgate.io/l/ · left: deploy functions + devnet (owner), legal review",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Operations Manual (admin Guide)",
+      "p": 100,
+      "s": "Done: all chapters current to 28 Oct, decision log, Services tab, open questions moved to \"Waiting for the owner\" (ch. 18)",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Beta feedback (card, Help menu, admin list)",
+      "p": 100,
+      "s": "Live (database ready)",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Settings › Network (upload/download/storage)",
+      "p": 100,
+      "s": "Live · applies when swarm launches",
+      "prio": 3,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
+      "t": "Terms v0.8 + Welcome tour",
+      "p": 95,
+      "s": "Live · left: lawyer review",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Update feed + first beta release B371",
+      "p": 100,
+      "s": "Live",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Developer gates: DJ, Network Evo, Live Companion",
+      "p": 100,
+      "s": "Live",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Analytics cards on desktop",
+      "p": 100,
+      "s": "Live",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Drive rename fix + no personal defaults",
+      "p": 100,
+      "s": "Live",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Merges: integration → master, PR #1, PR #3",
+      "p": 100,
+      "s": "Done",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Terms: softer wording for storage contribution",
+      "p": 60,
+      "s": "Draft v0.9 ready · left for the end by your choice",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Support tab (admin)",
+      "p": 100,
+      "s": "done · migration 71 applied",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Error reports + remote switches",
+      "p": 100,
+      "s": "Verified 10 Nov on B554: the app sends its error reports to the cloud (queue empty, 13 kinds received) and reads the remote switches (swarm, publish); the last real errors (timeline dot, disk speed thread) are fixed since B542",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Admin QA tab / QA bench",
+      "p": 100,
+      "s": "Done 10 Nov: QA2 found 30 issues; all confirmed bugs fixed and tested (last 10 in QA3: Classify &, unsaved drafts, missing folder message, fresh-install texts, header at 1280, Calendar, branch names, counts)",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Signer tab (admin)",
+      "p": 100,
+      "s": "Live 29 Oct: switch and caps, mint jobs, freezing, settlement, key requests, chain reserve, and the store checkout switch beside it",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Inbox support replies",
+      "p": 95,
+      "s": "Merged · left: in the fork-app build since 31 Oct; replies need migration 71",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Artist key backup + restore",
+      "p": 95,
+      "s": "Merged · left: in the fork-app build since 31 Oct; Keychain prompt check on your computer; at-rest encryption stays off until you switch it on",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Fork Music: Network tab",
+      "p": 100,
+      "s": "Shared chat zones, private column and empty states; chat itself says 'coming' · left: real chat backend",
+      "prio": 2,
+      "app": "Fork Music",
+      "phase": "beta"
+    },
+    {
+      "t": "Bought music in the shared player",
+      "p": 100,
+      "s": "Release page and Library play through the shared player bar (queue, scrub, now playing) · needs you: decide how the native engine plays decrypted audio",
+      "prio": 2,
+      "app": "Fork Music",
+      "phase": "beta"
+    },
+    {
+      "t": "No 'computer' in app text",
+      "p": 100,
+      "s": "All apps say 'computer'; a test blocks regressions (28 Oct)",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Phone over P2P: browse, palette, sample search",
+      "p": 90,
+      "s": "All features merged · left: test on a real phone",
+      "prio": 2,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
+      "t": "Public version in systemBlue",
+      "p": 100,
+      "s": "Public builds use systemBlue for every accent; your builds keep the Fork red; also fixed a dev-only card leaking into public builds (28 Oct)",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "P2P upload speed",
+      "p": 90,
+      "s": "Chunked upload, tunnel tweaks, speed test and phone multi-source download merged · left: test on a real phone/real router with 2+ computers online",
+      "prio": 2,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
+      "t": "Cold white brand",
+      "p": 100,
+      "s": "Light theme and app icons moved to the cold bluish white (#EEF3F8 family) in every app; dark theme, brand red and public systemBlue untouched; text contrast checked ≥ 4.5:1 (28 Oct)",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Report a bug (all apps)",
+      "p": 95,
+      "s": "Merged · left: try in next build",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Older shared version: newer one flagged",
+      "p": 95,
+      "s": "Merged · left: try with two accounts",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Database: migrations 71 + 72",
+      "p": 100,
+      "s": "applied (now up to 86 in production)",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Relay, SMTP and Apple signing",
+      "p": 30,
+      "s": "After the beta (decided 4 Nov): no Developer ID, no public distribution feeds; relay later",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "alpha"
+    },
+    {
+      "t": "Real-device tests",
+      "p": 0,
+      "s": "Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Phone: uncatalogued pack sounds",
+      "p": 100,
+      "s": "Done 4 Nov: 'Not catalogued yet' group on the phone, searchable",
+      "prio": 2,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
+      "t": "Studio: details panel while Studio view is open",
+      "p": 100,
+      "s": "Decided 4 Nov: keep as is",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Manager: old public build script",
+      "p": 100,
+      "s": "Done 4 Nov: retired",
+      "prio": 2,
+      "app": "Fork Manager",
+      "phase": "beta"
+    },
+    {
+      "t": "Studio: your own standalone build keeps owner colours and tabs (public build stays blue)",
+      "p": 100,
+      "s": "Done · in fork-app",
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Upload pacing: fixed 1.5 MB or adaptive",
+      "p": 100,
+      "s": "Done 4 Nov: adaptive window (1.5 MB start, 256 KB-8 MB); real-network check with the phone test",
+      "prio": 3,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
+      "t": "Bought music in the native player",
+      "p": 0,
+      "s": "Plays in shared web player today; native engine later",
+      "prio": 3,
+      "app": "Fork Music",
+      "phase": "alpha"
+    },
+    {
+      "t": "Delete a palette from the phone",
+      "p": 0,
+      "s": "Deferred",
+      "prio": 3,
+      "app": "Fork Network",
+      "phase": "alpha"
+    },
+    {
+      "t": "Protected content in the library",
+      "p": 0,
+      "s": ".forkbase marker works; encrypted protected content later; design doc is old (3 Oct) and the library layout changed",
+      "prio": 3,
+      "app": "Fork Music",
+      "phase": "alpha"
+    },
+    {
+      "t": "Fork this version / remixes",
+      "p": 0,
+      "s": "Design first, then build; ties into licences and label split role",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    },
+    {
+      "t": "DJ module",
+      "p": 0,
+      "s": "After the beta (your call, 29 Oct) · paused; side-panel waves branch and rekordbox export unfinished",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    },
+    {
+      "t": "Disks: Fragoso Fast space",
+      "p": 50,
+      "s": "59 GB free of 466 after the 2 Nov cleanup (6,710 duplicate pack copies, 4.84 GB, moved to Fork Trash) · left: your choice of which disk goes where",
+      "prio": 2,
+      "app": "Your computers",
+      "phase": "beta"
+    },
+    {
+      "t": "Disks: empty Fragoso Fast Trash",
+      "p": 0,
+      "s": "47 GB duplicates · needs your OK",
+      "prio": 2,
+      "app": "Your computers",
+      "phase": "beta"
+    },
+    {
+      "t": "Disks: Projecto José Castelo Branco",
+      "p": 0,
+      "s": "Needs room or a destination",
+      "prio": 3,
+      "app": "Your computers",
+      "phase": "beta"
+    },
+    {
+      "t": "Disks: what is 'Fragoso Fast-1' on the Mini",
+      "p": 0,
+      "s": "Needs your answer",
+      "prio": 3,
+      "app": "Your computers",
+      "phase": "beta"
+    },
+    {
+      "t": "Photos: iCloud Photos from Fragoso Fast",
+      "p": 0,
+      "s": "Needs Photos settings on your side",
+      "prio": 3,
+      "app": "Your computers",
+      "phase": "beta"
+    },
+    {
+      "t": "Merge release scripts (sign, publish, roll back)",
+      "p": 100,
+      "s": "Merged 29 Oct · scripts stay off until there is an Apple Developer ID (see Relay, SMTP and Apple signing)",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Network rooms, game and private chat",
+      "p": 10,
+      "s": "Design approved, dev-only preview exists, backend not built · left: tables, realtime chat, 8-bit game, connect requests",
+      "prio": 3,
+      "app": "Fork Network",
+      "phase": "alpha"
+    },
+    {
+      "t": "Windows version (and later Linux)",
+      "p": 5,
+      "s": "In the beta (owner, 10 Nov): port of the current app, a few features that only work on Apple computers capped; compiled only once the app is at 100% (owner, 10 Nov), task on hold until then",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Turn on Free/Pro split after the beta",
+      "p": 80,
+      "s": "Gating and plan lookup built, beta flags on · left: flip the flags and set plans after the beta · needs you: Stripe subscription for Pro 2.99",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    },
+    {
+      "t": "Daily encrypted database backup: switch on",
+      "p": 100,
+      "s": "done 3 Nov (first real backup OK)",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Publish device-cert and lease-issuer public keys; deploy functions",
+      "p": 60,
+      "s": "Panel says public keys are published for the Store; swarm certificate steps in INDEX still marked not done · needs you: confirm with supabase migration list and secrets",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Save Version blue ball identical on Intel and Apple silicon",
+      "p": 90,
+      "s": "Merged 29 Oct, same click, double click, tooltip and unsaved dot on both; Intel build compiles · left: check by eye on an Intel computer, done with the Windows and Linux ports once the app is at 100%",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Live Companion in a real Ableton Live",
+      "p": 70,
+      "s": "After the beta (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    },
+    {
+      "t": "Rekordbox USB export: real CDJ check, extended beat grid, phrases, OneLibrary",
+      "p": 60,
+      "s": "Basic export written · left: PQT2/PSSI and OneLibrary, colour approximations · needs you: a real CDJ and stick",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    },
+    {
+      "t": "Social publishing (Meta, TikTok)",
+      "p": 5,
+      "s": "Signature-only scaffold · left: token vault, callback server, posting · needs you: Meta/TikTok app credentials and posting rules",
+      "prio": 3,
+      "app": "Fork Manager",
+      "phase": "beta"
+    },
+    {
+      "t": "Certified invoices (Portugal)",
+      "p": 10,
+      "s": "Receipts exist and say they are not invoices · left: choose a certified provider and issue invoices · needs you",
+      "prio": 2,
+      "app": "Fork Manager",
+      "phase": "beta"
+    },
+    {
+      "t": "Abuse handling: signed tombstones, per-account quotas, legal review",
+      "p": 60,
+      "s": "tombstone_sign function and abuse migration exist · left: quota policy and legal review of receipts/Terms",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Timestamp anchor per signed record (RFC 3161)",
+      "p": 0,
+      "s": "Provider and cost not chosen",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Library index through the local API; official artwork on cards",
+      "p": 0,
+      "s": "Waits for the swap of the old apps to the Fork apps",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "One repository for the ecosystem and cleanup of old folders",
+      "p": 0,
+      "s": "Needs your written approval, apps verified first",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Cloud backups to Drive, Dropbox, OneDrive, S3",
+      "p": 0,
+      "s": "Requested 5 Oct · left: direct resumable API upload per provider · needs you: OAuth apps",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Native drawing of decks, grid, meters and 3D cloud",
+      "p": 0,
+      "s": "DJ module paused (26 Oct); when it resumes it is built straight in the native app (Rust + GPUI)",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    },
+    {
+      "t": "Helius webhook for wallet changes",
+      "p": 0,
+      "s": "Daily wallet check covers it today",
+      "prio": 3,
+      "app": "Fork Music",
+      "phase": "beta"
+    },
+    {
+      "t": "Admin: full architecture of Fork Studio and Fork Music",
+      "p": 100,
+      "s": "Live 29 Oct: Overview, Fork Studio and Fork Music views with a searchable list of 85 components",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Brand accent: Jade green by default, Forest selectable (profile ball → Appearance); Save Version ball stays blue",
+      "p": 100,
+      "s": "Done · Jade by default, Forest selectable; highlights, chips and type tags follow the accent everywhere (B552)",
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Library tab: size cards for Projects Library and Samples Library (Finder units)",
+      "p": 100,
+      "s": "Done · in fork-app",
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Palette Creator maps Samples Library pack sounds, with a coverage line",
+      "p": 95,
+      "s": "Merged, in fork-app · left: background analysis of the pack sounds finishes on its own",
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Import: 'Import everything' no longer stops when there are no new packs; lists packs without audio",
+      "p": 100,
+      "s": "Done · 139 of 149 packs imported; 4 have no audio (2 are .rar, need unpacking · your call)",
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Projects always open complete (Relinked version)",
+      "p": 100,
+      "s": "Done 5 Nov: samples are relinked before a set opens (Drum Rack and the whole Library), and the automatic version is labelled \"Relinked · N\"; tests relink_antes_de_abrir, originais_nos_projetos pass",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Samples vs project-audio storage rule",
+      "p": 100,
+      "s": "Done 5 Nov: two rules - samples keep their source in the library or pack with a clone per project; project audio stays real in the project (project Samples/ never counts as a render); tests pass",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Optimize for playback",
+      "p": 90,
+      "s": "Optimize for playback shipped: free-space warning, defragment project audio, clones to real files, plain-language wording (B383, B523) · left: check on a real slow disk",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Admin Site tabs",
+      "p": 100,
+      "s": "Done · Site tabs (visibility, order, per-app features) backed by site_content with built-in fallback; tests added",
+      "prio": 2,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Render Now and Custom Render in the bar menu",
+      "p": 100,
+      "s": "Done (B535): render covers the whole song + 2 bars, works on branches, another set of the same project open in Live no longer blocks; Render Now no longer returns a queued Custom Render",
+      "prio": 1,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Renders: new render lands in the list at once; 'Render this version?' after Save Version",
+      "p": 100,
+      "s": "Done (B527, B539): the list reads the project folder after a render; the ask can be turned off in settings",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Duplicates review (pill on Projects, Keep one / Keep both)",
+      "p": 100,
+      "s": "Done (B546-B547): a folder with other projects inside never goes to the Trash; names with quotes and accents tested; Finder copies ' (2)' count as the same track (B518)",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Versions timeline, vertical",
+      "p": 100,
+      "s": "Done (B539-B542): newest on top, one column per branch, diff on each card, Compact / Detailed / Stacked views, sticky headers",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Project page layout: art, info and tabs in a left column",
+      "p": 100,
+      "s": "Done (B536-B540): actions in the title row, one info line, 200 px column; Previous layout still available",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Library > Samples: Dual list, tuning row, sound type chips",
+      "p": 100,
+      "s": "Done (B549-B552): two columns with Single/Dual list, drag line between lists, type chips with arrows and more contrast",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Renders page: filters like Projects",
+      "p": 100,
+      "s": "Done (B551): same filters, plus a duplicate-merge fix so only the project's own folder is listed",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Renders page: playlists card on the left",
+      "p": 100,
+      "s": "Done 10 Nov (B553): playlists card on the left (All renders + your playlists), new, rename, delete, add from the row menu, play in queue; checked in the real app",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Jade / Forest accent everywhere",
+      "p": 100,
+      "s": "Done (B552, W-acento): every highlight follows the chosen accent in light and dark",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Projects list: sticky filters, multi-select Edit, never clipped columns",
+      "p": 100,
+      "s": "Done (B519-B526): sticky top, Shift/Cmd drag selection, Edit for several projects, columns drop by width (checked 820 to 1600 px)",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Progress: stage, to-do, notes, voice notes, checklists, project analytics (app and phone)",
+      "p": 100,
+      "s": "Done (B475-B488): percent follows the stage, Released = 100",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Digi: glass jewel case, 8-bit and abstract smoke art, finishes",
+      "p": 100,
+      "s": "Done (B481-B528, 10 Nov): sharp art at any size, no noise texture",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Window opens as last time; first run maximized; page notifications",
+      "p": 100,
+      "s": "Done (B545, B548): double click on the title strip is native only",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Beta night and QA2 bug fixes (search, scan, profile photo, 500 errors, auto-render stuck, signed-out noise)",
+      "p": 95,
+      "s": "Done: about 30 fixes with tests (B544, B548-B550) · left: decisions on owner-name seeds, Classify '&', unsaved Notes",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Beta release B548: packages built, feed and site page staged",
+      "p": 80,
+      "s": "Zips (arm64, universal), updater manifest and signature built; the server started inside each app · left: create the releases repo, publish, install test from the download page (steps in beta-publicar)",
+      "prio": 1,
+      "app": "Platform",
+      "phase": "beta"
+    },
+    {
+      "t": "Server shipped as a compiled binary (Nuitka), no readable Python",
+      "p": 100,
+      "s": "Done (B559): Nuitka is the default build; the installed app runs the compiled server and ships zero readable Python files (checked 12 Nov)",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
+    },
+    {
+      "t": "Native app conversion (Rust + GPUI)",
+      "p": 89,
+      "s": "Phase 4: engine in Rust: 92% · total 89.1% (updated every 10 min)",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    }
+  ],
+  "native": {
+    "pct": 89.1,
+    "phase": "Phase 4: engine in Rust",
+    "phase_pct": 92.0,
+    "updated": "2026-11-12T07:49:46+00:00"
   }
- ],
- "native": {
-  "pct": 89.1,
-  "phase": "Phase 4: engine in Rust",
-  "phase_pct": 92.0,
-  "updated": "2026-11-12T07:39:29+00:00"
- }
 }
