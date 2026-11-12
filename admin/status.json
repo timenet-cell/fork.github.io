@@ -811,6 +811,22 @@
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
+    },
+    {
+      "t": "Native app smoothness gate (frame time per screen)",
+      "p": 60,
+      "s": "Palette Creator star map moved to the GPU: typical frame 83 ms to 4.4 ms, worst 100 ms to 7.6 ms. Sweep of finished screens: most pass under 8.3 ms typical; projects list and Sounds being fixed.",
+      "prio": 3,
+      "app": "Fork Studio",
+      "phase": "alpha"
+    },
+    {
+      "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
+      "p": 5,
+      "s": "Queued and running: general import rule for any user, tested on a synthetic messy library first, then on the owner library (copy). Nothing moved on disk.",
+      "prio": 2,
+      "app": "Fork Studio",
+      "phase": "beta"
     }
   ],
   "native": {
