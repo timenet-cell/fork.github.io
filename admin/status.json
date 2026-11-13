@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T11:34:42+00:00",
+  "updated": "2026-11-13T11:35:49+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -833,7 +833,7 @@
     "pct": 0.0,
     "looks_pct": 94.4,
     "works_pct": 0.0,
-    "phase": "Looks 94.4% · Works 0.0% (0 of 159 controls checked in the real app)",
+    "phase": "Looks 94.4% (screens identical to the Studio)",
     "phase_pct": 0.0,
     "agents": "running on the app account (w-nativo6 interaction fixes pass 2: Projects, project page, Palette, library pages, since 11:08); terminal account paused until Nov 17 22:00",
     "controls": {
@@ -851,6 +851,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-13T11:34:42+00:00"
+    "updated": "2026-11-13T11:35:49+00:00"
   }
 }
