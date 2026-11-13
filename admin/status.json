@@ -235,8 +235,8 @@
     },
     {
       "t": "Inbox support replies",
-      "p": 95,
-      "s": "Merged · left: in the fork-app build since 31 Oct; replies need migration 71",
+      "p": 100,
+      "s": "Done: migration 71 is applied on the live database (checked 13 Nov 23:00, local = remote); the replies are in the app build.",
       "prio": 1,
       "app": "Platform",
       "phase": "beta"
@@ -506,8 +506,8 @@
     },
     {
       "t": "Publish device-cert and lease-issuer public keys; deploy functions",
-      "p": 60,
-      "s": "Panel says public keys are published for the Store; swarm certificate steps in INDEX still marked not done · needs you: confirm with supabase migration list and secrets",
+      "p": 100,
+      "s": "Checked 13 Nov 23:00 against the live database: network.device_cert_issuer_pubkey and store.lease_issuer_pubkey are published, the device_cert function is active with its key set, and every migration up to 100 is applied (local = remote).",
       "prio": 1,
       "app": "Platform",
       "phase": "beta"
