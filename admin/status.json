@@ -28,7 +28,7 @@
     {
       "t": "Multi-user Fork and Merge (track versions grouped on merge)",
       "p": 85,
-      "s": "waves 1-6 merged (track Ids + duplicates, merge plan, .als writer, sample copy, branches migration 94, Studio branch + merge sheet) · left: you open the test set in Live (wave 7) · migrations 87-94 live",
+      "s": "Waves 1-6 merged (track Ids, merge plan, .als writer, sample copy, branches, merge sheet). Left: wave 7, the CEO opens the merge test set in Live on a copy (the test set is regenerated first).",
       "prio": 1,
       "app": "Fork Studio",
       "phase": "beta"
@@ -316,7 +316,7 @@
     {
       "t": "Older shared version: newer one flagged",
       "p": 95,
-      "s": "Merged · left: try with two accounts",
+      "s": "Merged. WAITS ON THE OWNER: his OK to create a second test account for the two-account check; then the CEO runs it.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -515,7 +515,7 @@
     {
       "t": "Save Version blue ball identical on Intel and Apple silicon",
       "p": 90,
-      "s": "Merged 29 Oct, same click, double click, tooltip and unsaved dot on both; Intel build compiles · left: check by eye on an Intel computer, done with the Windows and Linux ports once the app is at 100%",
+      "s": "Merged 29 Oct, same behaviour on both; Intel build compiles. WAITS ON HARDWARE: an Intel computer to check by eye (with the universal build of the beta).",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -823,7 +823,7 @@
     {
       "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
       "p": 85,
-      "s": "In the app (B560, 13 Nov): the general import rule for any user (DAW backups as versions, alternatives as branches, remixes as forks, one pattern list), tested on a synthetic messy library; the same rule in the native engine. Left: regroup the owner library (proven on a copy) after a backup.",
+      "s": "In the app (B560, 13 Nov): the general import rule for any user, tested on a synthetic messy library; same rule in the native engine. WAITS ON THE OWNER: his go-ahead to regroup his own library (Aspera and 36 other split songs), after a database backup.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
