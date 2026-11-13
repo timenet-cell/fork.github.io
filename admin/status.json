@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T16:28:53+00:00",
+  "updated": "2026-11-13T16:38:56+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -807,7 +807,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 0,
-      "s": "Looks 94.4% (screens identical to the Studio) · Works 0.0% (0 of 163 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the app account (w-nativo6 interaction fixes pass 3, resumed 16:01); terminal account paused until Nov 17 22:00 (checked every 10 min)",
+      "s": "Looks 94.4% (screens identical to the Studio) · Works 0.0% (0 of 163 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running (w-nativo6) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -835,13 +835,13 @@
     "works_pct": 0.0,
     "phase": "Looks 94.4% (screens identical to the Studio)",
     "phase_pct": 0.0,
-    "agents": "running on the app account (w-nativo6 interaction fixes pass 3, resumed 16:01); terminal account paused until Nov 17 22:00",
+    "agents": "running (w-nativo6)",
     "controls": {
       "proven": 0,
-      "fixed": 69,
-      "built": 75,
-      "broken": 11,
-      "missing": 6,
+      "fixed": 73,
+      "built": 76,
+      "broken": 9,
+      "missing": 3,
       "total": 163
     },
     "proof_blocked": "Proof is waiting for the owner's approval of the check copy (Fork Native Check) for real-app clicks.",
@@ -851,6 +851,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-13T16:28:53+00:00"
+    "updated": "2026-11-13T16:38:56+00:00"
   }
 }
