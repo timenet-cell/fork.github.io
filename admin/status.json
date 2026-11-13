@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T22:52:36+00:00",
+  "updated": "2026-11-13T23:12:14+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -854,13 +854,13 @@
       "missing": 0,
       "total": 164
     },
-    "proof_blocked": "Proof is waiting for the owner's approval of the check copy (Fork Native Check) for real-app clicks.",
+    "proof_blocked": "Proof route changed (13 Nov 23:15): automatic interaction tests of about 140 controls run tonight on the terminal account; about 20 need the real window and wait for one approval.",
     "controls_note": "The inventory is still growing as screens are audited, so the total can change.",
     "smooth": {
       "measured": 44,
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-13T22:52:36+00:00"
+    "updated": "2026-11-13T23:12:14+00:00"
   }
 }
