@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T11:37:13+00:00",
+  "updated": "2026-11-13T11:47:16+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -838,10 +838,10 @@
     "agents": "running on the app account (w-nativo6 interaction fixes pass 2: Projects, project page, Palette, library pages, since 11:08); terminal account paused until Nov 17 22:00",
     "controls": {
       "proven": 0,
-      "fixed": 47,
+      "fixed": 54,
       "built": 75,
-      "broken": 27,
-      "missing": 10,
+      "broken": 21,
+      "missing": 9,
       "total": 159
     },
     "proof_blocked": "Proof is waiting for the owner's approval of the check copy (Fork Native Check) for real-app clicks.",
@@ -851,6 +851,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-13T11:37:13+00:00"
+    "updated": "2026-11-13T11:47:16+00:00"
   }
 }
