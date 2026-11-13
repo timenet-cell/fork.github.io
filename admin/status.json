@@ -632,8 +632,8 @@
     },
     {
       "t": "Palette Creator maps Samples Library pack sounds, with a coverage line",
-      "p": 98,
-      "s": "Checked 13 Nov: background analysis of pack sounds finishes on its own and writes the coverage line (test on a synthetic library). Left: review and merge.",
+      "p": 100,
+      "s": "Done (B560, 13 Nov): background analysis of pack sounds finishes on its own and writes the coverage line (test). Installed.",
       "app": "Fork Studio",
       "phase": "beta"
     },
@@ -662,8 +662,8 @@
     },
     {
       "t": "Optimize for playback",
-      "p": 97,
-      "s": "Slow-disk check done 13 Nov on a throttled test disk: finishes, audio bytes identical before and after (SHA-256), free-space warning fires; one bug fixed (progress now counts files, not only projects) with a test. Left: review and merge.",
+      "p": 100,
+      "s": "Done (B560, 13 Nov): checked on a throttled slow test disk; finishes, audio bytes identical (SHA-256), free-space warning fires; progress now counts files. Installed and running.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -782,8 +782,8 @@
     },
     {
       "t": "Beta night and QA2 bug fixes (search, scan, profile photo, 500 errors, auto-render stuck, signed-out noise)",
-      "p": 98,
-      "s": "Done: about 30 fixes with tests (B544, B548-B550). 13 Nov: '&' in artist names, unsaved Notes (saved on change) and account-name suggestions fixed with tests. Left: review and merge.",
+      "p": 100,
+      "s": "Done (B544-B560): about 33 fixes with tests; last ones 13 Nov: '&' in artist names, unsaved Notes saved on change, account-name suggestions from the signed-in account. Installed.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -822,8 +822,8 @@
     },
     {
       "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
-      "p": 70,
-      "s": "Code done, not merged yet (13 Nov): the cause is measured (Organize pulled Logic automatic backups out of the project and stripped the .logic extension, 29 Aug); the general import rule is in the Python app (one pattern list) and in the native Rust engine with tests; the regroup of the owner library is proven on a copy. Left: code review (running), merge, apply to the library after a backup.",
+      "p": 85,
+      "s": "In the app (B560, 13 Nov): the general import rule for any user (DAW backups as versions, alternatives as branches, remixes as forks, one pattern list), tested on a synthetic messy library; the same rule in the native engine. Left: regroup the owner library (proven on a copy) after a backup.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
