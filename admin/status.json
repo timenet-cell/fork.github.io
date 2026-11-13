@@ -483,10 +483,10 @@
     {
       "t": "Windows version (and later Linux)",
       "p": 5,
-      "s": "In the beta (owner, 10 Nov): port of the current app, a few features that only work on Apple computers capped; compiled only once the app is at 100% (owner, 10 Nov), task on hold until then",
+      "s": "Counted in the beta bar again once the port starts (owner, 13 Nov). Ships with the beta: port of the current app, compiled once the Apple version is at 100%.",
       "prio": 3,
       "app": "Fork Studio",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Turn on Free/Pro split after the beta",
@@ -571,10 +571,10 @@
     {
       "t": "Library index through the local API; official artwork on cards",
       "p": 0,
-      "s": "Waits for the swap of the old apps to the Fork apps",
+      "s": "After the beta (owner, 13 Nov): waits for the swap of the old apps to the Fork apps.",
       "prio": 3,
       "app": "Fork Studio",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "One repository for the ecosystem and cleanup of old folders",
@@ -587,10 +587,10 @@
     {
       "t": "Cloud backups to Drive, Dropbox, OneDrive, S3",
       "p": 0,
-      "s": "Requested 5 Oct · left: direct resumable API upload per provider · needs you: OAuth apps",
+      "s": "After the beta (owner, 13 Nov): direct resumable upload per provider; needs the owner OAuth apps.",
       "prio": 3,
       "app": "Fork Studio",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Native drawing of decks, grid, meters and 3D cloud",
