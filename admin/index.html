@@ -72,6 +72,10 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .nv-conv-bar{height:8px;border-radius:4px;background:var(--line);margin:10px 0 8px;overflow:hidden}
 .nv-conv-bar i{display:block;height:100%;width:0;background:var(--red);border-radius:4px;transition:width .6s ease}
 .nv-conv-sub{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--muted)}
+.nv-conv-bar.seg{display:flex}.nv-conv-bar.seg i{border-radius:0;transition:none}
+.nv-conv-bar i.s-proven{background:var(--red)}.nv-conv-bar i.s-fixed{background:var(--red);opacity:.55}.nv-conv-bar i.s-built{background:var(--muted);opacity:.45}
+.nv-conv-split{font-size:12.5px;color:var(--muted);margin:0 0 6px;line-height:1.5}.nv-conv-split b{color:var(--text,inherit);font-weight:600}
+.nv-conv-blk{font-size:12.5px;margin:0 0 6px}
 .tabs{display:flex;gap:6px;margin:6px 0 16px;flex-wrap:wrap}
 .tabs button{font:600 13px/1 var(--sans);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
 .tabs button.on{background:var(--red);border-color:var(--red);color:var(--red-ink)}
@@ -397,6 +401,8 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
     <div class="box nv-conv" id="nv-conv" hidden>
       <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
       <div class="nv-conv-bar"><i id="nv-conv-fill"></i></div>
+      <div class="nv-conv-split" id="nv-conv-split" hidden></div>
+      <div class="nv-conv-blk" id="nv-conv-blk" hidden></div>
       <div class="nv-conv-sub"><span id="nv-conv-fase"></span><span id="nv-conv-upd"></span></div>
     </div>
 
@@ -1053,8 +1059,18 @@ function nvConvDesenha(n) {
   // Duas medidas separadas (13-11): looks = ecras iguais ao Studio; works = controlos verificados na app instalada. O numero grande e o works.
   const temW = 'looks_pct' in n, w = temW ? n.works_pct : n.pct;
   $('nv-conv-pct').textContent = typeof w === 'number' ? 'Works ' + Math.round(w) + '%' : 'Works -';
-  $('nv-conv-fill').style.width = Math.max(0, Math.min(100, typeof w === 'number' ? w : 0)) + '%';
+  if ($('nv-conv-fill')) $('nv-conv-fill').style.width = Math.max(0, Math.min(100, typeof w === 'number' ? w : 0)) + '%';
   $('nv-conv-fase').textContent = temW ? (n.phase || '') : (n.phase ? n.phase + (typeof n.phase_pct === 'number' ? ' - ' + Math.round(n.phase_pct) + '%' : '') : '');
+  // Controlos (interacao.txt): o numero grande e "N of total proven"; barra por segmentos; partida por estado; bloqueio da prova.
+  const c = n.controls, bar = document.querySelector('#nv-conv .nv-conv-bar'), sp = $('nv-conv-split'), bk = $('nv-conv-blk');
+  if (c && c.total) {
+    $('nv-conv-pct').textContent = c.proven + ' of ' + c.total + ' proven';
+    bar.classList.add('seg');
+    bar.innerHTML = ['proven', 'fixed', 'built'].map(k => '<i class="s-' + k + '" style="width:' + (100 * c[k] / c.total) + '%"></i>').join('');
+    sp.hidden = false;
+    sp.innerHTML = '<b>' + c.proven + '</b> proven in the real app · <b>' + c.fixed + '</b> fixed, awaiting check · <b>' + c.built + '</b> built, not yet checked · <b>' + c.broken + '</b> broken · <b>' + c.missing + '</b> missing' + (n.controls_note ? '<br>' + n.controls_note : '');
+  } else { sp.hidden = true; }
+  bk.hidden = !n.proof_blocked; bk.textContent = n.proof_blocked || '';
   $('nv-conv-upd').textContent = n.updated ? 'Updated ' + new Date(n.updated).toLocaleString() : '';
 }
 const nvRele = () => { if (!document.hidden && !$('v-dash').classList.contains('hidden')) estado(); };
