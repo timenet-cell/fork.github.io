@@ -789,9 +789,9 @@
       "phase": "beta"
     },
     {
-      "t": "Beta release B548: packages built, feed and site page staged",
-      "p": 80,
-      "s": "Zips (arm64, universal), updater manifest and signature built; the server started inside each app · left: create the releases repo, publish, install test from the download page (steps in beta-publicar)",
+      "t": "Beta release B560: packages built, feed and site page staged",
+      "p": 90,
+      "s": "Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish.",
       "prio": 1,
       "app": "Platform",
       "phase": "beta"
