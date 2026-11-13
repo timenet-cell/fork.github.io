@@ -147,8 +147,8 @@
     },
     {
       "t": "Terms v0.8 + Welcome tour",
-      "p": 95,
-      "s": "Live · left: lawyer review",
+      "p": 100,
+      "s": "Live: Terms v0.8 and the Welcome tour. The lawyer review moved to its own row after the beta (owner, 13 Nov).",
       "prio": 3,
       "app": "Platform",
       "phase": "beta"
@@ -196,10 +196,10 @@
     {
       "t": "Terms: softer wording for storage contribution",
       "p": 60,
-      "s": "Draft v0.9 ready · left for the end by your choice",
+      "s": "Draft v0.9 ready · left for the end by your choice · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Support tab (admin)",
@@ -427,42 +427,42 @@
     {
       "t": "Disks: Fragoso Fast space",
       "p": 50,
-      "s": "59 GB free of 466 after the 2 Nov cleanup (6,710 duplicate pack copies, 4.84 GB, moved to Fork Trash) · left: your choice of which disk goes where",
+      "s": "59 GB free of 466 after the 2 Nov cleanup (6,710 duplicate pack copies, 4.84 GB, moved to Fork Trash) · left: your choice of which disk goes where · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 2,
       "app": "Your computers",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Disks: empty Fragoso Fast Trash",
       "p": 0,
-      "s": "47 GB duplicates · needs your OK",
+      "s": "47 GB duplicates · needs your OK · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 2,
       "app": "Your computers",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Disks: Projecto José Castelo Branco",
       "p": 0,
-      "s": "Needs room or a destination",
+      "s": "Needs room or a destination · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Your computers",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Disks: what is 'Fragoso Fast-1' on the Mini",
       "p": 0,
-      "s": "Needs your answer",
+      "s": "Needs your answer · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Your computers",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Photos: iCloud Photos from Fragoso Fast",
       "p": 0,
-      "s": "Needs Photos settings on your side",
+      "s": "Needs Photos settings on your side · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Your computers",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Merge release scripts (sign, publish, roll back)",
@@ -539,34 +539,34 @@
     {
       "t": "Social publishing (Meta, TikTok)",
       "p": 5,
-      "s": "Signature-only scaffold · left: token vault, callback server, posting · needs you: Meta/TikTok app credentials and posting rules",
+      "s": "Signature-only scaffold · left: token vault, callback server, posting · needs you: Meta/TikTok app credentials and posting rules · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Fork Manager",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Certified invoices (Portugal)",
       "p": 10,
-      "s": "Receipts exist and say they are not invoices · left: choose a certified provider and issue invoices · needs you",
+      "s": "Receipts exist and say they are not invoices · left: choose a certified provider and issue invoices · needs you · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 2,
       "app": "Fork Manager",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Abuse handling: signed tombstones, per-account quotas, legal review",
       "p": 60,
-      "s": "tombstone_sign function and abuse migration exist · left: quota policy and legal review of receipts/Terms",
+      "s": "tombstone_sign function and abuse migration exist · left: quota policy and legal review of receipts/Terms · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 2,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Timestamp anchor per signed record (RFC 3161)",
       "p": 0,
-      "s": "Provider and cost not chosen",
+      "s": "Provider and cost not chosen · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Library index through the local API; official artwork on cards",
@@ -579,10 +579,10 @@
     {
       "t": "One repository for the ecosystem and cleanup of old folders",
       "p": 0,
-      "s": "Needs your written approval, apps verified first",
+      "s": "Needs your written approval, apps verified first · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Cloud backups to Drive, Dropbox, OneDrive, S3",
@@ -603,10 +603,10 @@
     {
       "t": "Helius webhook for wallet changes",
       "p": 0,
-      "s": "Daily wallet check covers it today",
+      "s": "Daily wallet check covers it today · Not beta work (owner, 13 Nov): moved after the beta.",
       "prio": 3,
       "app": "Fork Music",
-      "phase": "beta"
+      "phase": "alpha"
     },
     {
       "t": "Admin: full architecture of Fork Studio and Fork Music",
@@ -827,6 +827,14 @@
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
+    },
+    {
+      "t": "Terms: lawyer review",
+      "p": 0,
+      "s": "Split from \"Terms v0.8 + Welcome tour\" (13 Nov): the review by a lawyer, after the beta.",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "alpha"
     }
   ],
   "native": {
