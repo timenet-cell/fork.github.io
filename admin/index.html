@@ -1050,9 +1050,11 @@ function nvConvDesenha(n) {
   const el = $('nv-conv'); if (!el) return;
   if (!n || typeof n.pct !== 'number') { el.hidden = true; return; }
   el.hidden = false;
-  $('nv-conv-pct').textContent = Math.round(n.pct) + '%';
-  $('nv-conv-fill').style.width = Math.max(0, Math.min(100, n.pct)) + '%';
-  $('nv-conv-fase').textContent = n.phase ? n.phase + (typeof n.phase_pct === 'number' ? ' - ' + Math.round(n.phase_pct) + '%' : '') : '';
+  // Duas medidas separadas (13-11): looks = ecras iguais ao Studio; works = controlos verificados na app instalada. O numero grande e o works.
+  const temW = 'looks_pct' in n, w = temW ? n.works_pct : n.pct;
+  $('nv-conv-pct').textContent = typeof w === 'number' ? 'Works ' + Math.round(w) + '%' : 'Works -';
+  $('nv-conv-fill').style.width = Math.max(0, Math.min(100, typeof w === 'number' ? w : 0)) + '%';
+  $('nv-conv-fase').textContent = temW ? (n.phase || '') : (n.phase ? n.phase + (typeof n.phase_pct === 'number' ? ' - ' + Math.round(n.phase_pct) + '%' : '') : '');
   $('nv-conv-upd').textContent = n.updated ? 'Updated ' + new Date(n.updated).toLocaleString() : '';
 }
 const nvRele = () => { if (!document.hidden && !$('v-dash').classList.contains('hidden')) estado(); };
