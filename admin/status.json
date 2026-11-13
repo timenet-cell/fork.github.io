@@ -823,7 +823,7 @@
     {
       "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
       "p": 5,
-      "s": "Queued and running: general import rule for any user, tested on a synthetic messy library first, then on the owner library (copy). Nothing moved on disk.",
+      "s": "Paused behind the native app (owner: native is priority 1). Done so far: the rule in the Rust engine with golden tests; the Python import fix and the owner library regroup (on a copy) wait in the queue. Nothing moved on disk.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
