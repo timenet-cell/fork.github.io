@@ -823,7 +823,7 @@
     {
       "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
       "p": 100,
-      "s": "Done: the rule is in the app (B560) and already ran on the owner library when B560 first started (13 Nov 17:56, 283 projects regrouped; no files moved). Checked 14 Nov on a copy: 487 folders = 432 songs, 47 songs with branches/versions, 83 remixes kept as forks, nothing left to regroup. Undo exists: the daily backup of 12 Nov 00:03 is from before. Open question for the owner, safe default kept: 13 of his own songs with unusual mix names stay separate.",
+      "s": "Done. It really ran on the owner library on 13 Nov 17:56, when B560 first started, before his approval (given 14 Nov). Proven read-only 14 Nov: 487 projects before and after, 0 rows lost, 0 folders moved, 283 song keys set (428 -> 432 songs), branches and saved versions unchanged. A pinned backup of 12 Nov and a one-line undo exist. 13 of his own songs with unusual mix names stay separate (safe default). From now on no build changes real data at startup without a logged switch.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
