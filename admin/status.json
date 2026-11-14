@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T07:43:32+00:00",
+  "updated": "2026-11-14T07:53:35+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -807,7 +807,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 0,
-      "s": "Looks 94.5% (screens identical to the Studio) · Works 0.0% (0 of 169 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the terminal account: w-zautotest-a (worktree w-nativo6) (checked every 10 min)",
+      "s": "Looks 94.5% (screens identical to the Studio) · Works 0.0% (0 of 170 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the terminal account: w-zautotest-a (worktree w-nativo6) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -846,13 +846,13 @@
     "agents": "running on the terminal account: w-zautotest-a (worktree w-nativo6)",
     "controls": {
       "proven": 0,
-      "tested": 155,
-      "realwin": 3,
-      "fixed": 4,
-      "built": 5,
+      "tested": 163,
+      "realwin": 5,
+      "fixed": 0,
+      "built": 0,
       "broken": 0,
       "missing": 0,
-      "total": 169
+      "total": 170
     },
     "proof_blocked": "Proof route changed (13 Nov 23:15): automatic interaction tests of about 140 controls run tonight on the terminal account; about 20 need the real window and wait for one approval.",
     "controls_note": "The inventory is still growing as screens are audited, so the total can change.",
@@ -861,6 +861,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-14T07:43:32+00:00"
+    "updated": "2026-11-14T07:53:35+00:00"
   }
 }
