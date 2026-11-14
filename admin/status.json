@@ -100,7 +100,7 @@
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
       "p": 99,
-      "s": "14 Nov: the real relay binary passes all 13 reach tests (cert-only, hole punch to direct). WAITS ON THE OWNER: a public relay server decision; then a real router and iPhone test.",
+      "s": "14 Nov: the real relay binary passes all 13 reach tests (cert-only, hole punch to direct). Owner decision 14 Nov: no public server ever carries files (P2P only); hard connections go peer-side (hole punching, IPv6, relay through another Fork peer). WAITS ON HARDWARE: a real router and iPhone test.",
       "prio": 1,
       "app": "Fork Network",
       "phase": "beta"
