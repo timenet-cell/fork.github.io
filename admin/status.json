@@ -100,7 +100,7 @@
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
       "p": 99,
-      "s": "14 Nov: the real relay binary passes all 13 reach tests (cert-only, hole punch to direct). Owner decision 14 Nov: no public server ever carries files (P2P only); hard connections go peer-side (hole punching, IPv6, relay through another Fork peer). WAITS ON HARDWARE: a real router and iPhone test.",
+      "s": "Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test.",
       "prio": 1,
       "app": "Fork Network",
       "phase": "beta"
