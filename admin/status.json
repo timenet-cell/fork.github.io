@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T09:44:09+00:00",
+  "updated": "2026-11-14T09:54:12+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -807,7 +807,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 5,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 4.7% (8 of 169 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the terminal account: w-zz3-devnet (worktree w-devnet) (checked every 10 min)",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 4.7% (8 of 169 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: waiting in queue (w-zz1-mapa) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -843,7 +843,7 @@
     "works_pct": 4.7,
     "phase": "Looks 94.6% (screens identical to the Studio)",
     "phase_pct": 4.7,
-    "agents": "running on the terminal account: w-zz3-devnet (worktree w-devnet)",
+    "agents": "waiting in queue (w-zz1-mapa)",
     "controls": {
       "proven": 8,
       "tested": 157,
@@ -861,6 +861,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-14T09:44:09+00:00"
+    "updated": "2026-11-14T09:54:12+00:00"
   }
 }
