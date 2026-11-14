@@ -28,7 +28,7 @@
     {
       "t": "Multi-user Fork and Merge (track versions grouped on merge)",
       "p": 85,
-      "s": "Waves 1-6 merged (track Ids, merge plan, .als writer, sample copy, branches, merge sheet). Left: wave 7, the CEO opens the merge test set in Live on a copy (the test set is regenerated first).",
+      "s": "Waves 1-6 merged. Wave 7 BLOCKED (14 Nov): proving a merged set in Live needs Live's window (the app's Live automation brings Live to the front). Now: an agent builds the merged test set from a Live-saved template (never his projects); then the CEO opens it in Live himself.",
       "prio": 1,
       "app": "Fork Studio",
       "phase": "beta"
@@ -84,7 +84,7 @@
     {
       "t": "Store: Stripe + Solana licence registry",
       "p": 99,
-      "s": "Devnet ready (registry, collection, 2.25 test SOL, keys published); signing service running on the computerBook Pro · left: turn on the signer and checkout switches, one test purchase · for real money later: multisig, mainnet registry (~0.3 SOL), Stripe live",
+      "s": "Devnet ready and checked live 14 Nov (functions, signer on devnet, keys published). BLOCKED: the end-to-end test purchase needs a second test account (buyer); WAITS ON THE OWNER: his OK to create it.",
       "prio": 1,
       "app": "Fork Music",
       "phase": "beta"
@@ -92,7 +92,7 @@
     {
       "t": "WIP fan passes (off-chain, revocable)",
       "p": 98,
-      "s": "Fan side done, database updated · left: one real test: Studio issues a pass, Fork Music opens it",
+      "s": "Fan side done, database updated. BLOCKED: the real test (Studio issues a pass, Fork Music opens it) needs a second test account; WAITS ON THE OWNER: his OK to create it.",
       "prio": 1,
       "app": "Fork Music",
       "phase": "beta"
