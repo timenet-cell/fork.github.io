@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T04:12:31+00:00",
+  "updated": "2026-11-14T04:22:34+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -846,10 +846,10 @@
     "agents": "running on the terminal account: w-zautotest-a (worktree w-nativo6)",
     "controls": {
       "proven": 0,
-      "tested": 150,
+      "tested": 153,
       "realwin": 3,
-      "fixed": 5,
-      "built": 9,
+      "fixed": 4,
+      "built": 7,
       "broken": 0,
       "missing": 0,
       "total": 169
@@ -861,6 +861,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-14T04:12:31+00:00"
+    "updated": "2026-11-14T04:22:34+00:00"
   }
 }
