@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T08:55:25+00:00",
+  "updated": "2026-11-14T08:56:28+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -807,7 +807,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 5,
-      "s": "Looks 94.5% (screens identical to the Studio) · Works 4.8% (8 of 168 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the terminal account: w-zz1-mapa (worktree w-nativo6) (checked every 10 min)",
+      "s": "Looks 94.5% (screens identical to the Studio) · Works 4.7% (8 of 169 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the terminal account: w-zz1-mapa (worktree w-nativo6) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -838,11 +838,11 @@
     }
   ],
   "native": {
-    "pct": 4.8,
+    "pct": 4.7,
     "looks_pct": 94.5,
-    "works_pct": 4.8,
+    "works_pct": 4.7,
     "phase": "Looks 94.5% (screens identical to the Studio)",
-    "phase_pct": 4.8,
+    "phase_pct": 4.7,
     "agents": "running on the terminal account: w-zz1-mapa (worktree w-nativo6)",
     "controls": {
       "proven": 8,
@@ -850,9 +850,9 @@
       "realwin": 3,
       "fixed": 0,
       "built": 0,
-      "broken": 0,
+      "broken": 1,
       "missing": 0,
-      "total": 168
+      "total": 169
     },
     "proof_blocked": "Native interaction: all 168 controls are built; 164 pass automatic tests that click the real screens; 4 need the real window (title bar double-click and drag, menu bar items, the menu-bar icon) and wait for one approval. Palette Creator map: at 98 on the original smoothness gate, being fixed.",
     "controls_note": "The inventory is still growing as screens are audited, so the total can change.",
@@ -861,6 +861,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-14T08:55:25+00:00"
+    "updated": "2026-11-14T08:56:28+00:00"
   }
 }
