@@ -27,8 +27,8 @@
     },
     {
       "t": "Multi-user Fork and Merge (track versions grouped on merge)",
-      "p": 85,
-      "s": "Waves 1-6 merged. Wave 7 BLOCKED (14 Nov): proving a merged set in Live needs Live's window (the app's Live automation brings Live to the front). Now: an agent builds the merged test set from a Live-saved template (never his projects); then the CEO opens it in Live himself.",
+      "p": 100,
+      "s": "Done 14 Nov: wave 7 proven by the CEO in the real Ableton Live: a set merged from two branches (built from a Live demo set, never his projects) opens with both branches' changes (Coffee Leaf (Alice), Drums (Bob), Hum Double (Alice), Adlib Echo (Bob), the conflicting track kept as 2 versions) and no missing-files warning.",
       "prio": 1,
       "app": "Fork Studio",
       "phase": "beta"
