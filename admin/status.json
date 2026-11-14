@@ -68,7 +68,7 @@
     {
       "t": "Signer in Supabase: live on devnet since 4 Nov (keys in Vault, 16 functions, cron every 30 s, Rust signer stopped); wave 7 after 30 days",
       "p": 99,
-      "s": "live on devnet · first devnet purchase delivered end to end on 4 Nov (licence minted, settlement 100% to the artist, held until payouts are set up)",
+      "s": "Live on devnet since 4 Nov; 121 signer tests pass (14 Nov); rollback tag made. Left: wave 7 is time-gated (30 days of devnet parity, earliest 4 Dec).",
       "prio": "high",
       "app": "Platform",
       "phase": "beta"
@@ -100,7 +100,7 @@
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
       "p": 99,
-      "s": "Code complete, database updated; phone now downloads from up to 4 computers at once · left: relay server, real-router test, iPhone test",
+      "s": "14 Nov: the real relay binary passes all 13 reach tests (cert-only, hole punch to direct). WAITS ON THE OWNER: a public relay server decision; then a real router and iPhone test.",
       "prio": 1,
       "app": "Fork Network",
       "phase": "beta"
@@ -108,7 +108,7 @@
     {
       "t": "Fork Music: distribution + streaming",
       "p": 99,
-      "s": "Frame, settings, updater, build line done · left: release feeds, two-computer test",
+      "s": "14 Nov: release feeds for Music, Labels and Manager tested end to end with a throwaway key (signature verified, refused when tampered). WAITS ON THE OWNER: create the public feed repo and publish; then a two-computer test.",
       "prio": 2,
       "app": "Fork Music",
       "phase": "beta"
@@ -243,8 +243,8 @@
     },
     {
       "t": "Artist key backup + restore",
-      "p": 95,
-      "s": "Merged · left: in the fork-app build since 31 Oct; Keychain prompt check on your computer; at-rest encryption stays off until you switch it on",
+      "p": 97,
+      "s": "14 Nov: backup and restore proven with the real system keychain tool on throwaway keychains (new-computer restore, old key kept aside). WAITS ON THE OWNER: the Keychain prompt check with the signed app on his computer.",
       "prio": 1,
       "app": "Platform",
       "phase": "beta"
@@ -275,8 +275,8 @@
     },
     {
       "t": "Phone over P2P: browse, palette, sample search",
-      "p": 90,
-      "s": "All features merged · left: test on a real phone",
+      "p": 93,
+      "s": "14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS).",
       "prio": 2,
       "app": "Fork Network",
       "phase": "beta"
@@ -291,8 +291,8 @@
     },
     {
       "t": "P2P upload speed",
-      "p": 90,
-      "s": "Chunked upload, tunnel tweaks, speed test and phone multi-source download merged · left: test on a real phone/real router with 2+ computers online",
+      "p": 93,
+      "s": "14 Nov: local benches pass (upload 115-233 Mbit/s on emulated links) and a real browser (headless Chrome) runs the phone tunnel against the real host at 322-477 Mbit/s, byte-exact. WAITS ON HARDWARE: a real phone on a real router with 2+ computers.",
       "prio": 2,
       "app": "Fork Network",
       "phase": "beta"
@@ -307,8 +307,8 @@
     },
     {
       "t": "Report a bug (all apps)",
-      "p": 95,
-      "s": "Merged · left: try in next build",
+      "p": 97,
+      "s": "14 Nov: tested end to end in all four apps (report lands with app id, version and scrubbed log; offline queue; cross-site refused). Left: one try in the built app, done in the CEO real-app pass.",
       "prio": 2,
       "app": "Platform",
       "phase": "beta"
