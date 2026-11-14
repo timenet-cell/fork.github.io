@@ -822,8 +822,8 @@
     },
     {
       "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
-      "p": 85,
-      "s": "In the app (B560, 13 Nov): the general import rule for any user, tested on a synthetic messy library; same rule in the native engine. WAITS ON THE OWNER: his go-ahead to regroup his own library (Aspera and 36 other split songs), after a database backup.",
+      "p": 100,
+      "s": "Done: the rule is in the app (B560) and already ran on the owner library when B560 first started (13 Nov 17:56, 283 projects regrouped; no files moved). Checked 14 Nov on a copy: 487 folders = 432 songs, 47 songs with branches/versions, 83 remixes kept as forks, nothing left to regroup. Undo exists: the daily backup of 12 Nov 00:03 is from before. Open question for the owner, safe default kept: 13 of his own songs with unusual mix names stay separate.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
