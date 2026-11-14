@@ -67,8 +67,8 @@
     },
     {
       "t": "Signer in Supabase: live on devnet since 4 Nov (keys in Vault, 16 functions, cron every 30 s, Rust signer stopped); wave 7 after 30 days",
-      "p": 99,
-      "s": "Live on devnet since 4 Nov; 121 signer tests pass (14 Nov); rollback tag made. Left: wave 7 is time-gated (30 days of devnet parity, earliest 4 Dec).",
+      "p": 100,
+      "s": "Done for the beta: live on devnet since 4 Nov, all signer functions active, 121 signer tests pass (14 Nov). The final cutover (wave 7) needs 30 days of devnet parity and moved to its own row after the beta (earliest 4 Dec).",
       "prio": "high",
       "app": "Platform",
       "phase": "beta"
@@ -108,7 +108,7 @@
     {
       "t": "Fork Music: distribution + streaming",
       "p": 99,
-      "s": "14 Nov: release feeds for Music, Labels and Manager tested end to end with a throwaway key (signature verified, refused when tampered). WAITS ON THE OWNER: create the public feed repo and publish; then a two-computer test.",
+      "s": "14 Nov: release feeds for Music, Labels and Manager verified end to end on staging with a throwaway key (signature verified, tampering refused). The public feed repo is part of the Beta release publish step. WAITS ON HARDWARE: the two-computer test.",
       "prio": 2,
       "app": "Fork Music",
       "phase": "beta"
@@ -791,7 +791,7 @@
     {
       "t": "Beta release B560: packages built, feed and site page staged",
       "p": 90,
-      "s": "Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish.",
+      "s": "Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish. The publish step also creates the public release feed repos for Fork Music, Labels and Manager.",
       "prio": 1,
       "app": "Platform",
       "phase": "beta"
@@ -832,6 +832,14 @@
       "t": "Terms: lawyer review",
       "p": 0,
       "s": "Split from \"Terms v0.8 + Welcome tour\" (13 Nov): the review by a lawyer, after the beta.",
+      "prio": 3,
+      "app": "Platform",
+      "phase": "alpha"
+    },
+    {
+      "t": "Signer wave 7: final cutover after 30 days of devnet parity",
+      "p": 0,
+      "s": "Split from the Signer row (14 Nov): earliest 4 Dec 2026; removes the old local signer keys after the parity window.",
       "prio": 3,
       "app": "Platform",
       "phase": "alpha"
