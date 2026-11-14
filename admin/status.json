@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T14:15:31+00:00",
+  "updated": "2026-11-14T14:16:42+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -806,8 +806,8 @@
     },
     {
       "t": "Native app conversion (Rust + GPUI)",
-      "p": 5,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 4.7% (8 of 169 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the terminal account: w-c1-firewall (worktree w-firewall) (checked every 10 min)",
+      "p": 6,
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 6.5% (11 of 170 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: running on the terminal account: w-c1-firewall (worktree w-firewall) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -838,21 +838,21 @@
     }
   ],
   "native": {
-    "pct": 4.7,
+    "pct": 6.5,
     "looks_pct": 94.6,
-    "works_pct": 4.7,
+    "works_pct": 6.5,
     "phase": "Looks 94.6% (screens identical to the Studio)",
-    "phase_pct": 4.7,
+    "phase_pct": 6.5,
     "agents": "running on the terminal account: w-c1-firewall (worktree w-firewall)",
     "controls": {
-      "proven": 8,
-      "tested": 156,
+      "proven": 11,
+      "tested": 154,
       "realwin": 4,
-      "fixed": 1,
+      "fixed": 0,
       "built": 0,
-      "broken": 0,
+      "broken": 1,
       "missing": 0,
-      "total": 169
+      "total": 170
     },
     "proof_blocked": "Native interaction: all 168 controls are built; 164 pass automatic tests that click the real screens; 4 need the real window (title bar double-click and drag, menu bar items, the menu-bar icon) and wait for one approval. Palette Creator map: at 98 on the original smoothness gate, being fixed.",
     "controls_note": "The inventory is still growing as screens are audited, so the total can change.",
@@ -861,6 +861,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-14T14:15:31+00:00"
+    "updated": "2026-11-14T14:16:42+00:00"
   }
 }
