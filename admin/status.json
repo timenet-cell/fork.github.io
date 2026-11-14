@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T23:04:20+00:00",
+  "updated": "2026-11-14T23:07:05+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -806,8 +806,8 @@
     },
     {
       "t": "Native app conversion (Rust + GPUI)",
-      "p": 11,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 10.6% (18 of 170 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: 1 agents running on the terminal account in parallel: w-network (checked every 10 min)",
+      "p": 19,
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 18.6% (32 of 172 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: 1 agents running on the terminal account in parallel: w-network (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -846,21 +846,21 @@
     }
   ],
   "native": {
-    "pct": 10.6,
+    "pct": 18.6,
     "looks_pct": 94.6,
-    "works_pct": 10.6,
+    "works_pct": 18.6,
     "phase": "Looks 94.6% (screens identical to the Studio)",
-    "phase_pct": 10.6,
+    "phase_pct": 18.6,
     "agents": "1 agents running on the terminal account in parallel: w-network",
     "controls": {
-      "proven": 18,
-      "tested": 149,
+      "proven": 32,
+      "tested": 134,
       "realwin": 3,
       "fixed": 0,
       "built": 0,
-      "broken": 0,
+      "broken": 3,
       "missing": 0,
-      "total": 170
+      "total": 172
     },
     "proof_blocked": "Native interaction: all 168 controls are built; 164 pass automatic tests that click the real screens; 4 need the real window (title bar double-click and drag, menu bar items, the menu-bar icon) and wait for one approval. Palette Creator map: at 98 on the original smoothness gate, being fixed.",
     "controls_note": "The inventory is still growing as screens are audited, so the total can change.",
@@ -869,6 +869,6 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-14T23:04:20+00:00"
+    "updated": "2026-11-14T23:07:05+00:00"
   }
 }
