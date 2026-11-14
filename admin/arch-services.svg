@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1236" viewBox="0 0 1200 1236" role="img" aria-labelledby="ar-title ar-desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1225" viewBox="0 0 1200 1225" role="img" aria-labelledby="ar-title ar-desc">
 <title id="ar-title">External services</title>
-<desc id="ar-desc">Every outside service Fork depends on: what it costs, whose account it is and what it holds. 28 components and 26 flows.</desc>
+<desc id="ar-desc">Every outside service Fork depends on: what it costs, whose account it is and what it holds. 27 components and 25 flows.</desc>
 <defs>
 <marker id="ar-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" fill="#8A96A5"/></marker>
 </defs>
-<rect width="1200" height="1236" fill="#EEF3F8"/>
+<rect width="1200" height="1225" fill="#EEF3F8"/>
 <rect x="70" y="23" width="4" height="23" rx="2" fill="#00A36C"/>
 <text x="84" y="42" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="21" font-weight="700" fill="#141A22">External services</text>
 <text x="84" y="61" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5B6675">Every outside service Fork depends on: what it costs, whose account it is and what it holds</text>
@@ -185,49 +185,42 @@
 <text x="510" y="975" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
 <g>
-<title>P2P swarm — Built — Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding; the phone downloads from up to 4 computers at once. The relay server for blocked networks comes after the beta (zero cost in the beta).</title>
+<title>P2P swarm — Built — Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding; the phone downloads from up to 4 computers at once. Decentralised: Supabase is the tracker (database and admin); pieces travel device to device.</title>
 <rect x="605" y="921" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
 <rect x="606" y="931" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
 <text x="680" y="950.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">P2P swarm</text>
 <text x="680" y="975" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">BUILT</text>
 </g>
-<rect x="70" y="1072" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
+<rect x="70" y="1061" width="1060" height="98" rx="10" fill="#F8FAFC" stroke="#DCE5EE"/>
 <g>
 <title>Solana devnet — Live — Beta licence seals: every licence is recorded on a practice blockchain, free to test the real code.</title>
-<rect x="187" y="1100" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="188" y="1110" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
-<text x="262" y="1129.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Solana devnet</text>
-<text x="262" y="1154" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">LIVE</text>
+<rect x="272" y="1089" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="273" y="1099" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="347" y="1118.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Solana devnet</text>
+<text x="347" y="1143" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">LIVE</text>
 </g>
 <g>
 <title>Solana mainnet — Planned — not zero-cost — Real licence seals from alpha: the permanent public record that a licence exists.</title>
-<rect x="357" y="1100" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE" stroke-dasharray="4 3"/>
-<circle cx="498" cy="1109" r="3.5" fill="#00A36C"/>
-<rect x="358" y="1110" width="3" height="44" rx="1.5" fill="#8A96A5"/>
-<text x="432" y="1129.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Solana mainnet</text>
-<text x="432" y="1154" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#8A96A5" text-anchor="middle" letter-spacing="0.5">PLANNED</text>
+<rect x="442" y="1089" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE" stroke-dasharray="4 3"/>
+<circle cx="583" cy="1098" r="3.5" fill="#00A36C"/>
+<rect x="443" y="1099" width="3" height="44" rx="1.5" fill="#8A96A5"/>
+<text x="517" y="1118.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Solana mainnet</text>
+<text x="517" y="1143" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#8A96A5" text-anchor="middle" letter-spacing="0.5">PLANNED</text>
 </g>
 <g>
 <title>Helius RPC — Planned — A reliable line into the blockchain that can also list a wallet's licences (DAS).</title>
-<rect x="527" y="1100" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE" stroke-dasharray="4 3"/>
-<rect x="528" y="1110" width="3" height="44" rx="1.5" fill="#8A96A5"/>
-<text x="602" y="1129.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Helius RPC</text>
-<text x="602" y="1154" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#8A96A5" text-anchor="middle" letter-spacing="0.5">PLANNED</text>
-</g>
-<g>
-<title>VPS relay — Not used — A small always-on server that would help two computers behind strict routers reach each other.</title>
-<rect x="697" y="1100" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE" stroke-dasharray="1 3"/>
-<rect x="698" y="1110" width="3" height="44" rx="1.5" fill="#8A96A5"/>
-<text x="772" y="1129.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">VPS relay</text>
-<text x="772" y="1154" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#8A96A5" text-anchor="middle" letter-spacing="0.5">NOT USED</text>
+<rect x="612" y="1089" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE" stroke-dasharray="4 3"/>
+<rect x="613" y="1099" width="3" height="44" rx="1.5" fill="#8A96A5"/>
+<text x="687" y="1118.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Helius RPC</text>
+<text x="687" y="1143" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#8A96A5" text-anchor="middle" letter-spacing="0.5">PLANNED</text>
 </g>
 <g>
 <title>Public STUN servers — Live — Lets the phone and the computer find each other for the direct tunnel.</title>
-<rect x="867" y="1100" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
-<rect x="868" y="1110" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
-<text x="942" y="1121.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Public STUN</text>
-<text x="942" y="1136.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">servers</text>
-<text x="942" y="1154" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">LIVE</text>
+<rect x="782" y="1089" width="150" height="64" rx="8" fill="#FFFFFF" stroke="#DCE5EE"/>
+<rect x="783" y="1099" width="3" height="44" rx="1.5" fill="#1E8E3E"/>
+<text x="857" y="1110.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">Public STUN</text>
+<text x="857" y="1125.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="13.2" font-weight="600" fill="#141A22" text-anchor="middle">servers</text>
+<text x="857" y="1143" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="8.4" font-weight="600" fill="#1E8E3E" text-anchor="middle" letter-spacing="0.5">LIVE</text>
 </g>
 <path d="M303 188 L303 208.8 L58 208.8 L58 477 L225.5 477 L225.5 548" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M473 188 L473 243.9 L1142 243.9 L1142 491 L288.5 491 L288.5 548" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
@@ -235,9 +228,9 @@
 <path d="M895 612 L895 705 L288.5 705 L288.5 612" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M937 612 L937 717 L181 717 L181 771" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M979 612 L979 729 L351 729 L351 771" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
-<path d="M468 985 L468 1006.4 L262 1006.4 L262 1100" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
-<path d="M510 985 L510 1019.2 L432 1019.2 L432 1100" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
-<path d="M552 985 L552 1032 L602 1032 L602 1100" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M468 985 L468 1006.6 L347 1006.6 L347 1089" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M510 985 L510 1019.9 L517 1019.9 L517 1089" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M552 985 L552 1033.1 L687 1033.1 L687 1089" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M571.8 612 L571.8 645 L521 645 L521 771" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M597 612 L597 657 L861 657 L861 771" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M622.2 612 L622.2 669 L691 669 L691 771" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
@@ -247,8 +240,7 @@
 <path d="M387 188 L387 232.2 L1029 232.2 L1029 391" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M807.8 188 L807.8 314.1 L874.8 314.1 L874.8 391" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M643 188 L643 279 L906.3 279 L906.3 391" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
-<path d="M680 985 L680 1044.8 L772 1044.8 L772 1100" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
-<path d="M767 612 L767 693 L41 693 L41 1057.6 L942 1057.6 L942 1100" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
+<path d="M767 612 L767 693 L41 693 L41 1046.4 L857 1046.4 L857 1089" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M839.3 188 L839.3 325.8 L179 325.8 L179 391" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M870.8 188 L870.8 337.5 L689 337.5 L689 391" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
 <path d="M902.3 188 L902.3 349.2 L487.5 349.2 L487.5 391" fill="none" stroke="#93A1B1" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ar-arrow)"/>
@@ -267,12 +259,12 @@
 <text x="559" y="720.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">invite emails</text>
 <rect x="617.8" y="723.3" width="94.5" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
 <text x="665" y="732.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">checkout · webhook</text>
-<rect x="338.6" y="1000.7" width="52.9" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
-<text x="365" y="1009.5" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">beta seals</text>
-<rect x="443.3" y="1013.5" width="55.5" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
-<text x="471" y="1022.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">alpha seals</text>
-<rect x="550.3" y="1026.3" width="53.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
-<text x="577" y="1035.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">RPC · DAS</text>
+<rect x="381.1" y="1000.9" width="52.9" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="407.5" y="1009.8" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">beta seals</text>
+<rect x="485.8" y="1014.1" width="55.5" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="513.5" y="1023" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">alpha seals</text>
+<rect x="592.8" y="1027.4" width="53.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="619.5" y="1036.3" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">RPC · DAS</text>
 <rect x="526.2" y="639.3" width="40.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
 <text x="546.4" y="648.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">hosting</text>
 <rect x="700.1" y="651.3" width="57.9" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
@@ -291,10 +283,8 @@
 <text x="841.3" y="317.2" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">updates</text>
 <rect x="753.2" y="273.3" width="42.8" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
 <text x="774.6" y="282.1" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">updates</text>
-<rect x="687" y="1039.1" width="77.9" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
-<text x="726" y="1047.9" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">not used in beta</text>
-<rect x="469.5" y="1051.9" width="44.1" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
-<text x="491.5" y="1060.7" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">WebRTC</text>
+<rect x="427" y="1040.6" width="44.1" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
+<text x="449" y="1049.5" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">WebRTC</text>
 <rect x="478.9" y="320" width="60.4" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
 <text x="509.1" y="328.9" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="9.2" font-weight="400" fill="#5B6675" text-anchor="middle">social posts</text>
 <rect x="739" y="331.7" width="81.8" height="11.5" rx="3" fill="#EEF3F8" opacity="0.96"/>
@@ -322,10 +312,10 @@
 <rect x="79" y="898" width="141.6" height="18" rx="4" fill="#F8FAFC"/>
 <rect x="84" y="906" width="4" height="4" rx="1" fill="#00A36C"/>
 <text x="94" y="911" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">SIGNER AND SWARM</text>
-<rect x="79" y="1077" width="147.5" height="18" rx="4" fill="#F8FAFC"/>
-<rect x="84" y="1085" width="4" height="4" rx="1" fill="#00A36C"/>
-<text x="94" y="1090" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">CHAIN AND NETWORK</text>
-<line x1="70" y1="1208" x2="1130" y2="1208" stroke="#DCE5EE"/>
-<text x="70" y="1225" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-04</text>
-<text x="1130" y="1225" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5" text-anchor="end">28 components · 26 flows</text>
+<rect x="79" y="1066" width="147.5" height="18" rx="4" fill="#F8FAFC"/>
+<rect x="84" y="1074" width="4" height="4" rx="1" fill="#00A36C"/>
+<text x="94" y="1079" font-family="-apple-system,BlinkMacSystemFont,&quot;SF Pro Text&quot;,&quot;Helvetica Neue&quot;,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#5B6675" letter-spacing="1.1">CHAIN AND NETWORK</text>
+<line x1="70" y1="1197" x2="1130" y2="1197" stroke="#DCE5EE"/>
+<text x="70" y="1214" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5">Generated from admin/architecture.json · 2026-11-04</text>
+<text x="1130" y="1214" font-family="ui-monospace,&quot;SF Mono&quot;,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" font-weight="400" fill="#8A96A5" text-anchor="end">27 components · 25 flows</text>
 </svg>

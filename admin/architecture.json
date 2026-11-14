@@ -52,9 +52,8 @@
           "groups": [
             {
               "id": "network-and-money",
-              "title": "Relay, licences and money",
+              "title": "Licences and money",
               "nodes": [
-                "relay",
                 "signer",
                 "stripe",
                 "solana",
@@ -438,7 +437,6 @@
                 "svc-solana-devnet",
                 "svc-solana-mainnet",
                 "svc-helius",
-                "svc-relay",
                 "svc-stun"
               ]
             }
@@ -585,24 +583,13 @@
       "label": "P2P swarm",
       "area": "Network",
       "status": "built",
-      "description": "Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding; the phone downloads from up to 4 computers at once. The relay server for blocked networks comes after the beta (zero cost in the beta).",
+      "description": "Encrypted blocks on Fork computers and phones, three copies, direct transfers and release seeding; the phone downloads from up to 4 computers at once. Decentralised: Supabase is the tracker (database and admin); pieces travel device to device.",
       "source": "packages/core-p2p/src/swarm, apps/fork-studio/src-tauri/src/enxame.rs",
       "views": [
         "overview",
         "studio",
         "music",
         "services"
-      ]
-    },
-    {
-      "id": "relay",
-      "label": "fork-relay",
-      "area": "Network",
-      "status": "alpha",
-      "description": "Circuit relay and rendezvous for NAT traversal; code exists. Not in the beta (decided 4 Nov).",
-      "source": "apps/fork-relay",
-      "views": [
-        "overview"
       ]
     },
     {
@@ -1048,7 +1035,7 @@
       "label": "core-p2p",
       "area": "Rust core",
       "status": "built",
-      "description": "Rolling leases, chunker, block store, encrypted swarm and release protocol; all tests pass. The relay for blocked networks comes after the beta.",
+      "description": "Rolling leases, chunker, block store, encrypted swarm and release protocol; all tests pass.",
       "source": "packages/core-p2p",
       "views": [
         "studio",
@@ -1665,28 +1652,6 @@
       ]
     },
     {
-      "id": "svc-relay",
-      "label": "VPS relay",
-      "area": "External services",
-      "kind": "service",
-      "status": "not-used",
-      "purpose": "A small always-on server that would help two computers behind strict routers reach each other.",
-      "cost": "Not used in beta (a VPS would be roughly 4-6 EUR/month)",
-      "paid": false,
-      "account": "none (no server rented)",
-      "secrets": [
-        "none"
-      ],
-      "used_by": [
-        "P2P swarm (code exists, nothing deployed)"
-      ],
-      "limits": "Direct connections and hole punching already work; revisit if testers on strict networks cannot connect",
-      "source": "apps/fork-relay",
-      "views": [
-        "services"
-      ]
-    },
-    {
       "id": "svc-stun",
       "label": "Public STUN servers",
       "area": "External services",
@@ -1703,7 +1668,7 @@
         "/connect PWA",
         "phone tunnel"
       ],
-      "limits": "No uptime promise; STUN only helps discover addresses, no TURN relay is deployed, so strict networks can fail",
+      "limits": "No uptime promise; STUN helps the phone and the computer find each other, then files go directly between them.",
       "source": "apps/fork-p2p-web/index.html",
       "views": [
         "services"
@@ -1980,14 +1945,6 @@
       "from": "signer",
       "to": "solana",
       "label": "mint · transfer · freeze",
-      "views": [
-        "overview"
-      ]
-    },
-    {
-      "from": "swarm",
-      "to": "relay",
-      "label": "rendezvous · NAT traversal",
       "views": [
         "overview"
       ]
@@ -2700,14 +2657,6 @@
       "from": "labels",
       "to": "svc-github-releases",
       "label": "updates",
-      "views": [
-        "services"
-      ]
-    },
-    {
-      "from": "swarm",
-      "to": "svc-relay",
-      "label": "not used in beta",
       "views": [
         "services"
       ]
