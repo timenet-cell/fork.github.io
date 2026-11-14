@@ -76,7 +76,7 @@
     {
       "t": "Encryption: AES-256 fragments",
       "p": 92,
-      "s": "Signed revocations, keep-alives and removals done · left: switch on with real data (manifest still accepts plain until sealed mode is set)",
+      "s": "Code done; rehearsal on a copy passed 14 Nov (sealing uses about 0.56 GB more disk). WAITS ON THE OWNER: export his artist key (Settings > Identity > Artist key > Export) before the real switch, because sealing has no reverse path without that key.",
       "prio": 1,
       "app": "Fork Network",
       "phase": "beta"
@@ -84,7 +84,7 @@
     {
       "t": "Store: Stripe + Solana licence registry",
       "p": 99,
-      "s": "Devnet ready and checked live 14 Nov (functions, signer on devnet, keys published). BLOCKED: the end-to-end test purchase needs a second test account (buyer); WAITS ON THE OWNER: his OK to create it.",
+      "s": "Devnet ready; test buyer account created 14 Nov and signs in. WAITS ON THE OWNER: one click, paying the test checkout with Stripe's test card (the CEO may not type card numbers on Stripe's page); then the CEO runs the checks.",
       "prio": 1,
       "app": "Fork Music",
       "phase": "beta"
