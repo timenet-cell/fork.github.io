@@ -330,9 +330,9 @@
       "phase": "beta"
     },
     {
-      "t": "Relay, SMTP and Apple signing",
+      "t": "SMTP and Apple signing",
       "p": 30,
-      "s": "After the beta (decided 4 Nov): no Developer ID, no public distribution feeds; relay later",
+      "s": "After the beta (decided 4 Nov): no Developer ID, no public distribution feeds",
       "prio": 1,
       "app": "Platform",
       "phase": "alpha"
@@ -467,7 +467,7 @@
     {
       "t": "Merge release scripts (sign, publish, roll back)",
       "p": 100,
-      "s": "Merged 29 Oct · scripts stay off until there is an Apple Developer ID (see Relay, SMTP and Apple signing)",
+      "s": "Merged 29 Oct · scripts stay off until there is an Apple Developer ID (see SMTP and Apple signing)",
       "prio": 2,
       "app": "Platform",
       "phase": "beta"

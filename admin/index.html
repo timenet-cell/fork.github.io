@@ -1040,7 +1040,7 @@ function stModulos() {
   let blocos;
   const v = ST_VISTA[stApp] && stArq.views[ST_VISTA[stApp]];
   if (v) blocos = v.rows.flatMap(r => r.groups).map(g => [g.title || g.label || '', g.nodes.map(id => byId.get(id)).filter(Boolean)]);
-  else if (stApp === 'Fork Network') blocos = [['Network', stArq.nodes.filter(n => ['Network', 'Phone'].includes(n.area) || /p2p|swarm|relay|seed/i.test(n.label + ' ' + n.id))]];
+  else if (stApp === 'Fork Network') blocos = [['Network', stArq.nodes.filter(n => ['Network', 'Phone'].includes(n.area) || /p2p|swarm|seed/i.test(n.label + ' ' + n.id))]];
   else return '';
   blocos = blocos.filter(b => b[1].length);
   if (!blocos.length) return '';
