@@ -403,6 +403,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="bc-top"><b>Beta control</b><span id="bc-n"></span></div>
       <div class="bc-grid" id="bc-grid"></div>
       <div class="bc-sub" id="bc-sub"></div>
+      <div class="bc-sub" id="bc-bk"></div>
     </div>
     <div class="box nv-conv" id="nv-conv" hidden>
       <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
@@ -1096,6 +1097,13 @@ function stModulos() {
     '</details>';
 }
 // A conversao para app nativa (Rust + GPUI): status.json.native, escrito a cada 10 min pelo CEO; a pagina rele a cada 10 min.
+// A copia diaria da base da nuvem (15-11): idade e ultimo resultado; mais de 48 h ou uma falha = FAIL, nunca calado.
+function bkDesenha(b) {
+  const el = $('bc-bk'); if (!el) return;
+  if (!b) { el.textContent = ''; return; }
+  const idade = typeof b.age_h === 'number' ? (b.age_h < 48 ? Math.round(b.age_h) + ' h' : Math.round(b.age_h / 24) + ' days') : 'unknown';
+  el.innerHTML = '<b style="color:' + (b.status === 'OK' ? 'var(--green, #1f8a5b)' : 'var(--red, #c0392b)') + '">Cloud database backup: ' + esc(b.status) + '</b> - newest good copy ' + esc(idade) + ' old, last run ' + esc(b.last_result || '?') + '.';
+}
 // Controlo binario da beta (15-11): status.json.control, copiado de controlo.json; um bloco so e verde com todos os testes a passar.
 function bcDesenha(c) {
   const el = $('bc'); if (!el) return;
@@ -1137,7 +1145,7 @@ async function estado() {
   try {
     const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
     stData = await r.json();
-    bcDesenha(stData.control);
+    bcDesenha(stData.control); bkDesenha(stData.backup);
     nvConvDesenha(stData.native);
     $('st-upd').textContent = 'Updated ' + new Date(stData.updated).toLocaleString();
     stDesenha();
