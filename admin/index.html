@@ -451,7 +451,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
         <div id="ar-empty" class="empty hidden">No components match that search.</div>
       </div>
     </div>
-    <div id="t-settings" class="hidden"><div id="cr"></div><div id="ps"></div></div>
+    <div id="t-settings" class="hidden"><div id="bs"></div><div id="cr"></div><div id="ps"></div></div>
     <div id="t-reports" class="hidden">
       <p class="ps-note">Reports name a block or manifest by its cid, never its content: encrypted blocks can’t be read by hosts or by Fork. A valid report tombstones the cid (cooperating devices delete it and refuse it again). If a host’s upload receipt is attached, it names the account that sent it, which can then be suspended. A modified client can keep a copy.</p>
       <div class="box">
@@ -793,7 +793,7 @@ async function reserva() {
 }
 
 async function definicoes() {
-  reserva();
+  reserva(); betaSwitch();
   const box = $('ps');
   const { data, error } = await sb.from('platform_settings').select('key, value, unit, label, description, min_value, max_value, applies_to_new_only, updated_at').order('key');
   if (error) {
@@ -863,6 +863,44 @@ function ligaDef(st) {
   };
 }
 $('refresh').onclick = () => { estado(); carrega(); definicoes(); denuncias(); manualReset(); servicosReset(); };
+
+// ── Beta (migracao 101: public.beta_switch; so administradores leem e mudam; quem o muda e o dono) ──────────────────
+// BS-PURE-BEGIN (puro; testado em admin/beta.test.js)
+const BS = (() => {
+  const estado = aberta => aberta
+    ? { nm: 'Beta is open', ds: 'Every account has Pro features, free of charge. No price and no subscribe offer are shown.', btn: 'End the beta…' }
+    : { nm: 'Beta is closed', ds: 'Pro features are open only to accounts on the Pro plan. Every other account has the Free features.', btn: 'Reopen the beta…' };
+  const palavra = aberta => aberta ? 'END BETA' : 'REOPEN BETA';
+  const pergunta = aberta => aberta
+    ? 'End the beta for every account?\n\nWithin about a minute, every Fork app already installed restricts Pro features to accounts on the Pro plan. Accounts without Pro keep their projects and data and the Free features.\n\nType END BETA to confirm.'
+    : 'Reopen the beta for every account?\n\nWithin about a minute, every account has Pro features again, free of charge.\n\nType REOPEN BETA to confirm.';
+  const confirmado = (aberta, escrito) => typeof escrito === 'string' && escrito.trim().toUpperCase() === palavra(aberta);
+  return { estado, palavra, pergunta, confirmado };
+})();
+// BS-PURE-END
+async function betaSwitch() {
+  const box = $('bs');
+  const { data, error } = await sb.from('beta_switch').select('open, updated_at').eq('id', true).maybeSingle();
+  if (error || !data) {
+    const falta = error && (error.code === '42P01' || error.code === 'PGRST205' || /does not exist|schema cache/i.test(error.message || ''));
+    box.innerHTML = '<div class="box ps-grp"><h2>Beta</h2><div class="empty">' + (falta ? 'Waiting for the database update (supabase db push)' : 'Could not load the beta switch.') + '</div></div>';
+    return;
+  }
+  const e = BS.estado(data.open);
+  box.innerHTML = `<div class="box ps-grp"><h2>Beta</h2><div class="ps-row"><div><div class="nm">${esc(e.nm)}</div><div class="ds">${esc(e.ds)}</div>` +
+    `<div class="cur">Changed: <span>${esc(data.updated_at ? new Date(data.updated_at).toLocaleString('en-GB') : '-')}</span></div></div>` +
+    `<div class="ps-ed"><button class="sec" id="bs-toggle" type="button">${esc(e.btn)}</button></div>` +
+    `<p class="ps-fb" id="bs-fb" role="status" aria-live="polite"></p></div></div>`;
+  $('bs-toggle').onclick = async ev => {
+    const escrito = prompt(BS.pergunta(data.open), '');
+    if (escrito === null) return;
+    if (!BS.confirmado(data.open, escrito)) { $('bs-fb').textContent = 'Not changed: type ' + BS.palavra(data.open) + ' exactly.'; $('bs-fb').classList.add('bad'); return; }
+    ev.currentTarget.disabled = true; $('bs-fb').textContent = 'Saving…'; $('bs-fb').classList.remove('bad');
+    const r = await sb.from('beta_switch').update({ open: !data.open }).eq('id', true).select('open');
+    if (r.error || !r.data || !r.data.length) { $('bs-fb').textContent = 'Not saved: the database did not allow this change.'; $('bs-fb').classList.add('bad'); ev.currentTarget.disabled = false; return; }
+    betaSwitch();
+  };
+}
 
 // ── denuncias (migracao 30: block_reports; so por RPC de admin; a pagina nunca decide quem pode) ────────────────────
 const RP_WHY = { csam: 'Child safety', terror: 'Terrorist content', copyright: 'Copyright', fraud: 'Fraud', other: 'Other' };
