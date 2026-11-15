@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T00:28:38+00:00",
+  "updated": "2026-11-15T00:37:57+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -869,6 +869,95 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-15T00:28:38+00:00"
+    "updated": "2026-11-15T00:37:57+00:00"
+  },
+  "control": {
+    "generated_at": "2026-11-14 23:52:19",
+    "blocks": [
+      {
+        "n": 1,
+        "name": "DATA",
+        "status": "RED",
+        "passed": 2,
+        "total": 4
+      },
+      {
+        "n": 2,
+        "name": "NATIVE APP UI",
+        "status": "RED",
+        "passed": 1,
+        "total": 3
+      },
+      {
+        "n": 3,
+        "name": "ENGINE AND STABILITY",
+        "status": "GREEN",
+        "passed": 2,
+        "total": 2
+      },
+      {
+        "n": 4,
+        "name": "DIRECT P2P (phone to own computer)",
+        "status": "RED",
+        "passed": 2,
+        "total": 3
+      },
+      {
+        "n": 5,
+        "name": "SWARM P2P (shared and public)",
+        "status": "RED",
+        "passed": 1,
+        "total": 4
+      },
+      {
+        "n": 6,
+        "name": "ACCOUNTS",
+        "status": "RED",
+        "passed": 1,
+        "total": 2
+      },
+      {
+        "n": 7,
+        "name": "CLOUD RECORDS",
+        "status": "RED",
+        "passed": 2,
+        "total": 4
+      },
+      {
+        "n": 8,
+        "name": "MONEY (test mode)",
+        "status": "RED",
+        "passed": 0,
+        "total": 3
+      },
+      {
+        "n": 9,
+        "name": "RIGHTS AND KEYS",
+        "status": "RED",
+        "passed": 1,
+        "total": 3
+      },
+      {
+        "n": 10,
+        "name": "DISTRIBUTION",
+        "status": "RED",
+        "passed": 1,
+        "total": 5
+      },
+      {
+        "n": 11,
+        "name": "DISTRIBUTION STANDARDS",
+        "status": "RED",
+        "passed": 4,
+        "total": 14
+      },
+      {
+        "n": 12,
+        "name": "SECURITY",
+        "status": "RED",
+        "passed": 0,
+        "total": 9
+      }
+    ]
   }
 }
