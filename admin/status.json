@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T07:30:44+00:00",
+  "updated": "2026-11-15T07:31:31+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -806,8 +806,8 @@
     },
     {
       "t": "Native app conversion (Rust + GPUI)",
-      "p": 62,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 62.2% (107 of 172 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: waiting in queue (HANDOFF_GM2.md) (checked every 10 min)",
+      "p": 64,
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 64.2% (111 of 173 controls checked in the real app) · smooth 43 of 44 screens measured, worst frame None ms · agents: waiting in queue (__pycache__) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -846,21 +846,21 @@
     }
   ],
   "native": {
-    "pct": 62.2,
+    "pct": 64.2,
     "looks_pct": 94.6,
-    "works_pct": 62.2,
+    "works_pct": 64.2,
     "phase": "Looks 94.6% (screens identical to the Studio)",
-    "phase_pct": 62.2,
-    "agents": "waiting in queue (HANDOFF_GM2.md)",
+    "phase_pct": 64.2,
+    "agents": "waiting in queue (__pycache__)",
     "controls": {
-      "proven": 107,
-      "tested": 62,
+      "proven": 111,
+      "tested": 58,
       "realwin": 3,
       "fixed": 0,
       "built": 0,
-      "broken": 0,
+      "broken": 1,
       "missing": 0,
-      "total": 172
+      "total": 173
     },
     "proof_blocked": "Native interaction: all 168 controls are built; 164 pass automatic tests that click the real screens; 4 need the real window (title bar double-click and drag, menu bar items, the menu-bar icon) and wait for one approval. Palette Creator map: at 98 on the original smoothness gate, being fixed.",
     "controls_note": "The inventory is still growing as screens are audited, so the total can change.",
@@ -869,7 +869,7 @@
       "passed": 43,
       "worst_ms": null
     },
-    "updated": "2026-11-15T07:30:44+00:00"
+    "updated": "2026-11-15T07:31:31+00:00"
   },
   "control": {
     "generated_at": "2026-11-15 04:17:44",
