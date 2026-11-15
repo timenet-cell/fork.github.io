@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T17:55:12+00:00",
+  "updated": "2026-11-15T18:05:15+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -869,10 +869,10 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-15T17:55:12+00:00"
+    "updated": "2026-11-15T18:05:15+00:00"
   },
   "control": {
-    "generated_at": "2026-11-15 12:29:12",
+    "generated_at": "2026-11-15 18:01:06",
     "blocks": [
       {
         "n": 1,
@@ -885,7 +885,7 @@
         "n": 2,
         "name": "NATIVE APP UI",
         "status": "RED",
-        "passed": 2,
+        "passed": 1,
         "total": 3
       },
       {
