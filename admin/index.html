@@ -67,6 +67,7 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
 .nv-conv{margin:0 0 14px}
+.bc{margin:0 0 14px}.bc-top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px}.bc-top span{font:600 20px/1 var(--display);font-variant-numeric:tabular-nums}.bc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:10px}.bc-b{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px}.bc-b i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--red)}.bc-b.g i{background:#2e9e5b}.bc-b small{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}.bc-sub{font-size:12px;color:var(--muted);margin-top:8px}
 .nv-conv-top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px}
 .nv-conv-top span{font:600 20px/1 var(--display);font-variant-numeric:tabular-nums}
 .nv-conv-bar{height:8px;border-radius:4px;background:var(--line);margin:10px 0 8px;overflow:hidden}
@@ -398,6 +399,11 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="who"><span id="who"></span><span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span><span class="tema-linha" role="group" aria-label="Accent colour"><button type="button" class="tema-modo tema-cor" data-cor="jade"><span class="dot" style="background:#00a36c"></span>Jade</button><button type="button" class="tema-modo tema-cor" data-cor="forest"><span class="dot" style="background:#1f8a5b"></span>Forest</button></span><a class="lnk" href="/?beta" target="_blank" rel="noopener">View site as beta</a><button class="lnk" id="refresh" type="button">Refresh</button><button class="lnk" id="out" type="button">Sign out</button></div>
     </div>
     <div id="err" class="msg" role="status" aria-live="polite"></div>
+    <div class="box bc" id="bc" hidden>
+      <div class="bc-top"><b>Beta control</b><span id="bc-n"></span></div>
+      <div class="bc-grid" id="bc-grid"></div>
+      <div class="bc-sub" id="bc-sub"></div>
+    </div>
     <div class="box nv-conv" id="nv-conv" hidden>
       <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
       <div class="nv-conv-bar"><i id="nv-conv-fill"></i></div>
@@ -1052,6 +1058,16 @@ function stModulos() {
     '</details>';
 }
 // A conversao para app nativa (Rust + GPUI): status.json.native, escrito a cada 10 min pelo CEO; a pagina rele a cada 10 min.
+// Controlo binario da beta (15-11): status.json.control, copiado de controlo.json; um bloco so e verde com todos os testes a passar.
+function bcDesenha(c) {
+  const el = $('bc'); if (!el) return;
+  if (!c || !c.blocks || !c.blocks.length) { el.hidden = true; return; }
+  el.hidden = false;
+  const g = c.blocks.filter(b => b.status === 'GREEN').length;
+  $('bc-n').textContent = g + ' of ' + c.blocks.length + ' blocks green';
+  $('bc-grid').innerHTML = c.blocks.map(b => '<div class="bc-b' + (b.status === 'GREEN' ? ' g' : '') + '"><i></i>' + esc(b.name) + '<small>' + b.passed + '/' + b.total + '</small></div>').join('');
+  $('bc-sub').textContent = 'Each block is green only when every check passes; not measured counts as a fail. The download is published only when all blocks are green.' + (c.generated_at ? ' Run ' + new Date(c.generated_at).toLocaleString() + '.' : '');
+}
 function nvConvDesenha(n) {
   const el = $('nv-conv'); if (!el) return;
   if (!n || typeof n.pct !== 'number') { el.hidden = true; return; }
@@ -1083,6 +1099,7 @@ async function estado() {
   try {
     const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
     stData = await r.json();
+    bcDesenha(stData.control);
     nvConvDesenha(stData.native);
     $('st-upd').textContent = 'Updated ' + new Date(stData.updated).toLocaleString();
     stDesenha();
