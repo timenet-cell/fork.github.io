@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T01:28:08+00:00",
+  "updated": "2026-11-16T01:38:11+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -807,7 +807,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 82,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 81.9% (167 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · agents: 1 agents running on the terminal account in parallel: _tasks (checked every 10 min)",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 81.9% (167 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · agents: waiting in queue (HANDOFF_GM2.md) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -851,7 +851,7 @@
     "works_pct": 81.9,
     "phase": "Looks 94.6% (screens identical to the Studio)",
     "phase_pct": 81.9,
-    "agents": "1 agents running on the terminal account in parallel: _tasks",
+    "agents": "waiting in queue (HANDOFF_GM2.md)",
     "controls": {
       "proven": 167,
       "tested": 33,
@@ -869,23 +869,23 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-16T01:28:08+00:00"
+    "updated": "2026-11-16T01:38:11+00:00"
   },
   "control": {
-    "generated_at": "2026-11-16 01:17:02",
+    "generated_at": "2026-11-16 01:34:31",
     "blocks": [
       {
         "n": 1,
         "name": "DATA",
-        "status": "GREEN",
-        "passed": 5,
+        "status": "RED",
+        "passed": 4,
         "total": 5
       },
       {
         "n": 2,
         "name": "NATIVE APP UI",
         "status": "RED",
-        "passed": 2,
+        "passed": 1,
         "total": 3
       },
       {
@@ -955,14 +955,14 @@
         "n": 12,
         "name": "SECURITY",
         "status": "RED",
-        "passed": 10,
-        "total": 14
+        "passed": 6,
+        "total": 9
       }
     ]
   },
   "backup": {
     "last_good_at": "2026-11-16T00:02:10Z",
-    "age_h": 1.4,
+    "age_h": 1.6,
     "last_run_at": "2026-11-16T00:02:10Z",
     "last_result": "ok",
     "status": "OK"
