@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T07:28:33+00:00",
+  "updated": "2026-11-16T07:34:57+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -806,8 +806,8 @@
     },
     {
       "t": "Native app conversion (Rust + GPUI)",
-      "p": 82,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 81.9% (167 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · agents: waiting in queue (HANDOFF_GM2.md) (checked every 10 min)",
+      "p": 83,
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 82.8% (169 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · agents: waiting in queue (__pycache__) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -846,17 +846,17 @@
     }
   ],
   "native": {
-    "pct": 81.9,
+    "pct": 82.8,
     "looks_pct": 94.6,
-    "works_pct": 81.9,
+    "works_pct": 82.8,
     "phase": "Looks 94.6% (screens identical to the Studio)",
-    "phase_pct": 81.9,
-    "agents": "waiting in queue (HANDOFF_GM2.md)",
+    "phase_pct": 82.8,
+    "agents": "waiting in queue (__pycache__)",
     "controls": {
-      "proven": 167,
-      "tested": 33,
+      "proven": 169,
+      "tested": 30,
       "realwin": 2,
-      "fixed": 2,
+      "fixed": 3,
       "built": 0,
       "broken": 0,
       "missing": 0,
@@ -869,16 +869,16 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-16T07:28:33+00:00"
+    "updated": "2026-11-16T07:34:57+00:00"
   },
   "control": {
-    "generated_at": "2026-11-16 01:34:31",
+    "generated_at": "2026-11-16 07:34:57",
     "blocks": [
       {
         "n": 1,
         "name": "DATA",
-        "status": "RED",
-        "passed": 4,
+        "status": "GREEN",
+        "passed": 5,
         "total": 5
       },
       {
@@ -962,7 +962,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-16T00:02:10Z",
-    "age_h": 7.4,
+    "age_h": 7.5,
     "last_run_at": "2026-11-16T00:02:10Z",
     "last_result": "ok",
     "status": "OK"
