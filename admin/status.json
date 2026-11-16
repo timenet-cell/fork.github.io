@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T08:09:42+00:00",
+  "updated": "2026-11-16T08:48:52+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -807,7 +807,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 83,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 83.3% (170 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · agents: waiting in queue (_merge7-set) (checked every 10 min)",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 83.3% (170 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · agents: waiting in queue (HANDOFF_GM2.md) (checked every 10 min)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -851,7 +851,7 @@
     "works_pct": 83.3,
     "phase": "Looks 94.6% (screens identical to the Studio)",
     "phase_pct": 83.3,
-    "agents": "waiting in queue (_merge7-set)",
+    "agents": "waiting in queue (HANDOFF_GM2.md)",
     "controls": {
       "proven": 170,
       "tested": 30,
@@ -869,7 +869,7 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-16T08:09:42+00:00"
+    "updated": "2026-11-16T08:48:52+00:00"
   },
   "control": {
     "generated_at": "2026-11-16 08:09:28",
@@ -962,7 +962,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-16T00:02:10Z",
-    "age_h": 8.1,
+    "age_h": 8.8,
     "last_run_at": "2026-11-16T00:02:10Z",
     "last_result": "ok",
     "status": "OK"
