@@ -1,10 +1,10 @@
 {
-  "updated": "2026-11-17T20:45:55+00:00",
+  "updated": "2026-11-17T20:55:59+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
       "p": 100,
-      "s": "Checked automatically 2026-11-17 16:39: 1 of 1 checks pass · code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script",
+      "s": "Checked automatically 2026-11-17 20:36: 1 of 1 checks pass · code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script",
       "prio": 1,
       "app": "Platform",
       "phase": "beta",
@@ -80,7 +80,7 @@
     {
       "t": "Encryption: AES-256 fragments",
       "p": 50,
-      "s": "Checked automatically 2026-11-17 16:46: 1 of 2 checks pass (failing: rights.sealed_on) · Code done; rehearsal on a copy passed 14 Nov (sealing uses about 0.56 GB more disk). WAITS ON THE OWNER: export his artist key (Settings > Identity > Artist key > Export) before the real switch, because sealing has no reverse path without that key.",
+      "s": "Checked automatically 2026-11-17 20:42: 1 of 2 checks pass (failing: rights.sealed_on) · Code done; rehearsal on a copy passed 14 Nov (sealing uses about 0.56 GB more disk). WAITS ON THE OWNER: export his artist key (Settings > Identity > Artist key > Export) before the real switch, because sealing has no reverse path without that key.",
       "prio": 1,
       "app": "Fork Network",
       "phase": "beta",
@@ -93,7 +93,7 @@
     {
       "t": "Store: Stripe + Solana licence registry",
       "p": 100,
-      "s": "Checked automatically 2026-11-17 16:39: 1 of 1 checks pass · Devnet ready; test buyer account created 14 Nov and signs in. WAITS ON THE OWNER: one click, paying the test checkout with Stripe's test card (the CEO may not type card numbers on Stripe's page); then the CEO runs the checks.",
+      "s": "Checked automatically 2026-11-17 20:36: 1 of 1 checks pass · Devnet ready; test buyer account created 14 Nov and signs in. WAITS ON THE OWNER: one click, paying the test checkout with Stripe's test card (the CEO may not type card numbers on Stripe's page); then the CEO runs the checks.",
       "prio": 1,
       "app": "Fork Music",
       "phase": "beta",
@@ -105,7 +105,7 @@
     {
       "t": "WIP fan passes (off-chain, revocable)",
       "p": 100,
-      "s": "Checked automatically 2026-11-17 16:39: 1 of 1 checks pass · 17 Nov: real test PASS. The owner Studio issued pass #1 on the shared WIP Groovy House (by computer use), the test fan account saw it, then it was revoked and cleaned up. Invite bug found on the way: a slow courtesy email made the app say \"Can't reach the cloud\" with the invite already created; fixed (email capped at 10 s) and deployed.",
+      "s": "Checked automatically 2026-11-17 20:36: 1 of 1 checks pass · 17 Nov: real test PASS. The owner Studio issued pass #1 on the shared WIP Groovy House (by computer use), the test fan account saw it, then it was revoked and cleaned up. Invite bug found on the way: a slow courtesy email made the app say \"Can't reach the cloud\" with the invite already created; fixed (email capped at 10 s) and deployed.",
       "prio": 1,
       "app": "Fork Music",
       "phase": "beta",
@@ -117,7 +117,7 @@
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
       "p": 75,
-      "s": "Checked automatically 2026-11-17 16:43: 3 of 4 checks pass (failing: swarm.real_two_computers) · Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test.",
+      "s": "Checked automatically 2026-11-17 20:40: 3 of 4 checks pass (failing: swarm.real_two_computers) · Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test.",
       "prio": 1,
       "app": "Fork Network",
       "phase": "beta",
@@ -268,7 +268,7 @@
     {
       "t": "Artist key backup + restore",
       "p": 50,
-      "s": "Checked automatically 2026-11-17 16:45: 1 of 2 checks pass (failing: rights.key_exported) · 17 Nov: the account-sealed key backup is live in the database (migration 101, owner-only, Fork cannot open it) and link_artist_key is deployed; the native app with this is pushed (372 tests pass). 14 Nov: backup and restore proven with the real system keychain tool on throwaway keychains (new-computer restore, old key kept aside). WAITS ON THE OWNER: the Keychain prompt check with the signed app on his computer.",
+      "s": "Checked automatically 2026-11-17 20:41: 1 of 2 checks pass (failing: rights.key_exported) · 17 Nov: the account-sealed key backup is live in the database (migration 101, owner-only, Fork cannot open it) and link_artist_key is deployed; the native app with this is pushed (372 tests pass). 14 Nov: backup and restore proven with the real system keychain tool on throwaway keychains (new-computer restore, old key kept aside). WAITS ON THE OWNER: the Keychain prompt check with the signed app on his computer.",
       "prio": 1,
       "app": "Platform",
       "phase": "beta",
@@ -305,7 +305,7 @@
     {
       "t": "Phone over P2P: browse, palette, sample search",
       "p": 50,
-      "s": "Checked automatically 2026-11-17 16:41: 1 of 2 checks pass (failing: direct.real_device) · 14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS).",
+      "s": "Checked automatically 2026-11-17 20:37: 1 of 2 checks pass (failing: direct.real_device) · 14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS).",
       "prio": 2,
       "app": "Fork Network",
       "phase": "beta",
@@ -326,7 +326,7 @@
     {
       "t": "P2P upload speed",
       "p": 100,
-      "s": "Checked automatically 2026-11-17 16:41: 2 of 2 checks pass · 14 Nov: local benches pass (upload 115-233 Mbit/s on emulated links) and a real browser (headless Chrome) runs the phone tunnel against the real host at 322-477 Mbit/s, byte-exact. WAITS ON HARDWARE: a real phone on a real router with 2+ computers.",
+      "s": "Checked automatically 2026-11-17 20:37: 2 of 2 checks pass · 14 Nov: local benches pass (upload 115-233 Mbit/s on emulated links) and a real browser (headless Chrome) runs the phone tunnel against the real host at 322-477 Mbit/s, byte-exact. WAITS ON HARDWARE: a real phone on a real router with 2+ computers.",
       "prio": 2,
       "app": "Fork Network",
       "phase": "beta",
@@ -347,7 +347,7 @@
     {
       "t": "Report a bug (all apps)",
       "p": 100,
-      "s": "Checked automatically 2026-11-17 16:40: 2 of 2 checks pass · 14 Nov: tested end to end in all four apps (report lands with app id, version and scrubbed log; offline queue; cross-site refused). Left: one try in the built app, done in the CEO real-app pass.",
+      "s": "Checked automatically 2026-11-17 20:36: 2 of 2 checks pass · 14 Nov: tested end to end in all four apps (report lands with app id, version and scrubbed log; offline queue; cross-site refused). Left: one try in the built app, done in the CEO real-app pass.",
       "prio": 2,
       "app": "Platform",
       "phase": "beta",
@@ -360,7 +360,7 @@
     {
       "t": "Older shared version: newer one flagged",
       "p": 0,
-      "s": "Checked automatically 2026-11-17 16:39: 0 of 1 checks pass (failing: cloud.invite) · Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54.",
+      "s": "Checked automatically 2026-11-17 20:36: 0 of 1 checks pass (failing: cloud.invite) · Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta",
@@ -388,7 +388,7 @@
     {
       "t": "Real-device tests",
       "p": 0,
-      "s": "Checked automatically 2026-11-17 16:39: 0 of 2 checks pass (failing: direct.real_device, swarm.real_two_computers) · Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
+      "s": "Checked automatically 2026-11-17 20:36: 0 of 2 checks pass (failing: direct.real_device, swarm.real_two_computers) · Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
       "prio": 1,
       "app": "Platform",
       "phase": "beta",
@@ -844,7 +844,7 @@
     {
       "t": "Beta release B560: packages built, feed and site page staged",
       "p": 40,
-      "s": "Checked automatically 2026-11-17 16:39: 2 of 5 checks pass (failing: dist.update_local_feed, dist.signed_updater, dist.feed_published) · Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish. The publish step also creates the public release feed repos for Fork Music, Labels and Manager.",
+      "s": "Checked automatically 2026-11-17 20:36: 2 of 5 checks pass (failing: dist.update_local_feed, dist.signed_updater, dist.feed_published) · Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish. The publish step also creates the public release feed repos for Fork Music, Labels and Manager.",
       "prio": 1,
       "app": "Platform",
       "phase": "beta",
@@ -876,7 +876,7 @@
     {
       "t": "Native app smoothness gate (frame time per screen)",
       "p": 100,
-      "s": "Checked automatically 2026-11-17 16:39: 1 of 1 checks pass · Palette Creator star map moved to the GPU: typical frame 83 ms to 4.4 ms, worst 100 ms to 7.6 ms. Sweep of finished screens: most pass under 8.3 ms typical; projects list and Sounds being fixed.",
+      "s": "Checked automatically 2026-11-17 20:36: 1 of 1 checks pass · Palette Creator star map moved to the GPU: typical frame 83 ms to 4.4 ms, worst 100 ms to 7.6 ms. Sweep of finished screens: most pass under 8.3 ms typical; projects list and Sounds being fixed.",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha",
@@ -934,10 +934,10 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T20:45:55+00:00"
+    "updated": "2026-11-17T20:55:59+00:00"
   },
   "control": {
-    "generated_at": "2026-11-17 16:49:11",
+    "generated_at": "2026-11-17 20:46:01",
     "blocks": [
       {
         "n": 1,
@@ -950,7 +950,7 @@
         "n": 2,
         "name": "NATIVE APP UI",
         "status": "RED",
-        "passed": 2,
+        "passed": 1,
         "total": 3
       },
       {
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-17T04:00:01Z",
-    "age_h": 16.8,
+    "age_h": 16.9,
     "last_run_at": "2026-11-17T04:00:01Z",
     "last_result": "ok",
     "status": "OK"
