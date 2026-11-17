@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T16:20:12+00:00",
+  "updated": "2026-11-17T16:22:47+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -116,8 +116,8 @@
     },
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-      "p": 50,
-      "s": "Checked automatically 2026-11-17 16:02: 2 of 4 checks pass (failing: swarm.device_to_device_tests, swarm.real_two_computers) · Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test.",
+      "p": 75,
+      "s": "Checked automatically 2026-11-17 16:20: 3 of 4 checks pass (failing: swarm.real_two_computers) · Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test.",
       "prio": 1,
       "app": "Fork Network",
       "phase": "beta",
@@ -934,10 +934,10 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T16:20:12+00:00"
+    "updated": "2026-11-17T16:22:47+00:00"
   },
   "control": {
-    "generated_at": "2026-11-17 16:20:12",
+    "generated_at": "2026-11-17 16:22:47",
     "blocks": [
       {
         "n": 1,
@@ -971,7 +971,7 @@
         "n": 5,
         "name": "SWARM P2P (shared and public)",
         "status": "RED",
-        "passed": 2,
+        "passed": 3,
         "total": 4
       },
       {
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-17T04:00:01Z",
-    "age_h": 12.3,
+    "age_h": 12.4,
     "last_run_at": "2026-11-17T04:00:01Z",
     "last_result": "ok",
     "status": "OK"
