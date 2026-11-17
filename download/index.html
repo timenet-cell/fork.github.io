@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EEF3F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F141B" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>Download Fork Studio</title>
+<meta name="description" content="Download the Fork Studio beta for macOS.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EEF3F8'/%3E%3Cpath d='M24 14v14a8 8 0 0 0 16 0V14M32 36v16' stroke='%2300a36c' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#EEF3F8;--card:#F8FAFC;--text:#141A22;--muted:#5B6675;--faint:#8A96A5;--line:#DCE4EC;--field:#fff;
+  --red:#00a36c;--red-ink:#fff;--err:#b3261e;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root{--bg:#0F141B;--card:#161D26;--text:#E8EDF3;--muted:#9AA6B4;--faint:#6F7B89;--line:#26303C;--field:#0F141B;--err:#ff8a80}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;display:flex;flex-direction:column}
+a{color:var(--red)}
+.bar{display:flex;align-items:center;justify-content:center;padding:14px max(16px,env(safe-area-inset-left));border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:600 15px/1 var(--display);letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo svg{width:28px;height:28px}
+main{flex:1;min-width:0;display:flex;justify-content:center;padding:32px 16px max(32px,env(safe-area-inset-bottom))}
+.card{width:100%;min-width:0;max-width:720px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;align-self:flex-start}
+h1{font:700 30px/1.15 var(--display);letter-spacing:-.025em;margin:0 0 8px}
+h2{font:650 17px/1.3 var(--display);margin:28px 0 10px}
+p{margin:0 0 12px}
+.sub{color:var(--muted)}
+.dl{display:block;margin:12px 0;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--field);color:var(--text);text-decoration:none}
+.dl:hover{border-color:var(--red)}
+.dl:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.dl b{display:block;font:600 16px/1.2 var(--display);color:var(--red)}
+.dl small{display:block;margin-top:4px;color:var(--muted);font-size:13px}
+.dl code{font:11.5px/1.3 var(--mono);color:var(--faint);word-break:break-all}
+.msg{color:var(--muted)}
+.msg.err{color:var(--err)}
+ol{padding-left:22px;margin:0 0 12px}
+li{margin:0 0 8px}
+pre{font:13px/1.4 var(--mono);background:var(--field);border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;margin:8px 0 12px}
+.note{font-size:14px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="logo" href="../" aria-label="Fork home">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#DCE5EE"/><path d="M14 22a14 14 0 0 0 0 16M50 22a14 14 0 0 1 0 16" stroke="var(--red)" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M24 14v14a8 8 0 0 0 16 0V14M32 36v14" stroke="var(--red)" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="32" cy="51" r="3.5" fill="var(--red)"/></svg>
+    Fork
+  </a>
+</header>
+<main>
+  <div class="card">
+    <h1>Download Fork Studio</h1>
+    <p class="sub" id="sub">Beta for macOS. Checking the latest version…</p>
+    <div id="files"></div>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+
+    <h2>Opening it the first time</h2>
+    <p>Fork Studio isn’t notarized by Apple yet, so macOS asks you to confirm the first time you open it. You only do this once. After that it opens like any other app, and updates arrive inside the app.</p>
+    <ol>
+      <li><b>Move it to Applications.</b> Open the downloaded zip and drag <b>Fork Studio</b> into your <b>Applications</b> folder.</li>
+      <li><b>Try to open it.</b> macOS says it can’t verify the app. That’s expected. Click <b>Done</b>.</li>
+      <li><b>Allow it.</b> Go to <b>System Settings, Privacy &amp; Security</b>, scroll to the Security section and click <b>Open Anyway</b> next to Fork Studio.</li>
+      <li><b>Confirm.</b> Click <b>Open Anyway</b> once more and enter your password or use Touch ID.</li>
+    </ol>
+    <p class="note">Don’t see Open Anyway? It shows for about an hour after the first attempt. Open Fork Studio again, then go back to Privacy &amp; Security.</p>
+    <p class="note">Prefer Terminal? This clears the downloaded-from-the-internet flag:</p>
+    <pre>xattr -dr com.apple.quarantine "/Applications/Fork Studio.app"</pre>
+  </div>
+</main>
+<script>
+// A página só mostra o que a release publicada diz: cada ficheiro vem de uma linha
+// <!-- fork-release: {...} --> nas notas da release mais recente (scripts/publish_release.sh).
+// Sem release ou sem a linha, diz-o; nunca se inventa um ficheiro.
+const REPO = 'timenet-cell/fork-studio-releases';
+const PREFIXO = 'https://github.com/' + REPO + '/releases/download/';
+const $ = id => document.getElementById(id);
+const NOMES = { arm64: 'Apple silicon (M1 and newer)', universal: 'Intel and Apple silicon' };
+function tamanho(n) { return n >= 1e9 ? (n / 1e9).toFixed(2) + ' GB' : Math.round(n / 1e6) + ' MB'; }
+function erro(t) { $('sub').textContent = 'Beta for macOS.'; $('msg').className = 'msg err'; $('msg').textContent = t; }
+(async function () {
+  let rel;
+  try {
+    const r = await fetch('https://api.github.com/repos/' + REPO + '/releases/latest', { headers: { Accept: 'application/vnd.github+json' } });
+    if (r.status === 404) return erro('The beta isn’t published yet. Check back soon.');
+    if (!r.ok) throw new Error(String(r.status));
+    rel = await r.json();
+  } catch (e) {
+    return erro('Couldn’t load the latest version. Try again in a few minutes.');
+  }
+  const metas = [];
+  for (const m of String(rel.body || '').matchAll(/<!--\s*fork-release:\s*(\{.*?\})\s*-->/g)) {
+    try { metas.push(JSON.parse(m[1])); } catch (e) { /* linha estragada: ignora-se */ }
+  }
+  let n = 0;
+  for (const meta of metas) {
+    const a = (rel.assets || []).find(x => x.name === meta.file);
+    if (!a || typeof a.browser_download_url !== 'string' || !a.browser_download_url.startsWith(PREFIXO)) continue;
+    const l = document.createElement('a'); l.className = 'dl'; l.href = a.browser_download_url;
+    const t = document.createElement('b'); t.textContent = 'Download for ' + (NOMES[meta.arch] || meta.arch);
+    const s = document.createElement('small'); s.textContent = 'Version ' + meta.version + ' · ' + tamanho(meta.size) + (meta.min_macos ? ' · macOS ' + meta.min_macos + ' or later' : '');
+    const h = document.createElement('code'); h.textContent = 'SHA-256 ' + meta.sha256;
+    l.append(t, s, h); $('files').appendChild(l); n++;
+  }
+  if (!n) return erro('The latest release has no downloadable file yet.');
+  $('sub').textContent = 'Beta for macOS. Not sure which one? The universal download works on every supported computer.';
+})();
+</script>
+</body>
+</html>

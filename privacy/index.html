@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Privacy Notice - Fork</title>
+<style>:root{color-scheme:light dark}body{font:16px/1.6 -apple-system,BlinkMacSystemFont,"Inter",sans-serif;max-width:760px;margin:40px auto;padding:0 16px;background:#EEF3F8;color:#15181c}@media (prefers-color-scheme:dark){body{background:#15181c;color:#e8edf2}}h1{font-size:28px}h2{font-size:19px;margin-top:28px}blockquote{margin:0;padding:8px 14px;border-left:3px solid #2e9e5b}a{color:inherit}</style></head>
+<body><h1>Fork - Privacy Notice (version 0.1 draft, 3 November 2026)</h1>
+<p>This notice explains what personal data Fork handles, in line with the EU General Data Protection Regulation (GDPR). Fork is provided by the operator named in the Terms and Conditions (hello@forkgate.io).</p>
+<h2>1. What our servers keep</h2>
+<p>Your account (email, username); for each project you share, its name, members and version history; invitations; purchases and payments (processed by Stripe); and the data the Terms describe. Your music and project files are not uploaded to our servers.</p>
+<h2>2. The Fork Ledger</h2>
+<ul>
+<li><strong>Never written to a ledger entry:</strong> names, emails, stage names, user ids, IP addresses, contract text, file or project names, prices paid, or splits in clear.</li>
+<li><strong>What is written:</strong> a public key (yours, pseudonymous), fingerprints (hashes), dates, counts, and salted commitments that only reveal anything to someone you give the salt to.</li>
+<li><strong>The link to you</strong> (which account owns which key), the salts and the names stay off the ledger, in our database and on your devices.</li>
+<li><strong>Public and permanent.</strong> Ledger entries and their daily seal on a public blockchain cannot be edited or deleted.</li>
+</ul>
+<h2>3. Erasing your data</h2>
+<p>When you delete your account we delete the off-ledger data: the link between your account and your keys, the salts, and the names. Entries already on the ledger stay, without that link; we may also tell network devices to drop the bodies of your entries, keeping only their 32-byte identifiers so other people's proofs still verify. Whether a key and a salted commitment remain personal data once the link is deleted is an open legal question; we have not yet had it answered.</p>
+<h2>4. Backups</h2>
+<p>Database backups are encrypted, spread over the Fork network and kept at most 6 months. Accounts you deleted are deleted again when a backup is restored.</p>
+<h2>5. Credits and invitations</h2>
+<p>When you credit someone by email, the ledger only records a salted commitment, so the email cannot be guessed from it. The email is used to send the invitation, valid for 14 days.</p>
+<h2>6. Error and bug reports</h2>
+<ul>
+<li><strong>Error reports</strong> (on by default during the beta; turn them off in Settings › General › Error reports): when something breaks, the app sends the error type, the message and the stack trace, the app name and build, and your operating system. Before anything leaves your computer, folders, emails, keys, ids, IP addresses, links and quoted names are removed. Your files, project names and other personal data are never sent.</li>
+<li><strong>Bug reports</strong> (only when you use Report a bug): the text you write, the app name and build, your operating system and, only if you tick Include log, the recent lines of the app's log, cleaned the same way.</li>
+<li>Reports are stored in our database so the team can fix the problem and answer you in the app's Inbox. Without a connection a report waits on your computer (at most 20) and is sent when you are back online.</li>
+</ul>
+<h2>7. Your rights</h2>
+<p>You can ask to access, correct, export or delete your personal data at hello@forkgate.io.</p><p style="margin-top:40px;font-size:13px;opacity:.7"><a href="/">forkgate.io</a> · <a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a></p></body></html>
