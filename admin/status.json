@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T13:22:31+00:00",
+  "updated": "2026-11-17T10:02:55+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -869,10 +869,10 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-16T13:22:31+00:00"
+    "updated": "2026-11-17T10:02:55+00:00"
   },
   "control": {
-    "generated_at": "2026-11-16 13:22:22",
+    "generated_at": "2026-11-17 10:02:37",
     "blocks": [
       {
         "n": 1,
@@ -912,22 +912,22 @@
       {
         "n": 6,
         "name": "ACCOUNTS",
-        "status": "RED",
-        "passed": 2,
+        "status": "GREEN",
+        "passed": 3,
         "total": 3
       },
       {
         "n": 7,
         "name": "CLOUD RECORDS",
-        "status": "RED",
-        "passed": 2,
+        "status": "GREEN",
+        "passed": 4,
         "total": 4
       },
       {
         "n": 8,
         "name": "MONEY (test mode)",
-        "status": "RED",
-        "passed": 2,
+        "status": "GREEN",
+        "passed": 3,
         "total": 3
       },
       {
@@ -961,9 +961,9 @@
     ]
   },
   "backup": {
-    "last_good_at": "2026-11-16T00:02:10Z",
-    "age_h": 13.3,
-    "last_run_at": "2026-11-16T00:02:10Z",
+    "last_good_at": "2026-11-17T04:00:01Z",
+    "age_h": 6.0,
+    "last_run_at": "2026-11-17T04:00:01Z",
     "last_result": "ok",
     "status": "OK"
   }
