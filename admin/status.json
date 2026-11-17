@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T11:23:21+00:00",
+  "updated": "2026-11-17T11:23:28+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -868,7 +868,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 84,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 83.7% (169 of 202 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 17-11 11:23 · smoothness last measured 15-11 07:44 (STALE) · agents: 3 agents running on the terminal account in parallel: w-beta-conta-nativo w-beta-arranque w-beta-sec",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 83.7% (170 of 203 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 17-11 11:23 · smoothness last measured 15-11 07:44 (STALE) · agents: 3 agents running on the terminal account in parallel: w-beta-conta-nativo w-beta-arranque w-beta-sec",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -918,14 +918,14 @@
     "phase_pct": 83.7,
     "agents": "3 agents running on the terminal account in parallel: w-beta-conta-nativo w-beta-arranque w-beta-sec",
     "controls": {
-      "proven": 169,
+      "proven": 170,
       "tested": 29,
       "realwin": 2,
       "fixed": 2,
       "built": 0,
       "broken": 0,
       "missing": 0,
-      "total": 202
+      "total": 203
     },
     "proof_blocked": null,
     "controls_note": "The list is closed at 206 rows (204 counted, 2 closed as not applicable).",
@@ -934,7 +934,7 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T11:23:21+00:00"
+    "updated": "2026-11-17T11:23:28+00:00"
   },
   "control": {
     "generated_at": "2026-11-17 10:04:54",
