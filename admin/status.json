@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T13:13:17+00:00",
+  "updated": "2026-11-17T13:23:21+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -868,7 +868,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 85,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 85.2% (173 of 203 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 17-11 11:56 · smoothness last measured 15-11 07:44 (STALE) · agents: paused by the terminal account usage limit, resume at 3:40pm",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 85.2% (173 of 203 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 17-11 11:56 · smoothness last measured 15-11 07:44 (STALE) · agents: waiting in queue (w-beta-junta)",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -916,7 +916,7 @@
     "works_pct": 85.2,
     "phase": "Looks 94.6% (screens identical to the Studio)",
     "phase_pct": 85.2,
-    "agents": "paused by the terminal account usage limit, resume at 3:40pm",
+    "agents": "waiting in queue (w-beta-junta)",
     "controls": {
       "proven": 173,
       "tested": 26,
@@ -934,7 +934,7 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T13:13:17+00:00"
+    "updated": "2026-11-17T13:23:21+00:00"
   },
   "control": {
     "generated_at": "2026-11-17 10:04:54",
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-17T04:00:01Z",
-    "age_h": 9.2,
+    "age_h": 9.4,
     "last_run_at": "2026-11-17T04:00:01Z",
     "last_result": "ok",
     "status": "OK"
