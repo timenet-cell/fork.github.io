@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T10:09:46+00:00",
+  "updated": "2026-11-17T10:20:14+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -315,8 +315,8 @@
     },
     {
       "t": "Older shared version: newer one flagged",
-      "p": 95,
-      "s": "Merged. WAITS ON THE OWNER: his OK to create a second test account for the two-account check; then the CEO runs it.",
+      "p": 100,
+      "s": "Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
@@ -822,8 +822,8 @@
     },
     {
       "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
-      "p": 97,
-      "s": "Done. It really ran on the owner library on 13 Nov 17:56, when B560 first started, before his approval (given 14 Nov). Proven read-only 14 Nov: 487 projects before and after, 0 rows lost, 0 folders moved, 283 song keys set (428 -> 432 songs), branches and saved versions unchanged. A pinned backup of 12 Nov and a one-line undo exist. 13 of his own songs with unusual mix names stay separate (safe default). From now on no build changes real data at startup without a logged switch. GAP found 14 Nov: 4 pairs where the plain title also exists (Cool Kids / Cool Kids 001, This Feeling / This Feeling2, Timebender / Timebender 005, Sem Cenas / Sem Cenas 2) were split and are probably one song; the rule fix is queued (dry run only, then the CEO decides). The other 5 splits are numbered sketch series, correctly separate.",
+      "p": 100,
+      "s": "Done. Ran on the owner library 13 Nov (487 projects, 0 lost). The 4 split pairs (Cool Kids / 001, This Feeling / 2, Timebender / 005, Sem Cenas / 2) were fixed on 15 Nov 11:50 after a dry run, with a pinned backup and a one-line undo; nothing else changed. Numbered sketch series stay separate. The native app still needs the same rule.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta"
