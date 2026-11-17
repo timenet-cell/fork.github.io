@@ -1096,7 +1096,7 @@ function stModulos() {
       `<div style="display:flex;flex-wrap:wrap;gap:6px">${ns.map(n => `<span title="${esc(n.description || n.purpose || '')}" style="display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);font:13px/1.2 var(--sans)">${esc(n.label)} ${arBadge(n.status)}</span>`).join('')}</div>`).join('') +
     '</details>';
 }
-// A conversao para app nativa (Rust + GPUI): status.json.native, escrito a cada 10 min pelo CEO; a pagina rele a cada 10 min.
+// A conversao para app nativa (Rust + GPUI): status.json.native, escrito a cada 10 min pelo CEO; a pagina rele a cada minuto (17-11: o dono via o painel parado).
 // A copia diaria da base da nuvem (15-11): idade e ultimo resultado; mais de 48 h ou uma falha = FAIL, nunca calado.
 function bkDesenha(b) {
   const el = $('bc-bk'); if (!el) return;
@@ -1136,7 +1136,7 @@ function nvConvDesenha(n) {
   $('nv-conv-upd').textContent = n.updated ? 'Updated ' + new Date(n.updated).toLocaleString() : '';
 }
 const nvRele = () => { if (!document.hidden && !$('v-dash').classList.contains('hidden')) estado(); };
-setInterval(nvRele, 600000);
+setInterval(nvRele, 60000);
 // No telefone a pagina fica parada em segundo plano (o intervalo nao corre): ao voltar a ela, rele logo.
 document.addEventListener('visibilitychange', nvRele); window.addEventListener('focus', nvRele); window.addEventListener('pageshow', nvRele);
 async function estado() {
