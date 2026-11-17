@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T11:02:23+00:00",
+  "updated": "2026-11-17T11:12:29+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -868,7 +868,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 83,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 83.3% (170 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 16-11 08:03 (STALE) · smoothness last measured 15-11 07:44 (STALE) · agents: 3 agents running on the terminal account in parallel: w-beta-conta w-beta-arranque w-beta-sec",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 83.3% (170 of 204 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 16-11 08:03 (STALE) · smoothness last measured 15-11 07:44 (STALE) · agents: 2 agents running on the terminal account in parallel: w-beta-arranque w-beta-sec",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -916,7 +916,7 @@
     "works_pct": 83.3,
     "phase": "Looks 94.6% (screens identical to the Studio)",
     "phase_pct": 83.3,
-    "agents": "3 agents running on the terminal account in parallel: w-beta-conta w-beta-arranque w-beta-sec",
+    "agents": "2 agents running on the terminal account in parallel: w-beta-arranque w-beta-sec",
     "controls": {
       "proven": 170,
       "tested": 30,
@@ -934,7 +934,7 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T11:02:23+00:00"
+    "updated": "2026-11-17T11:12:29+00:00"
   },
   "control": {
     "generated_at": "2026-11-17 10:04:54",
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-17T04:00:01Z",
-    "age_h": 7.0,
+    "age_h": 7.2,
     "last_run_at": "2026-11-17T04:00:01Z",
     "last_result": "ok",
     "status": "OK"
