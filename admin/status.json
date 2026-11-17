@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T12:53:10+00:00",
+  "updated": "2026-11-17T13:03:13+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -934,7 +934,7 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T12:53:10+00:00"
+    "updated": "2026-11-17T13:03:13+00:00"
   },
   "control": {
     "generated_at": "2026-11-17 10:04:54",
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-17T04:00:01Z",
-    "age_h": 8.9,
+    "age_h": 9.1,
     "last_run_at": "2026-11-17T04:00:01Z",
     "last_result": "ok",
     "status": "OK"
