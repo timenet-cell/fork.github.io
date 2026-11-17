@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T14:23:41+00:00",
+  "updated": "2026-11-17T14:26:22+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -868,7 +868,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 85,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 85.2% (173 of 203 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 17-11 11:56 · smoothness last measured 15-11 07:44 (STALE) · agents: waiting in queue (w-beta-junta)",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 85.2% (173 of 203 controls checked in the real app) · smooth 44 of 45 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 17-11 11:56 · smoothness last measured 15-11 07:44 (STALE) · agents: idle, queue empty",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -916,7 +916,7 @@
     "works_pct": 85.2,
     "phase": "Looks 94.6% (screens identical to the Studio)",
     "phase_pct": 85.2,
-    "agents": "waiting in queue (w-beta-junta)",
+    "agents": "idle, queue empty",
     "controls": {
       "proven": 173,
       "tested": 26,
@@ -934,7 +934,7 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T14:23:41+00:00"
+    "updated": "2026-11-17T14:26:22+00:00"
   },
   "control": {
     "generated_at": "2026-11-17 13:25:50",
@@ -942,8 +942,8 @@
       {
         "n": 1,
         "name": "DATA",
-        "status": "RED",
-        "passed": 4,
+        "status": "GREEN",
+        "passed": 5,
         "total": 5
       },
       {
