@@ -1,13 +1,17 @@
 {
-  "updated": "2026-11-17T10:31:43+00:00",
+  "updated": "2026-11-17T10:32:16+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
-      "p": 90,
-      "s": "code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script",
+      "p": 100,
+      "s": "Checked automatically 2026-11-16 13:22: 1 of 1 checks pass · code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script",
       "prio": 1,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "money.subscription"
+      ],
+      "note": "code done · site pages /pro and /pro/done built (not pushed) · admin Subscriptions box built · left: Stripe account + owner script"
     },
     {
       "t": "forkgate.io /pro and /pro/done pages + admin Subscriptions list (Accounts tab)",
@@ -75,35 +79,55 @@
     },
     {
       "t": "Encryption: AES-256 fragments",
-      "p": 92,
-      "s": "Code done; rehearsal on a copy passed 14 Nov (sealing uses about 0.56 GB more disk). WAITS ON THE OWNER: export his artist key (Settings > Identity > Artist key > Export) before the real switch, because sealing has no reverse path without that key.",
+      "p": 50,
+      "s": "Checked automatically 2026-11-16 01:28: 1 of 2 checks pass (failing: rights.sealed_on) · Code done; rehearsal on a copy passed 14 Nov (sealing uses about 0.56 GB more disk). WAITS ON THE OWNER: export his artist key (Settings > Identity > Artist key > Export) before the real switch, because sealing has no reverse path without that key.",
       "prio": 1,
       "app": "Fork Network",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "rights.sealed_on",
+        "sec.4_crypto"
+      ],
+      "note": "Code done; rehearsal on a copy passed 14 Nov (sealing uses about 0.56 GB more disk). WAITS ON THE OWNER: export his artist key (Settings > Identity > Artist key > Export) before the real switch, because sealing has no reverse path without that key."
     },
     {
       "t": "Store: Stripe + Solana licence registry",
-      "p": 99,
-      "s": "Devnet ready; test buyer account created 14 Nov and signs in. WAITS ON THE OWNER: one click, paying the test checkout with Stripe's test card (the CEO may not type card numbers on Stripe's page); then the CEO runs the checks.",
+      "p": 100,
+      "s": "Checked automatically 2026-11-16 13:22: 1 of 1 checks pass · Devnet ready; test buyer account created 14 Nov and signs in. WAITS ON THE OWNER: one click, paying the test checkout with Stripe's test card (the CEO may not type card numbers on Stripe's page); then the CEO runs the checks.",
       "prio": 1,
       "app": "Fork Music",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "money.purchase"
+      ],
+      "note": "Devnet ready; test buyer account created 14 Nov and signs in. WAITS ON THE OWNER: one click, paying the test checkout with Stripe's test card (the CEO may not type card numbers on Stripe's page); then the CEO runs the checks."
     },
     {
       "t": "WIP fan passes (off-chain, revocable)",
       "p": 100,
-      "s": "17 Nov: real test PASS. The owner Studio issued pass #1 on the shared WIP Groovy House (by computer use), the test fan account saw it, then it was revoked and cleaned up. Invite bug found on the way: a slow courtesy email made the app say \"Can't reach the cloud\" with the invite already created; fixed (email capped at 10 s) and deployed.",
+      "s": "Checked automatically 2026-11-17 10:02: 1 of 1 checks pass · 17 Nov: real test PASS. The owner Studio issued pass #1 on the shared WIP Groovy House (by computer use), the test fan account saw it, then it was revoked and cleaned up. Invite bug found on the way: a slow courtesy email made the app say \"Can't reach the cloud\" with the invite already created; fixed (email capped at 10 s) and deployed.",
       "prio": 1,
       "app": "Fork Music",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "money.fan_pass"
+      ],
+      "note": "17 Nov: real test PASS. The owner Studio issued pass #1 on the shared WIP Groovy House (by computer use), the test fan account saw it, then it was revoked and cleaned up. Invite bug found on the way: a slow courtesy email made the app say \"Can't reach the cloud\" with the invite already created; fixed (email capped at 10 s) and deployed."
     },
     {
       "t": "Swarm: 10 GB reserve, recent projects, 3 copies",
-      "p": 99,
-      "s": "Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test.",
+      "p": 75,
+      "s": "Checked automatically 2026-11-16 01:27: 3 of 4 checks pass (failing: swarm.real_two_computers) · Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test.",
       "prio": 1,
       "app": "Fork Network",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "swarm.device_to_device_tests",
+        "swarm.reach_relay_binary",
+        "swarm.path_audit",
+        "swarm.real_two_computers"
+      ],
+      "note": "Decentralised swarm: Supabase is the tracker (database and admin); pieces travel between devices, each downloading from several peers. 14 Nov: the 13 reach tests pass (certified devices only, hole punch to direct). WAITS ON HARDWARE: a real router and iPhone test."
     },
     {
       "t": "Fork Music: distribution + streaming",
@@ -243,11 +267,16 @@
     },
     {
       "t": "Artist key backup + restore",
-      "p": 97,
-      "s": "17 Nov: the account-sealed key backup is live in the database (migration 101, owner-only, Fork cannot open it) and link_artist_key is deployed; the native app with this is pushed (372 tests pass). 14 Nov: backup and restore proven with the real system keychain tool on throwaway keychains (new-computer restore, old key kept aside). WAITS ON THE OWNER: the Keychain prompt check with the signed app on his computer.",
+      "p": 50,
+      "s": "Checked automatically 2026-11-17 10:04: 1 of 2 checks pass (failing: rights.key_exported) · 17 Nov: the account-sealed key backup is live in the database (migration 101, owner-only, Fork cannot open it) and link_artist_key is deployed; the native app with this is pushed (372 tests pass). 14 Nov: backup and restore proven with the real system keychain tool on throwaway keychains (new-computer restore, old key kept aside). WAITS ON THE OWNER: the Keychain prompt check with the signed app on his computer.",
       "prio": 1,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "rights.export_restore_test",
+        "rights.key_exported"
+      ],
+      "note": "17 Nov: the account-sealed key backup is live in the database (migration 101, owner-only, Fork cannot open it) and link_artist_key is deployed; the native app with this is pushed (372 tests pass). 14 Nov: backup and restore proven with the real system keychain tool on throwaway keychains (new-computer restore, old key kept aside). WAITS ON THE OWNER: the Keychain prompt check with the signed app on his computer."
     },
     {
       "t": "Fork Music: Network tab",
@@ -275,11 +304,16 @@
     },
     {
       "t": "Phone over P2P: browse, palette, sample search",
-      "p": 93,
-      "s": "14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS).",
+      "p": 50,
+      "s": "Checked automatically 2026-11-16 01:25: 1 of 2 checks pass (failing: direct.real_device) · 14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS).",
       "prio": 2,
       "app": "Fork Network",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "direct.tunnel_e2e",
+        "direct.real_device"
+      ],
+      "note": "14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS)."
     },
     {
       "t": "Public version in systemBlue",
@@ -291,11 +325,16 @@
     },
     {
       "t": "P2P upload speed",
-      "p": 93,
-      "s": "14 Nov: local benches pass (upload 115-233 Mbit/s on emulated links) and a real browser (headless Chrome) runs the phone tunnel against the real host at 322-477 Mbit/s, byte-exact. WAITS ON HARDWARE: a real phone on a real router with 2+ computers.",
+      "p": 100,
+      "s": "Checked automatically 2026-11-16 01:25: 2 of 2 checks pass · 14 Nov: local benches pass (upload 115-233 Mbit/s on emulated links) and a real browser (headless Chrome) runs the phone tunnel against the real host at 322-477 Mbit/s, byte-exact. WAITS ON HARDWARE: a real phone on a real router with 2+ computers.",
       "prio": 2,
       "app": "Fork Network",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "direct.no_turn",
+        "direct.tunnel_e2e"
+      ],
+      "note": "14 Nov: local benches pass (upload 115-233 Mbit/s on emulated links) and a real browser (headless Chrome) runs the phone tunnel against the real host at 322-477 Mbit/s, byte-exact. WAITS ON HARDWARE: a real phone on a real router with 2+ computers."
     },
     {
       "t": "Cold white brand",
@@ -307,19 +346,28 @@
     },
     {
       "t": "Report a bug (all apps)",
-      "p": 97,
-      "s": "14 Nov: tested end to end in all four apps (report lands with app id, version and scrubbed log; offline queue; cross-site refused). Left: one try in the built app, done in the CEO real-app pass.",
+      "p": 100,
+      "s": "Checked automatically 2026-11-16 22:49: 2 of 2 checks pass · 14 Nov: tested end to end in all four apps (report lands with app id, version and scrubbed log; offline queue; cross-site refused). Left: one try in the built app, done in the CEO real-app pass.",
       "prio": 2,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "cloud.error_reports",
+        "std.reports_scrubbed"
+      ],
+      "note": "14 Nov: tested end to end in all four apps (report lands with app id, version and scrubbed log; offline queue; cross-site refused). Left: one try in the built app, done in the CEO real-app pass."
     },
     {
       "t": "Older shared version: newer one flagged",
       "p": 100,
-      "s": "Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54.",
+      "s": "Checked automatically 2026-11-17 09:53: 1 of 1 checks pass · Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54.",
       "prio": 2,
       "app": "Fork Studio",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "cloud.invite"
+      ],
+      "note": "Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54."
     },
     {
       "t": "Database: migrations 71 + 72",
@@ -340,10 +388,15 @@
     {
       "t": "Real-device tests",
       "p": 0,
-      "s": "Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
+      "s": "Checked automatically 2026-11-16 01:24: 0 of 2 checks pass (failing: direct.real_device, swarm.real_two_computers) · Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
       "prio": 1,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "direct.real_device",
+        "swarm.real_two_computers"
+      ],
+      "note": "Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you"
     },
     {
       "t": "Phone: uncatalogued pack sounds",
@@ -790,11 +843,19 @@
     },
     {
       "t": "Beta release B560: packages built, feed and site page staged",
-      "p": 90,
-      "s": "Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish. The publish step also creates the public release feed repos for Fork Music, Labels and Manager.",
+      "p": 20,
+      "s": "Checked automatically 2026-11-16 01:24: 1 of 5 checks pass (failing: dist.update_local_feed, dist.signed_updater, dist.feed_published, dist.site_gate) · Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish. The publish step also creates the public release feed repos for Fork Music, Labels and Manager.",
       "prio": 1,
       "app": "Platform",
-      "phase": "beta"
+      "phase": "beta",
+      "ctl": [
+        "dist.fresh_install",
+        "dist.update_local_feed",
+        "dist.signed_updater",
+        "dist.feed_published",
+        "dist.site_gate"
+      ],
+      "note": "Staged 13 Nov 19:05: arm64 and universal zips, updater package and feed for B560, verified (version 0.560.0, no Python files, compiled server answers on both chips). WAITS ON THE OWNER: sign the updater package with his key (one command, beta-firmar.sh) and OK the publish. The publish step also creates the public release feed repos for Fork Music, Labels and Manager."
     },
     {
       "t": "Server shipped as a compiled binary (Nuitka), no readable Python",
@@ -814,11 +875,15 @@
     },
     {
       "t": "Native app smoothness gate (frame time per screen)",
-      "p": 60,
-      "s": "Palette Creator star map moved to the GPU: typical frame 83 ms to 4.4 ms, worst 100 ms to 7.6 ms. Sweep of finished screens: most pass under 8.3 ms typical; projects list and Sounds being fixed.",
+      "p": 100,
+      "s": "Checked automatically 2026-11-16 01:24: 1 of 1 checks pass · Palette Creator star map moved to the GPU: typical frame 83 ms to 4.4 ms, worst 100 ms to 7.6 ms. Sweep of finished screens: most pass under 8.3 ms typical; projects list and Sounds being fixed.",
       "prio": 3,
       "app": "Fork Studio",
-      "phase": "alpha"
+      "phase": "alpha",
+      "ctl": [
+        "ui.smoothness"
+      ],
+      "note": "Palette Creator star map moved to the GPU: typical frame 83 ms to 4.4 ms, worst 100 ms to 7.6 ms. Sweep of finished screens: most pass under 8.3 ms typical; projects list and Sounds being fixed."
     },
     {
       "t": "Import: one song = one project (DAW backups as versions, alternatives as branches, remixes as forks)",
@@ -869,7 +934,7 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-17T10:31:43+00:00"
+    "updated": "2026-11-17T10:32:16+00:00"
   },
   "control": {
     "generated_at": "2026-11-17 10:04:54",
