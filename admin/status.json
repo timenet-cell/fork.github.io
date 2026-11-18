@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18T19:23:48+00:00",
+  "updated": "2026-11-18T19:33:51+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -868,7 +868,7 @@
     {
       "t": "Native app conversion (Rust + GPUI)",
       "p": 100,
-      "s": "Looks 94.6% (screens identical to the Studio) · Works 100.0% (203 of 203 controls checked in the real app) · smooth 38 of 44 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 18-11 16:12 · smoothness last measured 18-11 17:33 · agents: idle, queue empty",
+      "s": "Looks 94.6% (screens identical to the Studio) · Works 100.0% (203 of 203 controls checked in the real app) · smooth 42 of 44 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 18-11 16:12 · smoothness last measured 18-11 19:31 · agents: idle, queue empty",
       "prio": 3,
       "app": "Fork Studio",
       "phase": "alpha"
@@ -931,10 +931,10 @@
     "controls_note": "The list is closed at 206 rows (204 counted, 2 closed as not applicable).",
     "smooth": {
       "measured": 44,
-      "passed": 38,
+      "passed": 42,
       "worst_ms": null
     },
-    "updated": "2026-11-18T19:23:48+00:00"
+    "updated": "2026-11-18T19:33:51+00:00"
   },
   "control": {
     "generated_at": "2026-11-18 16:19:37",
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-18T16:18:49Z",
-    "age_h": 3.1,
+    "age_h": 3.3,
     "last_run_at": "2026-11-18T16:18:49Z",
     "last_result": "ok",
     "status": "OK"
