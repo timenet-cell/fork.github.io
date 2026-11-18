@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18T07:39:37+00:00",
+  "updated": "2026-11-18T07:41:45+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -304,8 +304,8 @@
     },
     {
       "t": "Phone over P2P: browse, palette, sample search",
-      "p": 50,
-      "s": "Checked automatically 2026-11-17 23:14: 1 of 2 checks pass (failing: direct.real_device) · 14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS).",
+      "p": 100,
+      "s": "Checked automatically 2026-11-18 07:41: 2 of 2 checks pass · 14 Nov: browse, sample search, palette rename and streamed audio pass through the real tunnel in a real browser. WAITS ON HARDWARE: a real phone (Safari/iOS).",
       "prio": 2,
       "app": "Fork Network",
       "phase": "beta",
@@ -387,8 +387,8 @@
     },
     {
       "t": "Real-device tests",
-      "p": 0,
-      "s": "Checked automatically 2026-11-17 23:13: 0 of 2 checks pass (failing: direct.real_device, swarm.real_two_computers) · Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
+      "p": 50,
+      "s": "Checked automatically 2026-11-18 07:41: 1 of 2 checks pass (failing: swarm.real_two_computers) · Two computers with two accounts, a real phone (uploads, palette, sample search, Get latest), Report a bug and Get latest in the next build, WIP pass test · needs you",
       "prio": 1,
       "app": "Platform",
       "phase": "beta",
@@ -934,10 +934,10 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-18T07:39:37+00:00"
+    "updated": "2026-11-18T07:41:45+00:00"
   },
   "control": {
-    "generated_at": "2026-11-17 23:33:26",
+    "generated_at": "2026-11-18 07:41:42",
     "blocks": [
       {
         "n": 1,
@@ -963,8 +963,8 @@
       {
         "n": 4,
         "name": "DIRECT P2P (phone to own computer)",
-        "status": "RED",
-        "passed": 2,
+        "status": "GREEN",
+        "passed": 3,
         "total": 3
       },
       {
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-18T07:08:30Z",
-    "age_h": 0.5,
+    "age_h": 0.6,
     "last_run_at": "2026-11-18T07:08:30Z",
     "last_result": "ok",
     "status": "OK"
