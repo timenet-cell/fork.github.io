@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18T08:50:01+00:00",
+  "updated": "2026-11-18T08:55:10+00:00",
   "tasks": [
     {
       "t": "Pro subscription 2.99 €/month: Stripe checkout, portal, webhook, Account settings row (merged; owner: Stripe account + one script)",
@@ -360,7 +360,7 @@
     {
       "t": "Older shared version: newer one flagged",
       "p": 100,
-      "s": "Checked automatically 2026-11-18 08:36: 1 of 1 checks pass · Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54.",
+      "s": "Checked automatically 2026-11-18 08:55: 1 of 1 checks pass · Done. Real two-account check PASS 17 Nov 09:53: the owner shared Gabi Groove with the test account, which accepted; after a 2nd save, version 1 showed \"A newer version exists (Version 2)\". Test member removed 09:54.",
       "prio": 2,
       "app": "Fork Studio",
       "phase": "beta",
@@ -934,10 +934,10 @@
       "passed": 44,
       "worst_ms": null
     },
-    "updated": "2026-11-18T08:50:01+00:00"
+    "updated": "2026-11-18T08:55:10+00:00"
   },
   "control": {
-    "generated_at": "2026-11-18 08:36:42",
+    "generated_at": "2026-11-18 08:55:09",
     "blocks": [
       {
         "n": 1,
@@ -1027,7 +1027,7 @@
   },
   "backup": {
     "last_good_at": "2026-11-18T07:08:30Z",
-    "age_h": 1.7,
+    "age_h": 1.8,
     "last_run_at": "2026-11-18T07:08:30Z",
     "last_result": "ok",
     "status": "OK"
