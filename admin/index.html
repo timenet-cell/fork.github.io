@@ -506,7 +506,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div id="sv-list"></div>
     </div>
     <div id="t-netcap" class="hidden">
-      <p class="nc-note">Each desktop, Free or Pro, chooses its seed in Fork Studio (a slider from the minimum to the maximum seed) and earns P2P cloud at its plan's ratio. Capacity is the sum of the seeds plus the founder nodes; demand is the sum of the cloud everyone earned. Real numbers come from the database; the settings are platform settings; "What if" is a separate simulator that never saves anything.</p>
+      <p class="nc-note">Each desktop, Free or Pro, chooses its seed in Fork Studio (a slider from the minimum to the maximum seed) and earns P2P cloud at its plan's ratio. Real capacity is the sum of the seeds the machines report (a founder machine counts by what it reports, like any other); demand is the sum of the cloud everyone earned. Real numbers come from the database; the settings are platform settings; the founder-node settings only feed "What if", a separate simulator that never saves anything.</p>
       <div id="nc-err" class="msg" role="status" aria-live="polite"></div>
       <div class="box" style="margin-bottom:12px">
         <h2 class="nc-h">Real network</h2>
@@ -1600,29 +1600,29 @@ function mdRender(md, titulo) {
 
 // ── Network capacity (migracoes 64, 65 e 105): numeros reais (admin_network_capacity), definicoes (platform_settings) e simulador ──
 // NC-PURE-BEGIN (testado em admin/netcap.test.js)
-// A rede real (migracao 105): o seed que cada maquina reporta (vistas nos ultimos 30 dias) + os fundadores; as de build antiga
+// A rede real (migracao 105): so o seed que cada maquina reporta (vistas nos ultimos 30 dias); as de build antiga
 // contam pelo free_bytes. Nunca contas x seed minimo: uma conta sem maquina nao da nada. GB = 1e9 bytes, como nos Seeders.
+// Os fundadores das definicoes (bootstrap_nodes x bootstrap_node_gb) nao sao maquinas: so entram no simulador "What if".
 const NC = (() => {
   const GB = 1e9;
   const n1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
   const temReal = a => !!a && ['hosts_recent', 'hosts_reported', 'hosts_old', 'seed_bytes_reported', 'free_bytes_old',
     'contrib_bytes_free', 'contrib_bytes_pro'].every(k => a[k] !== undefined && a[k] !== null);
   function real(a, q, beta) {
-    const fundadores = q['network.bootstrap_nodes'] * q['network.bootstrap_node_gb'];
     const cF = (+a.contrib_bytes_free || 0) / GB, cP = (+a.contrib_bytes_pro || 0) / GB;
     const rF = Math.max(1, q['network.cloud_ratio_free']);
     const rP = beta ? rF : Math.max(1, q['network.cloud_ratio_pro']);
-    const S = cF + cP + fundadores, D = cF / rF + cP / rP;
+    const S = cF + cP, D = cF / rF + cP / rP;
     const R = S / Math.max(D, 1);
     const T = R > 0 ? Math.max(0, (1 - 1 / R) * 100) : 0;
     const estado = R < 3 ? ['Critical', 'nc-crit'] : R <= 6 ? ['Stable', 'nc-ok'] : ['Excellent', 'nc-exc'];
-    return { S, D, R, T, estado, fundadores, reportado: (+a.seed_bytes_reported || 0) / GB, antigo: (+a.free_bytes_old || 0) / GB,
+    return { S, D, R, T, estado, reportado: (+a.seed_bytes_reported || 0) / GB, antigo: (+a.free_bytes_old || 0) / GB,
              maquinas: +a.hosts_recent || 0, reportam: +a.hosts_reported || 0, antigas: +a.hosts_old || 0, dias: +a.window_days || 30 };
   }
   function origem(c) {
     const pl = (n, s) => n.toLocaleString('en-US') + ' ' + s + (n === 1 ? '' : 's');
-    let t = `Capacity is the seed each desktop reports (${pl(c.maquinas, 'machine')} seen in the last ${c.dias} days: ${n1(c.reportado)} GB) ` +
-            `plus the founder nodes (${n1(c.fundadores)} GB). Accounts without a machine add nothing.`;
+    let t = `Capacity is the seed each desktop reports (${pl(c.maquinas, 'machine')} seen in the last ${c.dias} days: ${n1(c.reportado)} GB). ` +
+            `A founder machine counts by what it reports, like any other; the founder-node settings only feed "What if". Accounts without a machine add nothing.`;
     if (c.antigas) t += ` ${pl(c.antigas, 'machine')} ${c.antigas === 1 ? 'runs' : 'run'} an older build that doesn't report ${c.antigas === 1 ? 'its' : 'their'} seed: counted by the free space ${c.antigas === 1 ? 'it reports' : 'they report'} (${n1(c.antigo)} GB).`;
     return t + ' Demand is that capacity divided by each owner\'s plan ratio. R shows how many full copies of all P2P cloud data could fit, not the copies that really exist (the swarm keeps 3).';
   }
@@ -1673,7 +1673,7 @@ const NC = (() => {
     const c = NC.real(real.a, cotas, el('nc-beta').checked), U = real.total_users, Upro = real.pro_users;
     el('nc-real').innerHTML =
       kpi(c.maquinas.toLocaleString('en-US'), `machines seen in the last ${c.dias} days · ${c.reportam.toLocaleString('en-US')} report their seed · ${U.toLocaleString('en-US')} accounts (${Upro.toLocaleString('en-US')} Pro)`) +
-      kpi(n1(c.S) + ' GB', `total seed capacity (${n1(c.reportado)} reported + ${c.antigas ? n1(c.antigo) + ' older builds + ' : ''}${n1(c.fundadores)} founder nodes)`) +
+      kpi(n1(c.S) + ' GB', `total seed capacity (${n1(c.reportado)} reported${c.antigas ? ' + ' + n1(c.antigo) + ' older builds' : ''})`) +
       kpi(n1(c.D) + ' GB', 'P2P cloud demand (Free + Pro)') +
       kpi(n2(c.R) + '×', 'redundancy R · churn tolerance ' + n1(c.T) + '%') +
       kpi(c.estado[0], 'swarm health (R < 3 critical, 3–6 stable, > 6 excellent)', c.estado[1]);
