@@ -274,6 +274,8 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .sd-nr{font-size:12px;color:var(--faint)}
 .sd-on{display:inline-block;width:8px;height:8px;border-radius:99px;background:var(--grid);margin-right:6px;vertical-align:middle}
 .sd-on.yes{background:#2E7D32}
+.sd-off-h td{font-size:12px;font-weight:600;color:var(--faint);padding-top:16px}
+.sd-off td{font-size:12.5px;color:var(--faint)}
 @media print{#t-seeders{display:none!important}}
 .ac-plano{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .ac-plano button{font:inherit;font-size:12px;padding:4px 10px;border:0;background:transparent;color:var(--muted);cursor:pointer}
@@ -506,12 +508,13 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div id="sv-list"></div>
     </div>
     <div id="t-netcap" class="hidden">
-      <p class="nc-note">Each desktop, Free or Pro, chooses its seed in Fork Studio (a slider from the minimum to the maximum seed) and earns P2P cloud at its plan's ratio. Real capacity is the sum of the seeds the machines report (a founder machine counts by what it reports, like any other); demand is the sum of the cloud everyone earned. Real numbers come from the database; the settings are platform settings; the founder-node settings only feed the Simulator, which never saves anything.</p>
+      <p class="nc-note">Each desktop, Free or Pro, chooses its seed in Fork Studio (a slider from the minimum to the maximum seed) and earns P2P cloud at its plan's ratio. Real capacity is the sum of the seeds the machines online now report (a founder machine counts by what it reports, like any other); demand is the sum of the cloud everyone earned. Real numbers come from the database; the settings are platform settings; the founder-node settings only feed the Simulator, which never saves anything.</p>
       <div id="nc-err" class="msg" role="status" aria-live="polite"></div>
       <div class="box" style="margin-bottom:12px">
-        <h2 class="nc-h">Real network</h2>
+        <h2 class="nc-h">Real network · online now</h2>
         <div class="nc-kpis" id="nc-real"></div>
         <div class="nc-honest" id="nc-src"></div>
+        <div class="nc-honest" id="nc-hist"></div>
       </div>
       <div class="nc-grid">
         <div class="box">
@@ -545,7 +548,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       </div>
     </div>
     <div id="t-seeders" class="hidden">
-      <p class="nc-note">What each user gives the network: the seed chosen in Fork Studio and how much of it is already in use, summed over the user's machines. Click a user to see each machine. The bar is green below 70 %, amber from 70 % and red from 90 %. A machine on an older build doesn't send these numbers and shows "Not reported". Online = a heartbeat in the last 15 minutes.</p>
+      <p class="nc-note">What each user gives the network: the seed chosen in Fork Studio and how much of it is already in use, summed over the user's machines. Click a user to see each machine. The bar is green below 70 %, amber from 70 % and red from 90 %. A machine on an older build doesn't send these numbers and shows "Not reported". Only machines online now (a heartbeat in the last 10 minutes) count in the totals; offline machines are listed below in grey, with when they were last seen, and add nothing.</p>
       <div id="sd-err" class="msg" role="status" aria-live="polite"></div>
       <div class="box">
         <div class="tabhead"><h2 style="margin:0">Seeders <small id="sd-count"></small></h2></div>
@@ -1600,33 +1603,43 @@ function mdRender(md, titulo) {
 
 // ── Network capacity (migracoes 64, 65 e 105): numeros reais (admin_network_capacity), definicoes (platform_settings) e simulador ──
 // NC-PURE-BEGIN (testado em admin/netcap.test.js)
-// A rede real (migracao 105): so o seed que cada maquina reporta (vistas nos ultimos 30 dias); as de build antiga
-// contam pelo free_bytes. Nunca contas x seed minimo: uma conta sem maquina nao da nada. GB = 1e9 bytes, como nos Seeders.
+// A rede real (migracoes 105 e 106): o numero principal e ONLINE NOW (batimento ha <= 10 min); so o seed que cada maquina
+// reporta, as de build antiga pelo free_bytes. O mesmo PC reinstalado (chave de aparelho nova) deixava de somar 2 vezes.
+// Os 30 dias ficam numa linha de historico a parte. Nunca contas x seed minimo. GB = 1e9 bytes, como nos Seeders.
 // Os fundadores das definicoes (bootstrap_nodes x bootstrap_node_gb) nao sao maquinas: so entram no Simulator.
 const NC = (() => {
   const GB = 1e9;
   const n1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
-  const temReal = a => !!a && ['hosts_recent', 'hosts_reported', 'hosts_old', 'seed_bytes_reported', 'free_bytes_old',
-    'contrib_bytes_free', 'contrib_bytes_pro'].every(k => a[k] !== undefined && a[k] !== null);
+  const pl = (n, s) => n.toLocaleString('en-US') + ' ' + s + (n === 1 ? '' : 's');
+  const CAMPOS = ['hosts_recent', 'hosts_reported', 'hosts_old', 'seed_bytes_reported', 'free_bytes_old', 'contrib_bytes_free', 'contrib_bytes_pro',
+    'online_minutes', 'online_hosts', 'online_hosts_reported', 'online_hosts_old', 'online_seed_bytes_reported', 'online_free_bytes_old',
+    'online_contrib_bytes_free', 'online_contrib_bytes_pro'];
+  const temReal = a => !!a && CAMPOS.every(k => a[k] !== undefined && a[k] !== null);
   function real(a, q, beta) {
-    const cF = (+a.contrib_bytes_free || 0) / GB, cP = (+a.contrib_bytes_pro || 0) / GB;
+    const cF = (+a.online_contrib_bytes_free || 0) / GB, cP = (+a.online_contrib_bytes_pro || 0) / GB;
     const rF = Math.max(1, q['network.cloud_ratio_free']);
     const rP = beta ? rF : Math.max(1, q['network.cloud_ratio_pro']);
     const S = cF + cP, D = cF / rF + cP / rP;
     const R = S / Math.max(D, 1);
     const T = R > 0 ? Math.max(0, (1 - 1 / R) * 100) : 0;
     const estado = R < 3 ? ['Critical', 'nc-crit'] : R <= 6 ? ['Stable', 'nc-ok'] : ['Excellent', 'nc-exc'];
-    return { S, D, R, T, estado, reportado: (+a.seed_bytes_reported || 0) / GB, antigo: (+a.free_bytes_old || 0) / GB,
-             maquinas: +a.hosts_recent || 0, reportam: +a.hosts_reported || 0, antigas: +a.hosts_old || 0, dias: +a.window_days || 30 };
+    return { S, D, R, T, estado, reportado: (+a.online_seed_bytes_reported || 0) / GB, antigo: (+a.online_free_bytes_old || 0) / GB,
+             maquinas: +a.online_hosts || 0, reportam: +a.online_hosts_reported || 0, antigas: +a.online_hosts_old || 0,
+             minutos: +a.online_minutes || 10 };
+  }
+  // A linha do historico: as maquinas vistas nos ultimos N dias (uma reinstalada conta 2 vezes aqui, por isso nao manda).
+  function historico(a) {
+    const dias = +a.window_days || 30, total = ((+a.contrib_bytes_free || 0) + (+a.contrib_bytes_pro || 0)) / GB;
+    return `History, not live: ${pl(+a.hosts_recent || 0, 'machine key')} seen in the last ${dias} days, ${n1(total)} GB between them. ` +
+           `A reinstalled computer gets a new key and appears twice here, so this number is never the capacity.`;
   }
   function origem(c) {
-    const pl = (n, s) => n.toLocaleString('en-US') + ' ' + s + (n === 1 ? '' : 's');
-    let t = `Capacity is the seed each desktop reports (${pl(c.maquinas, 'machine')} seen in the last ${c.dias} days: ${n1(c.reportado)} GB). ` +
+    let t = `Capacity is the seed each desktop online now reports (${pl(c.maquinas, 'machine')} with a heartbeat in the last ${c.minutos} minutes: ${n1(c.reportado)} GB). ` +
             `A founder machine counts by what it reports, like any other; the founder-node settings only feed the Simulator. Accounts without a machine add nothing.`;
     if (c.antigas) t += ` ${pl(c.antigas, 'machine')} ${c.antigas === 1 ? 'runs' : 'run'} an older build that doesn't report ${c.antigas === 1 ? 'its' : 'their'} seed: counted by the free space ${c.antigas === 1 ? 'it reports' : 'they report'} (${n1(c.antigo)} GB).`;
     return t + ' Demand is that capacity divided by each owner\'s plan ratio. R shows how many full copies of all P2P cloud data could fit, not the copies that really exist (the swarm keeps 3).';
   }
-  return { real, origem, temReal, n1 };
+  return { real, origem, historico, temReal, n1 };
 })();
 // NC-PURE-END
 (() => {
@@ -1672,12 +1685,13 @@ const NC = (() => {
   function cartoesReais() {
     const c = NC.real(real.a, cotas, el('nc-beta').checked), U = real.total_users, Upro = real.pro_users;
     el('nc-real').innerHTML =
-      kpi(c.maquinas.toLocaleString('en-US'), `machines seen in the last ${c.dias} days · ${c.reportam.toLocaleString('en-US')} report their seed · ${U.toLocaleString('en-US')} accounts (${Upro.toLocaleString('en-US')} Pro)`) +
-      kpi(n1(c.S) + ' GB', `total seed capacity (${n1(c.reportado)} reported${c.antigas ? ' + ' + n1(c.antigo) + ' older builds' : ''})`) +
+      kpi(c.maquinas.toLocaleString('en-US'), `machines online now (heartbeat in the last ${c.minutos} min) · ${c.reportam.toLocaleString('en-US')} report their seed · ${U.toLocaleString('en-US')} accounts (${Upro.toLocaleString('en-US')} Pro)`) +
+      kpi(n1(c.S) + ' GB', `seed capacity online now (${n1(c.reportado)} reported${c.antigas ? ' + ' + n1(c.antigo) + ' older builds' : ''})`) +
       kpi(n1(c.D) + ' GB', 'P2P cloud demand (Free + Pro)') +
       kpi(n2(c.R) + '×', 'redundancy R · churn tolerance ' + n1(c.T) + '%') +
       kpi(c.estado[0], 'swarm health (R < 3 critical, 3–6 stable, > 6 excellent)', c.estado[1]);
     el('nc-src').textContent = NC.origem(c);
+    el('nc-hist').textContent = NC.historico(real.a);
   }
   function mostra() {
     cartoesReais();
@@ -1700,10 +1714,10 @@ const NC = (() => {
       if (b.error) throw new Error('Could not load the quotas: ' + b.error.message);
       cotas = {}; for (const r of b.data || []) cotas[r.key] = +r.value;
       if (CHAVES.some(([k]) => !(k in cotas))) throw new Error('Waiting for the database update (supabase db push, migrations 64 and 65).');
-      if (!NC.temReal(a.data)) throw new Error('Waiting for the database update (supabase db push, migration 105).');
+      if (!NC.temReal(a.data)) throw new Error('Waiting for the database update (supabase db push, migration 106).');
       real = { total_users: +a.data.total_users || 0, pro_users: +a.data.pro_users || 0, a: a.data };
       mostra();
-    } catch (e) { real = null; el('nc-real').innerHTML = ''; el('nc-src').textContent = ''; el('nc-err').textContent = e.message || 'Could not load.'; }
+    } catch (e) { real = null; el('nc-real').innerHTML = ''; el('nc-src').textContent = ''; el('nc-hist').textContent = ''; el('nc-err').textContent = e.message || 'Could not load.'; }
     finally { carregando = false; }
   }
   el('nc-save').onclick = async () => {
@@ -1722,7 +1736,7 @@ const NC = (() => {
   ['nc-w-users', 'nc-w-pro', 'nc-w-nodes', 'nc-w-sf', 'nc-w-sp'].forEach(id => el(id).addEventListener('input', simula));
   el('tab-netcap').addEventListener('click', () => { if (real === null) carrega(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-netcap').classList.contains('hidden')) carrega(); else real = null; });
-  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { real = null; el('nc-real').innerHTML = ''; el('nc-src').textContent = ''; el('nc-what').innerHTML = ''; } });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { real = null; el('nc-real').innerHTML = ''; el('nc-src').textContent = ''; el('nc-hist').textContent = ''; el('nc-what').innerHTML = ''; } });
 })();
 
 // ── Seeders (migracao 104): admin_seeders(), uma linha por utilizador e, ao abrir, cada maquina ──
@@ -1748,29 +1762,48 @@ const SD = (() => {
     return new Date(seg * 1000).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   }
   const horas = s => (Math.round((+s || 0) / 360) / 10).toLocaleString('en-US') + ' h';
-  // seed/used do utilizador: so as maquinas que os reportam; nenhuma = Not reported (nunca 0 inventado)
+  // seed/used do utilizador (migracao 106): so as maquinas ONLINE que os reportam; nenhuma = Not reported (nunca 0 inventado)
   const valor = (v, rep) => rep > 0 && v != null ? gb(+v) : nr;
+  const data = seg => new Date(seg * 1000).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const peer = d => h(String(d.peer_id || '').slice(0, 16)) + '…';
+  // Online = batimento ha <= 10 min. A tabela de cima so tem quem esta online e so as maquinas online entram nas contas;
+  // as paradas vao para baixo, a cinzento, com "last seen <data>", fora dos totais.
   function render(lista, abertos, agora) {
-    if (!lista.length) return '<tr><td colspan="7" class="empty">No machines on the network yet</td></tr>';
-    return lista.map((u, i) => {
-      const rep = +u.reported || 0, maq = +u.machines || 0;
+    const on = lista.filter(u => (+u.machines_online || 0) > 0);
+    const paradas = [];
+    for (const u of lista) for (const d of u.devices || []) if (!d.online) paradas.push({ u, d });
+    paradas.sort((x, y) => (+y.d.last_seen || 0) - (+x.d.last_seen || 0));
+    let html = on.length ? on.map(u => {
+      const rep = +u.reported || 0, maq = +u.machines_online || 0;
       const parcial = rep > 0 && rep < maq ? ` <span class="sd-nr">(${rep} of ${maq} reporting)</span>` : '';
       const nome = u.username ? h(u.username) : '<span class="sd-nr">no username</span>';
       const aberto = abertos.has(u.user_id);
-      let html = `<tr class="sd-row" data-u="${h(u.user_id)}" aria-expanded="${aberto}"><td>${aberto ? '▾' : '▸'} <span class="sd-on${u.online ? ' yes' : ''}" title="${u.online ? 'Online' : 'Offline'}"></span>${nome}</td>
+      let r = `<tr class="sd-row" data-u="${h(u.user_id)}" aria-expanded="${aberto}"><td>${aberto ? '▾' : '▸'} <span class="sd-on yes" title="Online"></span>${nome}</td>
         <td class="sd-num">${maq}</td><td class="sd-num">${valor(u.seed_bytes, rep)}</td><td class="sd-num">${valor(u.used_bytes, rep)}${parcial}</td>
         <td>${rep > 0 ? barra(+u.used_bytes, +u.seed_bytes) : nr}</td><td>${quando(u.last_seen, agora)}</td><td class="sd-num">${horas(u.online_secs)}</td></tr>`;
-      if (aberto) html += (u.devices || []).map(d => `<tr class="sd-dev"><td><span class="sd-on${d.online ? ' yes' : ''}"></span>${h(String(d.peer_id || '').slice(0, 16))}…</td>
+      if (aberto) r += (u.devices || []).filter(d => d.online).map(d => `<tr class="sd-dev"><td><span class="sd-on yes"></span>${peer(d)}</td>
         <td></td><td class="sd-num">${d.seed_bytes == null ? nr : gb(+d.seed_bytes)}</td><td class="sd-num">${d.used_bytes == null ? nr : gb(+d.used_bytes)}</td>
         <td>${d.seed_bytes == null || d.used_bytes == null ? nr : barra(+d.used_bytes, +d.seed_bytes)}</td><td>${quando(d.last_seen, agora)}</td><td class="sd-num">${horas(d.online_secs)}</td></tr>`).join('');
-      return html;
-    }).join('');
+      return r;
+    }).join('') : `<tr><td colspan="7" class="empty">${lista.length ? 'No machines online now' : 'No machines on the network yet'}</td></tr>`;
+    if (paradas.length) {
+      html += `<tr class="sd-off-h"><td colspan="7">Offline · not counted in the totals (${paradas.length})</td></tr>`;
+      html += paradas.map(({ u, d }) => `<tr class="sd-off"><td><span class="sd-on"></span>${u.username ? h(u.username) : 'no username'} · ${peer(d)}</td>
+        <td></td><td class="sd-num">${d.seed_bytes == null ? 'Not reported' : gb(+d.seed_bytes)}</td><td></td><td></td>
+        <td>last seen ${d.last_seen == null ? '—' : data(d.last_seen)}</td><td class="sd-num">${horas(d.online_secs)}</td></tr>`).join('');
+    }
+    return html;
   }
   function conta(lista) {
-    const maq = lista.reduce((a, u) => a + (+u.machines || 0), 0), on = lista.filter(u => u.online).length;
-    return `${lista.length} user${lista.length === 1 ? '' : 's'} · ${maq} machine${maq === 1 ? '' : 's'} · ${on} online`;
+    const on = lista.filter(u => (+u.machines_online || 0) > 0);
+    const maq = on.reduce((a, u) => a + (+u.machines_online || 0), 0);
+    const seed = on.reduce((a, u) => a + (u.seed_bytes == null ? 0 : +u.seed_bytes), 0);
+    const off = lista.reduce((a, u) => a + (+u.machines || 0) - (+u.machines_online || 0), 0);
+    return `online now: ${on.length} user${on.length === 1 ? '' : 's'} · ${maq} machine${maq === 1 ? '' : 's'} · ${gb(seed)} seed` +
+           (off ? ` · ${off} offline` : '');
   }
-  return { gb, nivel, barra, quando, horas, render, conta };
+  const temOnline = lista => lista.every(u => u.machines_online !== undefined);
+  return { gb, nivel, barra, quando, horas, render, conta, temOnline };
 })();
 // SD-PURE-END
 (() => {
@@ -1782,7 +1815,9 @@ const SD = (() => {
     const { data: d, error } = await sb.rpc('admin_seeders');
     if (error) { lista = null; el('sd-rows').innerHTML = ''; el('sd-count').textContent = ''; el('sd-err').textContent = error.code === 'PGRST202' || /could not find the function/i.test(error.message || '')
       ? 'Waiting for the database update (supabase db push, migration 104).' : 'Could not load the seeders: ' + error.message; return; }
-    lista = Array.isArray(d) ? d : []; desenha();
+    lista = Array.isArray(d) ? d : [];
+    if (!SD.temOnline(lista)) { lista = null; el('sd-rows').innerHTML = ''; el('sd-count').textContent = ''; el('sd-err').textContent = 'Waiting for the database update (supabase db push, migration 106).'; return; }
+    desenha();
   }
   el('sd-rows').addEventListener('click', ev => {
     const r = ev.target.closest('tr.sd-row'); if (!r || !lista) return;

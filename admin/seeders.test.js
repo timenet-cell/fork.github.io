@@ -17,34 +17,54 @@ test('a barra: verde < 70 %, ambar 70-90 %, vermelho >= 90 %', () => {
 
 test('vazio diz que nao ha maquinas', () => {
   assert(SD.render([], new Set(), agora).includes('No machines on the network yet'));
-  assert.strictEqual(SD.conta([]), '0 users · 0 machines · 0 online');
+  assert.strictEqual(SD.conta([]), 'online now: 0 users · 0 machines · 0.0 GB seed');
 });
 
 const lista = [
-  { user_id: 'b', username: '<bia>', machines: 2, reported: 1, seed_bytes: 20e9, used_bytes: 5e9, last_seen: s - 120, online: true, online_secs: 900,
+  { user_id: 'b', username: '<bia>', machines: 2, machines_online: 1, reported: 1, seed_bytes: 20e9, used_bytes: 5e9, last_seen: s - 120, online: true, online_secs: 900,
     devices: [{ peer_id: 'S'.repeat(40), seed_bytes: 20e9, used_bytes: 5e9, last_seen: s - 120, online: true, online_secs: 600 },
               { peer_id: 'T'.repeat(40), seed_bytes: null, used_bytes: null, last_seen: s - 3600, online: false, online_secs: 300 }] },
-  { user_id: 'o', username: 'old', machines: 1, reported: 0, seed_bytes: null, used_bytes: null, last_seen: s - 86400 * 3, online: false, online_secs: 7200,
+  { user_id: 'o', username: 'old', machines: 1, machines_online: 0, reported: 0, seed_bytes: null, used_bytes: null, last_seen: s - 86400 * 3, online: false, online_secs: 7200,
     devices: [{ peer_id: 'U'.repeat(40), seed_bytes: null, used_bytes: null, last_seen: s - 86400 * 3, online: false, online_secs: 7200 }] },
 ];
 
-test('uma linha por utilizador; build antiga = Not reported, nunca 0', () => {
+test('em cima so quem esta online; as maquinas paradas em baixo, a cinzento, fora dos totais', () => {
   const html = SD.render(lista, new Set(), agora);
-  assert.strictEqual((html.match(/class="sd-row"/g) || []).length, 2);
+  assert.strictEqual((html.match(/class="sd-row"/g) || []).length, 1, 'so a bia esta online');
   assert(!html.includes('sd-dev'), 'fechadas: sem maquinas');
   assert(html.includes('&lt;bia&gt;'), 'escapa HTML');
-  assert(html.includes('20.0 GB') && html.includes('5.0 GB') && html.includes('(1 of 2 reporting)'));
+  assert(html.includes('20.0 GB') && html.includes('5.0 GB'));
   assert(html.includes('2 min ago') && html.includes('0.3 h'));
-  const old = html.slice(html.indexOf('data-u="o"'));
-  assert(old.includes('Not reported') && !old.includes('0.0 GB'));
-  assert.strictEqual(SD.conta(lista), '2 users · 3 machines · 1 online');
+  const off = html.slice(html.indexOf('sd-off-h'));
+  assert(off.includes('Offline · not counted in the totals (2)'));
+  assert.strictEqual((off.match(/class="sd-off"/g) || []).length, 2);
+  assert(off.includes('last seen ') && off.includes('2026'), 'last seen <data>');
+  assert(off.indexOf('TTTT') < off.indexOf('UUUU'), 'a mais recente primeiro');
+  assert(!html.slice(0, html.indexOf('sd-off-h')).includes('TTTT'), 'a parada da bia nao fica em cima');
+  assert.strictEqual(SD.conta(lista), 'online now: 1 user · 1 machine · 20.0 GB seed · 2 offline');
 });
 
-test('abrir a linha mostra cada maquina com a sua barra', () => {
+test('o mesmo PC reinstalado: a chave velha parada nao soma', () => {
+  const dig = [{ user_id: 'd', username: 'digger909', machines: 2, machines_online: 1, reported: 1, seed_bytes: 107e9, used_bytes: 1e9,
+    last_seen: s - 60, online: true, online_secs: 100,
+    devices: [{ peer_id: 'A'.repeat(40), seed_bytes: 107e9, used_bytes: 1e9, last_seen: s - 60, online: true, online_secs: 50 },
+              { peer_id: 'B'.repeat(40), seed_bytes: 107e9, used_bytes: 2e9, last_seen: s - 86400 * 2, online: false, online_secs: 50 }] }];
+  const html = SD.render(dig, new Set(['d']), agora);
+  assert.strictEqual((html.match(/class="sd-dev"/g) || []).length, 1, 'aberto: so a maquina online');
+  assert.strictEqual(SD.conta(dig), 'online now: 1 user · 1 machine · 107.0 GB seed · 1 offline');
+  assert(!html.includes('214'));
+});
+
+test('ninguem online: diz-o, e as paradas continuam em baixo', () => {
+  const html = SD.render([lista[1]], new Set(), agora);
+  assert(html.includes('No machines online now') && html.includes('sd-off'));
+  assert(SD.temOnline(lista) && !SD.temOnline([{ machines: 1 }]));
+});
+
+test('abrir a linha mostra cada maquina online com a sua barra', () => {
   const html = SD.render(lista, new Set(['b']), agora);
-  assert.strictEqual((html.match(/class="sd-dev"/g) || []).length, 2);
+  assert.strictEqual((html.match(/class="sd-dev"/g) || []).length, 1);
   assert(html.includes('aria-expanded="true"'));
   const dev = html.slice(html.indexOf('class="sd-dev"'));
   assert(dev.includes('SSSSSSSSSSSSSSSS…') && dev.includes('width:25.0%'));
-  assert(dev.slice(dev.indexOf('TTTT')).includes('Not reported') && dev.includes('1 h ago'));
 });
