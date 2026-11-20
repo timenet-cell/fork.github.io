@@ -506,7 +506,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div id="sv-list"></div>
     </div>
     <div id="t-netcap" class="hidden">
-      <p class="nc-note">Each desktop, Free or Pro, chooses its seed in Fork Studio (a slider from the minimum to the maximum seed) and earns P2P cloud at its plan's ratio. Real capacity is the sum of the seeds the machines report (a founder machine counts by what it reports, like any other); demand is the sum of the cloud everyone earned. Real numbers come from the database; the settings are platform settings; the founder-node settings only feed "What if", a separate simulator that never saves anything.</p>
+      <p class="nc-note">Each desktop, Free or Pro, chooses its seed in Fork Studio (a slider from the minimum to the maximum seed) and earns P2P cloud at its plan's ratio. Real capacity is the sum of the seeds the machines report (a founder machine counts by what it reports, like any other); demand is the sum of the cloud everyone earned. Real numbers come from the database; the settings are platform settings; the founder-node settings only feed the Simulator, which never saves anything.</p>
       <div id="nc-err" class="msg" role="status" aria-live="polite"></div>
       <div class="box" style="margin-bottom:12px">
         <h2 class="nc-h">Real network</h2>
@@ -521,7 +521,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
           <div class="nc-act"><button id="nc-save" type="button" disabled>Save settings</button><span id="nc-saved" class="note"></span></div>
         </div>
         <div class="box">
-          <h2 class="nc-h">What if</h2>
+          <h2 class="nc-h">Simulator</h2>
           <div class="nc-set">
             <label for="nc-w-users">Total users</label><input id="nc-w-users" type="number" min="0" step="1">
             <label for="nc-w-pro">Pro users (%)</label><input id="nc-w-pro" type="number" min="0" max="100" step="1">
@@ -1602,7 +1602,7 @@ function mdRender(md, titulo) {
 // NC-PURE-BEGIN (testado em admin/netcap.test.js)
 // A rede real (migracao 105): so o seed que cada maquina reporta (vistas nos ultimos 30 dias); as de build antiga
 // contam pelo free_bytes. Nunca contas x seed minimo: uma conta sem maquina nao da nada. GB = 1e9 bytes, como nos Seeders.
-// Os fundadores das definicoes (bootstrap_nodes x bootstrap_node_gb) nao sao maquinas: so entram no simulador "What if".
+// Os fundadores das definicoes (bootstrap_nodes x bootstrap_node_gb) nao sao maquinas: so entram no Simulator.
 const NC = (() => {
   const GB = 1e9;
   const n1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
@@ -1622,7 +1622,7 @@ const NC = (() => {
   function origem(c) {
     const pl = (n, s) => n.toLocaleString('en-US') + ' ' + s + (n === 1 ? '' : 's');
     let t = `Capacity is the seed each desktop reports (${pl(c.maquinas, 'machine')} seen in the last ${c.dias} days: ${n1(c.reportado)} GB). ` +
-            `A founder machine counts by what it reports, like any other; the founder-node settings only feed "What if". Accounts without a machine add nothing.`;
+            `A founder machine counts by what it reports, like any other; the founder-node settings only feed the Simulator. Accounts without a machine add nothing.`;
     if (c.antigas) t += ` ${pl(c.antigas, 'machine')} ${c.antigas === 1 ? 'runs' : 'run'} an older build that doesn't report ${c.antigas === 1 ? 'its' : 'their'} seed: counted by the free space ${c.antigas === 1 ? 'it reports' : 'they report'} (${n1(c.antigo)} GB).`;
     return t + ' Demand is that capacity divided by each owner\'s plan ratio. R shows how many full copies of all P2P cloud data could fit, not the copies that really exist (the swarm keeps 3).';
   }
