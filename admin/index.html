@@ -261,6 +261,20 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 .nc-honest{font-size:12px;color:var(--muted);margin-top:10px;padding:8px 10px;border-left:3px solid var(--grid)}
 @media (max-width:900px){.nc-grid{grid-template-columns:1fr}.nc-kpis{grid-template-columns:repeat(2,1fr)}}
 @media print{#t-netcap{display:none!important}}
+/* ── Seeders (migracao 104): prefixo sd- ── */
+.sd-row{cursor:pointer}
+.sd-row:hover td{background:var(--grid)}
+.sd-dev td{font-size:12.5px;color:var(--muted)}
+.sd-dev td:first-child{padding-left:28px}
+.sd-num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sd-bar{height:10px;min-width:120px;background:var(--grid);border-radius:99px;overflow:hidden}
+.sd-bar i{display:block;height:100%;background:#2E7D32;border-radius:99px}
+.sd-bar i.amber{background:#E8A200}.sd-bar i.red{background:#C5221F}
+.sd-pct{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sd-nr{font-size:12px;color:var(--faint)}
+.sd-on{display:inline-block;width:8px;height:8px;border-radius:99px;background:var(--grid);margin-right:6px;vertical-align:middle}
+.sd-on.yes{background:#2E7D32}
+@media print{#t-seeders{display:none!important}}
 .ac-plano{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .ac-plano button{font:inherit;font-size:12px;padding:4px 10px;border:0;background:transparent;color:var(--muted);cursor:pointer}
 .ac-plano button.on{background:var(--neg,#d0453a);color:#fff}
@@ -423,6 +437,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <button data-tab="t-services" id="tab-services" type="button">Services</button>
       <button data-tab="t-survey" id="tab-survey" type="button">Survey</button>
       <button data-tab="t-netcap" id="tab-netcap" type="button">Network capacity</button>
+      <button data-tab="t-seeders" id="tab-seeders" type="button">Seeders</button>
       <button data-tab="t-accounts" id="tab-accounts" type="button">Accounts</button>
       <button data-tab="t-qa" id="tab-qa" type="button">QA</button>
       <button data-tab="t-sitetabs" id="tab-sitetabs" type="button">Site tabs</button>
@@ -496,7 +511,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="box" style="margin-bottom:12px">
         <h2 class="nc-h">Real network</h2>
         <div class="nc-kpis" id="nc-real"></div>
-        <div class="nc-honest">Fork Studio doesn't report each desktop's chosen seed yet, so this assumes every user seeds the minimum — the worst case. R shows how many full copies of all P2P cloud data could fit, not the copies that really exist (the swarm keeps 3).</div>
+        <div class="nc-honest" id="nc-src"></div>
       </div>
       <div class="nc-grid">
         <div class="box">
@@ -527,6 +542,14 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
         <div class="tabhead"><h2 style="margin:0">Responses <small id="sy-count"></small></h2><button class="sec" id="sy-csv" type="button" disabled>Export CSV</button></div>
         <div class="scroll"><table><thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Space</th><th>Fork Free</th><th>Pro €2.99</th><th>Comment</th></tr></thead><tbody id="sy-rows"></tbody></table></div>
         <div id="sy-more" class="note"></div>
+      </div>
+    </div>
+    <div id="t-seeders" class="hidden">
+      <p class="nc-note">What each user gives the network: the seed chosen in Fork Studio and how much of it is already in use, summed over the user's machines. Click a user to see each machine. The bar is green below 70 %, amber from 70 % and red from 90 %. A machine on an older build doesn't send these numbers and shows "Not reported". Online = a heartbeat in the last 15 minutes.</p>
+      <div id="sd-err" class="msg" role="status" aria-live="polite"></div>
+      <div class="box">
+        <div class="tabhead"><h2 style="margin:0">Seeders <small id="sd-count"></small></h2></div>
+        <div class="scroll"><table><thead><tr><th>User</th><th class="sd-num">Machines</th><th class="sd-num">Seed</th><th class="sd-num">In use</th><th>Used / seed</th><th>Last online</th><th class="sd-num">Hours online</th></tr></thead><tbody id="sd-rows"></tbody></table></div>
       </div>
     </div>
     <div id="t-accounts" class="hidden">
@@ -1575,7 +1598,37 @@ function mdRender(md, titulo) {
   sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') limpa(); });
 })();
 
-// ── Network capacity (migracoes 64 e 65): numeros reais (admin_network_capacity), definicoes (platform_settings) e simulador ──
+// ── Network capacity (migracoes 64, 65 e 105): numeros reais (admin_network_capacity), definicoes (platform_settings) e simulador ──
+// NC-PURE-BEGIN (testado em admin/netcap.test.js)
+// A rede real (migracao 105): o seed que cada maquina reporta (vistas nos ultimos 30 dias) + os fundadores; as de build antiga
+// contam pelo free_bytes. Nunca contas x seed minimo: uma conta sem maquina nao da nada. GB = 1e9 bytes, como nos Seeders.
+const NC = (() => {
+  const GB = 1e9;
+  const n1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
+  const temReal = a => !!a && ['hosts_recent', 'hosts_reported', 'hosts_old', 'seed_bytes_reported', 'free_bytes_old',
+    'contrib_bytes_free', 'contrib_bytes_pro'].every(k => a[k] !== undefined && a[k] !== null);
+  function real(a, q, beta) {
+    const fundadores = q['network.bootstrap_nodes'] * q['network.bootstrap_node_gb'];
+    const cF = (+a.contrib_bytes_free || 0) / GB, cP = (+a.contrib_bytes_pro || 0) / GB;
+    const rF = Math.max(1, q['network.cloud_ratio_free']);
+    const rP = beta ? rF : Math.max(1, q['network.cloud_ratio_pro']);
+    const S = cF + cP + fundadores, D = cF / rF + cP / rP;
+    const R = S / Math.max(D, 1);
+    const T = R > 0 ? Math.max(0, (1 - 1 / R) * 100) : 0;
+    const estado = R < 3 ? ['Critical', 'nc-crit'] : R <= 6 ? ['Stable', 'nc-ok'] : ['Excellent', 'nc-exc'];
+    return { S, D, R, T, estado, fundadores, reportado: (+a.seed_bytes_reported || 0) / GB, antigo: (+a.free_bytes_old || 0) / GB,
+             maquinas: +a.hosts_recent || 0, reportam: +a.hosts_reported || 0, antigas: +a.hosts_old || 0, dias: +a.window_days || 30 };
+  }
+  function origem(c) {
+    const pl = (n, s) => n.toLocaleString('en-US') + ' ' + s + (n === 1 ? '' : 's');
+    let t = `Capacity is the seed each desktop reports (${pl(c.maquinas, 'machine')} seen in the last ${c.dias} days: ${n1(c.reportado)} GB) ` +
+            `plus the founder nodes (${n1(c.fundadores)} GB). Accounts without a machine add nothing.`;
+    if (c.antigas) t += ` ${pl(c.antigas, 'machine')} ${c.antigas === 1 ? 'runs' : 'run'} an older build that doesn't report ${c.antigas === 1 ? 'its' : 'their'} seed: counted by the free space ${c.antigas === 1 ? 'it reports' : 'they report'} (${n1(c.antigo)} GB).`;
+    return t + ' Demand is that capacity divided by each owner\'s plan ratio. R shows how many full copies of all P2P cloud data could fit, not the copies that really exist (the swarm keeps 3).';
+  }
+  return { real, origem, temReal, n1 };
+})();
+// NC-PURE-END
 (() => {
   const el = id => document.getElementById(id);
   const CHAVES = [['network.seed_min_gb', 'Minimum seed (GB)'], ['network.seed_max_gb', 'Maximum seed (GB)'],
@@ -1616,8 +1669,18 @@ function mdRender(md, titulo) {
     const q = Object.assign(lerCotas(), { 'network.bootstrap_nodes': Math.max(0, Math.round(+el('nc-w-nodes').value || 0)) });
     cartoes('nc-what', U, Math.round(U * P / 100), q, +el('nc-w-sf').value || 0, +el('nc-w-sp').value || 0);
   }
+  function cartoesReais() {
+    const c = NC.real(real.a, cotas, el('nc-beta').checked), U = real.total_users, Upro = real.pro_users;
+    el('nc-real').innerHTML =
+      kpi(c.maquinas.toLocaleString('en-US'), `machines seen in the last ${c.dias} days · ${c.reportam.toLocaleString('en-US')} report their seed · ${U.toLocaleString('en-US')} accounts (${Upro.toLocaleString('en-US')} Pro)`) +
+      kpi(n1(c.S) + ' GB', `total seed capacity (${n1(c.reportado)} reported + ${c.antigas ? n1(c.antigo) + ' older builds + ' : ''}${n1(c.fundadores)} founder nodes)`) +
+      kpi(n1(c.D) + ' GB', 'P2P cloud demand (Free + Pro)') +
+      kpi(n2(c.R) + '×', 'redundancy R · churn tolerance ' + n1(c.T) + '%') +
+      kpi(c.estado[0], 'swarm health (R < 3 critical, 3–6 stable, > 6 excellent)', c.estado[1]);
+    el('nc-src').textContent = NC.origem(c);
+  }
   function mostra() {
-    cartoes('nc-real', real.total_users, real.pro_users, cotas);
+    cartoesReais();
     el('nc-set').innerHTML = CHAVES.map(([k, rot]) => `<label for="nc-q-${k.replace('.', '_')}">${rot}</label><input id="nc-q-${k.replace('.', '_')}" type="number" min="0" step="1" value="${cotas[k]}">`).join('');
     el('nc-set').querySelectorAll('input').forEach(i => i.addEventListener('input', () => { el('nc-save').disabled = false; el('nc-saved').textContent = ''; simula(); }));
     el('nc-w-users').value = real.total_users;
@@ -1637,9 +1700,10 @@ function mdRender(md, titulo) {
       if (b.error) throw new Error('Could not load the quotas: ' + b.error.message);
       cotas = {}; for (const r of b.data || []) cotas[r.key] = +r.value;
       if (CHAVES.some(([k]) => !(k in cotas))) throw new Error('Waiting for the database update (supabase db push, migrations 64 and 65).');
-      real = { total_users: +a.data.total_users || 0, pro_users: +a.data.pro_users || 0 };
+      if (!NC.temReal(a.data)) throw new Error('Waiting for the database update (supabase db push, migration 105).');
+      real = { total_users: +a.data.total_users || 0, pro_users: +a.data.pro_users || 0, a: a.data };
       mostra();
-    } catch (e) { real = null; el('nc-real').innerHTML = ''; el('nc-err').textContent = e.message || 'Could not load.'; }
+    } catch (e) { real = null; el('nc-real').innerHTML = ''; el('nc-src').textContent = ''; el('nc-err').textContent = e.message || 'Could not load.'; }
     finally { carregando = false; }
   }
   el('nc-save').onclick = async () => {
@@ -1651,14 +1715,82 @@ function mdRender(md, titulo) {
         if (error) throw error;
         cotas[k] = q[k];
       }
-      el('nc-saved').textContent = '✓ Saved'; cartoes('nc-real', real.total_users, real.pro_users, cotas);
+      el('nc-saved').textContent = '✓ Saved'; cartoesReais();
     } catch (e) { el('nc-saved').textContent = ''; el('nc-err').textContent = 'Could not save: ' + (e.message || e); el('nc-save').disabled = false; }
   };
-  el('nc-beta').addEventListener('change', () => { if (real) cartoes('nc-real', real.total_users, real.pro_users, cotas); simula(); });
+  el('nc-beta').addEventListener('change', () => { if (real) cartoesReais(); simula(); });
   ['nc-w-users', 'nc-w-pro', 'nc-w-nodes', 'nc-w-sf', 'nc-w-sp'].forEach(id => el(id).addEventListener('input', simula));
   el('tab-netcap').addEventListener('click', () => { if (real === null) carrega(); });
   document.getElementById('refresh').addEventListener('click', () => { if (!el('t-netcap').classList.contains('hidden')) carrega(); else real = null; });
-  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { real = null; el('nc-real').innerHTML = ''; el('nc-what').innerHTML = ''; } });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { real = null; el('nc-real').innerHTML = ''; el('nc-src').textContent = ''; el('nc-what').innerHTML = ''; } });
+})();
+
+// ── Seeders (migracao 104): admin_seeders(), uma linha por utilizador e, ao abrir, cada maquina ──
+// SD-PURE-BEGIN (testado em admin/seeders.test.js)
+const SD = (() => {
+  const h = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const gb = b => (Math.round(b / 1e8) / 10).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' GB';
+  // verde < 70 %, ambar 70-90 %, vermelho >= 90 %
+  const nivel = pct => pct >= 90 ? 'red' : pct >= 70 ? 'amber' : '';
+  const nr = '<span class="sd-nr">Not reported</span>';
+  function barra(used, seed) {
+    if (used == null || seed == null) return nr;
+    const pct = seed > 0 ? used / seed * 100 : (used > 0 ? 100 : 0);
+    const w = Math.min(100, Math.max(0, pct));
+    return `<div class="sd-bar" role="img" aria-label="${Math.round(pct)}% of the seed in use"><i class="${nivel(pct)}" style="width:${w.toFixed(1)}%"></i></div><span class="sd-pct">${Math.round(pct)}%</span>`;
+  }
+  function quando(seg, agora) {
+    if (seg == null) return '—';
+    const d = Math.max(0, agora / 1000 - seg);
+    if (d < 60) return 'just now';
+    if (d < 3600) return Math.floor(d / 60) + ' min ago';
+    if (d < 86400) return Math.floor(d / 3600) + ' h ago';
+    return new Date(seg * 1000).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+  const horas = s => (Math.round((+s || 0) / 360) / 10).toLocaleString('en-US') + ' h';
+  // seed/used do utilizador: so as maquinas que os reportam; nenhuma = Not reported (nunca 0 inventado)
+  const valor = (v, rep) => rep > 0 && v != null ? gb(+v) : nr;
+  function render(lista, abertos, agora) {
+    if (!lista.length) return '<tr><td colspan="7" class="empty">No machines on the network yet</td></tr>';
+    return lista.map((u, i) => {
+      const rep = +u.reported || 0, maq = +u.machines || 0;
+      const parcial = rep > 0 && rep < maq ? ` <span class="sd-nr">(${rep} of ${maq} reporting)</span>` : '';
+      const nome = u.username ? h(u.username) : '<span class="sd-nr">no username</span>';
+      const aberto = abertos.has(u.user_id);
+      let html = `<tr class="sd-row" data-u="${h(u.user_id)}" aria-expanded="${aberto}"><td>${aberto ? '▾' : '▸'} <span class="sd-on${u.online ? ' yes' : ''}" title="${u.online ? 'Online' : 'Offline'}"></span>${nome}</td>
+        <td class="sd-num">${maq}</td><td class="sd-num">${valor(u.seed_bytes, rep)}</td><td class="sd-num">${valor(u.used_bytes, rep)}${parcial}</td>
+        <td>${rep > 0 ? barra(+u.used_bytes, +u.seed_bytes) : nr}</td><td>${quando(u.last_seen, agora)}</td><td class="sd-num">${horas(u.online_secs)}</td></tr>`;
+      if (aberto) html += (u.devices || []).map(d => `<tr class="sd-dev"><td><span class="sd-on${d.online ? ' yes' : ''}"></span>${h(String(d.peer_id || '').slice(0, 16))}…</td>
+        <td></td><td class="sd-num">${d.seed_bytes == null ? nr : gb(+d.seed_bytes)}</td><td class="sd-num">${d.used_bytes == null ? nr : gb(+d.used_bytes)}</td>
+        <td>${d.seed_bytes == null || d.used_bytes == null ? nr : barra(+d.used_bytes, +d.seed_bytes)}</td><td>${quando(d.last_seen, agora)}</td><td class="sd-num">${horas(d.online_secs)}</td></tr>`).join('');
+      return html;
+    }).join('');
+  }
+  function conta(lista) {
+    const maq = lista.reduce((a, u) => a + (+u.machines || 0), 0), on = lista.filter(u => u.online).length;
+    return `${lista.length} user${lista.length === 1 ? '' : 's'} · ${maq} machine${maq === 1 ? '' : 's'} · ${on} online`;
+  }
+  return { gb, nivel, barra, quando, horas, render, conta };
+})();
+// SD-PURE-END
+(() => {
+  const el = id => document.getElementById(id);
+  let lista = null; const abertos = new Set();
+  const desenha = () => { el('sd-count').textContent = SD.conta(lista); el('sd-rows').innerHTML = SD.render(lista, abertos, Date.now()); };
+  async function carrega() {
+    el('sd-err').textContent = '';
+    const { data: d, error } = await sb.rpc('admin_seeders');
+    if (error) { lista = null; el('sd-rows').innerHTML = ''; el('sd-count').textContent = ''; el('sd-err').textContent = error.code === 'PGRST202' || /could not find the function/i.test(error.message || '')
+      ? 'Waiting for the database update (supabase db push, migration 104).' : 'Could not load the seeders: ' + error.message; return; }
+    lista = Array.isArray(d) ? d : []; desenha();
+  }
+  el('sd-rows').addEventListener('click', ev => {
+    const r = ev.target.closest('tr.sd-row'); if (!r || !lista) return;
+    const u = r.dataset.u; abertos.has(u) ? abertos.delete(u) : abertos.add(u); desenha();
+  });
+  el('tab-seeders').addEventListener('click', () => { if (lista === null) carrega(); });
+  document.getElementById('refresh').addEventListener('click', () => { if (!el('t-seeders').classList.contains('hidden')) carrega(); else lista = null; });
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') { lista = null; abertos.clear(); el('sd-rows').innerHTML = ''; el('sd-count').textContent = ''; } });
 })();
 
 sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') vista('v-login'); });
