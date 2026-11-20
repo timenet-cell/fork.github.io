@@ -566,6 +566,14 @@
       "phase": "beta"
     },
     {
+      "t": "Seed space in real time (each machine reports seed and used the moment they change)",
+      "p": 0,
+      "s": "Your call 20 Nov: for now the 5-minute heartbeat is enough. Later: a Realtime presence channel for the machines on the network, read only by admins; the admin updates the instant a machine joins, changes or leaves.",
+      "prio": 3,
+      "app": "Fork Network",
+      "phase": "beta"
+    },
+    {
       "t": "Live Companion in a real Ableton Live",
       "p": 70,
       "s": "After the beta (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers",
