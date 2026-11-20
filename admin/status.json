@@ -566,14 +566,6 @@
       "phase": "beta"
     },
     {
-      "t": "Save Version blue ball identical on Intel and Apple silicon",
-      "p": 90,
-      "s": "Merged 29 Oct, same behaviour on both; Intel build compiles. WAITS ON HARDWARE: an Intel computer to check by eye (with the universal build of the beta).",
-      "prio": 2,
-      "app": "Fork Studio",
-      "phase": "beta"
-    },
-    {
       "t": "Live Companion in a real Ableton Live",
       "p": 70,
       "s": "After the beta (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers",
