@@ -939,6 +939,46 @@
  "control": {
   "generated_at": "2026-11-22 15:12:09",
   "build": "A563",
+  "tested": {
+   "app": "native (apps/fork-native)",
+   "build": "A563",
+   "commit": "ea2120a9 Nativo: A563 (+1 uncommitted)",
+   "repo": "w-nativo6",
+   "feed_staged": "0.563.0",
+   "packages": [
+    {
+     "file": "Fork Studio Native (Windows x86_64).zip",
+     "date": "2026-11-22 14:14",
+     "size_mb": 17.4,
+     "sha256": "46173cc440ca9a2a"
+    },
+    {
+     "file": "Fork Studio Native (macOS universal).zip",
+     "date": "2026-11-20 16:52",
+     "size_mb": 33.3,
+     "sha256": "028a563ba6732271",
+     "version": "0.561.0"
+    },
+    {
+     "file": "Fork Studio Native Setup (Windows x86_64).exe",
+     "date": "2026-11-22 14:14",
+     "size_mb": 13.2,
+     "sha256": "446140c806a64428"
+    },
+    {
+     "file": "Fork-Studio-Native-Windows-x86_64.tar.gz",
+     "date": "2026-11-22 14:23",
+     "size_mb": 17.4,
+     "sha256": "f6285c71cebc1372"
+    },
+    {
+     "file": "Fork-Studio-Native-macOS-universal.tar.gz",
+     "date": "2026-11-22 14:21",
+     "size_mb": 33.3,
+     "sha256": "856fff1b91c4ea45"
+    }
+   ]
+  },
   "blocks": [
    {
     "n": 1,
