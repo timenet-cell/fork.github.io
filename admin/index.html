@@ -420,6 +420,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="bc-grid" id="bc-grid"></div>
       <div class="bc-sub" id="bc-sub"></div>
       <div id="bc-tested" style="margin-top:8px;font-size:12px;opacity:.8;overflow-wrap:anywhere"></div>
+      <div id="bc-hist" style="margin-top:8px;font-size:12px;opacity:.8;overflow-wrap:anywhere"></div>
       <div class="bc-sub" id="bc-bk"></div>
     </div>
     <div class="box nv-conv" id="nv-conv" hidden>
@@ -1148,6 +1149,30 @@ function bcDesenha(c) {
       + '<ul>' + (t.packages || []).map(p => '<li>' + esc(p.file) + (p.version ? ' <b>' + esc(p.version) + '</b>' : '')
         + ' · ' + esc(p.date) + ' · ' + esc(String(p.size_mb)) + ' MB · sha256 ' + esc(p.sha256) + '</li>').join('') + '</ul>';
 }
+// Historico do controlo (22-11, pedido do dono): uma linha por corrida (build, data, blocos verdes) e, contra a corrida
+// anterior, os checks que passaram a passar e os que quebraram. So o que esta gravado; nada estimado.
+function bcHistorico(h) {
+  const el = $('bc-hist'); if (!el) return;
+  if (!h || !h.length) { el.innerHTML = '<b>History:</b> no runs recorded yet.'; return; }
+  const linhas = h.slice().reverse().map((r, i, a) => {
+    const ant = a[i + 1];
+    let dif = '';
+    if (ant) {
+      const ok = [], mau = [];
+      for (const [id, v] of Object.entries(r.checks || {})) {
+        const w = (ant.checks || {})[id];
+        if (v === 'P' && w === 'F') ok.push(id);
+        if (v === 'F' && w === 'P') mau.push(id);
+      }
+      dif = (ok.length ? '<div style="color:#2e9e5b">Now passing: ' + ok.map(esc).join(', ') + '</div>' : '')
+          + (mau.length ? '<div style="color:#d64545">Broke: ' + mau.map(esc).join(', ') + '</div>' : '')
+          + (!ok.length && !mau.length ? '<div>No change from ' + esc(ant.build) + '.</div>' : '');
+    } else dif = '<div>First recorded run.</div>';
+    return '<li><b>' + esc(r.build) + '</b> · ' + esc(r.date || '?') + ' · commit ' + esc(r.commit || '?') + ' · '
+      + r.green + ' of ' + r.total_blocks + ' blocks green' + dif + '</li>';
+  });
+  el.innerHTML = '<b>History (newest first)</b><ul style="margin:4px 0 0;padding-left:18px">' + linhas.join('') + '</ul>';
+}
 function nvConvDesenha(n) {
   const el = $('nv-conv'); if (!el) return;
   if (!n || typeof n.pct !== 'number') { el.hidden = true; return; }
@@ -1179,7 +1204,7 @@ async function estado() {
   try {
     const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
     stData = await r.json();
-    bcDesenha(stData.control); bkDesenha(stData.backup);
+    bcDesenha(stData.control); bcHistorico(stData.control_history); bkDesenha(stData.backup);
     nvConvDesenha(stData.native);
     $('st-upd').textContent = 'Updated ' + new Date(stData.updated).toLocaleString();
     stDesenha();
