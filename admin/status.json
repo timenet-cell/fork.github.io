@@ -908,6 +908,14 @@
    "prio": 3,
    "app": "Platform",
    "phase": "alpha"
+  },
+  {
+   "phase": "alpha",
+   "t": "Native app modules isolated: each module its own crate + failure boundary (\"This module stopped\", the rest keeps running) + its own line on the beta control; system code (CoreAudio, AppKit, Windows) in a separate process only if needed (owner 22-11)",
+   "p": 0,
+   "s": "Not started. Decided 22-11-2026: after the beta. One crate per module, no module depends on another; no runtime speed cost (LTO fat, one binary).",
+   "prio": 0,
+   "app": "Platform"
   }
  ],
  "native": {
