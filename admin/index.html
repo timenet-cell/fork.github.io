@@ -419,6 +419,7 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
       <div class="bc-top"><b>Beta control</b><span id="bc-n"></span></div>
       <div class="bc-grid" id="bc-grid"></div>
       <div class="bc-sub" id="bc-sub"></div>
+      <div id="bc-tested" style="margin-top:8px;font-size:12px;opacity:.8;overflow-wrap:anywhere"></div>
       <div class="bc-sub" id="bc-bk"></div>
     </div>
     <div class="box nv-conv" id="nv-conv" hidden>
@@ -1139,6 +1140,13 @@ function bcDesenha(c) {
   $('bc-n').textContent = g + ' of ' + c.blocks.length + ' blocks green';
   $('bc-grid').innerHTML = c.blocks.map(b => '<div class="bc-b' + (b.status === 'GREEN' ? ' g' : '') + '"><i></i>' + esc(b.name) + '<small>' + b.passed + '/' + b.total + '</small></div>').join('');
   $('bc-sub').textContent = 'Each block is green only when every check passes; not measured counts as a fail. The download is published only when all blocks are green.' + (c.generated_at ? ' Run ' + new Date(c.generated_at).toLocaleString() + '.' : '');
+  // As builds medidas (22-11, pedido do dono): app, build, commit e cada pacote com a versao lida de dentro e o SHA-256.
+  const t = c.tested, tb = $('bc-tested');
+  if (tb) tb.innerHTML = !t ? '<b>Tested builds:</b> not recorded for this run.'
+    : '<b>Tested: ' + esc(t.build || '?') + '</b> · ' + esc(t.app || '?') + ' · commit ' + esc(t.commit || '?')
+      + (t.feed_staged ? ' · feed ' + esc(t.feed_staged) : '')
+      + '<ul>' + (t.packages || []).map(p => '<li>' + esc(p.file) + (p.version ? ' <b>' + esc(p.version) + '</b>' : '')
+        + ' · ' + esc(p.date) + ' · ' + esc(String(p.size_mb)) + ' MB · sha256 ' + esc(p.sha256) + '</li>').join('') + '</ul>';
 }
 function nvConvDesenha(n) {
   const el = $('nv-conv'); if (!el) return;
