@@ -472,10 +472,10 @@
   {
    "t": "DJ module",
    "p": 0,
-   "s": "After the beta (your call, 29 Oct) · paused; side-panel waves branch and rekordbox export unfinished",
+   "s": "After the beta (your call, 29 Oct) · paused; side-panel waves branch and rekordbox export unfinished · Beta V2 (owner, 17 Nov: DJ, Live Companion and Network Evo are Beta V2, not Alpha).",
    "prio": 3,
    "app": "Fork Studio",
-   "phase": "alpha"
+   "phase": "beta2"
   },
   {
    "t": "Disks: Fragoso Fast space",
@@ -483,7 +483,7 @@
    "s": "59 GB free of 466 after the 2 Nov cleanup (6,710 duplicate pack copies, 4.84 GB, moved to Fork Trash) · left: your choice of which disk goes where · Not beta work (owner, 13 Nov): moved after the beta.",
    "prio": 2,
    "app": "Your computers",
-   "phase": "alpha"
+   "phase": "owner"
   },
   {
    "t": "Disks: empty Fragoso Fast Trash",
@@ -491,7 +491,7 @@
    "s": "47 GB duplicates · needs your OK · Not beta work (owner, 13 Nov): moved after the beta.",
    "prio": 2,
    "app": "Your computers",
-   "phase": "alpha"
+   "phase": "owner"
   },
   {
    "t": "Disks: Projecto José Castelo Branco",
@@ -499,7 +499,7 @@
    "s": "Needs room or a destination · Not beta work (owner, 13 Nov): moved after the beta.",
    "prio": 3,
    "app": "Your computers",
-   "phase": "alpha"
+   "phase": "owner"
   },
   {
    "t": "Disks: what is 'Fragoso Fast-1' on the Mini",
@@ -507,7 +507,7 @@
    "s": "Needs your answer · Not beta work (owner, 13 Nov): moved after the beta.",
    "prio": 3,
    "app": "Your computers",
-   "phase": "alpha"
+   "phase": "owner"
   },
   {
    "t": "Photos: iCloud Photos from Fragoso Fast",
@@ -515,7 +515,7 @@
    "s": "Needs Photos settings on your side · Not beta work (owner, 13 Nov): moved after the beta.",
    "prio": 3,
    "app": "Your computers",
-   "phase": "alpha"
+   "phase": "owner"
   },
   {
    "t": "Merge release scripts (sign, publish, roll back)",
@@ -528,18 +528,18 @@
   {
    "t": "Network rooms, game and private chat",
    "p": 10,
-   "s": "Design approved, dev-only preview exists, backend not built · left: tables, realtime chat, 8-bit game, connect requests",
+   "s": "Design approved, dev-only preview exists, backend not built · left: tables, realtime chat, 8-bit game, connect requests · Beta V2 (owner, 17 Nov: DJ, Live Companion and Network Evo are Beta V2, not Alpha).",
    "prio": 3,
    "app": "Fork Network",
-   "phase": "alpha"
+   "phase": "beta2"
   },
   {
    "t": "Windows version (and later Linux)",
-   "p": 5,
-   "s": "Counted in the beta bar again once the port starts (owner, 13 Nov). Ships with the beta: port of the current app, compiled once the Apple version is at 100%.",
+   "p": 80,
+   "s": "In the beta (22-11): the native app ships for Windows in the same feed (A563: installer, zip, updater). Left: real tests on a Windows PC (first share, swarm Mac <-> Windows). Linux later.",
    "prio": 3,
    "app": "Fork Studio",
-   "phase": "alpha"
+   "phase": "beta"
   },
   {
    "t": "Turn on Free/Pro split after the beta",
@@ -576,18 +576,18 @@
   {
    "t": "Live Companion in a real Ableton Live",
    "p": 70,
-   "s": "After the beta (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers",
+   "s": "After the beta (your call, 29 Oct) · built and gated; left: enable in Live and test between two computers · Beta V2 (owner, 17 Nov: DJ, Live Companion and Network Evo are Beta V2, not Alpha).",
    "prio": 3,
    "app": "Fork Studio",
-   "phase": "alpha"
+   "phase": "beta2"
   },
   {
    "t": "Rekordbox USB export: real CDJ check, extended beat grid, phrases, OneLibrary",
    "p": 60,
-   "s": "Basic export written · left: PQT2/PSSI and OneLibrary, colour approximations · needs you: a real CDJ and stick",
+   "s": "Basic export written · left: PQT2/PSSI and OneLibrary, colour approximations · needs you: a real CDJ and stick · Beta V2 (owner, 17 Nov: DJ, Live Companion and Network Evo are Beta V2, not Alpha).",
    "prio": 3,
    "app": "Fork Studio",
-   "phase": "alpha"
+   "phase": "beta2"
   },
   {
    "t": "Social publishing (Meta, TikTok)",
@@ -648,10 +648,10 @@
   {
    "t": "Native drawing of decks, grid, meters and 3D cloud",
    "p": 0,
-   "s": "DJ module paused (26 Oct); when it resumes it is built straight in the native app (Rust + GPUI)",
+   "s": "DJ module paused (26 Oct); when it resumes it is built straight in the native app (Rust + GPUI) · Beta V2 (owner, 17 Nov: DJ, Live Companion and Network Evo are Beta V2, not Alpha).",
    "prio": 3,
    "app": "Fork Studio",
-   "phase": "alpha"
+   "phase": "beta2"
   },
   {
    "t": "Helius webhook for wallet changes",
@@ -871,7 +871,7 @@
    "s": "Looks 94.6% (screens identical to the Studio) · Works 100.0% (203 of 203 controls checked in the real app) · smooth 44 of 44 screens measured, worst frame None ms · screens last measured 14-11 09:40 (STALE) · controls last measured 18-11 16:12 · smoothness last measured 18-11 19:50 · agents: idle, queue empty",
    "prio": 3,
    "app": "Fork Studio",
-   "phase": "alpha"
+   "phase": "beta"
   },
   {
    "t": "Native app smoothness gate (frame time per screen)",
@@ -879,7 +879,7 @@
    "s": "Checked automatically 2026-11-19 10:43: 1 of 1 checks pass · Palette Creator star map moved to the GPU: typical frame 83 ms to 4.4 ms, worst 100 ms to 7.6 ms. Sweep of finished screens: most pass under 8.3 ms typical; projects list and Sounds being fixed.",
    "prio": 3,
    "app": "Fork Studio",
-   "phase": "alpha",
+   "phase": "beta",
    "ctl": [
     "ui.smoothness"
    ],
@@ -914,6 +914,30 @@
    "t": "Native app modules isolated: each module its own crate + failure boundary (\"This module stopped\", the rest keeps running) + its own line on the beta control; system code (CoreAudio, AppKit, Windows) in a separate process only if needed (owner 22-11)",
    "p": 0,
    "s": "Not started. Decided 22-11-2026: after the beta. One crate per module, no module depends on another; no runtime speed cost (LTO fat, one binary).",
+   "prio": 0,
+   "app": "Platform"
+  },
+  {
+   "phase": "alpha",
+   "t": "Seed ratio in the Alpha: 20:1 on Free, 2:1 on Pro (beta stays 10:1)",
+   "p": 0,
+   "s": "Owner, 20 Nov: \"a Alpha talvez fiquemos a 20:1 no free e 2:1 no Pro\" (a maybe, to confirm). Beta: fixed 10:1, user picks the shared space above the minimum.",
+   "prio": 0,
+   "app": "Platform"
+  },
+  {
+   "phase": "alpha",
+   "t": "Artist key export (as a test only)",
+   "p": 0,
+   "s": "Owner, 18 Nov: no key export now; the key lives inside the user login. A key export comes later, as a test.",
+   "prio": 0,
+   "app": "Platform"
+  },
+  {
+   "phase": "alpha",
+   "t": "Fork Music (the fan app)",
+   "p": 0,
+   "s": "Owner, 23 Oct: \"Fork Music is only after the beta.\" Code exists (apps/fork-music); buying and listening also live inside Fork Studio > Music.",
    "prio": 0,
    "app": "Platform"
   }

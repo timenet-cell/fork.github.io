@@ -5,17 +5,17 @@ const path = require('path');
 const P = require('./phase.js');
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, 'status.json'), 'utf8'));
 
-test('every task has phase beta or alpha, and no "after beta" labels remain', () => {
-  for (const t of data.tasks) assert.ok(['beta', 'alpha'].includes(t.phase), `${t.t}: phase`);
+test('every task has a known phase, and no "after beta" labels remain', () => {
+  for (const t of data.tasks) assert.ok(P.PHASES.includes(t.phase), `${t.t}: phase`);
   for (const f of ['status.json', 'architecture.json']) {
     assert.doesNotMatch(fs.readFileSync(path.join(__dirname, f), 'utf8'), /after[ -]?beta|post-beta/i, f);
   }
 });
 
-test('phase split: beta and alpha are disjoint and cover every task', () => {
+test('phase split: the phases are disjoint and cover every task', () => {
   const s = P.split(data.tasks);
-  assert.equal(s.beta.length + s.alpha.length, data.tasks.length);
-  assert.ok(s.beta.every(t => t.phase === 'beta') && s.alpha.every(t => t.phase === 'alpha'));
+  assert.equal(P.PHASES.reduce((n, k) => n + s[k].length, 0), data.tasks.length);
+  for (const k of P.PHASES) assert.ok(s[k].every(t => t.phase === k), k);
   assert.ok(s.alpha.length > 0);
 });
 

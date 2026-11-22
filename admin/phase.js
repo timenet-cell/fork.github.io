@@ -1,11 +1,11 @@
-// Dev status phases: "beta" first, then "alpha" (the phase after the beta).
-// Each phase is counted from its own tasks only; alpha never counts toward beta.
+// Dev status phases (owner 22-11): "beta", then "beta2" (Beta V2: DJ, Live Companion, Network Evo), then "alpha",
+// then "owner" (the owner's own disks and photos, not product). Each phase is counted from its own tasks only.
 (function (root) {
-  const PHASES = ['beta', 'alpha'];
-  const phaseOf = t => (t && t.phase === 'alpha' ? 'alpha' : 'beta');
+  const PHASES = ['beta', 'beta2', 'alpha', 'owner'];
+  const phaseOf = t => (t && PHASES.includes(t.phase) ? t.phase : 'beta');
   const isDone = t => t.p >= 100;
   function split(tasks) {
-    const out = { beta: [], alpha: [] };
+    const out = Object.fromEntries(PHASES.map(k => [k, []]));
     for (const t of tasks) out[phaseOf(t)].push(t);
     return out;
   }

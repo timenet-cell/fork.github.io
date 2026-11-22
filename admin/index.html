@@ -1088,7 +1088,7 @@ function stDesenha() {
   // O progresso segue o filtro: em "Fork Studio" conta so as tarefas do Fork Studio (pedido dele, 10-11).
   const doFiltro = stApp === 'All' ? stData.tasks : stData.tasks.filter(t => (t.app || 'Fork Studio') === stApp);
   const fases = StPhase.split(doFiltro);
-  const nomes = { beta: 'Beta', alpha: 'After the beta' };
+  const nomes = { beta: 'Beta', beta2: 'Beta V2', alpha: 'Alpha', owner: 'Your disks and photos (not product)' };
   const secao = ph => {
     const pr = StPhase.progress(fases[ph]);
     const media = fases[ph].length ? Math.round(fases[ph].reduce((n, x) => n + Math.max(0, Math.min(100, x.p)), 0) / fases[ph].length) : 0;
