@@ -969,26 +969,26 @@
   "updated": "2026-11-19T10:57:17+00:00"
  },
  "control": {
-  "generated_at": "2026-11-23 17:04:17",
+  "generated_at": "2026-11-23 23:36:46",
   "build": "A566",
   "tested": {
    "app": "native (apps/fork-native)",
    "build": "A566",
-   "commit": "dacdd034 Nativo: A566 (+1 uncommitted)",
+   "commit": "d3d907a4 Nativo: a nuvem publica (url + chave publica) vem do repositorio; a build falha sem ela (+1 uncommitted)",
    "repo": "w-nativo6",
    "feed_staged": "0.566.0",
    "packages": [
     {
      "file": "Fork Studio (Windows x86_64).zip",
-     "date": "2026-11-23 16:50",
+     "date": "2026-11-23 17:18",
      "size_mb": 17.5,
-     "sha256": "d94ecd8b8f418603"
+     "sha256": "1c81237556d9b51c"
     },
     {
      "file": "Fork Studio (macOS universal).zip",
-     "date": "2026-11-23 16:51",
+     "date": "2026-11-23 17:18",
      "size_mb": 33.5,
-     "sha256": "738b641f7edff042",
+     "sha256": "3223106cd9f6dae5",
      "version": "0.566.0"
     },
     {
@@ -1012,21 +1012,21 @@
     },
     {
      "file": "Fork Studio Setup (Windows x86_64).exe",
-     "date": "2026-11-23 16:50",
+     "date": "2026-11-23 17:18",
      "size_mb": 13.3,
-     "sha256": "63dcf6b6c7737c04"
+     "sha256": "ced82de606d2272e"
     },
     {
      "file": "Fork-Studio-Windows-x86_64.tar.gz",
-     "date": "2026-11-23 16:51",
+     "date": "2026-11-23 17:18",
      "size_mb": 17.5,
-     "sha256": "c016ed766ad6d884"
+     "sha256": "a28fc7f6117c5e2a"
     },
     {
      "file": "Fork-Studio-macOS-universal.tar.gz",
-     "date": "2026-11-23 16:51",
+     "date": "2026-11-23 17:18",
      "size_mb": 33.5,
-     "sha256": "3b8977b10271795b"
+     "sha256": "1a1ee7cb90ae5532"
     }
    ]
   },
@@ -1034,15 +1034,15 @@
    {
     "n": 1,
     "name": "DATA",
-    "status": "RED",
-    "passed": 2,
+    "status": "GREEN",
+    "passed": 5,
     "total": 5
    },
    {
     "n": 2,
     "name": "NATIVE APP UI",
-    "status": "RED",
-    "passed": 2,
+    "status": "GREEN",
+    "passed": 3,
     "total": 3
    },
    {
@@ -1077,28 +1077,28 @@
     "n": 7,
     "name": "CLOUD RECORDS",
     "status": "RED",
-    "passed": 0,
+    "passed": 2,
     "total": 4
    },
    {
     "n": 8,
     "name": "MONEY (test mode)",
     "status": "RED",
-    "passed": 0,
+    "passed": 2,
     "total": 3
    },
    {
     "n": 9,
     "name": "RIGHTS AND KEYS",
-    "status": "RED",
-    "passed": 1,
+    "status": "GREEN",
+    "passed": 3,
     "total": 3
    },
    {
     "n": 10,
     "name": "DISTRIBUTION",
     "status": "RED",
-    "passed": 3,
+    "passed": 4,
     "total": 6
    },
    {
@@ -1257,6 +1257,88 @@
     "dist.update_local_feed": "F",
     "dist.signed_updater": "P",
     "dist.feed_published": "F",
+    "dist.site_gate": "F",
+    "std.signing": "P",
+    "std.gatekeeper_clean_user": "P",
+    "std.notarization": "P",
+    "std.legal_published": "P",
+    "std.account_export_delete": "P",
+    "std.personal_data_inventory": "P",
+    "std.licences_list": "P",
+    "std.licences_shipped": "P",
+    "std.licences_compatible": "P",
+    "std.stripe_pages": "F",
+    "std.permissions": "P",
+    "std.reports_scrubbed": "P",
+    "std.reports_in_policy": "P",
+    "std.version_consistent": "P",
+    "sec.1_secrets": "P",
+    "sec.2_supabase": "F",
+    "sec.3_device_keys": "P",
+    "sec.4_crypto": "P",
+    "sec.5_rights": "P",
+    "sec.6_p2p": "P",
+    "sec.7_updater": "P",
+    "sec.8_deps": "P",
+    "sec.9_web_local": "P",
+    "online.project_share": "P",
+    "online.version_register": "P",
+    "online.version_timeline": "P",
+    "online.p2p_fetch": "P",
+    "online.share_invite": "P",
+    "online.share_members": "P",
+    "online.share_remove": "P",
+    "online.share_pending": "P",
+    "online.share_accept": "P",
+    "online.share_fetch_now": "P",
+    "online.share_set_folder": "P",
+    "online.rtc_get": "P",
+    "online.rtc_set": "P"
+   }
+  },
+  {
+   "date": "2026-11-23 23:36:46",
+   "build": "A566",
+   "commit": "d3d907a4",
+   "green": 5,
+   "total_blocks": 13,
+   "checks": {
+    "data.live_integrity": "P",
+    "data.restore_rowcounts": "P",
+    "data.startup_no_write": "P",
+    "data.regroup_pairs": "P",
+    "data.cloud_backup": "P",
+    "ui.controls_works": "P",
+    "ui.smoothness": "P",
+    "ui.cold_start": "P",
+    "engine.audio_tests": "P",
+    "engine.native_tests": "P",
+    "engine.soak": "P",
+    "direct.no_turn": "F",
+    "direct.tunnel_e2e": "F",
+    "direct.real_device": "F",
+    "swarm.device_to_device_tests": "P",
+    "swarm.reach_relay_binary": "P",
+    "swarm.path_audit": "P",
+    "swarm.real_two_computers": "F",
+    "acct.signup": "F",
+    "acct.signin": "F",
+    "acct.beta_switch": "F",
+    "cloud.invite": "F",
+    "cloud.inbox": "P",
+    "cloud.tracker": "P",
+    "cloud.error_reports": "F",
+    "money.subscription": "P",
+    "money.purchase": "P",
+    "money.fan_pass": "F",
+    "rights.export_restore_test": "P",
+    "rights.key_exported": "P",
+    "rights.sealed_on": "P",
+    "dist.fresh_install": "P",
+    "dist.windows_package": "P",
+    "dist.update_local_feed": "F",
+    "dist.signed_updater": "P",
+    "dist.feed_published": "P",
     "dist.site_gate": "F",
     "std.signing": "P",
     "std.gatekeeper_clean_user": "P",
