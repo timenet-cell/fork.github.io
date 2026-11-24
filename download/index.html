@@ -81,7 +81,7 @@ const REPO = 'timenet-cell/fork-studio-releases';
 const PREFIXO = 'https://github.com/' + REPO + '/releases/download/';
 const $ = id => document.getElementById(id);
 const NOMES = { arm64: 'Apple silicon (M1 and newer)', universal: 'Intel and Apple silicon' };
-function tamanho(n) { return n >= 1e9 ? (n / 1e9).toFixed(2) + ' GB' : Math.round(n / 1e6) + ' MB'; }
+function tamanho(n) { return n >= 1024 ** 3 ? (n / 1024 ** 3).toFixed(2) + ' GB' : Math.round(n / 1024 ** 2) + ' MB'; }
 function erro(t) { $('sub').textContent = 'Beta for macOS.'; $('msg').className = 'msg err'; $('msg').textContent = t; }
 (async function () {
   let rel;

@@ -1,5 +1,7 @@
 // Teste do Network capacity real (node --test admin/netcap.test.js). Extrai o bloco NC-PURE de index.html.
 const fs = require('fs'), assert = require('assert'), test = require('node:test');
+// a unidade da app e do painel: 1 GB = 1024^3 bytes (decisao do dono, 24-11)
+const GiB = 1024 ** 3;
 const src = fs.readFileSync(__dirname + '/index.html', 'utf8');
 const m = src.match(/\/\/ NC-PURE-BEGIN[^\n]*\n([\s\S]*?)\/\/ NC-PURE-END/);
 assert(m, 'bloco NC-PURE nao encontrado');
@@ -14,8 +16,8 @@ const on = o => Object.fromEntries(Object.entries(o).map(([k, v]) => [{ hosts_re
   contrib_bytes_free: 'online_contrib_bytes_free', contrib_bytes_pro: 'online_contrib_bytes_pro' }[k] || k, v]));
 
 test('soma o seed real, nao contas x minimo: quem da 100 GB conta 100', () => {
-  const a = { ...base, ...on({ hosts_recent: 1, hosts_reported: 1, hosts_old: 0, seed_bytes_reported: 100e9, free_bytes_old: 0,
-              contrib_bytes_free: 100e9, contrib_bytes_pro: 0 }) };
+  const a = { ...base, ...on({ hosts_recent: 1, hosts_reported: 1, hosts_old: 0, seed_bytes_reported: 100 * GiB, free_bytes_old: 0,
+              contrib_bytes_free: 100 * GiB, contrib_bytes_pro: 0 }) };
   const c = NC.real(a, q, true);
   assert.strictEqual(c.S, 100);                    // so os 100 GB reportados; nem as 9 contas nem os fundadores das definicoes
   assert.strictEqual(c.D, 10);                     // 100 / racio Free 10
@@ -27,8 +29,8 @@ test('soma o seed real, nao contas x minimo: quem da 100 GB conta 100', () => {
 });
 
 test('build antiga conta pelo free_bytes e o ecra diz quantas', () => {
-  const a = { ...base, ...on({ hosts_recent: 3, hosts_reported: 1, hosts_old: 2, seed_bytes_reported: 20e9, free_bytes_old: 7e9,
-              contrib_bytes_free: 27e9, contrib_bytes_pro: 0 }) };
+  const a = { ...base, ...on({ hosts_recent: 3, hosts_reported: 1, hosts_old: 2, seed_bytes_reported: 20 * GiB, free_bytes_old: 7 * GiB,
+              contrib_bytes_free: 27 * GiB, contrib_bytes_pro: 0 }) };
   const c = NC.real(a, q, true);
   assert.strictEqual(c.S, 27);
   assert.strictEqual(c.antigas, 2);
@@ -36,8 +38,8 @@ test('build antiga conta pelo free_bytes e o ecra diz quantas', () => {
 });
 
 test('Pro usa o racio Pro fora da beta, o Free na beta', () => {
-  const a = { ...base, ...on({ hosts_recent: 1, hosts_reported: 1, hosts_old: 0, seed_bytes_reported: 50e9, free_bytes_old: 0,
-              contrib_bytes_free: 0, contrib_bytes_pro: 50e9 }) };
+  const a = { ...base, ...on({ hosts_recent: 1, hosts_reported: 1, hosts_old: 0, seed_bytes_reported: 50 * GiB, free_bytes_old: 0,
+              contrib_bytes_free: 0, contrib_bytes_pro: 50 * GiB }) };
   assert.strictEqual(NC.real(a, q, true).D, 5);
   assert.strictEqual(NC.real(a, q, false).D, 10);
 });
@@ -67,9 +69,9 @@ test('0 maquinas a reportar: total real 0 GB mesmo com fundadores nas definicoes
 });
 
 test('o caso real: o mesmo PC reinstalado (2 chaves) conta 107 GB online, os 214 dos 30 dias so no historico', () => {
-  const a = { ...base, hosts_recent: 2, hosts_reported: 2, seed_bytes_reported: 214e9, contrib_bytes_free: 214e9,
-              ...on({ hosts_recent: 1, hosts_reported: 1, hosts_old: 0, seed_bytes_reported: 107e9, free_bytes_old: 0,
-                      contrib_bytes_free: 107e9, contrib_bytes_pro: 0 }) };
+  const a = { ...base, hosts_recent: 2, hosts_reported: 2, seed_bytes_reported: 214 * GiB, contrib_bytes_free: 214 * GiB,
+              ...on({ hosts_recent: 1, hosts_reported: 1, hosts_old: 0, seed_bytes_reported: 107 * GiB, free_bytes_old: 0,
+                      contrib_bytes_free: 107 * GiB, contrib_bytes_pro: 0 }) };
   const c = NC.real(a, q, true);
   assert.strictEqual(c.S, 107);
   assert.strictEqual(c.maquinas, 1);

@@ -1638,10 +1638,10 @@ function mdRender(md, titulo) {
 // NC-PURE-BEGIN (testado em admin/netcap.test.js)
 // A rede real (migracoes 105 e 106): o numero principal e ONLINE NOW (batimento ha <= 10 min); so o seed que cada maquina
 // reporta, as de build antiga pelo free_bytes. O mesmo PC reinstalado (chave de aparelho nova) deixava de somar 2 vezes.
-// Os 30 dias ficam numa linha de historico a parte. Nunca contas x seed minimo. GB = 1e9 bytes, como nos Seeders.
+// Os 30 dias ficam numa linha de historico a parte. Nunca contas x seed minimo. GB = 1024^3 bytes, a mesma unidade da app (decisao do dono, 24-11: uma so unidade em todo o lado).
 // Os fundadores das definicoes (bootstrap_nodes x bootstrap_node_gb) nao sao maquinas: so entram no Simulator.
 const NC = (() => {
-  const GB = 1e9;
+  const GB = 1024 ** 3;
   const n1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
   const pl = (n, s) => n.toLocaleString('en-US') + ' ' + s + (n === 1 ? '' : 's');
   const CAMPOS = ['hosts_recent', 'hosts_reported', 'hosts_old', 'seed_bytes_reported', 'free_bytes_old', 'contrib_bytes_free', 'contrib_bytes_pro',
@@ -1776,7 +1776,7 @@ const NC = (() => {
 // SD-PURE-BEGIN (testado em admin/seeders.test.js)
 const SD = (() => {
   const h = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const gb = b => (Math.round(b / 1e8) / 10).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' GB';
+  const gb = b => (Math.round(b / 1024 ** 3 * 10) / 10).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' GB';
   // verde < 70 %, ambar 70-90 %, vermelho >= 90 %
   const nivel = pct => pct >= 90 ? 'red' : pct >= 70 ? 'amber' : '';
   const nr = '<span class="sd-nr">Not reported</span>';
