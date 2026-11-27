@@ -356,6 +356,64 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
 @media (max-width:900px){.sy-bars{grid-template-columns:1fr}}
 @media print{#t-survey{display:none!important}}
 
+/* ── Limpeza visual (27-11): uma so hierarquia, espacos iguais, tokens do site; nada de biblioteca ── */
+main{padding-top:28px}
+.top{margin-bottom:20px}
+.box{border-radius:12px;padding:16px 18px}
+.box h2{font:650 14px/1.25 var(--display);margin:0 0 12px}
+.box h2 small,.tabhead h2 small{font:500 12px/1 var(--sans);color:var(--faint);margin-left:6px}
+.tabhead{align-items:center;margin-bottom:10px}
+/* separadores: uma linha, sublinhado no ativo, desliza na horizontal em ecras estreitos e fica no topo ao rolar */
+.tabs{position:sticky;top:0;z-index:5;background:var(--bg);flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none;margin:8px 0 20px;padding:0;border-bottom:1px solid var(--line)}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;padding:12px 9px 11px;color:var(--muted);white-space:nowrap}
+.tabs button:hover{color:var(--text)}
+.tabs button.on{background:none;color:var(--text);border-bottom-color:var(--red)}
+.tabs button:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+/* caixas seguidas no mesmo separador: o mesmo espaco; nas grelhas quem manda e o gap */
+[id^="t-"] .box+.box,[id^="t-"] .box+.scroll,#ps>.box+.box{margin-top:12px}
+.grid>.box,.grid3>.box,.nc-grid>.box,.sg-grid>.box,.sy-bars>.box,.mn>.box{margin-top:0!important}
+.sg-grid{margin-top:12px}
+#bs .box,#cr .box{margin-bottom:12px}
+/* textos de ajuda: legiveis, sem linhas a toda a largura */
+.ps-note,.sy-note,.nc-note,.sv-note{font-size:13px;line-height:1.55;color:var(--muted);max-width:75em;margin:0 0 14px}
+.msg:not(:empty){margin:0 0 12px}
+/* tabelas */
+th{white-space:nowrap;font:600 11.5px/1.2 var(--sans);color:var(--muted);padding:8px 10px;background:color-mix(in srgb,var(--grid) 45%,transparent)}
+td{padding:9px 10px}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:color-mix(in srgb,var(--grid) 55%,transparent)}
+.scroll{border:1px solid var(--line);border-radius:10px;background:var(--field)}
+.scroll table{margin:0}
+.scroll:has(tbody:empty)::after{content:"No data yet.";display:block;padding:12px 10px;font-size:13px;color:var(--faint)}
+#chart:empty::after,#plats:empty::after,#refs:empty::after,#devs:empty::after,#conv:empty::after,#countries:empty::after,#pages:empty::after,#utms:empty::after{content:"No data yet.";font-size:13px;color:var(--faint)}
+/* botoes sem classe (Network, Signer) com o mesmo aspeto dos outros */
+#nc-save,#sg-toggle,#sg-save{font:600 12.5px/1 var(--sans);padding:8px 14px;border:0;border-radius:8px;background:var(--red);color:var(--red-ink);cursor:pointer}
+#nc-save[disabled],#sg-toggle[disabled],#sg-save[disabled]{opacity:.45;cursor:default}
+select.sec{appearance:auto}
+td input[type=number]{display:inline-block;width:120px;margin-right:6px}
+/* Network */
+.nc-beta{margin:14px 0 0;line-height:1.45}
+.nc-beta input{display:inline-block;width:auto;flex:none;margin:0}
+.nc-set label{margin:0;font-size:13px;color:var(--text)}
+.nc-act{margin-top:14px}
+.nc-honest:empty{display:none}
+#nc-real:empty::after,#nc-what:empty::after{content:"No data yet.";font-size:13px;color:var(--faint)}
+/* Development status */
+.st{gap:8px}
+.st .row{padding:12px 16px}
+.st .bar{height:6px;margin:8px 0 6px}
+.st .bar i.ok{background:var(--pos)}
+.st-phase>h2{font:650 18px/1.2 var(--display);letter-spacing:-.01em}
+.st-phase>h2 small{font:500 13px/1 var(--sans);color:var(--muted);margin-left:6px}
+.st-mod{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px}
+.st-mod>summary{cursor:pointer}
+.st-mod>summary h2{font:650 14px/1.2 var(--display)!important}
+.st-mod>summary small{color:var(--muted)}
+/* nativa */
+.nv-conv-top b,.bc-top h2{font:650 15px/1.2 var(--display)}
+.nv-conv-bar{height:6px}
+
 @media print{
   html,body{background:#fff!important;color:#000!important;font-size:11pt}
   .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,#t-services,#t-sitetabs,.mn-side,.mn-tools,#mn-status{display:none!important}
