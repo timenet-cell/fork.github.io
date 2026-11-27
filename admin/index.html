@@ -73,13 +73,17 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 main:has(.dash){max-width:1480px}
 .dash{display:flex;gap:16px;align-items:flex-start}
 .dash-main{flex:1;min-width:0}
-.dash>.bc{flex:none;width:300px;margin:0;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto}
-.dash>.bc .bc-grid{grid-template-columns:minmax(0,1fr);gap:5px}
-.dash>.bc .bc-grid+.bc-grid{margin-top:5px}
-.dash>.bc .bc-top{margin-bottom:10px}
-.dash>.bc .bc-b summary{padding:6px 10px;font-size:12px}
-.dash>.bc .bc-det{padding:0 10px 8px 28px}
-@media (max-width:1100px){.dash{flex-direction:column;align-items:stretch}.dash>.bc{width:auto;position:static;max-height:none;overflow:visible;margin-top:14px}}
+.dash-side{flex:none;width:320px;display:flex;flex-direction:column;gap:14px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto}
+.dash-side>.box{margin:0}
+.dash-main .tabs{flex-wrap:wrap;overflow-x:visible}
+.dash-side .bc-grid{grid-template-columns:minmax(0,1fr);gap:5px}
+.dash-side .bc-grid+.bc-grid{margin-top:5px}
+.dash-side .bc-top{margin-bottom:10px}
+.dash-side .bc-b summary{padding:6px 10px;font-size:12px}
+.dash-side .bc-det{padding:0 10px 8px 28px}
+.dash-side .nv-conv-top{flex-direction:column;align-items:flex-start;gap:6px}
+.dash-side .nv-conv-sub{flex-direction:column;gap:4px}
+@media (max-width:1100px){.dash{flex-direction:column;align-items:stretch}.dash-side{width:auto;position:static;max-height:none;overflow:visible;margin-top:14px}}
 .bc-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .bc-top h2{margin:0;font:650 15px/1.2 var(--display)}
 .bc-top span{font:600 13px/1 var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
@@ -518,13 +522,6 @@ td input[type=number]{display:inline-block;width:120px;margin-right:6px}
     <div id="err" class="msg" role="status" aria-live="polite"></div>
     <div class="dash">
     <div class="dash-main">
-    <div class="box nv-conv" id="nv-conv" hidden>
-      <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
-      <div class="nv-conv-bar"><i id="nv-conv-fill"></i></div>
-      <div class="nv-conv-split" id="nv-conv-split" hidden></div>
-      <div class="nv-conv-blk" id="nv-conv-blk" hidden></div>
-      <div class="nv-conv-sub"><span id="nv-conv-fase"></span><span id="nv-conv-upd"></span></div>
-    </div>
 
     <div class="tabs" role="tablist">
       <button class="on" data-tab="t-status" type="button">Development status</button>
@@ -773,6 +770,7 @@ td input[type=number]{display:inline-block;width:120px;margin-right:6px}
     </div>
     </div>
     </div>
+    <div class="dash-side">
     <aside class="box bc" id="bc" aria-label="Beta control" hidden>
       <div class="bc-top"><h2>Beta control</h2><span id="bc-n"></span></div>
       <div class="bc-grid" id="bc-grid"></div>
@@ -783,6 +781,14 @@ td input[type=number]{display:inline-block;width:120px;margin-right:6px}
         <div class="bc-sub" id="bc-hist"></div>
       </details>
     </aside>
+    <div class="box nv-conv" id="nv-conv" hidden>
+      <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
+      <div class="nv-conv-bar"><i id="nv-conv-fill"></i></div>
+      <div class="nv-conv-split" id="nv-conv-split" hidden></div>
+      <div class="nv-conv-blk" id="nv-conv-blk" hidden></div>
+      <div class="nv-conv-sub"><span id="nv-conv-fase"></span><span id="nv-conv-upd"></span></div>
+    </div>
+    </div>
     </div>
   </section>
 </main>
