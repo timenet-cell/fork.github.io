@@ -1,5 +1,7 @@
 // Teste do separador Seeders (node --test admin/seeders.test.js). Extrai o bloco SD-PURE de index.html.
 const fs = require('fs'), assert = require('assert'), test = require('node:test');
+// a unidade da app e do painel: 1 GB = 1024^3 bytes (decisao do dono, 24-11)
+const GiB = 1024 ** 3;
 const src = fs.readFileSync(__dirname + '/index.html', 'utf8');
 const m = src.match(/\/\/ SD-PURE-BEGIN[^\n]*\n([\s\S]*?)\/\/ SD-PURE-END/);
 assert(m, 'bloco SD-PURE nao encontrado');
@@ -9,10 +11,10 @@ const agora = Date.parse('2026-11-20T12:00:00Z'), s = agora / 1000;
 test('a barra: verde < 70 %, ambar 70-90 %, vermelho >= 90 %', () => {
   assert.strictEqual(SD.nivel(69.9), ''); assert.strictEqual(SD.nivel(70), 'amber');
   assert.strictEqual(SD.nivel(89.9), 'amber'); assert.strictEqual(SD.nivel(90), 'red');
-  assert(SD.barra(5e9, 20e9).includes('width:25.0%') && SD.barra(5e9, 20e9).includes('class=""'));
-  assert(SD.barra(15e9, 20e9).includes('class="amber"'));
-  assert(SD.barra(19e9, 20e9).includes('class="red"'));
-  assert(SD.barra(null, 20e9).includes('Not reported') && SD.barra(1, null).includes('Not reported'));
+  assert(SD.barra(5 * GiB, 20 * GiB).includes('width:25.0%') && SD.barra(5 * GiB, 20 * GiB).includes('class=""'));
+  assert(SD.barra(15 * GiB, 20 * GiB).includes('class="amber"'));
+  assert(SD.barra(19 * GiB, 20 * GiB).includes('class="red"'));
+  assert(SD.barra(null, 20 * GiB).includes('Not reported') && SD.barra(1, null).includes('Not reported'));
 });
 
 test('vazio diz que nao ha maquinas', () => {
@@ -21,8 +23,8 @@ test('vazio diz que nao ha maquinas', () => {
 });
 
 const lista = [
-  { user_id: 'b', username: '<bia>', machines: 2, machines_online: 1, reported: 1, seed_bytes: 20e9, used_bytes: 5e9, last_seen: s - 120, online: true, online_secs: 900,
-    devices: [{ peer_id: 'S'.repeat(40), seed_bytes: 20e9, used_bytes: 5e9, last_seen: s - 120, online: true, online_secs: 600 },
+  { user_id: 'b', username: '<bia>', machines: 2, machines_online: 1, reported: 1, seed_bytes: 20 * GiB, used_bytes: 5 * GiB, last_seen: s - 120, online: true, online_secs: 900,
+    devices: [{ peer_id: 'S'.repeat(40), seed_bytes: 20 * GiB, used_bytes: 5 * GiB, last_seen: s - 120, online: true, online_secs: 600 },
               { peer_id: 'T'.repeat(40), seed_bytes: null, used_bytes: null, last_seen: s - 3600, online: false, online_secs: 300 }] },
   { user_id: 'o', username: 'old', machines: 1, machines_online: 0, reported: 0, seed_bytes: null, used_bytes: null, last_seen: s - 86400 * 3, online: false, online_secs: 7200,
     devices: [{ peer_id: 'U'.repeat(40), seed_bytes: null, used_bytes: null, last_seen: s - 86400 * 3, online: false, online_secs: 7200 }] },
@@ -45,10 +47,10 @@ test('em cima so quem esta online; as maquinas paradas em baixo, a cinzento, for
 });
 
 test('o mesmo PC reinstalado: a chave velha parada nao soma', () => {
-  const dig = [{ user_id: 'd', username: 'digger909', machines: 2, machines_online: 1, reported: 1, seed_bytes: 107e9, used_bytes: 1e9,
+  const dig = [{ user_id: 'd', username: 'digger909', machines: 2, machines_online: 1, reported: 1, seed_bytes: 107 * GiB, used_bytes: 1 * GiB,
     last_seen: s - 60, online: true, online_secs: 100,
-    devices: [{ peer_id: 'A'.repeat(40), seed_bytes: 107e9, used_bytes: 1e9, last_seen: s - 60, online: true, online_secs: 50 },
-              { peer_id: 'B'.repeat(40), seed_bytes: 107e9, used_bytes: 2e9, last_seen: s - 86400 * 2, online: false, online_secs: 50 }] }];
+    devices: [{ peer_id: 'A'.repeat(40), seed_bytes: 107 * GiB, used_bytes: 1 * GiB, last_seen: s - 60, online: true, online_secs: 50 },
+              { peer_id: 'B'.repeat(40), seed_bytes: 107 * GiB, used_bytes: 2 * GiB, last_seen: s - 86400 * 2, online: false, online_secs: 50 }] }];
   const html = SD.render(dig, new Set(['d']), agora);
   assert.strictEqual((html.match(/class="sd-dev"/g) || []).length, 1, 'aberto: so a maquina online');
   assert.strictEqual(SD.conta(dig), 'online now: 1 user · 1 machine · 107.0 GB seed · 1 offline');
