@@ -67,7 +67,37 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
 .nv-conv{margin:0 0 14px}
-.bc{margin:0 0 14px}.bc-top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px}.bc-top span{font:600 20px/1 var(--display);font-variant-numeric:tabular-nums}.bc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-top:10px}.bc-b{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px}.bc-b i{width:9px;height:9px;border-radius:50%;flex:none;background:#d64545}.bc-b.g i{background:#2e9e5b}.bc-b small{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}.bc-sub{font-size:12px;color:var(--muted);margin-top:8px}
+/* Beta control: so o nome e verde/vermelho; o resto fica atras de um chevron por linha (fechado por omissao) */
+.bc{margin:0 0 14px}
+.bc-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.bc-top h2{margin:0;font:650 15px/1.2 var(--display)}
+.bc-top span{font:600 13px/1 var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.bc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;align-items:start}
+.bc-grid+.bc-grid{margin-top:8px}
+.bc-grid:empty{display:none}
+.bc-b{border:1px solid color-mix(in srgb,var(--neg) 40%,transparent);background:color-mix(in srgb,var(--neg) 9%,var(--card));border-radius:10px;min-width:0}
+.bc-b.g{border-color:color-mix(in srgb,var(--pos) 40%,transparent);background:color-mix(in srgb,var(--pos) 9%,var(--card))}
+.bc-b summary{display:flex;align-items:center;gap:9px;padding:9px 12px;cursor:pointer;list-style:none;font:600 12.5px/1.25 var(--sans);border-radius:10px}
+.bc-b summary::-webkit-details-marker{display:none}
+.bc-b summary:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.bc-b summary i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--neg)}
+.bc-b.g summary i{background:var(--pos)}
+.bc-b .bc-nm{flex:1;min-width:0;overflow-wrap:anywhere}
+.chev{flex:none;width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;margin:0 2px 0 4px}
+details[open]>summary .chev{transform:rotate(45deg)}
+.bc-det{padding:0 12px 10px 30px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.bc-det ul{margin:0;padding:0;list-style:none;display:grid;gap:3px}
+.bc-det li{display:flex;justify-content:space-between;gap:10px}
+.bc-det code{font:11.5px/1.4 var(--mono);color:var(--text);overflow-wrap:anywhere;min-width:0}
+.ck{flex:none;font:600 10.5px/1.4 var(--sans)}.ck.P{color:var(--pos)}.ck.F{color:var(--neg)}.ck.N{color:var(--faint)}
+.bc-more{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.bc-more>summary{display:inline-flex;align-items:center;gap:8px;cursor:pointer;list-style:none;font:600 12.5px/1 var(--sans);color:var(--muted)}
+.bc-more>summary::-webkit-details-marker{display:none}
+.bc-more>summary:hover{color:var(--text)}
+.bc-sub{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.5;overflow-wrap:anywhere}
+.bc-sub:empty{display:none}
+.bc-sub ul{margin:4px 0 0;padding-left:18px}.bc-sub li{margin:3px 0}
+.bc-sub b{color:var(--text)}
 .nv-conv-top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px}
 .nv-conv-top span{font:600 20px/1 var(--display);font-variant-numeric:tabular-nums}
 .nv-conv-bar{height:8px;border-radius:4px;background:var(--line);margin:10px 0 8px;overflow:hidden}
@@ -416,12 +446,14 @@ td.cid{font:12px var(--mono);overflow-wrap:anywhere;min-width:120px}
     </div>
     <div id="err" class="msg" role="status" aria-live="polite"></div>
     <div class="box bc" id="bc" hidden>
-      <div class="bc-top"><b>Beta control</b><span id="bc-n"></span></div>
+      <div class="bc-top"><h2>Beta control</h2><span id="bc-n"></span></div>
       <div class="bc-grid" id="bc-grid"></div>
-      <div class="bc-sub" id="bc-sub"></div>
-      <div id="bc-tested" style="margin-top:8px;font-size:12px;opacity:.8;overflow-wrap:anywhere"></div>
-      <div id="bc-hist" style="margin-top:8px;font-size:12px;opacity:.8;overflow-wrap:anywhere"></div>
-      <div class="bc-sub" id="bc-bk"></div>
+      <div class="bc-grid" id="bc-bk"></div>
+      <details class="bc-more"><summary><span class="chev"></span>Run details: tested builds and history</summary>
+        <div class="bc-sub" id="bc-sub"></div>
+        <div class="bc-sub" id="bc-tested"></div>
+        <div class="bc-sub" id="bc-hist"></div>
+      </details>
     </div>
     <div class="box nv-conv" id="nv-conv" hidden>
       <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
@@ -1128,19 +1160,39 @@ function stModulos() {
 // A copia diaria da base da nuvem (15-11): idade e ultimo resultado; mais de 48 h ou uma falha = FAIL, nunca calado.
 function bkDesenha(b) {
   const el = $('bc-bk'); if (!el) return;
-  if (!b) { el.textContent = ''; return; }
+  if (!b) { el.innerHTML = ''; return; }
   const idade = typeof b.age_h === 'number' ? (b.age_h < 48 ? Math.round(b.age_h) + ' h' : Math.round(b.age_h / 24) + ' days') : 'unknown';
-  el.innerHTML = '<b style="color:' + (b.status === 'OK' ? 'var(--green, #1f8a5b)' : 'var(--red, #c0392b)') + '">Cloud database backup: ' + esc(b.status) + '</b> - newest good copy ' + esc(idade) + ' old, last run ' + esc(b.last_result || '?') + '.';
+  el.innerHTML = '<details class="bc-b' + (b.status === 'OK' ? ' g' : '') + '"><summary><i></i><span class="bc-nm">Cloud database backup</span><small>' + esc(b.status) + '</small><span class="chev"></span></summary>'
+    + '<div class="bc-det">Newest good copy ' + esc(idade) + ' old, last run ' + esc(b.last_result || '?') + (b.last_run_at ? ' (' + esc(new Date(b.last_run_at).toLocaleString('en-US')) + ')' : '') + '. More than 48 h or a failed run is a fail.</div></details>';
 }
+// Os checks de cada bloco vem da corrida do historico com a mesma data do controlo; os prefixos (data., ui., ...) seguem a ordem
+// dos blocos. So se mostram se as contas batem certo com passed/total de cada bloco; senao diz-se que nao estao gravados.
+function bcChecks(c, h) {
+  const run = (h || []).find(r => r.date === c.generated_at);
+  if (!run || !run.checks) return null;
+  const grupos = [];
+  for (const [id, v] of Object.entries(run.checks)) {
+    const k = id.split('.')[0], g = grupos[grupos.length - 1];
+    if (g && g.k === k) g.c.push([id, v]); else if (grupos.some(x => x.k === k)) return null; else grupos.push({ k, c: [[id, v]] });
+  }
+  if (grupos.length !== c.blocks.length) return null;
+  const ok = c.blocks.every((b, i) => grupos[i].c.length === b.total && grupos[i].c.filter(x => x[1] === 'P').length === b.passed);
+  return ok ? grupos.map(g => g.c) : null;
+}
+const BC_CK = { P: 'Pass', F: 'Fail', N: 'Not measured' };
 // Controlo binario da beta (15-11): status.json.control, copiado de controlo.json; um bloco so e verde com todos os testes a passar.
-function bcDesenha(c) {
+function bcDesenha(c, h) {
   const el = $('bc'); if (!el) return;
   if (!c || !c.blocks || !c.blocks.length) { el.hidden = true; return; }
   el.hidden = false;
   const g = c.blocks.filter(b => b.status === 'GREEN').length;
-  $('bc-n').textContent = g + ' of ' + c.blocks.length + ' blocks green';
-  $('bc-grid').innerHTML = c.blocks.map(b => '<div class="bc-b' + (b.status === 'GREEN' ? ' g' : '') + '"><i></i>' + esc(b.name) + '<small>' + b.passed + '/' + b.total + '</small></div>').join('');
-  $('bc-sub').textContent = 'Each block is green only when every check passes; not measured counts as a fail. The download is published only when all blocks are green.' + (c.generated_at ? ' Run ' + new Date(c.generated_at).toLocaleString() + '.' : '');
+  $('bc-n').textContent = g + ' of ' + c.blocks.length + ' blocks green' + (c.build ? ' · ' + c.build : '');
+  const cks = bcChecks(c, h);
+  $('bc-grid').innerHTML = c.blocks.map((b, i) => '<details class="bc-b' + (b.status === 'GREEN' ? ' g' : '') + '"><summary><i></i><span class="bc-nm">' + esc(b.name) + '</span><span class="chev"></span></summary>'
+    + '<div class="bc-det"><div style="margin-bottom:6px">' + esc(b.passed) + ' of ' + esc(b.total) + ' checks pass</div>'
+    + (cks ? '<ul>' + cks[i].map(([id, v]) => '<li><code>' + esc(id).replace(/([._])/g, '$1<wbr>') + '</code><span class="ck ' + esc(v) + '">' + esc(BC_CK[v] || v) + '</span></li>').join('') + '</ul>' : 'Check details not recorded for this run.')
+    + '</div></details>').join('');
+  $('bc-sub').textContent = 'Each block is green only when every check passes; not measured counts as a fail. The download is published only when all blocks are green.' + (c.generated_at ? ' Run ' + new Date(c.generated_at).toLocaleString('en-US') + '.' : '');
   // As builds medidas (22-11, pedido do dono): app, build, commit e cada pacote com a versao lida de dentro e o SHA-256.
   const t = c.tested, tb = $('bc-tested');
   if (tb) tb.innerHTML = !t ? '<b>Tested builds:</b> not recorded for this run.'
@@ -1164,14 +1216,14 @@ function bcHistorico(h) {
         if (v === 'P' && w === 'F') ok.push(id);
         if (v === 'F' && w === 'P') mau.push(id);
       }
-      dif = (ok.length ? '<div style="color:#2e9e5b">Now passing: ' + ok.map(esc).join(', ') + '</div>' : '')
-          + (mau.length ? '<div style="color:#d64545">Broke: ' + mau.map(esc).join(', ') + '</div>' : '')
+      dif = (ok.length ? '<div style="color:var(--pos)">Now passing: ' + ok.map(esc).join(', ') + '</div>' : '')
+          + (mau.length ? '<div style="color:var(--neg)">Broke: ' + mau.map(esc).join(', ') + '</div>' : '')
           + (!ok.length && !mau.length ? '<div>No change from ' + esc(ant.build) + '.</div>' : '');
     } else dif = '<div>First recorded run.</div>';
     return '<li><b>' + esc(r.build) + '</b> · ' + esc(r.date || '?') + ' · commit ' + esc(r.commit || '?') + ' · '
       + r.green + ' of ' + r.total_blocks + ' blocks green' + dif + '</li>';
   });
-  el.innerHTML = '<b>History (newest first)</b><ul style="margin:4px 0 0;padding-left:18px">' + linhas.join('') + '</ul>';
+  el.innerHTML = '<b>History (newest first)</b><ul>' + linhas.join('') + '</ul>';
 }
 function nvConvDesenha(n) {
   const el = $('nv-conv'); if (!el) return;
@@ -1204,7 +1256,7 @@ async function estado() {
   try {
     const r = await fetch('status.json?v=' + Date.now(), { cache: 'no-store' });
     stData = await r.json();
-    bcDesenha(stData.control); bcHistorico(stData.control_history); bkDesenha(stData.backup);
+    bcDesenha(stData.control, stData.control_history); bcHistorico(stData.control_history); bkDesenha(stData.backup);
     nvConvDesenha(stData.native);
     $('st-upd').textContent = 'Updated ' + new Date(stData.updated).toLocaleString();
     stDesenha();
