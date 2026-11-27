@@ -69,6 +69,17 @@ input:focus{border-color:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(-
 .nv-conv{margin:0 0 14px}
 /* Beta control: so o nome e verde/vermelho; o resto fica atras de um chevron por linha (fechado por omissao) */
 .bc{margin:0 0 14px}
+/* Beta control num cartao a direita; o conteudo (separadores) fica a esquerda. Ecra estreito: o cartao vai para baixo */
+main:has(.dash){max-width:1480px}
+.dash{display:flex;gap:16px;align-items:flex-start}
+.dash-main{flex:1;min-width:0}
+.dash>.bc{flex:none;width:300px;margin:0;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto}
+.dash>.bc .bc-grid{grid-template-columns:minmax(0,1fr);gap:5px}
+.dash>.bc .bc-grid+.bc-grid{margin-top:5px}
+.dash>.bc .bc-top{margin-bottom:10px}
+.dash>.bc .bc-b summary{padding:6px 10px;font-size:12px}
+.dash>.bc .bc-det{padding:0 10px 8px 28px}
+@media (max-width:1100px){.dash{flex-direction:column;align-items:stretch}.dash>.bc{width:auto;position:static;max-height:none;overflow:visible;margin-top:14px}}
 .bc-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .bc-top h2{margin:0;font:650 15px/1.2 var(--display)}
 .bc-top span{font:600 13px/1 var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
@@ -418,6 +429,7 @@ td input[type=number]{display:inline-block;width:120px;margin-right:6px}
   html,body{background:#fff!important;color:#000!important;font-size:11pt}
   .bar,.top,.tabs,#err,#v-login,#v-denied,#t-status,#t-arch,#t-settings,#t-reports,#t-traffic,#t-services,#t-sitetabs,.mn-side,.mn-tools,#mn-status{display:none!important}
   main{padding:0;max-width:none}
+  .dash{display:block}
   .mn{display:block}
   .box{border:0;padding:0;background:none}
   .mn-pr{display:block;font:10pt var(--sans);color:#444;border-bottom:1px solid #999;padding-bottom:6px;margin-bottom:14px}
@@ -504,16 +516,8 @@ td input[type=number]{display:inline-block;width:120px;margin-right:6px}
       <div class="who"><span id="who"></span><span class="tema-linha" role="group" aria-label="Appearance"><button type="button" class="tema-modo" data-modo="light">Light</button><button type="button" class="tema-modo" data-modo="dark">Dark</button><button type="button" class="tema-modo" data-modo="system">System</button></span><span class="tema-linha" role="group" aria-label="Accent colour"><button type="button" class="tema-modo tema-cor" data-cor="jade"><span class="dot" style="background:#00a36c"></span>Jade</button><button type="button" class="tema-modo tema-cor" data-cor="forest"><span class="dot" style="background:#1f8a5b"></span>Forest</button></span><a class="lnk" href="/?beta" target="_blank" rel="noopener">View site as beta</a><button class="lnk" id="refresh" type="button">Refresh</button><button class="lnk" id="out" type="button">Sign out</button></div>
     </div>
     <div id="err" class="msg" role="status" aria-live="polite"></div>
-    <div class="box bc" id="bc" hidden>
-      <div class="bc-top"><h2>Beta control</h2><span id="bc-n"></span></div>
-      <div class="bc-grid" id="bc-grid"></div>
-      <div class="bc-grid" id="bc-bk"></div>
-      <details class="bc-more"><summary><span class="chev"></span>Run details: tested builds and history</summary>
-        <div class="bc-sub" id="bc-sub"></div>
-        <div class="bc-sub" id="bc-tested"></div>
-        <div class="bc-sub" id="bc-hist"></div>
-      </details>
-    </div>
+    <div class="dash">
+    <div class="dash-main">
     <div class="box nv-conv" id="nv-conv" hidden>
       <div class="nv-conv-top"><b>Native app conversion</b><span id="nv-conv-pct"></span></div>
       <div class="nv-conv-bar"><i id="nv-conv-fill"></i></div>
@@ -767,6 +771,18 @@ td input[type=number]{display:inline-block;width:120px;margin-right:6px}
       <div class="scroll"><table><thead><tr><th>Date</th><th>Category</th><th>Message</th><th>Version</th><th>Email</th></tr></thead><tbody id="fb-rows"></tbody></table></div>
       <div id="fb-more" class="note"></div>
     </div>
+    </div>
+    </div>
+    <aside class="box bc" id="bc" aria-label="Beta control" hidden>
+      <div class="bc-top"><h2>Beta control</h2><span id="bc-n"></span></div>
+      <div class="bc-grid" id="bc-grid"></div>
+      <div class="bc-grid" id="bc-bk"></div>
+      <details class="bc-more"><summary><span class="chev"></span>Run details: tested builds and history</summary>
+        <div class="bc-sub" id="bc-sub"></div>
+        <div class="bc-sub" id="bc-tested"></div>
+        <div class="bc-sub" id="bc-hist"></div>
+      </details>
+    </aside>
     </div>
   </section>
 </main>
